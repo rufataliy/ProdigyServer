@@ -4,6 +4,7 @@ import { Layout, Menu, Icon } from 'antd';
 
 import About from "./About";
 import Contact from "./Contact";
+import Schedule from "./Schedule";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -44,10 +45,16 @@ class SiderDemo extends React.Component {
                             <span>About</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="9">
+                        <Menu.Item key="3">
                         <Link className="active item" to="/Contact">
                             <Icon type="book" />
                             <span>Contact</span>
+                        </Link>
+                        </Menu.Item>
+                        <Menu.Item key="4">
+                        <Link className="active item" to="/Schedule">
+                            <Icon type="schedule" />
+                            <span>Schedule</span>
                         </Link>
                         </Menu.Item>
                     </Menu>
@@ -61,6 +68,7 @@ class SiderDemo extends React.Component {
                                 <Route path="/" exact/>
                                 <Route path="/About/" component={About} />
                                 <Route path="/Contact/" component={Contact} />
+                                <Route path="/Schedule" component={Schedule} />
                             </Switch>
                         </div>
                 </Content>
