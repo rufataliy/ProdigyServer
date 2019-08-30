@@ -5,7 +5,7 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal"
-
+import api from "../api/api.js"
 import './style/main.scss'
 
 
@@ -16,6 +16,7 @@ class Schedule extends React.Component {
       this.state = {
         modal:false,
         calendarWeekends: true,
+        arg:"",
         calendarEvents: [
           // initial event data
           { title: "Event Now", start: new Date() },
@@ -43,6 +44,7 @@ class Schedule extends React.Component {
   }
     handleClick=()=>{
       this.toggleModal()
+      api.post("/events",{title:this.state.arg.date})
       console.log("modal Clicked ok schedule");
       
     }
@@ -55,7 +57,7 @@ class Schedule extends React.Component {
      console.log("clicked");
      
       // this.setState({calendarEvents:[...this.state.calendarEvents, {title:title,start: arg.date}]})
-      this.setState({modal:!this.state.modal})      
+      this.setState({modal:!this.state.modal,arg})      
     }
 
     render() {
