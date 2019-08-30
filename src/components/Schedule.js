@@ -10,23 +10,36 @@ import './style/main.scss'
 
 
 class Schedule extends React.Component {
-    constructor (props){
-      super(props)
-      this.calendarComponentRef = React.createRef();
-      this.state = {
-        modal:false,
-        calendarWeekends: true,
-        arg:"",
-        calendarEvents: [
-          // initial event data
-          { title: "Event Now", start: new Date() },
-          { title: "Another Class", start: new Date() },
-          { title: "Intermediate", start: new Date() },
-          { title: "Event Now", start: new Date(), level:"intermediate" }
+  
+    calendarComponentRef = React.createRef();
 
-        ]
-      };
-
+    state = {
+              modal:false,
+              calendarWeekends: true,
+              arg:"",
+              events:null
+    };
+  
+    componentDidMount(){
+      (async () => {
+        api.get("/events").then((response)=>{
+          console.log(response.data);
+            return response.data
+        }).then((events)=>{
+          this.setState({events})
+        })
+      })()
+         
+    }
+    componentDidUpdate(){
+      (async () => {
+        api.get("/events").then((response)=>{
+          console.log(response.data);
+            return response.data
+        }).then((events)=>{
+          this.setState({events})
+        })
+      })()
     }
     toggleModal = ()=>{
       this.setState({modal:!this.state.modal})
@@ -40,11 +53,11 @@ class Schedule extends React.Component {
           onSubmit={this.handleClick}
           />
         )
+      }
     }
-  }
     handleClick=()=>{
       this.toggleModal()
-      api.post("/events",{title:this.state.arg.date})
+      api.post("/events",{title:"title",start:this.state.arg.date})
       console.log("modal Clicked ok schedule");
       
     }
@@ -73,7 +86,7 @@ class Schedule extends React.Component {
                     center: 'Schedulee',
                     right: 'dayGridMonth,listWeek,timeGridWeek'
             }}
-            events = {this.state.calendarEvents}
+            events = {this.state.events}
             ref = {this.calendarComponentRef}
            />
 
