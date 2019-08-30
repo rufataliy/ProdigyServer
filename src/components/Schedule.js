@@ -27,6 +27,7 @@ class Schedule extends React.Component {
             return response.data
         }).then((events)=>{
           this.setState({events})
+          
         })
       })()
          
