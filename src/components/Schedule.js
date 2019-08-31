@@ -27,21 +27,10 @@ class Schedule extends React.Component {
             return response.data
         }).then((events)=>{
           this.setState({events})
-          
-        })
-      })()
-         
-    }
-    componentDidUpdate(){
-      (async () => {
-        api.get("/events").then((response)=>{
-          console.log(response.data);
-            return response.data
-        }).then((events)=>{
-          this.setState({events})
         })
       })()
     }
+    
     toggleModal = ()=>{
       this.setState({modal:!this.state.modal})
     }
@@ -57,9 +46,20 @@ class Schedule extends React.Component {
       }
     }
     handleClick=()=>{
+      
       this.toggleModal()
-      api.post("/events",{title:"title",start:this.state.arg.date})
+      api.post("/events",{title:"title",start:this.state.arg.date}).then(()=>{
+        (async () => {
+          api.get("/events").then((response)=>{
+            console.log(response.data);
+              return response.data
+          }).then((events)=>{
+            this.setState({events})
+          })
+        })()
+      })
       console.log("modal Clicked ok schedule");
+      
       
     }
     cancel = ()=>{
@@ -80,7 +80,7 @@ class Schedule extends React.Component {
         <div>
           <FullCalendar 
             dateClick = {this.handleDateClick}
-            defaultView="listWeek" 
+            defaultView="dayGridMonth" 
             plugins={[ dayGridPlugin, listPlugin, interactionPlugin,timeGridPlugin]}
             header={{
                     left: 'prev,next today',
