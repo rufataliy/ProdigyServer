@@ -7,7 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal"
 import api from "../api/api.js"
 import './style/main.scss'
-
+import  {useAuth0}  from "./../react-auth0-wrapper";
 
 class Schedule extends React.Component {
   
@@ -76,6 +76,7 @@ class Schedule extends React.Component {
 
     render() {
       let modal = this.renderModal()
+     
       return (
         <div>
           <FullCalendar 
