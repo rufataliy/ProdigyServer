@@ -63,13 +63,11 @@ class Schedule extends React.Component {
       //     })
       //   })()
       // })
-        db.collection("cities").doc("LA").set({
-          name: "Los Angeles",
-          state: "CA",
-          country: "USA"
-      })
-      .then(function() {
-          console.log("Document successfully written!");
+        db.collection("cities").get()
+      .then(function(doc) {
+        console.log(doc.docs[0].id);
+        
+          console.log("Document successfully fetched!");
       })
       .catch(function(error) {
           console.error("Error writing document: ", error);
