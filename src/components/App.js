@@ -1,13 +1,18 @@
 import React from "react";
 import SliderDemo from "./Nav"
+import TopNav from "./TopNav"
 
  class App extends React.Component {
    render (){
        
        return (
-            <SliderDemo />
+            <div>
+              <TopNav/>
+              <SliderDemo />
+            </div>
+            
        )
-   }
- }
+    }
+  }
 
  export default App

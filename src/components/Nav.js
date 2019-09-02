@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Switch,  Route, Link, browserHistory } from "react-router-dom";
 import { Layout, Menu, Icon } from 'antd';
+import { useAuth0 } from "../react-auth0-wrapper";
 
 import About from "./About";
 import Contact from "./Contact";
@@ -10,27 +11,25 @@ const { Header, Sider, Content, Footer } = Layout;
 
 
 
+const SiderDemo =() => {
+       const {isAuthenticated} = useAuth0()
+       const [collapsed,setCollapse] = useState(false)
+        
+         
 
-class SiderDemo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          collapsed: false
-        };
-        this.onCollapse = this.onCollapse.bind(this);
-      }
-
-  onCollapse ()  {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
+  const onCollapse = () => {
+      setCollapse(!collapsed)
   };
 
-  render() {
+
+    
+    if (!isAuthenticated) {
+        return ""
+    }
     return (
         <Router history={browserHistory}>
             <Layout style={{ minHeight: '100vh' }}>
-                <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+                <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
                 <div className="logo" />
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key="1">
@@ -62,7 +61,6 @@ class SiderDemo extends React.Component {
                 <Layout>
                 <Header style={{ background: '#fff', padding: 0 }} />
                 <Content style={{ margin: '0 16px' }}>
-                    
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                             <Switch>
                                 <Route path="/" exact/>
@@ -78,7 +76,7 @@ class SiderDemo extends React.Component {
       </Router> 
     )
   }
-}
+
 
 export default SiderDemo
 
