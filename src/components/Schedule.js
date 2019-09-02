@@ -7,7 +7,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal"
 import api from "../api/api.js"
 import './style/main.scss'
-import  {useAuth0}  from "./../react-auth0-wrapper";
+import firebaseConfig from "../firebase/firebase-config"
+import "firebase/firestore"
+import firebase from "firebase/app"
+
+firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
 
 class Schedule extends React.Component {
   
@@ -48,16 +53,27 @@ class Schedule extends React.Component {
     handleClick=()=>{
       
       this.toggleModal()
-      api.post("/events",{title:"title",start:this.state.arg.date}).then(()=>{
-        (async () => {
-          api.get("/events").then((response)=>{
-            console.log(response.data);
-              return response.data
-          }).then((events)=>{
-            this.setState({events})
-          })
-        })()
+      // api.post("/events",{title:"title",start:this.state.arg.date}).then(()=>{
+      //   (async () => {
+      //     api.get("/events").then((response)=>{
+      //       console.log(response.data);
+      //         return response.data
+      //     }).then((events)=>{
+      //       this.setState({events})
+      //     })
+      //   })()
+      // })
+        db.collection("cities").doc("LA").set({
+          name: "Los Angeles",
+          state: "CA",
+          country: "USA"
       })
+      .then(function() {
+          console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+          console.error("Error writing document: ", error);
+      });
       console.log("modal Clicked ok schedule");
       
       
