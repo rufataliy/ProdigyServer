@@ -1,3 +1,5 @@
+import auth0 from "auth0-js"
+
 let _auth0Client = null;
 let _idToken = null;
 let _profile = null;
@@ -6,9 +8,9 @@ class Auth0Client {
   constructor() {
     _auth0Client = new auth0.WebAuth({
       domain: 'prodigy-gate.auth0.com',
-      audience: 'https://localhost:3000/userinfo',
+      audience: 'https://prodigy-gate.auth0.com/userinfo',
       clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb',
-      redirectUri: 'http://localhost:3000/',
+      redirectUri: 'http://localhost:3002',
       responseType: 'token id_token',
       scope: 'openid profile'
     });
@@ -50,4 +52,4 @@ class Auth0Client {
   }
 }
 
-const auth0Client = new Auth0Client();
+export const auth0Client = new Auth0Client();

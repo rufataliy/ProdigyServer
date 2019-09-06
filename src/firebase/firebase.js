@@ -1,9 +1,10 @@
+import firebase from "firebase"
 let _messagesDb = null;
 
 class Firebase {
   constructor() {
     firebase.initializeApp({
-      apiKey: 'YAIzaSyB76C4NUpUXcRqF_Jj7HAmGi0WyKmvI23g',
+      apiKey: 'AIzaSyB76C4NUpUXcRqF_Jj7HAmGi0WyKmvI23g',
       authDomain: 'prodigy-b614e.firebaseapp.com',
       projectId: 'prodigy-b614e',
     });
@@ -16,19 +17,6 @@ class Firebase {
       timestampsInSnapshots: true
     });
   }
-  setAuthStateListener(listener) {
-    firebase.auth().onAuthStateChanged(listener);
-  }
-
-  setMessagesListener(listener) {
-    _messagesDb.collection('messages').orderBy('createdAt', 'desc').limit(10).onSnapshot(listener);
-  }
-
-  async setToken(token) {
-    await firebase.auth().signInWithCustomToken(token);
-  }
-
-
 
   async addMessage(message) {
     const createdAt = new Date();
@@ -52,9 +40,22 @@ class Firebase {
     });
   }
 
-  async signOut() {
+  async firebaseSignOut() {
     await firebase.auth().signOut();
+  }
+  setAuthStateListener(listener) {
+    firebase.auth().onAuthStateChanged(listener);
+  }
+
+  setMessagesListener(listener) {
+    _messagesDb.collection('messages').orderBy('createdAt', 'desc').limit(10).onSnapshot(listener);
+  }
+
+  async setToken(token) {
+    await firebase.auth().signInWithCustomToken(token);
   }
 }
 
 const firebaseClient = new Firebase();
+
+export default firebaseClient
