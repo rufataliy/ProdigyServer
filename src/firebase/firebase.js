@@ -1,5 +1,6 @@
 import firebase from "firebase"
-let _messagesDb = null;
+
+
 
 class Firebase {
   constructor() {
@@ -10,22 +11,8 @@ class Firebase {
     });
 
     // initialize Firestore through Firebase
-    _messagesDb = firebase.firestore();
+    
 
-    // disable deprecated features
-    _messagesDb.settings({
-      timestampsInSnapshots: true
-    });
-  }
-
-  async addMessage(message) {
-    const createdAt = new Date();
-    const author = firebase.auth().currentUser.displayName;
-    return await _messagesDb.collection('messages').add({
-      author,
-      createdAt,
-      message,
-    });
   }
 
   getCurrentUser() {
@@ -48,7 +35,7 @@ class Firebase {
   }
 
   setMessagesListener(listener) {
-    _messagesDb.collection('messages').orderBy('createdAt', 'desc').limit(10).onSnapshot(listener);
+    _db.collection('messages').orderBy('createdAt', 'desc').limit(10).onSnapshot(listener);
   }
 
   async setToken(token) {
@@ -56,6 +43,5 @@ class Firebase {
   }
 }
 
-const firebaseClient = new Firebase();
-
-export default firebaseClient
+export const firebaseClient = new Firebase();
+export const db = firebase.firestore()

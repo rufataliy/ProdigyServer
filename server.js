@@ -8,7 +8,7 @@ const serviceAccount = require('./src/firebase/firebase-key');
 
 const app = express();
 app.use(cors());
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'src')));
 
 const jwtCheck = jwt({
   secret: jwks.expressJwtSecret({
@@ -42,4 +42,4 @@ app.get('/firebase', jwtCheck, async (req, res) => {
   }
 });
 
-// app.listen(3001, () => console.log('Server running on localhost:3001'));
+app.listen(3001, () => console.log('Server running on localhost:3001'));

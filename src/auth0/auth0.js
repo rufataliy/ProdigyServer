@@ -38,12 +38,15 @@ class Auth0Client {
         _profile = authResult.idTokenPayload;
 
         return resolve(true);
+        console.log(authResult)
       });
     });
   }
 
   signIn() {
     _auth0Client.authorize();
+    
+    
   }
 
   signOut() {

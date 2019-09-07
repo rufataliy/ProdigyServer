@@ -6,10 +6,12 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal"
 import api from "../api/api.js"
+import {firebaseClient, db} from "../firebase/firebase"
+import {auth0Client} from "../auth0/auth0"
 import './style/main.scss'
 
 class Schedule extends React.Component {
-    
+
     
     calendarComponentRef = React.createRef();
 
@@ -48,25 +50,10 @@ class Schedule extends React.Component {
     handleClick=()=>{
       
       this.toggleModal()
-      // api.post("/events",{title:"title",start:this.state.arg.date}).then(()=>{
-      //   (async () => {
-      //     api.get("/events").then((response)=>{
-      //       console.log(response.data);
-      //         return response.data
-      //     }).then((events)=>{
-      //       this.setState({events})
-      //     })
-      //   })()
-      // })
-        db.collection("cities").get()
-      .then(function(doc) {
-        console.log(doc.docs[0].id);
-        
-          console.log("Document successfully fetched!");
-      })
-      .catch(function(error) {
-          console.error("Error writing document: ", error);
-      });
+      db.doc("cities/test").set({test:"test"})
+      console.log(firebaseClient.getCurrentUser());
+      console.log(auth0Client.getProfile());
+      
       console.log("modal Clicked ok schedule");
       
       
@@ -85,6 +72,8 @@ class Schedule extends React.Component {
 
     render() {
       let modal = this.renderModal()
+     console.log(firebaseClient);
+     console.log(db.collection('cities').get());
      
       return (
         <div>

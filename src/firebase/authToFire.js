@@ -12,10 +12,10 @@ const setTokenToFirebase = async function setFirebaseCustomToken() {
     await firebaseClient.updateProfile(auth0Client.getProfile());
   }
 
-export const sendToken = (async () => {
+const sendToken = (async () => {
   
     const loggedInThroughCallback = await auth0Client.handleCallback();
     if (loggedInThroughCallback) await setTokenToFirebase();
-})()
+})();
 
-  
+export default sendToken

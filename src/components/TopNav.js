@@ -1,14 +1,13 @@
 import React from "react"
 import {Layout,Button} from "antd"
 import {auth0Client} from "../auth0/auth0"
-import firebaseClient from "../firebase/firebase"
-const authSignIn = auth0Client.signIn()
-const authSignOut = auth0Client.signOut()
+import {firebaseClient} from "../firebase/firebase"
+
 
 const firebaseSignOut = firebaseClient.firebaseSignOut()
 const logOutHandle = ()=>{
-    authSignOut();
-    firebaseSignOut();
+    auth0Client.signOut();
+    // firebaseSignOut();
 }
 const {Header} = Layout
 
@@ -19,7 +18,7 @@ const TopNav = () => {
         <Layout>
             <Header>
             <Button type="primary" 
-                    onClick={()=> authSignIn()}>
+                    onClick={auth0Client.signIn}>
                 Log in
             </Button>
           
