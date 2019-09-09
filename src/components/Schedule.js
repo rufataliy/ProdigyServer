@@ -48,8 +48,9 @@ class Schedule extends React.Component {
       }
     }
     handleClick=()=>{
-      
-      this.toggleModal()
+      auth0Client.handleCallback()
+
+      this.toggleModal() 
       db.doc("cities/test").set({test:"test2"})
       console.log(firebaseClient.getCurrentUser());
       console.log(auth0Client.getProfile());
@@ -72,9 +73,6 @@ class Schedule extends React.Component {
 
     render() {
       let modal = this.renderModal()
-     console.log(firebaseClient + "firebase");
-     console.log(db.collection('cities').get());
-     
       return (
         <div>
           <FullCalendar 

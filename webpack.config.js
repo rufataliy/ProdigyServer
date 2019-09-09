@@ -10,6 +10,7 @@ const FileManager = require("filemanager-webpack-plugin")
  });
 
  module.exports = {
+  watch: true,
   // devServer: {
   //   historyApiFallback: true
   // },

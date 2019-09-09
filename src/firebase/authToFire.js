@@ -13,7 +13,6 @@ const setTokenToFirebase = async function setFirebaseCustomToken() {
   }
 
 const sendToken = (async () => {
-  
     const loggedInThroughCallback = await auth0Client.handleCallback();
     if (loggedInThroughCallback) await setTokenToFirebase();
 })();

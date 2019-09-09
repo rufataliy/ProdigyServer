@@ -27,33 +27,33 @@ class Auth0Client {
 
   handleCallback() {
     return new Promise((resolve, reject) => {
-      _auth0Client.parseHash(async (err, authResult) => {
-        window.location.hash = '';
-        if (err) return reject(err);
-
-        if (!authResult || !authResult.idToken) {
-          // not an authentication request
-          return resolve(false);
+      _auth0Client.parseHash({hash: window.location.hash}, (err, authResult) => {
+        if (err) {
+          return console.log(err);
         }
-        _idToken = authResult.idToken;
-        _profile = authResult.idTokenPayload;
-
-        return resolve(true);
-        console.log(authResult)
+      
+      _auth0Client.client.userInfo(authResult.accessToken, (err, user) => {
+        if(err) {
+          return err
+        }else {
+          console.log(user) 
+        }
+        })
       });
     });
   }
 
   signIn() {
     _auth0Client.authorize();
-    
+    handleCallback()
     
   }
 
   signOut() {
     _auth0Client.logout({
-      returnTo: "http://localhost:3001/contact",
-      clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb'
+      returnTo: "http://localhost:3001/",
+      clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb',
+      federated: true
     })
     _idToken = null;
     _profile = null;
