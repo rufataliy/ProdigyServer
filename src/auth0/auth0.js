@@ -27,26 +27,24 @@ class Auth0Client {
 
   handleCallback() {
     return new Promise((resolve, reject) => {
-      _auth0Client.parseHash({hash: window.location.hash}, (err, authResult) => {
-        if (err) {
-          return console.log(err);
+      _auth0Client.parseHash(async (err, authResult) => {
+        window.location.hash = '';
+        if (err) return reject(err);
+
+        if (!authResult || !authResult.idToken) {
+          // not an authentication request
+          return resolve(false);
         }
-      
-      _auth0Client.client.userInfo(authResult.accessToken, (err, user) => {
-        if(err) {
-          return err
-        }else {
-          console.log(user) 
-        }
-        })
+        _idToken = authResult.idToken;
+        _profile = authResult.idTokenPayload;
+
+        return resolve(true);
+        
       });
     });
   }
-
   signIn() {
     _auth0Client.authorize();
-    handleCallback()
-    
   }
 
   signOut() {

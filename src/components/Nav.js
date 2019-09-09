@@ -46,7 +46,7 @@ const SiderDemo =() => {
                         <Link className="active item" to="/Schedule">
                             <Icon type="schedule" />
                             <span>Schedule</span>
-                        </Link>
+                        </Link> 
                         </Menu.Item>
                     </Menu>
                 </Sider>

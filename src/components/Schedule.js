@@ -48,8 +48,15 @@ class Schedule extends React.Component {
       }
     }
     handleClick=()=>{
-      auth0Client.handleCallback()
-
+      (async () => {
+        const response = await auth0Client.handleCallback().then(data => {
+          return data
+          }
+        )
+        console.log(await response);
+      })()
+      
+      
       this.toggleModal() 
       db.doc("cities/test").set({test:"test2"})
       console.log(firebaseClient.getCurrentUser());

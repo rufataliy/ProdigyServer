@@ -9,10 +9,6 @@ class Firebase {
       authDomain: 'prodigy-b614e.firebaseapp.com',
       projectId: 'prodigy-b614e',
     });
-
-    // initialize Firestore through Firebase
-    
-
   }
 
   getCurrentUser() {
@@ -30,12 +26,9 @@ class Firebase {
   async firebaseSignOut() {
     await firebase.auth().signOut();
   }
+
   setAuthStateListener(listener) {
     firebase.auth().onAuthStateChanged(listener);
-  }
-
-  setMessagesListener(listener) {
-    _db.collection('messages').orderBy('createdAt', 'desc').limit(10).onSnapshot(listener);
   }
 
   async setToken(token) {
