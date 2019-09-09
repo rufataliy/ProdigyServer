@@ -19,7 +19,7 @@ const SiderDemo =() => {
   };
 
     return (
-        <Router >
+        <Router history={browserHistory} >
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
                 <div className="logo" />

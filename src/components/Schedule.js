@@ -23,14 +23,14 @@ class Schedule extends React.Component {
     };
   
     componentDidMount(){
-      (async () => {
-        api.get("/events").then((response)=>{
-          console.log(response.data);
-            return response.data
-        }).then((events)=>{
-          this.setState({events})
-        })
-      })()
+      // (async () => {
+      //   api.get("/events").then((response)=>{
+      //     console.log(response.data);
+      //       return response.data
+      //   }).then((events)=>{
+      //     this.setState({events})
+      //   })
+      // })()
     }
     
     toggleModal = ()=>{
@@ -50,7 +50,7 @@ class Schedule extends React.Component {
     handleClick=()=>{
       
       this.toggleModal()
-      db.doc("cities/test").set({test:"test"})
+      db.doc("cities/test").set({test:"test2"})
       console.log(firebaseClient.getCurrentUser());
       console.log(auth0Client.getProfile());
       
@@ -72,7 +72,7 @@ class Schedule extends React.Component {
 
     render() {
       let modal = this.renderModal()
-     console.log(firebaseClient);
+     console.log(firebaseClient + "firebase");
      console.log(db.collection('cities').get());
      
       return (

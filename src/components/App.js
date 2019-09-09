@@ -10,7 +10,7 @@ import TopNav from "./TopNav"
               <TopNav/>
               <SliderDemo />
             </div>
-            
+             
        )
     }
   }

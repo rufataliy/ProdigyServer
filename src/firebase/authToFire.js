@@ -1,7 +1,7 @@
 import {auth0Client} from "../auth0/auth0"
 
 const setTokenToFirebase = async function setFirebaseCustomToken() {
-    const response = await fetch('http://localhost:3002/firebase', {
+    const response = await fetch('http://localhost:3001/firebase', {
       headers: {
         'Authorization': `Bearer ${auth0Client.getIdToken()}`,
       },

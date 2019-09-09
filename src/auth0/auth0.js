@@ -1,5 +1,6 @@
 import auth0 from "auth0-js"
 
+
 let _auth0Client = null;
 let _idToken = null;
 let _profile = null;
@@ -10,7 +11,7 @@ class Auth0Client {
       domain: 'prodigy-gate.auth0.com',
       audience: 'https://prodigy-gate.auth0.com/userinfo',
       clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb',
-      redirectUri: 'http://localhost:3002',
+      redirectUri: 'http://localhost:3001',
       responseType: 'token id_token',
       scope: 'openid profile'
     });
@@ -50,6 +51,10 @@ class Auth0Client {
   }
 
   signOut() {
+    _auth0Client.logout({
+      returnTo: "http://localhost:3001/contact",
+      clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb'
+    })
     _idToken = null;
     _profile = null;
   }

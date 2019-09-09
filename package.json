@@ -6,8 +6,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --port 3002",
-    "build": "webpack --mode production",
+    "start": "node ./dist/server.js",
+    "build": "rmdir /s /q dist && webpack --mode development --config webpack.server.config.js && webpack --mode development",
     "dbServer": "json-server --watch api/db.json --port 3001"
   },
   "devDependencies": {
@@ -17,6 +17,8 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0-beta.0",
     "css-loader": "^3.2.0",
+    "filemanager-webpack-plugin": "^2.0.5",
+    "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.3.1",
@@ -49,6 +51,7 @@
     "jwks-rsa": "^1.6.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1"
+    "react-router-dom": "^5.0.1",
+    "webpack-node-externals": "^1.7.2"
   }
 }

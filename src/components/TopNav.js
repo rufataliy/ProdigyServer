@@ -7,7 +7,7 @@ import {firebaseClient} from "../firebase/firebase"
 const firebaseSignOut = firebaseClient.firebaseSignOut()
 const logOutHandle = ()=>{
     auth0Client.signOut();
-    // firebaseSignOut();
+    firebaseClient.firebaseSignOut();
 }
 const {Header} = Layout
 
