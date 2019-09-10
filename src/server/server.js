@@ -28,9 +28,9 @@ const jwtCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: `https://prodigy-gate.auth0.com/.well-known/jwks.json`
   }),
-  audience: "https://prodigy-gate.auth0.com/userinfo",
-  issuer: `https://prodigy-gate.auth0.com/`,  
-  algorithm: 'RS256'
+  aud: "https://prodigy-gate.auth0.com/userinfo",
+  iss: `https://prodigy-gate.auth0.com`,  
+  alg: 'RS256'
 });
 
 

@@ -13,9 +13,10 @@ const firebaseCustomToken = async function setFirebaseCustomToken() {
       'Authorization': `Bearer ${auth0Client.getIdToken()}`,
     },
   })
-  console.log(auth0Client.getProfile());
+  console.log(auth0Client.getResult());
   
 }
+  console.log(firebaseCustomToken());
   
 
 

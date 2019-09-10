@@ -4,6 +4,7 @@ import auth0 from "auth0-js"
 let _auth0Client = null;
 let _idToken = null;
 let _profile = null;
+let _result = null;
 
 class Auth0Client {
   constructor() {
@@ -16,7 +17,9 @@ class Auth0Client {
       scope: 'openid profile'
     });
   }
-
+  getResult() {
+    return _result
+  }
   getIdToken() {
     return _idToken;
   }
@@ -35,8 +38,9 @@ class Auth0Client {
           // not an authentication request
           return resolve(false);
         }
-        _idToken = authResult.idToken;
+        _idToken = authResult.accessToken;
         _profile = authResult.idTokenPayload;
+        _result = authResult
 
         return resolve(true);
         
