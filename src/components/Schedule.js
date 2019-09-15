@@ -48,9 +48,10 @@ class Schedule extends React.Component {
     }
     handleClick = () => {
         this.toggleModal()
-            // db.doc("cities/test").set({test:"test3"})
-        console.log(firebaseClient.getCurrentUser());
-        console.log(auth0Client.getIdToken());
+        console.log(db.doc("cities/test").update({ test: "test4" }));
+
+        // console.log(firebaseClient.getCurrentUser());
+        // console.log(auth0Client.getIdToken());
         console.log("modal Clicked ok schedule");
 
 
@@ -75,7 +76,8 @@ class Schedule extends React.Component {
             FullCalendar dateClick = { this.handleDateClick }
             defaultView = "dayGridMonth"
             plugins = {
-                [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin] }
+                [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin]
+            }
             header = {
                 {
                     left: 'prev,next today',

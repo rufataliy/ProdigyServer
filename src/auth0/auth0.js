@@ -14,7 +14,7 @@ class Auth0Client {
             clientID: 'miketN2zFghcI3DiW2pkdBOYmA3uLslb',
             redirectUri: 'http://localhost:3001',
             responseType: 'token id_token',
-            scope: 'openid profile'
+            scope: 'openid email profile'
         });
     }
     getResult() {
