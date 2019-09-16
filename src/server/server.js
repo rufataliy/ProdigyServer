@@ -31,17 +31,12 @@ const jwtCheck = jwt({
 
 
 app.get('/firebase', jwtCheck, async(req, res) => {
-    console.log(req.user)
-        //const { sub: uid } = req.user;
+    const { sub: uid } = req.user;
     try {
-        const firebaseToken = await firebaseAdmin.auth().createCustomToken(req.user.sub);
+        const firebaseToken = await firebaseAdmin.auth().createCustomToken(uid)
         res.json({ firebaseToken });
 
-        firebaseAdmin.auth().updateUser("auth0|5d6b26917dbf4e0f14608d81", {
-            displayName: "testuser"
-        }).then(() => firebaseAdmin.auth().updateUser("auth0|5d6b26917dbf4e0f14608d81", { photoUrl: req.user.picture })).
-        then(data => console.log(data))
-
+        firebaseAdmin.auth().updateUser(uid, req.user)
     } catch (err) {
         res.status(500).send({
             message: 'Something went wrong acquiring a Firebase token.',
