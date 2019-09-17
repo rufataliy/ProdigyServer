@@ -1,20 +1,22 @@
-// import {auth0Client} from "../auth0/auth0"
+import { auth0Client } from "../auth0/auth0"
+import { firebaseClient } from "../firebase/firebase"
+const firebaseCustomToken = async function setFirebaseCustomToken(authToken) {
+    const firebaseTokenRequest = await fetch('http://localhost:3001/firebase', {
+        headers: {
+            'Authorization': `Bearer ${authToken}`,
+        },
+    }).then(token => token.json());
+    const token = await firebaseTokenRequest.firebaseToken;
 
-// const setTokenToFirebase = async function setFirebaseCustomToken() {
-//     const response = await fetch('http://localhost:3001/firebase', {
-//       headers: {
-//         'Authorization': `Bearer ${auth0Client.getIdToken()}`,
-//       },
-//     });
-  
-//     const data = await response.json();
-//     await firebaseClient.setToken(data.firebaseToken);
-//     await firebaseClient.updateProfile(auth0Client.getProfile());
-//   }
+    await firebaseClient.setToken(token);
+    console.log(auth0Client.getProfile());
+    console.log(auth0Client.getResult());
+}
+const auth0ToFirebase = async() => {
+    const authToken = await auth0Client.handleCallback();
+    return authToken;
+}
 
-// const sendToken = (async () => {
-//     const loggedInThroughCallback = await auth0Client.handleCallback();
-//     if (loggedInThroughCallback) await setTokenToFirebase();
-// })();
 
-// export default sendToken
+
+export const authTokenFirebAuth0 = () => auth0ToFirebase().then((token) => firebaseCustomToken(token))
