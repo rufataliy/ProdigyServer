@@ -49,7 +49,6 @@ class App extends React.Component {
             SliderDemo / >
             <
             /div>
-
         )
     }
 }
