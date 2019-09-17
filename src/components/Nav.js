@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import { BrowserRouter as Router, Switch,  Route, Link, browserHistory } from "react-router-dom";
+import { BrowserRouter as Router, Switch,  Route, Link } from "react-router-dom";
+import { browserHistory} from "react-router"
 import { Layout, Menu, Icon } from 'antd';
-import { useAuth0 } from "../react-auth0-wrapper";
 
 import About from "./About";
 import Contact from "./Contact";
@@ -12,22 +12,14 @@ const { Header, Sider, Content, Footer } = Layout;
 
 
 const SiderDemo =() => {
-       const {isAuthenticated} = useAuth0()
        const [collapsed,setCollapse] = useState(false)
-        
-         
 
   const onCollapse = () => {
       setCollapse(!collapsed)
   };
 
-
-    
-    if (!isAuthenticated) {
-        return ""
-    }
     return (
-        <Router history={browserHistory}>
+        <Router history={browserHistory} >
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
                 <div className="logo" />
@@ -54,7 +46,7 @@ const SiderDemo =() => {
                         <Link className="active item" to="/Schedule">
                             <Icon type="schedule" />
                             <span>Schedule</span>
-                        </Link>
+                        </Link> 
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -64,8 +56,8 @@ const SiderDemo =() => {
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                             <Switch>
                                 <Route path="/" exact/>
-                                <Route path="/About/" component={About} />
-                                <Route path="/Contact/" component={Contact} />
+                                <Route path="/About" component={About} />
+                                <Route path="/Contact" component={Contact} />
                                 <Route path="/Schedule" component={Schedule} />
                             </Switch>
                         </div>

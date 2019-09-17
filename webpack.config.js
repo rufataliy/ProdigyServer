@@ -1,14 +1,31 @@
+const path = require('path')
+const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-
+const FileManager = require("filemanager-webpack-plugin")  
+ 
  const htmlWebpackPlugin = new HtmlWebPackPlugin({
    template: "./src/index.html",
-   filename: "./index.html"
+   filename: "index.html",
+   excludeChunks: ["server"]
  });
+
  module.exports = {
-  devServer: {
-    historyApiFallback: true
+  watch: true,
+  // devServer: {
+  //   historyApiFallback: true
+  // },
+  entry: {
+    main: './src/index.js'
   },
+  output: {
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/',
+    filename: '[name].js'
+  },
+  target: 'web',
+  devtool: 'source-map',
   module: {
+     // Need this to avoid error when working with Express
     rules: [
       {
         test: /\.(js|jsx)$/,
@@ -19,6 +36,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        // Loads the javacript into html template provided.
+        // Entry point is set below in HtmlWebPackPlugin in Plugins 
+        test: /\.html$/,
+        use: [{loader: "html-loader"}]
       },
       {
         test: /\.s[ac]ss$/i,
@@ -37,5 +60,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
       }
     ]
   },
-  plugins: [htmlWebpackPlugin],
+  plugins: [
+    htmlWebpackPlugin
+  ],
 };
