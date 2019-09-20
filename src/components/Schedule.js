@@ -38,17 +38,17 @@ class Schedule extends React.Component {
     }
     renderModal = () => {
         if (this.state.modal) {
-            return ( <
-                ModalComp state = { this.state.modal }
-                nonSubmit = { this.cancel }
-                onSubmit = { this.handleClick }
-                />
+            return (<
+                ModalComp state={this.state.modal}
+                nonSubmit={this.cancel}
+                onSubmit={this.handleClick}
+            />
             )
         }
     }
     handleClick = () => {
         this.toggleModal()
-        console.log(db.doc("cities/test").update({ test: "test4" }));
+        db.doc("classes/class").set({ name: "test class", level: "advanced" });
 
         // console.log(firebaseClient.getCurrentUser());
         // console.log(auth0Client.getIdToken());
@@ -70,27 +70,26 @@ class Schedule extends React.Component {
 
     render() {
         let modal = this.renderModal()
-        return ( <
-            div >
-            <
-            FullCalendar dateClick = { this.handleDateClick }
-            defaultView = "dayGridMonth"
-            plugins = {
-                [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin]
-            }
-            header = {
-                {
-                    left: 'prev,next today',
-                    center: 'Schedulee',
-                    right: 'dayGridMonth,listWeek,timeGridWeek'
-                }
-            }
-            events = { this.state.events }
-            ref = { this.calendarComponentRef }
-            />
+        return (
+            <div >
+                <FullCalendar dateClick={this.handleDateClick}
+                    defaultView="dayGridMonth"
+                    plugins={
+                        [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin]
+                    }
+                    header={
+                        {
+                            left: 'prev,next today',
+                            center: 'Schedulee',
+                            right: 'dayGridMonth,listWeek,timeGridWeek'
+                        }
+                    }
+                    events={this.state.events}
+                    ref={this.calendarComponentRef}
+                />
 
-            { modal } <
-            /div>
+                {modal}
+            </div>
         )
     }
 }
