@@ -7,10 +7,9 @@ const path = require('path');
 const serviceAccount = require('../firebase/firebase-key.json');
 const app = express();
 
-console.log("hello")
 firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(serviceAccount),
-    databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
+    databaseURL: "https://prodigy-b614e.firebaseio.com"
 });
 
 app.use(cors());
