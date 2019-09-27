@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import React, {useContext} from "react"
+import React, { useContext } from "react"
 class ModalComp extends React.Component {
   state = {
     ModalText: 'Content of the modal',
@@ -14,7 +14,7 @@ class ModalComp extends React.Component {
   };
 
   handleOk = () => {
-   this.props.onSubmit()
+    this.props.onSubmit()
   };
 
   handleCancel = () => {
@@ -25,14 +25,13 @@ class ModalComp extends React.Component {
     const { visible, confirmLoading, ModalText } = this.state;
     return (
       <div>
-        <Modal
-          title="Title"
+        <Modal title="Title"
           visible={visible}
           onOk={this.handleOk}
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          <p>{ModalText}</p>
+          {this.props.children}
         </Modal>
       </div>
     );
