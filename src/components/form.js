@@ -1,12 +1,10 @@
 import React from "react"
-import { withFormik, Field, Form } from "formik"
-import { InputText, InputEmail } from "./inputs";
+import { withFormik, Form } from "formik"
+import { newClassForm } from "./_newClassTmp.jsx"
 const MyForm = () => (
     <div>
         <Form>
-            <Field type="text"
-                name="name"
-                placeholder="Your name" />
+            {newClassForm.fields().newClass}
             <button type="submit">Submit</button>
         </Form>
     </div>
@@ -15,12 +13,10 @@ const MyForm = () => (
 export const FormikForm = withFormik(
     {
         mapPropsToValues: () => {
-            {
-                name: ""
-            }
+            newClassForm.defaultValues().newClass
         },
         handleSubmit: (values) => {
-            alert(values.name)
+            newClassForm.dbPath().newClass(values)
         }
     }
 )(MyForm)
