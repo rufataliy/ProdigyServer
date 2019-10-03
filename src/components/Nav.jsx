@@ -4,7 +4,7 @@ import { browserHistory } from "react-router"
 import { Layout, Menu, Icon } from 'antd';
 
 import About from "./About";
-import Contact from "./Contact";
+import Contact from "./Contact.jsx";
 import Schedule from "./Schedule.jsx";
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -55,7 +55,7 @@ const SiderDemo = () => {
                                 <Icon type="schedule" />
                                 <span >
                                     Schedule
-                                            </span>
+                                </span>
                             </Link >
                         </Menu.Item>
                         <Menu.Item key="4" >

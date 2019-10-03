@@ -3,7 +3,6 @@ const cors = require('cors');
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const firebaseAdmin = require('firebase-admin');
-const path = require('path');
 const serviceAccount = require('../firebase/firebase-key.json');
 const app = express();
 

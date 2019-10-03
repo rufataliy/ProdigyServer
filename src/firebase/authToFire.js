@@ -17,4 +17,7 @@ const firebaseCustomToken = async function setFirebaseCustomToken(tokenFromAuth)
     await firebaseClient.setToken(token);
 }
 
-export const authTokenFirebAuth0 = () => auth0ToFirebase().then(token => firebaseCustomToken(token));
+export const authTokenFirebAuth0 = () => auth0ToFirebase().then(token => {
+    console.log(token);
+    firebaseCustomToken(token);
+})

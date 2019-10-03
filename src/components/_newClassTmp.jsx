@@ -1,6 +1,7 @@
 import React from "react"
 import { Input, Radio } from "antd"
 import firebase from "firebase"
+import { db } from "../firebase/firebase"
 
 export const newClassForm = (() => {
     const fields = (props) => {
@@ -14,9 +15,6 @@ export const newClassForm = (() => {
                         onChange={props.handleChange}
                         value={props.values.level}
                     />
-                    {
-                        console.log(props)
-                    }
                     <Radio.Group name="classType"
                         onBlur={props.handleBlur}
                         onChange={props.handleChange}
@@ -59,7 +57,7 @@ export const newClassForm = (() => {
 
     }
 
-    const defaultValues = (props) => {
+    const defaultValues = ({ formType }) => {
         const defaultValue = {
             newClass: {
                 level: "",
@@ -73,13 +71,14 @@ export const newClassForm = (() => {
                 definition: ""
             }
         }
-        return defaultValue[props.formType]
+        return defaultValue[formType]
     }
-    const dbPath = () => {
-        const db = firebase.firestore()
-        return {
-            newClass: (values) => db.collection("classes").add(values)
+    const dbPath = (collectionName, method, values) => {
+        const dbMethod = {
+            add: (() => db.collection(collectionName).add(values))(),
+            update: (() => db.collection(collectionName).doc("BPsVviQrZMHofxgm5954").update(values))()
         }
+        return dbMethod[method];
 
     }
 
