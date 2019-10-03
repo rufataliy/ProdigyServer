@@ -6,3 +6,5 @@ src/firebase/firebase-config.js
 config.js
 prodigyWS.code-workspace
 classes.docx
+firebase-key.json
+./dist/server.js
