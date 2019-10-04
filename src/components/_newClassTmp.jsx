@@ -1,5 +1,5 @@
 import React from "react"
-import { Input, Radio } from "antd"
+import { Input, Radio, Button } from "antd"
 import firebase from "firebase"
 import { db } from "../firebase/firebase"
 
@@ -30,6 +30,9 @@ export const newClassForm = (() => {
                         onChange={props.handleChange}
                         value={props.values.origin}
                     />
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
                 </React.Fragment >,
             newVocabulary:
                 < React.Fragment >
@@ -51,6 +54,9 @@ export const newClassForm = (() => {
                         onBlur={props.handleBlur}
                         onChange={props.handleChange}
                         value={props.values.definition} />
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
                 </React.Fragment >
         }
         return field[props.formType]

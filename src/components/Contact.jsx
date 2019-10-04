@@ -1,5 +1,5 @@
 import React from "react";
-import { FormikForm } from "./form"
+import { FormikForm } from "./form.jsx"
 import { db } from "../firebase/firebase"
 
 class Contact extends React.Component {
