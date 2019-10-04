@@ -4,11 +4,10 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import ModalComp from "./Modal"
-import api from "../api/api.js"
-import { firebaseClient, db } from "../firebase/firebase"
-import { auth0Client } from "../auth0/auth0"
+import ModalComp from "./Modal.jsx"
+import { db } from "../firebase/firebase"
 import './style/main.scss'
+import { FormikForm } from "./form.jsx"
 
 class Schedule extends React.Component {
 
@@ -39,38 +38,32 @@ class Schedule extends React.Component {
     }
     renderModal = () => {
         if (this.state.modal) {
-            return (<
-                ModalComp state={this.state.modal}
-                nonSubmit={this.cancel}
-                onSubmit={this.handleClick}
-            />
+            return (
+                <ModalComp state={this.state.modal}
+                    nonSubmit={this.cancel}
+                    onSubmit={this.handleClick}
+                    title="Create new class"
+                >
+                    <FormikForm
+                        formType="newClass"
+                        collectionName="classes"
+                        method="add"
+                    />
+                </ModalComp>
             )
         }
     }
     handleClick = () => {
         this.toggleModal()
-
-        db.collection("classes").doc("newclass").set({
-            level: "should create new class",
-            name: "test"
-        })
-
         //db.collection("classes/class").set({ name: "test class", level: "advanced" });
-
         // console.log(firebaseClient.getCurrentUser());
         // console.log(auth0Client.getIdToken());
-        console.log("modal Clicked ok schedule");
-
-
     }
     cancel = () => {
         this.toggleModal()
-        console.log("cancel clicked Schedule");
-
     }
     handleDateClick = (arg) => {
-        console.log("clicked");
-
+        console.log(arg);
         // this.setState({calendarEvents:[...this.state.calendarEvents, {title:title,start: arg.date}]})
         this.setState({ modal: !this.state.modal, arg })
     }
@@ -94,7 +87,6 @@ class Schedule extends React.Component {
                     events={this.state.events}
                     ref={this.calendarComponentRef}
                 />
-
                 {modal}
             </div>
         )

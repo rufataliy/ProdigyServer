@@ -1,59 +1,90 @@
 import React from "react"
-import { Field } from "formik"
+import { Input, Radio, Button } from "antd"
 import firebase from "firebase"
-
+import { db } from "../firebase/firebase"
 
 export const newClassForm = (() => {
-    const fields = () =>
-        (
-            {
-                "newClass": < React.Fragment >
-                    <Field type="text"
+    const fields = (props) => {
+        const field = {
+            newClass:
+                < React.Fragment >
+                    <Input placeholder="Level"
+                        type="text"
                         name="level"
-                        placeholder="Level" />
-                    <Field type="text"
-                        name="type"
-                        placeholder="Type" />
-                    <Field type="text"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.level}
+                    />
+                    <Radio.Group name="classType"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.classType}>
+                        <Radio.Button value="individual">Individual</Radio.Button>
+                        <Radio.Button value="group">Group</Radio.Button>
+                    </Radio.Group>
+                    <Input
+                        type="text"
                         name="origin"
-                        placeholder="Origin" />
+                        placeholder="Origin"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.origin}
+                    />
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
                 </React.Fragment >,
-                "newVocabulary": < React.Fragment >
-                    <Field type="text"
-                        name="Word"
-                        placeholder="Word" />
-                    <Field type="text"
-                        name="Example"
-                        placeholder="Example" />
-                    <Field type="text"
-                        name="Definition"
-                        placeholder="Definition" />
+            newVocabulary:
+                < React.Fragment >
+                    <Input type="text"
+                        name="word"
+                        placeholder="Word"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.word} />
+                    <Input type="text"
+                        name="example"
+                        placeholder="Example"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.example} />
+                    <Input type="text"
+                        name="definition"
+                        placeholder="Definition"
+                        onBlur={props.handleBlur}
+                        onChange={props.handleChange}
+                        value={props.values.definition} />
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
                 </React.Fragment >
-            }
+        }
+        return field[props.formType]
 
-        )
+    }
 
-    const defaultValues = () => (
-
-        {
+    const defaultValues = ({ formType }) => {
+        const defaultValue = {
             newClass: {
                 level: "",
                 type: "",
-                origin: ""
+                origin: "",
+                classType: "Not Selected"
             },
             newVocabulary: {
                 word: "",
                 example: "",
                 definition: ""
             }
-
         }
-    )
-    const dbPath = () => {
-        const db = firebase.firestore()
-        return {
-            newClass: (values) => db.collection("classes").add(values)
+        return defaultValue[formType]
+    }
+    const dbPath = (collectionName, method, values) => {
+        const dbMethod = {
+            add: (() => db.collection(collectionName).add(values))(),
+            update: (() => db.collection(collectionName).doc("BPsVviQrZMHofxgm5954").update(values))()
         }
+        return dbMethod[method];
 
     }
 
@@ -63,3 +94,4 @@ export const newClassForm = (() => {
         dbPath: dbPath
     }
 })()
+

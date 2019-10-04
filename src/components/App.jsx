@@ -1,5 +1,5 @@
 import React from "react";
-import SliderDemo from "./Nav"
+import SliderDemo from "./Nav.jsx"
 import TopNav from "./TopNav"
 import { authTokenFirebAuth0 } from "../firebase/authToFire"
 
