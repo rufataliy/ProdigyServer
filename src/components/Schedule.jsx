@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext, useState } from "react"
+import Context from "../store/context"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list';
@@ -9,39 +10,31 @@ import { db } from "../firebase/firebase"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
 
-class Schedule extends React.Component {
+const Schedule = () => {
+    const { state, actions } = useContext(Context)
+    const calendarComponentRef = React.createRef();
 
+    // state = {
+    //     modal: false,
+    //     calendarWeekends: true,
+    //     arg: "",
+    //     events: null
+    // };
 
-    calendarComponentRef = React.createRef();
+    const toggleModal = () => {
+        // this.setState({ modal: !this.state.modal })
+        actions({
+            type: "setState",
+            payload: { ...state, modalVisibility: !state.modalVisibility }
+        })
 
-    state = {
-        modal: false,
-        calendarWeekends: true,
-        arg: "",
-        events: null
-    };
-
-    componentDidMount() {
-
-        // (async () => {
-        //   api.get("/events").then((response)=>{
-        //     console.log(response.data);
-        //       return response.data
-        //   }).then((events)=>{
-        //     this.setState({events})
-        //   })
-        // })()
     }
-
-    toggleModal = () => {
-        this.setState({ modal: !this.state.modal })
-    }
-    renderModal = () => {
-        if (this.state.modal) {
+    const renderModal = () => {
+        if (state.modalVisibility) {
             return (
-                <ModalComp state={this.state.modal}
-                    nonSubmit={this.cancel}
-                    onSubmit={this.handleClick}
+                <ModalComp //state={this.state.modal}
+                    nonSubmit={cancel}
+                    onSubmit={handleClick}
                     title="Create new class"
                 >
                     <FormikForm
@@ -53,44 +46,54 @@ class Schedule extends React.Component {
             )
         }
     }
-    handleClick = () => {
-        this.toggleModal()
+    const handleClick = () => {
+        toggleModal()
         //db.collection("classes/class").set({ name: "test class", level: "advanced" });
         // console.log(firebaseClient.getCurrentUser());
         // console.log(auth0Client.getIdToken());
     }
-    cancel = () => {
-        this.toggleModal()
+    const cancel = () => {
+        toggleModal()
     }
-    handleDateClick = (arg) => {
+    const handleDateClick = (arg) => {
         console.log(arg);
+        actions({
+            type: "setState",
+            payload: {
+                ...state, calendarArgs: arg,
+                modalVisibility: !state.modalVisibility
+            }
+        })
+        console.log(state);
+
         // this.setState({calendarEvents:[...this.state.calendarEvents, {title:title,start: arg.date}]})
-        this.setState({ modal: !this.state.modal, arg })
+        //this.setState({ modal: !this.state.modal, arg })
     }
 
-    render() {
-        let modal = this.renderModal()
-        return (
-            <div >
-                <FullCalendar dateClick={this.handleDateClick}
-                    defaultView="dayGridMonth"
-                    plugins={
-                        [dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin]
+    let modal = renderModal()
+    return (
+        <div >
+            <FullCalendar dateClick={handleDateClick}
+                defaultView="dayGridMonth"
+                plugins={
+                    [dayGridPlugin,
+                        listPlugin,
+                        interactionPlugin,
+                        timeGridPlugin]
+                }
+                header={
+                    {
+                        left: 'prev,next today',
+                        center: 'Schedulee',
+                        right: 'dayGridMonth,listWeek,timeGridWeek'
                     }
-                    header={
-                        {
-                            left: 'prev,next today',
-                            center: 'Schedulee',
-                            right: 'dayGridMonth,listWeek,timeGridWeek'
-                        }
-                    }
-                    events={this.state.events}
-                    ref={this.calendarComponentRef}
-                />
-                {modal}
-            </div>
-        )
-    }
+                }
+                events={null}
+                ref={calendarComponentRef}
+            />
+            {modal}
+        </div>
+    )
 }
 
 export default Schedule
