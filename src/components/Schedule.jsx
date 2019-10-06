@@ -13,21 +13,12 @@ import { FormikForm } from "./form.jsx"
 const Schedule = () => {
     const { state, actions } = useContext(Context)
     const calendarComponentRef = React.createRef();
-
-    // state = {
-    //     modal: false,
-    //     calendarWeekends: true,
-    //     arg: "",
-    //     events: null
-    // };
-
     const toggleModal = () => {
         // this.setState({ modal: !this.state.modal })
         actions({
             type: "setState",
             payload: { ...state, modalVisibility: !state.modalVisibility }
         })
-
     }
     const renderModal = () => {
         if (state.modalVisibility) {
@@ -48,15 +39,11 @@ const Schedule = () => {
     }
     const handleClick = () => {
         toggleModal()
-        //db.collection("classes/class").set({ name: "test class", level: "advanced" });
-        // console.log(firebaseClient.getCurrentUser());
-        // console.log(auth0Client.getIdToken());
     }
     const cancel = () => {
         toggleModal()
     }
     const handleDateClick = (arg) => {
-        console.log(arg);
         actions({
             type: "setState",
             payload: {
@@ -64,10 +51,6 @@ const Schedule = () => {
                 modalVisibility: !state.modalVisibility
             }
         })
-        console.log(state);
-
-        // this.setState({calendarEvents:[...this.state.calendarEvents, {title:title,start: arg.date}]})
-        //this.setState({ modal: !this.state.modal, arg })
     }
 
     let modal = renderModal()

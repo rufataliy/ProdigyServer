@@ -1,62 +1,48 @@
-import React from "react"
-import { Input, Radio, Button } from "antd"
+import React, { createRef } from "react"
+import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
 import firebase from "firebase"
 import { db } from "../firebase/firebase"
-
+import moment from "moment"
 export const newClassForm = (() => {
     const fields = (props) => {
         const field = {
             newClass:
                 < React.Fragment >
-                    <Input placeholder="Level"
-                        type="text"
-                        name="level"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.level}
+                    <DatePicker name="date"
                     />
-                    <Radio.Group name="classType"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.classType}>
+                    <TimePicker name="time"
+                        format='HH:mm'
+                    />
+                    <Input name="level"
+                        placeholder="Level"
+                    />
+                    <Radio.Group name="classType">
                         <Radio.Button value="individual">Individual</Radio.Button>
                         <Radio.Button value="group">Group</Radio.Button>
                     </Radio.Group>
-                    <Input
+                    <Input name="origin"
                         type="text"
-                        name="origin"
                         placeholder="Origin"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.origin}
                     />
-                    <Button type="primary" htmlType="submit">
+                    <button type="submit">
                         Submit
-                    </Button>
+                    </button>
                 </React.Fragment >,
             newVocabulary:
                 < React.Fragment >
                     <Input type="text"
                         name="word"
                         placeholder="Word"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.word} />
+                    />
                     <Input type="text"
                         name="example"
                         placeholder="Example"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.example} />
+                    />
                     <Input type="text"
                         name="definition"
                         placeholder="Definition"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.definition} />
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
+                    />
+                    <SubmitButton />
                 </React.Fragment >
         }
         return field[props.formType]
@@ -66,6 +52,8 @@ export const newClassForm = (() => {
     const defaultValues = ({ formType }) => {
         const defaultValue = {
             newClass: {
+                date: {},
+                time: {},
                 level: "",
                 type: "",
                 origin: "",
