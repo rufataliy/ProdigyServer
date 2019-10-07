@@ -1,24 +1,27 @@
-import React from "react"
-import { withFormik, Formik, Form } from "formik"
+import React, { useContext, useEffect } from "react"
+import { Formik, Form } from "formik"
 import { newClassForm } from "./_newClassTmp.jsx"
+import Context from "../store/context"
 
 export const FormikForm = (props) => {
+    const { collectionName, method, formType } = props
+    const { initialValues } = useContext(Context)
     const handleSubmit = (values) => {
-        const { collectionName, method } = props
         newClassForm.dbPath(collectionName, method, values);
-        console.log(values);
-
+        console.log(initialValues);
     }
     return (
         // <Form onSubmit={props.handleSubmit} >
         //     {newClassForm.fields(props)}
         // </Form >
         <Formik
-            initalValues={newClassForm.defaultValues(props).newClass}
+            initialValues={initialValues.newClass}
             onSubmit={handleSubmit}
-            render={() => (
+            render={(props) => (
                 <Form>
-                    {newClassForm.fields(props)}
+                    {console.log(initialValues.newClass)
+                    }
+                    {newClassForm.fields(formType, initialValues.newClass.date)}
                 </Form>
 
             )}

@@ -1,10 +1,10 @@
-import React, { createRef } from "react"
+import React, { useContext } from "react"
 import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
-import firebase from "firebase"
 import { db } from "../firebase/firebase"
 import moment from "moment"
+
 export const newClassForm = (() => {
-    const fields = (props) => {
+    const fields = (formType, defaultDate) => {
         const field = {
             newClass:
                 < React.Fragment >
@@ -45,11 +45,12 @@ export const newClassForm = (() => {
                     <SubmitButton />
                 </React.Fragment >
         }
-        return field[props.formType]
+        return field[formType]
 
     }
 
-    const defaultValues = ({ formType }) => {
+    /*const defaultValues = (formType) => {
+
         const defaultValue = {
             newClass: {
                 date: {},
@@ -66,7 +67,7 @@ export const newClassForm = (() => {
             }
         }
         return defaultValue[formType]
-    }
+    }*/
     const dbPath = (collectionName, method, values) => {
         const dbMethod = {
             add: (() => db.collection(collectionName).add(values))(),
@@ -78,7 +79,7 @@ export const newClassForm = (() => {
 
     return {
         fields: fields,
-        defaultValues: defaultValues,
+        //defaultValues: defaultValues,
         dbPath: dbPath
     }
 })()

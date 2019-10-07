@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import Context from "../store/context"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -9,9 +9,11 @@ import ModalComp from "./Modal.jsx"
 import { db } from "../firebase/firebase"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
-
+import moment from "moment"
 const Schedule = () => {
-    const { state, actions } = useContext(Context)
+
+
+    const { state, initialValues, actions } = useContext(Context)
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
         // this.setState({ modal: !this.state.modal })
@@ -45,15 +47,21 @@ const Schedule = () => {
     }
     const handleDateClick = (arg) => {
         actions({
+            type: "setInitialValues",
+            payload: {
+                ...initialValues, newClass: {
+                    ...initialValues.newClass,
+                    date: moment(arg.dateStr)
+                }
+            }
+        })
+        actions({
             type: "setState",
             payload: {
-                ...state, calendarArgs: arg,
-                modalVisibility: !state.modalVisibility
+                ...state, modalVisibility: !state.modalVisibility
             }
         })
     }
-
-    let modal = renderModal()
     return (
         <div >
             <FullCalendar dateClick={handleDateClick}
@@ -74,7 +82,7 @@ const Schedule = () => {
                 events={null}
                 ref={calendarComponentRef}
             />
-            {modal}
+            {renderModal()}
         </div>
     )
 }
