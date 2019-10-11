@@ -1,13 +1,15 @@
 import React, { useContext } from "react"
 import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
 import { db } from "../firebase/firebase"
-import moment from "moment"
 
 export const newClassForm = (() => {
-    const fields = (formType, defaultDate) => {
+    const fields = (formType) => {
         const field = {
             newClass:
                 < React.Fragment >
+                    <Input name="title"
+                        placeholder="Title"
+                    />
                     <DatePicker name="date"
                     />
                     <TimePicker name="time"

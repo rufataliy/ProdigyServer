@@ -2,28 +2,28 @@ import React, { useContext, useEffect } from "react"
 import { Formik, Form } from "formik"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
+import moment from "moment"
 
 export const FormikForm = (props) => {
+    const { initialValuesGlobal } = useContext(Context)
+    const initialValuesConverted = {
+        ...initialValuesGlobal.newClass,
+        date: moment(initialValuesGlobal.newClass.date)
+    }
+
     const { collectionName, method, formType } = props
-    const { initialValues } = useContext(Context)
     const handleSubmit = (values) => {
-        newClassForm.dbPath(collectionName, method, values);
-        console.log(initialValues);
+        const a = moment(values.date).format()
+        console.log(a)
     }
     return (
-        // <Form onSubmit={props.handleSubmit} >
-        //     {newClassForm.fields(props)}
-        // </Form >
         <Formik
-            initialValues={initialValues.newClass}
+            initialValues={initialValuesConverted}
             onSubmit={handleSubmit}
             render={(props) => (
                 <Form>
-                    {console.log(initialValues.newClass)
-                    }
-                    {newClassForm.fields(formType, initialValues.newClass.date)}
+                    {newClassForm.fields(formType)}
                 </Form>
-
             )}
         />
     )

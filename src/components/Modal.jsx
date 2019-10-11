@@ -2,8 +2,8 @@ import { Modal } from 'antd';
 import React, { useContext } from "react"
 import Context from "../store/context"
 const ModalComp = (props) => {
-    const { state, actions } = useContext(Context)
-    const { modalVisibility } = state
+    const { scheduleState } = useContext(Context)
+    const { modalVisibility } = scheduleState
     // const showModal = () => {
     //     this.setState({
     //         visible: true,

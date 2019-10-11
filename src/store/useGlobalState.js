@@ -1,18 +1,17 @@
 import { useState } from "react";
 import moment from "moment"
 const useGlobalState = () => {
-    const globalState = {
+    const scheduleStateGlobal = {
         modalVisibility: false,
         calendarWeekends: true,
-        calendarArgs: {},
         events: null
     }
     const initialValuesGlobal = {
         newClass: {
+            title: "",
             date: {},
             time: {},
             level: "",
-            type: "",
             origin: "",
             classType: "Not Selected"
         },
@@ -22,7 +21,7 @@ const useGlobalState = () => {
             definition: ""
         }
     }
-    const [state, setState] = useState(globalState)
+    const [state, setState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
     const actions = (action) => {
         const { type, payload } = action
@@ -36,7 +35,7 @@ const useGlobalState = () => {
         }
     }
 
-    return { state: state, initialValues: initialValues, actions }
+    return { scheduleState: state, initialValuesGlobal: initialValues, actions }
 }
 
 export default useGlobalState

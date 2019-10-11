@@ -6,24 +6,22 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal.jsx"
-import { db } from "../firebase/firebase"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
 const Schedule = () => {
 
 
-    const { state, initialValues, actions } = useContext(Context)
+    const { scheduleState, initialValuesGlobal, actions } = useContext(Context)
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
-        // this.setState({ modal: !this.state.modal })
         actions({
             type: "setState",
-            payload: { ...state, modalVisibility: !state.modalVisibility }
+            payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
         })
     }
     const renderModal = () => {
-        if (state.modalVisibility) {
+        if (scheduleState.modalVisibility) {
             return (
                 <ModalComp //state={this.state.modal}
                     nonSubmit={cancel}
@@ -49,8 +47,8 @@ const Schedule = () => {
         actions({
             type: "setInitialValues",
             payload: {
-                ...initialValues, newClass: {
-                    ...initialValues.newClass,
+                ...initialValuesGlobal, newClass: {
+                    ...initialValuesGlobal.newClass,
                     date: moment(arg.dateStr)
                 }
             }
@@ -58,7 +56,7 @@ const Schedule = () => {
         actions({
             type: "setState",
             payload: {
-                ...state, modalVisibility: !state.modalVisibility
+                ...scheduleState, modalVisibility: !scheduleState.modalVisibility
             }
         })
     }
