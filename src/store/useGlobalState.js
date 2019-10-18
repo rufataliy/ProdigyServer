@@ -4,7 +4,7 @@ const useGlobalState = () => {
     const scheduleStateGlobal = {
         modalVisibility: false,
         calendarWeekends: true,
-        events: null
+        events: {}
     }
     const initialValuesGlobal = {
         newClass: {
@@ -26,7 +26,7 @@ const useGlobalState = () => {
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
-            case "setState":
+            case "setScheduleState":
                 return setState(payload)
             case "setInitialValues":
                 return setValues(payload)

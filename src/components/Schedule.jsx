@@ -1,4 +1,5 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
+import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -9,10 +10,19 @@ import ModalComp from "./Modal.jsx"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
+
 const Schedule = () => {
-
-
     const { scheduleState, initialValuesGlobal, actions } = useContext(Context)
+    useEffect(() => {
+        (async () => {
+            const events = await newClassForm.dbPath("classes", "get")();
+            actions({
+                type: "setScheduleState",
+                payload: events
+            })
+        })()
+    }
+    )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
         actions({
@@ -65,10 +75,12 @@ const Schedule = () => {
             <FullCalendar dateClick={handleDateClick}
                 defaultView="dayGridMonth"
                 plugins={
-                    [dayGridPlugin,
+                    [
+                        dayGridPlugin,
                         listPlugin,
                         interactionPlugin,
-                        timeGridPlugin]
+                        timeGridPlugin
+                    ]
                 }
                 header={
                     {
@@ -77,7 +89,7 @@ const Schedule = () => {
                         right: 'dayGridMonth,listWeek,timeGridWeek'
                     }
                 }
-                events={null}
+                events={scheduleState.events}
                 ref={calendarComponentRef}
             />
             {renderModal()}

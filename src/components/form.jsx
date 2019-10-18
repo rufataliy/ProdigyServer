@@ -13,8 +13,9 @@ export const FormikForm = (props) => {
 
     const { collectionName, method, formType } = props
     const handleSubmit = (values) => {
-        const a = moment(values.date).format()
-        console.log(a)
+        const submitValues = { ...values, date: moment(values.date).format() }
+        newClassForm.dbPath(collectionName, method, submitValues)();
+        console.log(submitValues)
     }
     return (
         <Formik
