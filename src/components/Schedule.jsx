@@ -14,14 +14,16 @@ import moment from "moment"
 const Schedule = () => {
     const { scheduleState, initialValuesGlobal, actions } = useContext(Context)
     useEffect(() => {
-        (async () => {
-            const events = await newClassForm.dbPath("classes", "get")();
+        const getEvents = async () => {
+            const classes = await newClassForm.dbPath("classes", "get")();
+            console.log(classes);
             actions({
                 type: "setScheduleState",
-                payload: events
+                payload: { ...scheduleState, events: classes }
             })
-        })()
-    }
+        }
+        getEvents()
+    }, []
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
@@ -33,7 +35,7 @@ const Schedule = () => {
     const renderModal = () => {
         if (scheduleState.modalVisibility) {
             return (
-                <ModalComp //state={this.state.modal}
+                <ModalComp
                     nonSubmit={cancel}
                     onSubmit={handleClick}
                     title="Create new class"

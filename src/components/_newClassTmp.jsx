@@ -1,6 +1,7 @@
 import React from "react"
 import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
 import { db } from "../firebase/firebase"
+import { database } from "firebase"
 
 export const newClassForm = (() => {
     const fields = (formType) => {
@@ -74,12 +75,21 @@ export const newClassForm = (() => {
         const dbMethod = {
             add: () => db.collection(collectionName).add(values),
             update: () => db.collection(collectionName).doc("BPsVviQrZMHofxgm5954").update(values),
-            get: () => db.collection(collectionName).get().then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log({ id: doc.id, ...doc.data() });
-                });
-            })
+            get: async () => {
+
+                const data = await db
+                    .collection(collectionName)
+                    .get()
+                    .then(function (querySnapshot) {
+                        let a = []
+                        querySnapshot.forEach(function (doc) {
+                            const response = { id: doc.id, ...doc.data() }
+                            a.push(response)
+                        })
+                        return a
+                    })
+                return data
+            }
         }
         return dbMethod[method];
     }
