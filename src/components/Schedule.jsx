@@ -9,50 +9,95 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal.jsx"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
+import { Popover } from "antd"
 import moment from "moment"
 
 const Schedule = () => {
+    let modalConfig = {
+        title: "Create new class",
+        classType: "",
+        level: "",
+        origin: "",
+        collectionName: "classes",
+        formType: "newClass",
+        docId: "",
+        method: "add"
+    };
     const { scheduleState, initialValuesGlobal, actions } = useContext(Context)
     useEffect(() => {
         const getEvents = async () => {
             const classes = await newClassForm.dbPath("classes", "get")();
-            console.log(classes);
             actions({
                 type: "setScheduleState",
                 payload: { ...scheduleState, events: classes }
             })
+            console.log(classes);
         }
+
+
         getEvents()
     }, []
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
         actions({
-            type: "setState",
+            type: "setScheduleState",
             payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
         })
     }
     const renderModal = () => {
-        if (scheduleState.modalVisibility) {
-            return (
-                <ModalComp
-                    nonSubmit={cancel}
-                    onSubmit={handleClick}
-                    title="Create new class"
-                >
-                    <FormikForm
-                        formType="newClass"
-                        collectionName="classes"
-                        method="add"
-                    />
-                </ModalComp>
-            )
-        }
+        return (
+            <ModalComp
+                nonSubmit={closeModal}
+                onSubmit={closeModal}
+                title={modalConfig.title}
+            >
+                <FormikForm
+                    formType={modalConfig.formType}
+                    collectionName={modalConfig.collectionName}
+                    docId={modalConfig.id}
+                    method={modalConfig.method}
+                />
+            </ModalComp>
+        )
     }
-    const handleClick = () => {
+    const handleEventHover = () => {
+        console.log("event hovered");
+    }
+    const closeModal = () => {
         toggleModal()
     }
-    const cancel = () => {
+    const handleEventClick = (info) => {
+        console.log(info);
+
+        const { title, publicId } = info.event._def
+        const { start } = info.event
+        const { classType, level, origin } = info.event._def.extendedProps
+        console.log(start);
+
+        actions({
+            type: "setInitialValues",
+            payload: {
+                ...initialValuesGlobal, newClass: {
+                    ...initialValuesGlobal.newClass,
+                    title: title,
+                    classType: classType,
+                    level: level,
+                    origin: origin,
+                    date: moment(start)
+                }
+            }
+        })
+        modalConfig = {
+            title: title,
+            classType: classType,
+            level: level,
+            origin: origin,
+            collectionName: "",
+            formType: "newClass",
+            docId: publicId,
+            method: "update"
+        }
         toggleModal()
     }
     const handleDateClick = (arg) => {
@@ -65,16 +110,14 @@ const Schedule = () => {
                 }
             }
         })
-        actions({
-            type: "setState",
-            payload: {
-                ...scheduleState, modalVisibility: !scheduleState.modalVisibility
-            }
-        })
+        toggleModal()
     }
     return (
         <div >
-            <FullCalendar dateClick={handleDateClick}
+            <FullCalendar
+                eventMouseEnter={handleEventHover}
+                eventClick={handleEventClick}
+                dateClick={handleDateClick}
                 defaultView="dayGridMonth"
                 plugins={
                     [
@@ -94,7 +137,7 @@ const Schedule = () => {
                 events={scheduleState.events}
                 ref={calendarComponentRef}
             />
-            {renderModal()}
+            {scheduleState.modalVisibility && renderModal()}
         </div>
     )
 }
