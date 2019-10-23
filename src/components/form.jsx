@@ -5,17 +5,18 @@ import Context from "../store/context"
 import moment from "moment"
 
 export const FormikForm = (props) => {
+    console.log(props);
     const { initialValuesGlobal } = useContext(Context)
     const initialValuesConverted = {
         ...initialValuesGlobal.newClass,
         date: moment(initialValuesGlobal.newClass.date)
     }
 
-    const { collectionName, method, formType } = props
+    const { formType } = props
     const handleSubmit = (values) => {
+        console.log(props);
         const submitValues = { ...values, date: moment(values.date).format() }
-        newClassForm.dbPath(collectionName, method, submitValues)();
-        console.log(submitValues)
+        newClassForm.dbPath(props, submitValues)();
     }
     return (
         <Formik

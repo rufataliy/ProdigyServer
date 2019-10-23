@@ -11,30 +11,25 @@ import './style/main.scss'
 import { FormikForm } from "./form.jsx"
 import { Popover } from "antd"
 import moment from "moment"
+import Title from "antd/lib/skeleton/Title"
 
 const Schedule = () => {
-    let modalConfig = {
-        title: "Create new class",
-        classType: "",
-        level: "",
-        origin: "",
-        collectionName: "classes",
-        formType: "newClass",
-        docId: "",
-        method: "add"
-    };
-    const { scheduleState, initialValuesGlobal, actions } = useContext(Context)
+    const { scheduleState,
+        initialValuesGlobal,
+        formConfig,
+        actions } = useContext(Context)
     useEffect(() => {
         const getEvents = async () => {
-            const classes = await newClassForm.dbPath("classes", "get")();
+            const props = {
+                collectionName: "classes",
+                method: "get"
+            }
+            const classes = await newClassForm.dbPath(props)();
             actions({
                 type: "setScheduleState",
                 payload: { ...scheduleState, events: classes }
             })
-            console.log(classes);
         }
-
-
         getEvents()
     }, []
     )
@@ -46,17 +41,18 @@ const Schedule = () => {
         })
     }
     const renderModal = () => {
+        console.log(formConfig)
         return (
             <ModalComp
                 nonSubmit={closeModal}
                 onSubmit={closeModal}
-                title={modalConfig.title}
+                title={formConfig.title}
             >
                 <FormikForm
-                    formType={modalConfig.formType}
-                    collectionName={modalConfig.collectionName}
-                    docId={modalConfig.id}
-                    method={modalConfig.method}
+                    formType={formConfig.formType}
+                    collectionName={formConfig.collectionName}
+                    docId={formConfig.docId}
+                    method={formConfig.method}
                 />
             </ModalComp>
         )
@@ -67,14 +63,11 @@ const Schedule = () => {
     const closeModal = () => {
         toggleModal()
     }
-    const handleEventClick = (info) => {
-        console.log(info);
 
+    const handleEventClick = (info) => {
         const { title, publicId } = info.event._def
         const { start } = info.event
         const { classType, level, origin } = info.event._def.extendedProps
-        console.log(start);
-
         actions({
             type: "setInitialValues",
             payload: {
@@ -88,19 +81,31 @@ const Schedule = () => {
                 }
             }
         })
-        modalConfig = {
-            title: title,
-            classType: classType,
-            level: level,
-            origin: origin,
-            collectionName: "",
-            formType: "newClass",
-            docId: publicId,
-            method: "update"
-        }
+        actions({
+            type: "setFormConfig",
+            payload: {
+                ...formConfig,
+                title: `Update ${title}`,
+                collectionName: "classes",
+                formType: "newClass",
+                docId: publicId,
+                method: "update"
+            }
+        })
         toggleModal()
     }
     const handleDateClick = (arg) => {
+        actions({
+            type: "setFormConfig",
+            payload: {
+                ...formConfig,
+                title: `Create new class`,
+                collectionName: "classes",
+                formType: "newClass",
+                docId: "",
+                method: "add"
+            }
+        })
         actions({
             type: "setInitialValues",
             payload: {

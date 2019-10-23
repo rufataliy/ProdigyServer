@@ -71,14 +71,14 @@ export const newClassForm = (() => {
         }
         return defaultValue[formType]
     }*/
-    const dbPath = (collectionName, method, values) => {
+    const dbPath = (props, values) => {
         const dbMethod = {
-            add: () => db.collection(collectionName).add(values),
-            update: () => db.collection(collectionName).doc("BPsVviQrZMHofxgm5954").update(values),
+            add: () => db.collection(props.collectionName).add(values),
+            update: () => db.collection(props.collectionName).doc(props.docId).update(values),
             get: async () => {
 
                 const data = await db
-                    .collection(collectionName)
+                    .collection(props.collectionName)
                     .get()
                     .then(function (querySnapshot) {
                         let a = []
@@ -91,7 +91,7 @@ export const newClassForm = (() => {
                 return data
             }
         }
-        return dbMethod[method];
+        return dbMethod[props.method];
     }
 
     return {

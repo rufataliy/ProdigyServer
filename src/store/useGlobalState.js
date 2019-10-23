@@ -20,10 +20,16 @@ const useGlobalState = () => {
             definition: ""
         }
     }
-
+    const formConfigGlobal = {
+        title: "",
+        formType: "",
+        docId: "",
+        collectionName: "",
+        method: ""
+    }
     const [state, setState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
-
+    const [formConfig, setFormConfig] = useState(formConfigGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -31,12 +37,19 @@ const useGlobalState = () => {
                 return setState(payload)
             case "setInitialValues":
                 return setValues(payload)
+            case "setFormConfig":
+                return setFormConfig(payload)
             default:
-                return state, initialValues;
+                return state, initialValues, formConfig;
         }
     }
 
-    return { scheduleState: state, initialValuesGlobal: initialValues, actions }
+    return {
+        scheduleState: state,
+        initialValuesGlobal: initialValues,
+        formConfig: formConfig,
+        actions
+    }
 }
 
 export default useGlobalState
