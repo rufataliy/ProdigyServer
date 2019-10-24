@@ -110,7 +110,11 @@ const Schedule = () => {
             type: "setInitialValues",
             payload: {
                 ...initialValuesGlobal, newClass: {
-                    ...initialValuesGlobal.newClass,
+                    title: "",
+                    time: {},
+                    level: "",
+                    origin: "",
+                    classType: "Not Selected",
                     date: moment(arg.dateStr)
                 }
             }
