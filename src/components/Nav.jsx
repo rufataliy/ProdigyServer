@@ -11,7 +11,7 @@ const { Header, Sider, Content, Footer } = Layout;
 
 
 
-const SiderDemo = () => {
+const SideNav = () => {
     const [collapsed, setCollapse] = useState(false)
 
     const onCollapse = () => {
@@ -27,9 +27,7 @@ const SiderDemo = () => {
                     onCollapse={onCollapse} >
                     <div className="logo" />
                     <Menu theme="dark"
-                        defaultSelectedKeys={
-                            ['1']
-                        }
+                        defaultSelectedKeys={['1']}
                         mode="inline" >
                         <Menu.Item key="1" >
                             <Link className="active item"
@@ -118,4 +116,4 @@ const SiderDemo = () => {
 }
 
 
-export default SiderDemo
+export default SideNav

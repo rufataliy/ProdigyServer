@@ -9,9 +9,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal.jsx"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
-import { Popover } from "antd"
 import moment from "moment"
-import Title from "antd/lib/skeleton/Title"
 
 const Schedule = () => {
     const { scheduleState,

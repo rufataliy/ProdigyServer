@@ -1,5 +1,8 @@
 import { useState } from "react";
 const useGlobalState = () => {
+    const appStateGlobal = {
+        loggedIn: false
+    }
     const scheduleStateGlobal = {
         modalVisibility: false,
         calendarWeekends: true,
@@ -30,6 +33,7 @@ const useGlobalState = () => {
     const [state, setState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
     const [formConfig, setFormConfig] = useState(formConfigGlobal)
+    const [appState, setAppState] = useState(appStateGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -39,8 +43,10 @@ const useGlobalState = () => {
                 return setValues(payload)
             case "setFormConfig":
                 return setFormConfig(payload)
+            case "setAppState":
+                return setAppState(payload)
             default:
-                return state, initialValues, formConfig;
+                return state, initialValues, formConfig, appState;
         }
     }
 
@@ -48,6 +54,7 @@ const useGlobalState = () => {
         scheduleState: state,
         initialValuesGlobal: initialValues,
         formConfig: formConfig,
+        appState: appState,
         actions
     }
 }
