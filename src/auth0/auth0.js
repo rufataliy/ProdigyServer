@@ -41,9 +41,6 @@ class Auth0Client {
                 _idToken = authResult.idToken;
                 _profile = authResult.idTokenPayload;
                 _result = authResult
-                console.log("_idToken from callback" + _idToken)
-
-
                 return resolve(_idToken);
 
             });

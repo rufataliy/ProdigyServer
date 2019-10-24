@@ -1,71 +1,63 @@
 import React from "react"
-import { Input, Radio, Button } from "antd"
-import firebase from "firebase"
+import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
 import { db } from "../firebase/firebase"
+import { database } from "firebase"
 
 export const newClassForm = (() => {
-    const fields = (props) => {
+    const fields = (formType) => {
         const field = {
             newClass:
                 < React.Fragment >
-                    <Input placeholder="Level"
-                        type="text"
-                        name="level"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.level}
+                    <Input name="title"
+                        placeholder="Title"
                     />
-                    <Radio.Group name="classType"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.classType}>
+                    <DatePicker name="date"
+                    />
+                    <TimePicker name="time"
+                        format='HH:mm'
+                    />
+                    <Input name="level"
+                        placeholder="Level"
+                    />
+                    <Radio.Group name="classType">
                         <Radio.Button value="individual">Individual</Radio.Button>
                         <Radio.Button value="group">Group</Radio.Button>
                     </Radio.Group>
-                    <Input
+                    <Input name="origin"
                         type="text"
-                        name="origin"
                         placeholder="Origin"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.origin}
                     />
-                    <Button type="primary" htmlType="submit">
+                    <button type="submit">
                         Submit
-                    </Button>
+                    </button>
                 </React.Fragment >,
             newVocabulary:
                 < React.Fragment >
                     <Input type="text"
                         name="word"
                         placeholder="Word"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.word} />
+                    />
                     <Input type="text"
                         name="example"
                         placeholder="Example"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.example} />
+                    />
                     <Input type="text"
                         name="definition"
                         placeholder="Definition"
-                        onBlur={props.handleBlur}
-                        onChange={props.handleChange}
-                        value={props.values.definition} />
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
+                    />
+                    <SubmitButton />
                 </React.Fragment >
         }
-        return field[props.formType]
+        return field[formType]
 
     }
 
-    const defaultValues = ({ formType }) => {
+    /*const defaultValues = (formType) => {
+
         const defaultValue = {
             newClass: {
+                date: {},
+                time: {},
                 level: "",
                 type: "",
                 origin: "",
@@ -78,19 +70,33 @@ export const newClassForm = (() => {
             }
         }
         return defaultValue[formType]
-    }
-    const dbPath = (collectionName, method, values) => {
+    }*/
+    const dbPath = (props, values) => {
         const dbMethod = {
-            add: (() => db.collection(collectionName).add(values))(),
-            update: (() => db.collection(collectionName).doc("BPsVviQrZMHofxgm5954").update(values))()
-        }
-        return dbMethod[method];
+            add: () => db.collection(props.collectionName).add(values),
+            update: () => db.collection(props.collectionName).doc(props.docId).update(values),
+            get: async () => {
 
+                const data = await db
+                    .collection(props.collectionName)
+                    .get()
+                    .then(function (querySnapshot) {
+                        let a = []
+                        querySnapshot.forEach(function (doc) {
+                            const response = { id: doc.id, ...doc.data() }
+                            a.push(response)
+                        })
+                        return a
+                    })
+                return data
+            }
+        }
+        return dbMethod[props.method];
     }
 
     return {
         fields: fields,
-        defaultValues: defaultValues,
+        //defaultValues: defaultValues,
         dbPath: dbPath
     }
 })()
