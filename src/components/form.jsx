@@ -6,7 +6,7 @@ import moment from "moment"
 
 export const FormikForm = (props) => {
     console.log(props);
-    const { initialValuesGlobal } = useContext(Context)
+    const { initialValuesGlobal, scheduleState, actions } = useContext(Context)
     const initialValuesConverted = {
         ...initialValuesGlobal.newClass,
         date: moment(initialValuesGlobal.newClass.date)
@@ -17,6 +17,10 @@ export const FormikForm = (props) => {
         console.log(props);
         const submitValues = { ...values, date: moment(values.date).format() }
         newClassForm.dbPath(props, submitValues)();
+        actions({
+            type: "setScheduleState",
+            payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
+        })
     }
     return (
         <Formik

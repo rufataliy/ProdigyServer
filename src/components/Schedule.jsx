@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
+import { Card } from "antd"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list';
@@ -10,6 +11,7 @@ import ModalComp from "./Modal.jsx"
 import './style/main.scss'
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
+import Tooltip from "tooltip.js"
 
 const Schedule = () => {
     const { scheduleState,
@@ -42,8 +44,8 @@ const Schedule = () => {
         console.log(formConfig)
         return (
             <ModalComp
-                nonSubmit={closeModal}
-                onSubmit={closeModal}
+                nonSubmit={toggleModal}
+                onSubmit={toggleModal}
                 title={formConfig.title}
             >
                 <FormikForm
@@ -55,11 +57,9 @@ const Schedule = () => {
             </ModalComp>
         )
     }
-    const handleEventHover = () => {
-        console.log("event hovered");
-    }
-    const closeModal = () => {
-        toggleModal()
+    const handleEventHover = (info) => {
+        console.log(info.event);
+
     }
 
     const handleEventClick = (info) => {
@@ -119,6 +119,14 @@ const Schedule = () => {
         })
         toggleModal()
     }
+    const showTooltip = (info) => {
+        var tooltip = new Tooltip(info.el, {
+            title: "test tooltip",
+            placement: "top-end",
+            trigger: 'hover',
+            container: 'body'
+        });
+    }
     return (
         <div >
             <FullCalendar
@@ -142,6 +150,7 @@ const Schedule = () => {
                     }
                 }
                 events={scheduleState.events}
+                eventRender={showTooltip}
                 ref={calendarComponentRef}
             />
             {scheduleState.modalVisibility && renderModal()}
