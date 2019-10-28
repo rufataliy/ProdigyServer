@@ -5,22 +5,26 @@ import Context from "../store/context"
 import moment from "moment"
 
 export const FormikForm = (props) => {
-    console.log(props);
     const { initialValuesGlobal, scheduleState, actions } = useContext(Context)
     const initialValuesConverted = {
         ...initialValuesGlobal.newClass,
         date: moment(initialValuesGlobal.newClass.date)
     }
 
-    const { formType } = props
+    const formProps = props
     const handleSubmit = (values) => {
-        console.log(props);
         const submitValues = { ...values, date: moment(values.date).format() }
-        newClassForm.dbPath(props, submitValues)();
-        actions({
-            type: "setScheduleState",
-            payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
-        })
+        newClassForm.dbPath(props, submitValues)().then(() => {
+            actions({
+                type: "setScheduleState",
+                payload: {
+                    ...scheduleState,
+                    modalVisibility: !scheduleState.modalVisibility,
+                    scheduleUpdate: !scheduleState.scheduleUpdate
+                }
+            })
+        }).catch(() => console.log("couldn't submit"))
+
     }
     return (
         <Formik
@@ -28,7 +32,7 @@ export const FormikForm = (props) => {
             onSubmit={handleSubmit}
             render={(props) => (
                 <Form>
-                    {newClassForm.fields(formType)}
+                    {newClassForm.fields(formProps)}
                 </Form>
             )}
         />

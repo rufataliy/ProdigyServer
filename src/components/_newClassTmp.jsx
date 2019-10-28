@@ -1,10 +1,12 @@
 import React from "react"
 import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
+import { Button } from "antd"
 import { db } from "../firebase/firebase"
-import { database } from "firebase"
 
 export const newClassForm = (() => {
-    const fields = (formType) => {
+    const fields = (props) => {
+        console.log(props);
+
         const field = {
             newClass:
                 < React.Fragment >
@@ -27,9 +29,13 @@ export const newClassForm = (() => {
                         type="text"
                         placeholder="Origin"
                     />
-                    <button type="submit">
-                        Submit
-                    </button>
+                    <Button htmlType="submit" type="primary">
+                        {props.method != "update" ? "Submit" : "Update"}
+                    </Button>
+                    {props.method == "update" &&
+                        <Button onClick={props.handleDelete} type="danger">
+                            Delete
+                        </Button>}
                 </React.Fragment >,
             newVocabulary:
                 < React.Fragment >
@@ -48,35 +54,16 @@ export const newClassForm = (() => {
                     <SubmitButton />
                 </React.Fragment >
         }
-        return field[formType]
+        return field[props.formType]
 
     }
-
-    /*const defaultValues = (formType) => {
-
-        const defaultValue = {
-            newClass: {
-                date: {},
-                time: {},
-                level: "",
-                type: "",
-                origin: "",
-                classType: "Not Selected"
-            },
-            newVocabulary: {
-                word: "",
-                example: "",
-                definition: ""
-            }
-        }
-        return defaultValue[formType]
-    }*/
+    //
     const dbPath = (props, values) => {
         const dbMethod = {
             add: () => db.collection(props.collectionName).add(values),
             update: () => db.collection(props.collectionName).doc(props.docId).update(values),
+            delete: () => db.collection(props.collectionName).doc(props.docId).delete().then(console.log("deleted")),
             get: async () => {
-
                 const data = await db
                     .collection(props.collectionName)
                     .get()
@@ -96,7 +83,6 @@ export const newClassForm = (() => {
 
     return {
         fields: fields,
-        //defaultValues: defaultValues,
         dbPath: dbPath
     }
 })()

@@ -6,6 +6,7 @@ const useGlobalState = () => {
     const scheduleStateGlobal = {
         modalVisibility: false,
         calendarWeekends: true,
+        scheduleUpdate: false,
         events: []
     }
     const initialValuesGlobal = {

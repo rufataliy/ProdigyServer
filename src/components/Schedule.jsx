@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, createRef } from "react"
+import "./style/tooltip.scss"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
-import { Card } from "antd"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list';
@@ -31,7 +31,7 @@ const Schedule = () => {
             })
         }
         getEvents()
-    }, []
+    }, [scheduleState.scheduleUpdate]
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
@@ -41,7 +41,6 @@ const Schedule = () => {
         })
     }
     const renderModal = () => {
-        console.log(formConfig)
         return (
             <ModalComp
                 nonSubmit={toggleModal}
@@ -53,9 +52,24 @@ const Schedule = () => {
                     collectionName={formConfig.collectionName}
                     docId={formConfig.docId}
                     method={formConfig.method}
+                    handleDelete={handleDelete}
                 />
             </ModalComp>
         )
+    }
+    const handleDelete = () => {
+        newClassForm.dbPath({ ...formConfig, method: "delete" })().then(() => {
+            actions({
+                type: "setScheduleState",
+                payload: {
+                    ...scheduleState,
+                    modalVisibility: !scheduleState.modalVisibility,
+                    scheduleUpdate: !scheduleState.scheduleUpdate
+                }
+            })
+        })
+
+
     }
     const handleEventHover = (info) => {
         console.log(info.event);
@@ -119,12 +133,20 @@ const Schedule = () => {
         })
         toggleModal()
     }
+    const tooltipParent = createRef()
     const showTooltip = (info) => {
+        const { title, publicId } = info.event._def
+        const { start } = info.event
+        const { classType, level, origin } = info.event._def.extendedProps
         var tooltip = new Tooltip(info.el, {
-            title: "test tooltip",
+            title: `<h1>${title}</h1>
+                <h2>Class type: ${classType}</h2>
+                <h2>Level: ${level}</h2>
+                <h2>Origin: ${origin}</h2>`,
             placement: "top-end",
+            container: "body",
             trigger: 'hover',
-            container: 'body'
+            html: true
         });
     }
     return (
