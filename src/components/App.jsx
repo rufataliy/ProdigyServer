@@ -7,6 +7,7 @@ import Context from "../store/context"
 import { firebaseClient } from "../firebase/firebase"
 
 const App = () => {
+    console.log("app rerendered");
     const store = useGlobalState();
     const { appState, actions } = store
     useEffect(

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, createRef } from "react"
-import "./style/tooltip.scss"
+import React, { useContext, useEffect, createRef, useLayoutEffect } from "react"
+
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import FullCalendar from '@fullcalendar/react'
@@ -9,15 +9,21 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal.jsx"
 import './style/main.scss'
+import "./style/tooltip.scss"
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
-import Tooltip from "tooltip.js"
+//import Tooltip from "tooltip.js"
+import Tooltip from "./tooltip.jsx"
 
 const Schedule = () => {
+    console.log("rendered");
+
     const { scheduleState,
         initialValuesGlobal,
         formConfig,
+        tooltipState,
         actions } = useContext(Context)
+
     useEffect(() => {
         const getEvents = async () => {
             const props = {
@@ -31,7 +37,7 @@ const Schedule = () => {
             })
         }
         getEvents()
-    }, [scheduleState.scheduleUpdate]
+    }, []
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
@@ -68,14 +74,26 @@ const Schedule = () => {
                 }
             })
         })
-
-
     }
-    const handleEventHover = (info) => {
-        console.log(info.event);
-
+    const toggleTooltip = () => {
+        actions({
+            type: "setTooltipState",
+            payload: { ...tooltipState, show: !tooltipState.show }
+        })
     }
-
+    const showTooltip = (info) => {
+        const a = document.querySelector(".tooltip")
+        const rect = info.el.getBoundingClientRect()
+        const scrollTop = window.pageXOffset
+        a.style.display = "block"
+        a.style.position = "absolute"
+        a.style.top = `${rect.top - 40}px`
+        a.style.left = `${rect.left + 10}px`
+    }
+    const hideTooltip = (info) => {
+        const a = document.querySelector(".tooltip")
+        a.style.display = "none"
+    }
     const handleEventClick = (info) => {
         const { title, publicId } = info.event._def
         const { start } = info.event
@@ -133,26 +151,27 @@ const Schedule = () => {
         })
         toggleModal()
     }
-    const tooltipParent = createRef()
-    const showTooltip = (info) => {
-        const { title, publicId } = info.event._def
-        const { start } = info.event
-        const { classType, level, origin } = info.event._def.extendedProps
-        var tooltip = new Tooltip(info.el, {
-            title: `<h1>${title}</h1>
-                <h2>Class type: ${classType}</h2>
-                <h2>Level: ${level}</h2>
-                <h2>Origin: ${origin}</h2>`,
-            placement: "top-end",
-            container: "body",
-            trigger: 'hover',
-            html: true
-        });
-    }
+
+    // const showTooltip = (info) => {
+    //     const { title, publicId } = info.event._def
+    //     const { start } = info.event
+    //     const { classType, level, origin } = info.event._def.extendedProps
+    //     const tooltip = new Tooltip(info.el, {
+    //         title: `<h1>${title}</h1>
+    //             <h2>Class type: ${classType}</h2>
+    //             <h2>Level: ${level}</h2>
+    //             <h2>Origin: ${origin}</h2>`,
+    //         placement: "top-end",
+    //         container: "body",
+    //         trigger: 'hover',
+    //         html: true
+    //     })
+    // }
     return (
-        <div >
+        <div>
             <FullCalendar
-                eventMouseEnter={handleEventHover}
+                eventMouseEnter={showTooltip}
+                eventMouseLeave={hideTooltip}
                 eventClick={handleEventClick}
                 dateClick={handleDateClick}
                 defaultView="dayGridMonth"
@@ -172,10 +191,23 @@ const Schedule = () => {
                     }
                 }
                 events={scheduleState.events}
-                eventRender={showTooltip}
+                //eventRender={showTooltip}
                 ref={calendarComponentRef}
             />
-            {scheduleState.modalVisibility && renderModal()}
+            <ModalComp
+                nonSubmit={toggleModal}
+                onSubmit={toggleModal}
+                title={formConfig.title}
+            >
+                <FormikForm
+                    formType={formConfig.formType}
+                    collectionName={formConfig.collectionName}
+                    docId={formConfig.docId}
+                    method={formConfig.method}
+                    handleDelete={handleDelete}
+                />
+            </ModalComp>
+            <Tooltip />
         </div>
     )
 }
