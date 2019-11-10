@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { browserHistory } from "react-router"
 import { Layout, Menu, Icon } from 'antd';
-
 import About from "./About";
 import Contact from "./Contact.jsx";
 import Schedule from "./Schedule.jsx";
+import Context from "../store/context";
+import useGlobalState from "../store/useGlobalState";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -13,7 +14,8 @@ const { Header, Sider, Content, Footer } = Layout;
 
 const SideNav = () => {
     const [collapsed, setCollapse] = useState(false)
-
+    const { scheduleState, tooltipState, actions, formConfig } = useGlobalState()
+    const state = { scheduleState, tooltipState, actions, formConfig }
     const onCollapse = () => {
         setCollapse(!collapsed)
     };
@@ -102,7 +104,9 @@ const SideNav = () => {
                                 <Route path="/" exact />
                                 <Route path="/About" component={About} />
                                 <Route path="/Contact" component={Contact} />
-                                <Route path="/Schedule" component={Schedule} />
+                                <Context.Provider value={state}>
+                                    <Route path="/Schedule" component={Schedule} />
+                                </Context.Provider>
                             </Switch >
                         </div>
                     </Content >

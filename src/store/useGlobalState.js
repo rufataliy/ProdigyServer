@@ -7,10 +7,12 @@ const useGlobalState = () => {
         show: false
     }
     const scheduleStateGlobal = {
-        modalVisibility: false,
         calendarWeekends: true,
         scheduleUpdate: false,
         events: []
+    }
+    const modalStateGlobal = {
+        modalVisibility: false,
     }
     const initialValuesGlobal = {
         newClass: {
@@ -39,6 +41,7 @@ const useGlobalState = () => {
     const [formConfig, setFormConfig] = useState(formConfigGlobal)
     const [appState, setAppState] = useState(appStateGlobal)
     const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
+    const [modalState, setModalState] = useState(modalStateGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -52,17 +55,20 @@ const useGlobalState = () => {
                 return setAppState(payload)
             case "setTooltipState":
                 return setTooltipState(payload)
+            case "setModalState":
+                return setModalState(payload)
             default:
-                return state, initialValues, formConfig, appState, tooltipState;
+                return state, initialValues, formConfig, appState, tooltipState, modalState;
         }
     }
 
     return {
         scheduleState: state,
-        initialValuesGlobal: initialValues,
+        initialValues: initialValues,
         formConfig: formConfig,
         appState: appState,
         tooltipState: tooltipState,
+        modalState: modalState,
         actions
     }
 }

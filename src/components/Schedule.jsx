@@ -14,15 +14,17 @@ import { FormikForm } from "./form.jsx"
 import moment from "moment"
 //import Tooltip from "tooltip.js"
 import Tooltip from "./tooltip.jsx"
+import useGlobalState from "../store/useGlobalState.js"
 
 const Schedule = () => {
     console.log("rendered");
-
+    const { modalState } = useGlobalState
     const { scheduleState,
-        initialValuesGlobal,
+        initialValues,
         formConfig,
         tooltipState,
         actions } = useContext(Context)
+    console.log(scheduleState);
 
     useEffect(() => {
         const getEvents = async () => {
@@ -48,19 +50,22 @@ const Schedule = () => {
     }
     const renderModal = () => {
         return (
-            <ModalComp
-                nonSubmit={toggleModal}
-                onSubmit={toggleModal}
-                title={formConfig.title}
-            >
-                <FormikForm
-                    formType={formConfig.formType}
-                    collectionName={formConfig.collectionName}
-                    docId={formConfig.docId}
-                    method={formConfig.method}
-                    handleDelete={handleDelete}
-                />
-            </ModalComp>
+            <Context.Provider value={modalState}>
+                <ModalComp
+
+                    nonSubmit={toggleModal}
+                    onSubmit={toggleModal}
+                    title={formConfig.title}
+                >
+                    <FormikForm
+                        formType={formConfig.formType}
+                        collectionName={formConfig.collectionName}
+                        docId={formConfig.docId}
+                        method={formConfig.method}
+                        handleDelete={handleDelete}
+                    />
+                </ModalComp>
+            </Context.Provider>
         )
     }
     const handleDelete = () => {
@@ -101,8 +106,8 @@ const Schedule = () => {
         actions({
             type: "setInitialValues",
             payload: {
-                ...initialValuesGlobal, newClass: {
-                    ...initialValuesGlobal.newClass,
+                ...initialValues, newClass: {
+                    ...initialValues.newClass,
                     title: title,
                     classType: classType,
                     level: level,
@@ -139,7 +144,7 @@ const Schedule = () => {
         actions({
             type: "setInitialValues",
             payload: {
-                ...initialValuesGlobal, newClass: {
+                ...initialValues, newClass: {
                     title: "",
                     time: {},
                     level: "",

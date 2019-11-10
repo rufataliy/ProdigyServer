@@ -29,10 +29,12 @@ const App = () => {
         }, [appState.loggedIn]
     )
     return (
-        <Context.Provider value={store}>
-            <TopNav />
+        <div>
+            <Context.Provider value={appState}>
+                <TopNav />
+            </Context.Provider>
             {appState.loggedIn && <SideNav />}
-        </Context.Provider>
+        </div>
     )
 }
 
