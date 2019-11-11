@@ -1,18 +1,28 @@
 import React from "react"
-import { Input, Radio, SubmitButton, DatePicker, TimePicker } from "@jbuschke/formik-antd"
+import { Input, Radio, SubmitButton, DatePicker, TimePicker, Checkbox } from "@jbuschke/formik-antd"
 import { Button } from "antd"
 import { db } from "../firebase/firebase"
 
 export const newClassForm = (() => {
     const fields = (props) => {
         console.log(props);
-
+        const daysOptions = [
+            { label: "Sunday", value: 0 },
+            { label: "Monday", value: 1 },
+            { label: "Tuesday", value: 2 },
+            { label: "Wednesday", value: 3 },
+            { label: "Thursday", value: 4 },
+            { label: "Friday", value: 5 },
+            { label: "Saturday", value: 6 }
+        ]
         const field = {
+
             newClass:
                 < React.Fragment >
                     <Input name="title"
                         placeholder="Title"
                     />
+                    <Checkbox.Group name="daysOfWeek" options={daysOptions} />
                     <DatePicker name="date"
                     />
                     <TimePicker name="time"

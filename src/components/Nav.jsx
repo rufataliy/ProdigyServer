@@ -10,12 +10,10 @@ import useGlobalState from "../store/useGlobalState";
 
 const { Header, Sider, Content, Footer } = Layout;
 
-
-
 const SideNav = () => {
     const [collapsed, setCollapse] = useState(false)
-    const { scheduleState, tooltipState, actions, formConfig } = useGlobalState()
-    const state = { scheduleState, tooltipState, actions, formConfig }
+    const state = useGlobalState()
+    console.log("sidenav rendered");
     const onCollapse = () => {
         setCollapse(!collapsed)
     };

@@ -21,7 +21,8 @@ const useGlobalState = () => {
             time: {},
             level: "",
             origin: "",
-            classType: "Not Selected"
+            classType: "Not Selected",
+            daysOfWeek: []
         },
         newVocabulary: {
             word: "",

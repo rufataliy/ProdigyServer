@@ -32,8 +32,8 @@ const App = () => {
         <div>
             <Context.Provider value={appState}>
                 <TopNav />
+                {appState.loggedIn && <SideNav />}
             </Context.Provider>
-            {appState.loggedIn && <SideNav />}
         </div>
     )
 }

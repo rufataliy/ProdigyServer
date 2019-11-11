@@ -5,10 +5,11 @@ import Context from "../store/context"
 import moment from "moment"
 
 export const FormikForm = (props) => {
-    const { initialValuesGlobal, scheduleState, actions } = useContext(Context)
+    const { initialValues, scheduleState, actions } = useContext(Context)
+    console.log("formikFOrm rendered");
     const initialValuesConverted = {
-        ...initialValuesGlobal.newClass,
-        date: moment(initialValuesGlobal.newClass.date)
+        ...initialValues.newClass,
+        date: moment(initialValues.newClass.date)
     }
 
     const formProps = props

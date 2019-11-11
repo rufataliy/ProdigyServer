@@ -4,7 +4,7 @@ const Tooltip = (props) => {
 
     return (
         <div className="tooltip">
-            hello
+            {props.children}
         </div>
     )
 }

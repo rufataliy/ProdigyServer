@@ -15,17 +15,16 @@ import moment from "moment"
 //import Tooltip from "tooltip.js"
 import Tooltip from "./tooltip.jsx"
 import useGlobalState from "../store/useGlobalState.js"
+import TooltipClass from "./_classTooltipContent.jsx"
 
 const Schedule = () => {
-    console.log("rendered");
+    console.log("schedule rendered");
     const { modalState } = useGlobalState
     const { scheduleState,
         initialValues,
         formConfig,
         tooltipState,
         actions } = useContext(Context)
-    console.log(scheduleState);
-
     useEffect(() => {
         const getEvents = async () => {
             const props = {
@@ -39,7 +38,7 @@ const Schedule = () => {
             })
         }
         getEvents()
-    }, []
+    }, [scheduleState.scheduleUpdate]
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
@@ -52,7 +51,6 @@ const Schedule = () => {
         return (
             <Context.Provider value={modalState}>
                 <ModalComp
-
                     nonSubmit={toggleModal}
                     onSubmit={toggleModal}
                     title={formConfig.title}
@@ -89,11 +87,21 @@ const Schedule = () => {
     const showTooltip = (info) => {
         const a = document.querySelector(".tooltip")
         const rect = info.el.getBoundingClientRect()
-        const scrollTop = window.pageXOffset
+        console.log(rect);
+        const scrollTop = window.scrollY
+        const { title, publicId } = info.event._def
+        const { start } = info.event
+        const { classType, level, origin } = info.event._def.extendedProps
+        a.innerHTML = `<div>
+            <h3>${title}</h3>
+            <p>${origin}</p>
+            <p>${level}</p>
+        </div>`
+        a.style.width = `${rect.width}` + `px`
         a.style.display = "block"
         a.style.position = "absolute"
-        a.style.top = `${rect.top - 40}px`
-        a.style.left = `${rect.left + 10}px`
+        a.style.top = `${rect.top + scrollTop - 70}px`
+        a.style.left = `${rect.left}px`
     }
     const hideTooltip = (info) => {
         const a = document.querySelector(".tooltip")
@@ -173,8 +181,10 @@ const Schedule = () => {
     //     })
     // }
     return (
-        <div>
+        <div className="calendarParent">
             <FullCalendar
+                contentHeight={600}
+                height={600}
                 eventMouseEnter={showTooltip}
                 eventMouseLeave={hideTooltip}
                 eventClick={handleEventClick}
@@ -212,7 +222,9 @@ const Schedule = () => {
                     handleDelete={handleDelete}
                 />
             </ModalComp>
-            <Tooltip />
+            <Tooltip>
+                {tooltipState.show && showTooltip()}
+            </Tooltip>
         </div>
     )
 }
