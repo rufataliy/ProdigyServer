@@ -12,15 +12,13 @@ import './style/main.scss'
 import "./style/tooltip.scss"
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
-//import Tooltip from "tooltip.js"
 import Tooltip from "./tooltip.jsx"
-import useGlobalState from "../store/useGlobalState.js"
-import TooltipClass from "./_classTooltipContent.jsx"
+import { SCHEDULE, MODAL, INITIAL_VALUES, FORM_CONFIG } from "../store/useGlobalState"
 
 const Schedule = () => {
     console.log("schedule rendered");
-    const { modalState } = useGlobalState
-    const { scheduleState,
+    const { modalState,
+        scheduleState,
         initialValues,
         formConfig,
         tooltipState,
@@ -33,7 +31,7 @@ const Schedule = () => {
             }
             const classes = await newClassForm.dbPath(props)();
             actions({
-                type: "setScheduleState",
+                type: SCHEDULE,
                 payload: { ...scheduleState, events: classes }
             })
         }
@@ -43,39 +41,38 @@ const Schedule = () => {
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
         actions({
-            type: "setScheduleState",
-            payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
+            type: MODAL,
+            payload: { ...modalState, modalVisibility: !modalState.modalVisibility }
         })
     }
     const renderModal = () => {
         return (
-            <Context.Provider value={modalState}>
-                <ModalComp
-                    nonSubmit={toggleModal}
-                    onSubmit={toggleModal}
-                    title={formConfig.title}
-                >
-                    <FormikForm
-                        formType={formConfig.formType}
-                        collectionName={formConfig.collectionName}
-                        docId={formConfig.docId}
-                        method={formConfig.method}
-                        handleDelete={handleDelete}
-                    />
-                </ModalComp>
-            </Context.Provider>
+            <ModalComp
+                isVisible={modalState.modalVisibility}
+                nonSubmit={toggleModal}
+                onSubmit={toggleModal}
+                title={formConfig.title}
+            >
+                <FormikForm
+                    formType={formConfig.formType}
+                    collectionName={formConfig.collectionName}
+                    docId={formConfig.docId}
+                    method={formConfig.method}
+                    handleDelete={handleDelete}
+                />
+            </ModalComp>
         )
     }
     const handleDelete = () => {
         newClassForm.dbPath({ ...formConfig, method: "delete" })().then(() => {
             actions({
-                type: "setScheduleState",
+                type: SCHEDULE,
                 payload: {
                     ...scheduleState,
-                    modalVisibility: !scheduleState.modalVisibility,
                     scheduleUpdate: !scheduleState.scheduleUpdate
                 }
             })
+            toggleModal()
         })
     }
     const toggleTooltip = () => {
@@ -112,7 +109,7 @@ const Schedule = () => {
         const { start } = info.event
         const { classType, level, origin } = info.event._def.extendedProps
         actions({
-            type: "setInitialValues",
+            type: INITIAL_VALUES,
             payload: {
                 ...initialValues, newClass: {
                     ...initialValues.newClass,
@@ -139,7 +136,7 @@ const Schedule = () => {
     }
     const handleDateClick = (arg) => {
         actions({
-            type: "setFormConfig",
+            type: FORM_CONFIG,
             payload: {
                 ...formConfig,
                 title: `Create new class`,
@@ -150,7 +147,7 @@ const Schedule = () => {
             }
         })
         actions({
-            type: "setInitialValues",
+            type: INITIAL_VALUES,
             payload: {
                 ...initialValues, newClass: {
                     title: "",
@@ -209,19 +206,7 @@ const Schedule = () => {
                 //eventRender={showTooltip}
                 ref={calendarComponentRef}
             />
-            <ModalComp
-                nonSubmit={toggleModal}
-                onSubmit={toggleModal}
-                title={formConfig.title}
-            >
-                <FormikForm
-                    formType={formConfig.formType}
-                    collectionName={formConfig.collectionName}
-                    docId={formConfig.docId}
-                    method={formConfig.method}
-                    handleDelete={handleDelete}
-                />
-            </ModalComp>
+            {modalState.modalVisibility && renderModal()}
             <Tooltip>
                 {tooltipState.show && showTooltip()}
             </Tooltip>

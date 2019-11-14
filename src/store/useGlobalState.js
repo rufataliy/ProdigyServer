@@ -1,4 +1,11 @@
 import { useState } from "react";
+
+export const MODAL = "setModalState"
+export const SCHEDULE = "setScheduleState"
+export const INITIAL_VALUES = "setInitialValues"
+export const FORM_CONFIG = "setFormConfig"
+export const APP = "setAppState"
+
 const useGlobalState = () => {
     const appStateGlobal = {
         loggedIn: false
@@ -46,17 +53,17 @@ const useGlobalState = () => {
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
-            case "setScheduleState":
+            case SCHEDULE:
                 return setState(payload)
-            case "setInitialValues":
+            case INITIAL_VALUES:
                 return setValues(payload)
-            case "setFormConfig":
+            case FORM_CONFIG:
                 return setFormConfig(payload)
-            case "setAppState":
+            case APP:
                 return setAppState(payload)
             case "setTooltipState":
                 return setTooltipState(payload)
-            case "setModalState":
+            case MODAL:
                 return setModalState(payload)
             default:
                 return state, initialValues, formConfig, appState, tooltipState, modalState;

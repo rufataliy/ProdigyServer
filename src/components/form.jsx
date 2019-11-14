@@ -20,8 +20,13 @@ export const FormikForm = (props) => {
                 type: "setScheduleState",
                 payload: {
                     ...scheduleState,
-                    modalVisibility: !scheduleState.modalVisibility,
                     scheduleUpdate: !scheduleState.scheduleUpdate
+                }
+            })
+            actions({
+                type: "setModalState",
+                payload: {
+                    ...modalState, modalVisibility: !modalState.modalVisibility
                 }
             })
         }).catch(() => console.log("couldn't submit"))
