@@ -3,9 +3,11 @@ import { Formik, Form } from "formik"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import moment from "moment"
+import { MODAL, SCHEDULE } from "../store/useGlobalState"
+import { deflateSync } from "zlib"
 
 export const FormikForm = (props) => {
-    const { initialValues, scheduleState, actions } = useContext(Context)
+    const { initialValues, scheduleState, modalState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
     const initialValuesConverted = {
         ...initialValues.newClass,
@@ -14,23 +16,27 @@ export const FormikForm = (props) => {
 
     const formProps = props
     const handleSubmit = (values) => {
+        console.log("from submission");
+
         const submitValues = { ...values, date: moment(values.date).format() }
+
         newClassForm.dbPath(props, submitValues)().then(() => {
+            console.log(submitValues);
+
             actions({
-                type: "setScheduleState",
+                type: MODAL,
+                payload: {
+                    ...modalState, modalVisibility: !modalState.modalVisibility
+                }
+            })
+            actions({
+                type: SCHEDULE,
                 payload: {
                     ...scheduleState,
                     scheduleUpdate: !scheduleState.scheduleUpdate
                 }
             })
-            actions({
-                type: "setModalState",
-                payload: {
-                    ...modalState, modalVisibility: !modalState.modalVisibility
-                }
-            })
-        }).catch(() => console.log("couldn't submit"))
-
+        })
     }
     return (
         <Formik

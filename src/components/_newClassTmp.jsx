@@ -81,6 +81,12 @@ export const newClassForm = (() => {
                         let a = []
                         querySnapshot.forEach(function (doc) {
                             const response = { id: doc.id, ...doc.data() }
+                            console.log("from get");
+
+                            console.log(response);
+                            if (response.daysOfWeek && response.daysOfWeek.length == 0) {
+                                delete response.daysOfWeek
+                            }
                             a.push(response)
                         })
                         return a

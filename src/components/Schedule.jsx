@@ -105,22 +105,24 @@ const Schedule = () => {
         a.style.display = "none"
     }
     const handleEventClick = (info) => {
+        console.log(info);
         const { title, publicId } = info.event._def
         const { start } = info.event
         const { classType, level, origin } = info.event._def.extendedProps
-        actions({
-            type: INITIAL_VALUES,
-            payload: {
-                ...initialValues, newClass: {
-                    ...initialValues.newClass,
-                    title: title,
-                    classType: classType,
-                    level: level,
-                    origin: origin,
-                    date: moment(start)
-                }
+        scheduleState.events.forEach(event => {
+            if (event.id == publicId) {
+                actions({
+                    type: INITIAL_VALUES,
+                    payload: {
+                        ...initialValues, newClass: {
+                            ...event,
+                            date: moment(event.date)
+                        }
+                    }
+                })
             }
         })
+
         actions({
             type: "setFormConfig",
             payload: {

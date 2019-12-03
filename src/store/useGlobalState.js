@@ -29,7 +29,8 @@ const useGlobalState = () => {
             level: "",
             origin: "",
             classType: "Not Selected",
-            daysOfWeek: []
+            daysOfWeek: [],
+            startRecur: {}
         },
         newVocabulary: {
             word: "",
