@@ -116,7 +116,9 @@ const Schedule = () => {
                     payload: {
                         ...initialValues, newClass: {
                             ...event,
-                            date: moment(event.date)
+                            date: moment(event.date),
+                            start: moment(event.start),
+                            end: moment(event.end)
                         }
                     }
                 })

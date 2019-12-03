@@ -25,7 +25,10 @@ export const newClassForm = (() => {
                     <Checkbox.Group name="daysOfWeek" options={daysOptions} />
                     <DatePicker name="date"
                     />
-                    <TimePicker name="time"
+                    <TimePicker name="start"
+                        format='HH:mm'
+                    />
+                    <TimePicker name="end"
                         format='HH:mm'
                     />
                     <Input name="level"

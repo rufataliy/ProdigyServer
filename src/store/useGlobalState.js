@@ -25,7 +25,8 @@ const useGlobalState = () => {
         newClass: {
             title: "",
             date: {},
-            time: {},
+            start: {},
+            end: {},
             level: "",
             origin: "",
             classType: "Not Selected",
