@@ -19,29 +19,43 @@ export const newClassForm = (() => {
 
             newClass:
                 < React.Fragment >
+                    <div>
+                        Title
                     <Input name="title"
-                        placeholder="Title"
-                    />
-                    <Checkbox.Group name="daysOfWeek" options={daysOptions} />
-                    <DatePicker name="date"
-                    />
-                    <TimePicker name="start"
-                        format='HH:mm'
-                    />
-                    <TimePicker name="end"
-                        format='HH:mm'
-                    />
+                            placeholder="Title"
+                        />
+                    </div>
+                    <div>Recurring Dates
+                    <Checkbox.Group name="daysOfWeek" options={daysOptions} /></div>
+                    <div>Start Date
+                    <DatePicker name="start"
+                        /></div>
+                    <div>End Date
+                    <DatePicker name="end"
+                        /></div>
+                    <div>Start Time
+                    <TimePicker name="startTime"
+                            format='HH:mm'
+                        /></div>
+                    <div>End Time
+                    <TimePicker name="endTime"
+                            format='HH:mm'
+                        /></div>
+                    <div>Level
                     <Input name="level"
-                        placeholder="Level"
-                    />
+                            placeholder="Level"
+                        /></div>
+                    <div>Group Type
                     <Radio.Group name="classType">
-                        <Radio.Button value="individual">Individual</Radio.Button>
-                        <Radio.Button value="group">Group</Radio.Button>
-                    </Radio.Group>
+                            <Radio.Button value="individual">Individual</Radio.Button>
+                            <Radio.Button value="group">Group</Radio.Button>
+                        </Radio.Group></div>
+                    <div>Origin
                     <Input name="origin"
-                        type="text"
-                        placeholder="Origin"
-                    />
+                            type="text"
+                            placeholder="Origin"
+                        /></div>
+
                     <Button htmlType="submit" type="primary">
                         {props.method != "update" ? "Submit" : "Update"}
                     </Button>

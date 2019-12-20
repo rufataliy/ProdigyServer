@@ -107,8 +107,6 @@ const Schedule = () => {
     const handleEventClick = (info) => {
         console.log(info);
         const { title, publicId } = info.event._def
-        const { start } = info.event
-        const { classType, level, origin } = info.event._def.extendedProps
         scheduleState.events.forEach(event => {
             if (event.id == publicId) {
                 actions({
@@ -116,9 +114,10 @@ const Schedule = () => {
                     payload: {
                         ...initialValues, newClass: {
                             ...event,
-                            date: moment(event.date),
-                            start: moment(event.start),
-                            end: moment(event.end)
+                            start: event.start,
+                            end: event.end,
+                            startTime: event.startTime,
+                            endTime: event.endTime
                         }
                     }
                 })
@@ -155,11 +154,12 @@ const Schedule = () => {
             payload: {
                 ...initialValues, newClass: {
                     title: "",
-                    time: {},
                     level: "",
                     origin: "",
                     classType: "Not Selected",
-                    date: moment(arg.dateStr)
+                    start: moment(arg.dateStr),
+                    end: moment(arg.dateStr),
+
                 }
             }
         })

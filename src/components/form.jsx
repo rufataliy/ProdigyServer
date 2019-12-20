@@ -4,30 +4,36 @@ import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import moment from "moment"
 import { MODAL, SCHEDULE } from "../store/useGlobalState"
-import { deflateSync } from "zlib"
 
 export const FormikForm = (props) => {
     const { initialValues, scheduleState, modalState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
     const initialValuesConverted = {
         ...initialValues.newClass,
-        date: moment(initialValues.newClass.date)
+        start: moment(initialValues.newClass.start),
+        end: moment(initialValues.newClass.end),
+        startTime: moment(initialValues.newClass.startTime),
+        endTime: moment(initialValues.newClass.endTime)
     }
+    console.log("converted");
+    console.log(initialValuesConverted);
+    console.log("initial");
+    console.log(initialValues);
 
     const formProps = props
     const handleSubmit = (values) => {
         console.log("from submission");
-
         const submitValues = {
             ...values,
             start: moment(values.start).format(),
             end: moment(values.end).format(),
-            date: moment(values.date).format()
+            startTime: moment(values.startTime).format(),
+            endTime: moment(values.endTime).format()
         }
+        console.log(submitValues);
 
         newClassForm.dbPath(props, submitValues)().then(() => {
             console.log(submitValues);
-
             actions({
                 type: MODAL,
                 payload: {
