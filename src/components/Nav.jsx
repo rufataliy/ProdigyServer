@@ -5,6 +5,7 @@ import { Layout, Menu, Icon } from 'antd';
 import About from "./About";
 import Contact from "./Contact.jsx";
 import Schedule from "./Schedule.jsx";
+import Vocabulary from "./vocabulary.jsx"
 import Context from "../store/context";
 import useGlobalState from "../store/useGlobalState";
 
@@ -76,7 +77,7 @@ const SideNav = () => {
                         </Menu.Item>
                         <Menu.Item key="6" >
                             <Link className="active item"
-                                to="/Contact" >
+                                to="/Vocabulary" >
                                 <Icon type="book" />
                                 <span >
                                     Vocablary
@@ -100,10 +101,9 @@ const SideNav = () => {
                         }} >
                             <Switch >
                                 <Route path="/" exact />
-                                <Route path="/About" component={About} />
-                                <Route path="/Contact" component={Contact} />
                                 <Context.Provider value={state}>
-                                    <Route path="/Schedule" component={Schedule} />
+                                    <Route path="/Schedule" exact component={Schedule} />
+                                    <Route path="/Vocabulary" exact component={Vocabulary} />
                                 </Context.Provider>
                             </Switch >
                         </div>

@@ -64,21 +64,41 @@ export const newClassForm = (() => {
                             Delete
                         </Button>}
                 </React.Fragment >,
-            newVocabulary:
+            newWord:
                 < React.Fragment >
                     <Input type="text"
                         name="word"
                         placeholder="Word"
                     />
                     <Input type="text"
+                        name="definition"
+                        placeholder="Definition"
+                    />
+                    <Input type="text"
                         name="example"
                         placeholder="Example"
                     />
                     <Input type="text"
-                        name="definition"
-                        placeholder="Definition"
+                        name="source"
+                        placeholder="Source"
                     />
-                    <SubmitButton />
+                    <SubmitButton>Save</SubmitButton>
+                </React.Fragment >,
+            newVocabulary:
+                < React.Fragment >
+                    <Input type="text"
+                        name="name"
+                        placeholder="Name"
+                    />
+                    <Input type="text"
+                        name="topic"
+                        placeholder="Topic"
+                    />
+                    <Input type="text"
+                        name="level"
+                        placeholder="Level"
+                    />
+                    <SubmitButton>Save</SubmitButton>
                 </React.Fragment >
         }
         return field[props.formType]

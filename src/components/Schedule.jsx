@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, createRef, useLayoutEffect } from "react"
-
+import React, { useContext, useEffect } from "react"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import FullCalendar from '@fullcalendar/react'
@@ -23,6 +22,8 @@ const Schedule = () => {
         formConfig,
         tooltipState,
         actions } = useContext(Context)
+    console.log(modalState);
+
     useEffect(() => {
         const getEvents = async () => {
             const props = {
@@ -159,6 +160,8 @@ const Schedule = () => {
                     classType: "Not Selected",
                     start: moment(arg.dateStr),
                     end: moment(arg.dateStr),
+                    startTime: moment(arg.dateStr),
+                    endTime: moment(arg.dateStr)
 
                 }
             }
@@ -166,21 +169,6 @@ const Schedule = () => {
         toggleModal()
     }
 
-    // const showTooltip = (info) => {
-    //     const { title, publicId } = info.event._def
-    //     const { start } = info.event
-    //     const { classType, level, origin } = info.event._def.extendedProps
-    //     const tooltip = new Tooltip(info.el, {
-    //         title: `<h1>${title}</h1>
-    //             <h2>Class type: ${classType}</h2>
-    //             <h2>Level: ${level}</h2>
-    //             <h2>Origin: ${origin}</h2>`,
-    //         placement: "top-end",
-    //         container: "body",
-    //         trigger: 'hover',
-    //         html: true
-    //     })
-    // }
     return (
         <div className="calendarParent">
             <FullCalendar

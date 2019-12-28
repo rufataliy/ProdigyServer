@@ -5,6 +5,9 @@ export const SCHEDULE = "setScheduleState"
 export const INITIAL_VALUES = "setInitialValues"
 export const FORM_CONFIG = "setFormConfig"
 export const APP = "setAppState"
+export const VOCAB = "setVocabState"
+export const WORDS = "allWords"
+export const TOPICS = "topics"
 
 const useGlobalState = () => {
     const appStateGlobal = {
@@ -21,6 +24,11 @@ const useGlobalState = () => {
     const modalStateGlobal = {
         modalVisibility: false,
     }
+    const vocabStateGlobal = {
+        vocabs: [],
+        allWords: [],
+        vocabUpdate: false
+    }
     const initialValuesGlobal = {
         newClass: {
             title: "",
@@ -34,10 +42,16 @@ const useGlobalState = () => {
             daysOfWeek: [],
             startRecur: {}
         },
-        newVocabulary: {
+        newWord: {
             word: "",
+            source: "",
             example: "",
             definition: ""
+        },
+        newVocabulary: {
+            name: "",
+            topic: "",
+            level: ""
         }
     }
     const formConfigGlobal = {
@@ -53,6 +67,7 @@ const useGlobalState = () => {
     const [appState, setAppState] = useState(appStateGlobal)
     const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
     const [modalState, setModalState] = useState(modalStateGlobal)
+    const [vocabState, setVocabState] = useState(vocabStateGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -68,6 +83,8 @@ const useGlobalState = () => {
                 return setTooltipState(payload)
             case MODAL:
                 return setModalState(payload)
+            case VOCAB:
+                return setVocabState(payload)
             default:
                 return state, initialValues, formConfig, appState, tooltipState, modalState;
         }
@@ -80,6 +97,7 @@ const useGlobalState = () => {
         appState: appState,
         tooltipState: tooltipState,
         modalState: modalState,
+        vocabState: vocabState,
         actions
     }
 }
