@@ -4,12 +4,14 @@ export const MODAL = "setModalState"
 export const SCHEDULE = "setScheduleState"
 export const INITIAL_VALUES = "setInitialValues"
 export const FORM_CONFIG = "setFormConfig"
+export const COMP_UPDATE = "setComponentUpdate"
 export const APP = "setAppState"
 export const VOCAB = "setVocabState"
 export const WORDS = "allWords"
 export const TOPICS = "topics"
 
 const useGlobalState = () => {
+    const componentUpdateGlobal = false
     const appStateGlobal = {
         loggedIn: false
     }
@@ -18,7 +20,6 @@ const useGlobalState = () => {
     }
     const scheduleStateGlobal = {
         calendarWeekends: true,
-        scheduleUpdate: false,
         events: []
     }
     const modalStateGlobal = {
@@ -26,8 +27,7 @@ const useGlobalState = () => {
     }
     const vocabStateGlobal = {
         vocabs: [],
-        allWords: [],
-        vocabUpdate: false
+        allWords: []
     }
     const initialValuesGlobal = {
         newClass: {
@@ -46,7 +46,8 @@ const useGlobalState = () => {
             word: "",
             source: "",
             example: "",
-            definition: ""
+            definition: "",
+            topic: ""
         },
         newVocabulary: {
             name: "",
@@ -68,6 +69,7 @@ const useGlobalState = () => {
     const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
     const [modalState, setModalState] = useState(modalStateGlobal)
     const [vocabState, setVocabState] = useState(vocabStateGlobal)
+    const [componentUpdate, setComponentUpdate] = useState(componentUpdateGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -85,6 +87,8 @@ const useGlobalState = () => {
                 return setModalState(payload)
             case VOCAB:
                 return setVocabState(payload)
+            case COMP_UPDATE:
+                return setComponentUpdate(payload)
             default:
                 return state, initialValues, formConfig, appState, tooltipState, modalState;
         }
@@ -98,6 +102,7 @@ const useGlobalState = () => {
         tooltipState: tooltipState,
         modalState: modalState,
         vocabState: vocabState,
+        compUpdate: componentUpdate,
         actions
     }
 }

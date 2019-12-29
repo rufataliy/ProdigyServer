@@ -21,6 +21,7 @@ const Schedule = () => {
         initialValues,
         formConfig,
         tooltipState,
+        compUpdate,
         actions } = useContext(Context)
     console.log(modalState);
 
@@ -37,7 +38,7 @@ const Schedule = () => {
             })
         }
         getEvents()
-    }, [scheduleState.scheduleUpdate]
+    }, [compUpdate]
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
@@ -69,8 +70,7 @@ const Schedule = () => {
             actions({
                 type: SCHEDULE,
                 payload: {
-                    ...scheduleState,
-                    scheduleUpdate: !scheduleState.scheduleUpdate
+                    compUpdate: !compUpdate
                 }
             })
             toggleModal()

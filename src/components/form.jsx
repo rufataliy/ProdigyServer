@@ -3,21 +3,18 @@ import { Formik, Form } from "formik"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import moment from "moment"
-import { MODAL, SCHEDULE } from "../store/useGlobalState"
+import { MODAL, COMP_UPDATE } from "../store/useGlobalState"
 
 export const FormikForm = (props) => {
-    const { initialValues, scheduleState, modalState, actions } = useContext(Context)
+    const { initialValues, compUpdate, modalState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
-    const initialValuesConverted = {
-        ...initialValues.newClass,
-        start: moment(initialValues.newClass.start),
-        end: moment(initialValues.newClass.end),
-        startTime: moment(initialValues.newClass.startTime),
-        endTime: moment(initialValues.newClass.endTime)
-    }
-    console.log("converted");
-    console.log(initialValuesConverted);
-    console.log("initial");
+    // const initialValuesConverted = {
+    //     ...initialValues.newClass,
+    //     start: moment(initialValues.newClass.start),
+    //     end: moment(initialValues.newClass.end),
+    //     startTime: moment(initialValues.newClass.startTime),
+    //     endTime: moment(initialValues.newClass.endTime)
+    // }
     console.log(initialValues);
 
     const formProps = props
@@ -41,17 +38,16 @@ export const FormikForm = (props) => {
                 }
             })
             actions({
-                type: SCHEDULE,
+                type: COMP_UPDATE,
                 payload: {
-                    ...scheduleState,
-                    scheduleUpdate: !scheduleState.scheduleUpdate
+                    compUpdate: !compUpdate
                 }
             })
         })
     }
     return (
         <Formik
-            initialValues={initialValuesConverted}
+            initialValues={initialValues.newVocabulary}
             onSubmit={handleSubmit}
             render={(props) => (
                 <Form>

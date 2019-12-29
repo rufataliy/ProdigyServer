@@ -79,6 +79,10 @@ export const newClassForm = (() => {
                         placeholder="Example"
                     />
                     <Input type="text"
+                        name="topic"
+                        placeholder="Topic"
+                    />
+                    <Input type="text"
                         name="source"
                         placeholder="Source"
                     />
@@ -119,6 +123,26 @@ export const newClassForm = (() => {
                         querySnapshot.forEach(function (doc) {
                             const response = { id: doc.id, ...doc.data() }
                             console.log("from get");
+
+                            console.log(response);
+                            if (response.daysOfWeek && response.daysOfWeek.length == 0) {
+                                delete response.daysOfWeek
+                            }
+                            a.push(response)
+                        })
+                        return a
+                    })
+                return data
+            },
+            getWhere: async () => {
+                const data = await db
+                    .collection(props.collectionName).where(props.key, props.operator, props.searchedValue)
+                    .get()
+                    .then(function (querySnapshot) {
+                        let a = []
+                        querySnapshot.forEach(function (doc) {
+                            const response = { id: doc.id, ...doc.data() }
+                            console.log("from getWhere");
 
                             console.log(response);
                             if (response.daysOfWeek && response.daysOfWeek.length == 0) {
