@@ -43,7 +43,7 @@ const useGlobalState = () => {
             startRecur: {}
         },
         newWord: {
-            word: "",
+            phrase: "",
             source: "",
             example: "",
             definition: "",

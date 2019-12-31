@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import { Collapse, Button, Icon, List, Tabs } from "antd"
+import { Collapse, Button, Icon, List, Tabs, Input } from "antd"
 import { newClassForm } from "./_newClassTmp.jsx"
 import Context from "../store/context"
 import { MODAL, VOCAB, WORDS, TOPICS, FORM_CONFIG, INITIAL_VALUES, COMP_UPDATE } from "../store/useGlobalState"
@@ -8,6 +8,7 @@ import { FormikForm } from "./form.jsx"
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse
+const { Search } = Input
 
 
 const Vocabulary = () => {
@@ -44,6 +45,20 @@ const Vocabulary = () => {
             payload: { ...vocabState, allWords: allWords }
         })
     }
+    const onSearch = (value) => {
+        console.log(value);
+        const result = []
+        vocabState.allWords.map((word) => {
+            if (word.phrase.search(value) != -1 || word.definition.search(value) != -1) {
+                result.push(vocab)
+            }
+        })
+        actions({
+            type: VOCAB,
+            payload: { ...vocabState, allWords: result }
+        })
+        console.log(result);
+    }
     const getTopicWords = async (key, operator, searchedValue) => {
         const props = {
             collectionName: "words",
@@ -65,10 +80,16 @@ const Vocabulary = () => {
             return vocab.id == id
         })
         console.log(vocab);
-
-        getTopicWords("topic", "==", vocab[0].topic)
+        if (vocab[0]) {
+            getTopicWords("topic", "==", vocab[0].topic)
+        } else {
+            actions({
+                type: VOCAB,
+                payload: { ...vocabState, allWords: [] }
+            })
+        }
     }
-    const handleClick = () => {
+    const handleNewVocabClick = () => {
         actions({
             type: FORM_CONFIG,
             payload: {
@@ -76,6 +97,17 @@ const Vocabulary = () => {
                 collectionName: "vocabularies",
                 formType: "newVocabulary",
                 method: "add"
+            }
+        })
+        actions({
+            type: INITIAL_VALUES,
+            payload: {
+                ...initialValues,
+                newVocabulary: {
+                    name: "",
+                    topic: "",
+                    level: ""
+                }
             }
         })
         toggleModal()
@@ -153,6 +185,49 @@ const Vocabulary = () => {
     //         </Panel>
     //     )
     // })
+    const editWord = (word) => {
+        const { phrase, definition, example, topic, id } = word
+        actions({
+            type: FORM_CONFIG,
+            payload: {
+                ...formConfig,
+                collectionName: "words",
+                formType: "newWord",
+                method: "update",
+                docId: id
+            }
+        })
+        actions({
+            type: INITIAL_VALUES,
+            payload: {
+                ...initialValues,
+                newWord: {
+                    phrase: phrase,
+                    topic: topic,
+                    definition: definition,
+                    example: example
+                }
+            }
+        })
+        toggleModal()
+
+    }
+    const deleteWord = (id) => {
+        const props = {
+            collectionName: "words",
+            method: "delete",
+            docId: id
+        }
+        newClassForm.dbPath(props)().then(() => {
+            actions({
+                type: COMP_UPDATE,
+                payload: {
+                    compUpdate: !compUpdate
+                }
+            })
+        })
+        onChange()
+    }
     const addWordBtn = (vocab) => (
 
         <div>
@@ -161,7 +236,7 @@ const Vocabulary = () => {
                 event.stopPropagation()
                 handleDelete(vocab.id)
             }} />
-            <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={(event) => {
+            <Icon style={{ fontSize: 1.5 + 'em', margin: 5 + 'px' }} type="edit" onClick={(event) => {
                 event.stopPropagation()
                 console.log(vocabState.vocabs);
 
@@ -194,39 +269,95 @@ const Vocabulary = () => {
     const handleTabChange = (activeKey) => {
         switch (activeKey) {
             case WORDS:
-                console.log("words");
+                getAllWords()
                 break;
             case TOPICS:
-                console.log("topics");
+                actions({
+                    type: VOCAB,
+                    payload: { ...vocabState, allWords: [] }
+                })
                 break;
         }
     }
     return (
         <div>
             {console.log("vocab rendered")}
-            <Button onClick={handleClick} >New</Button>
+            <Button onClick={handleNewVocabClick} >New</Button>
             {modalState.modalVisibility && renderModal()}
-            <Tabs onChange={handleTabChange} defaultActiveKey="1" tabPosition="left" style={{ height: 220 }}>
+            <Tabs onChange={handleTabChange} defaultActiveKey="1" tabPosition="left" style={{ height: 100 + "%" }}>
                 <TabPane tab="Topics" key={TOPICS}>
                     <Collapse onChange={onChange} accordion>
-                        {console.log(vocabState.vocabs)}
                         {vocabState.vocabs.map(vocab => {
                             return (
                                 <Panel header={vocab.name} key={vocab.id} extra={addWordBtn(vocab)}>
-                                    {vocabState.allWords.map(word => {
-                                        return (
-                                            <p>{word.word}</p>
-                                        )
-                                    })}
+                                    <List
+                                        itemLayout="vertical"
+                                        size="middle"
+                                        grid={{ gutter: 10, column: 3 }}
+                                        locale={{ emptyText: "No words were found." }}
+                                        pagination={{
+                                            onChange: page => {
+                                                console.log(page);
+                                            },
+                                            pageSize: 6,
+                                        }}
+                                        dataSource={vocabState.allWords}
+
+                                        renderItem={(word) => (
+                                            <List.Item
+                                                key={word.phrase}
+                                                actions={[
+                                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={event => { editWord(word) }} />,
+                                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={event => { deleteWord(word.id) }} />
+                                                ]}
+                                            >
+                                                <List.Item.Meta
+                                                    title={word.phrase}
+                                                    description={word.definition}
+                                                />
+                                                {word.example}
+                                            </List.Item>
+                                        )}
+                                    />
                                 </Panel>
                             )
                         })}
                     </Collapse>
                 </TabPane>
                 <TabPane tab="All words" key={WORDS}>
-                    Content of tab 2
+                    <Input placeholder="Type to search" onChange={onSearch} />
+                    <List
+                        itemLayout="vertical"
+                        size="small"
+                        grid={{ gutter: 10, column: 3 }}
+                        locale={{ emptyText: "No words were found." }}
+                        pagination={{
+                            onChange: page => {
+                                console.log(page);
+                            },
+                            pageSize: 6,
+                        }}
+                        dataSource={vocabState.allWords}
+
+                        renderItem={(word) => (
+                            <List.Item
+                                key={word.phrase}
+                                actions={[
+                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={event => { editWord(word) }} />,
+                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={event => { deleteWord(word.id) }} />
+                                ]}
+                            >
+                                <List.Item.Meta
+                                    title={word.phrase}
+                                    description={word.definition}
+                                />
+                                {word.example}
+                            </List.Item>
+                        )}
+                    />
                 </TabPane>
             </Tabs>
+
         </div>
     )
 }

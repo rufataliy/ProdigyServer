@@ -8,6 +8,7 @@ import { MODAL, COMP_UPDATE } from "../store/useGlobalState"
 export const FormikForm = (props) => {
     const { initialValues, compUpdate, modalState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
+    console.log(props);
     // const initialValuesConverted = {
     //     ...initialValues.newClass,
     //     start: moment(initialValues.newClass.start),
@@ -47,7 +48,7 @@ export const FormikForm = (props) => {
     }
     return (
         <Formik
-            initialValues={initialValues.newVocabulary}
+            initialValues={initialValues[formProps.formType]}
             onSubmit={handleSubmit}
             render={(props) => (
                 <Form>

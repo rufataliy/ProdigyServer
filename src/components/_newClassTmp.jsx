@@ -67,8 +67,8 @@ export const newClassForm = (() => {
             newWord:
                 < React.Fragment >
                     <Input type="text"
-                        name="word"
-                        placeholder="Word"
+                        name="phrase"
+                        placeholder="Phrase"
                     />
                     <Input type="text"
                         name="definition"
