@@ -5,10 +5,11 @@ import Context from "../store/context"
 import { MODAL, VOCAB, WORDS, TOPICS, FORM_CONFIG, INITIAL_VALUES, COMP_UPDATE } from "../store/useGlobalState"
 import ModalComp from "./Modal.jsx"
 import { FormikForm } from "./form.jsx"
+import WordList from "./wordList.jsx"
+import FormModal from "./formModal.jsx"
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse
-const { Search } = Input
 
 
 const Vocabulary = () => {
@@ -178,13 +179,7 @@ const Vocabulary = () => {
             </ModalComp>
         )
     }
-    // const renderVocabs = vocabState.vocabs.forEach(vocab => {
-    //     return (
-    //         <Panel header="This is panel header 1" key={vocab.id}>
-    //             <p>{console.log(vocab.name)}</p>
-    //         </Panel>
-    //     )
-    // })
+
     const editWord = (word) => {
         const { phrase, definition, example, topic, id } = word
         actions({
@@ -283,42 +278,17 @@ const Vocabulary = () => {
         <div>
             {console.log("vocab rendered")}
             <Button onClick={handleNewVocabClick} >New</Button>
-            {modalState.modalVisibility && renderModal()}
+            {modalState.modalVisibility && <FormModal toggleModal={toggleModal} handleDelete={handleDelete} />}
             <Tabs onChange={handleTabChange} defaultActiveKey="1" tabPosition="left" style={{ height: 100 + "%" }}>
                 <TabPane tab="Topics" key={TOPICS}>
                     <Collapse onChange={onChange} accordion>
                         {vocabState.vocabs.map(vocab => {
                             return (
                                 <Panel header={vocab.name} key={vocab.id} extra={addWordBtn(vocab)}>
-                                    <List
-                                        itemLayout="vertical"
-                                        size="middle"
-                                        grid={{ gutter: 10, column: 3 }}
-                                        locale={{ emptyText: "No words were found." }}
-                                        pagination={{
-                                            onChange: page => {
-                                                console.log(page);
-                                            },
-                                            pageSize: 6,
-                                        }}
-                                        dataSource={vocabState.allWords}
-
-                                        renderItem={(word) => (
-                                            <List.Item
-                                                key={word.phrase}
-                                                actions={[
-                                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={event => { editWord(word) }} />,
-                                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={event => { deleteWord(word.id) }} />
-                                                ]}
-                                            >
-                                                <List.Item.Meta
-                                                    title={word.phrase}
-                                                    description={word.definition}
-                                                />
-                                                {word.example}
-                                            </List.Item>
-                                        )}
-                                    />
+                                    <WordList data={vocabState.allWords}
+                                        emptyText={{ emptyText: "words not found" }}
+                                        edit={editWord}
+                                        delete={deleteWord} />
                                 </Panel>
                             )
                         })}
@@ -326,34 +296,10 @@ const Vocabulary = () => {
                 </TabPane>
                 <TabPane tab="All words" key={WORDS}>
                     <Input placeholder="Type to search" onChange={onSearch} />
-                    <List
-                        itemLayout="vertical"
-                        size="small"
-                        grid={{ gutter: 10, column: 3 }}
-                        locale={{ emptyText: "No words were found." }}
-                        pagination={{
-                            onChange: page => {
-                                console.log(page);
-                            },
-                            pageSize: 6,
-                        }}
-                        dataSource={vocabState.allWords}
-
-                        renderItem={(word) => (
-                            <List.Item
-                                key={word.phrase}
-                                actions={[
-                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={event => { editWord(word) }} />,
-                                    <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={event => { deleteWord(word.id) }} />
-                                ]}
-                            >
-                                <List.Item.Meta
-                                    title={word.phrase}
-                                    description={word.definition}
-                                />
-                                {word.example}
-                            </List.Item>
-                        )}
+                    <WordList data={vocabState.allWords}
+                        emptyText={{ emptyText: "words not found" }}
+                        edit={editWord}
+                        delete={deleteWord}
                     />
                 </TabPane>
             </Tabs>

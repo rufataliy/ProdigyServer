@@ -13,6 +13,7 @@ import { FormikForm } from "./form.jsx"
 import moment from "moment"
 import Tooltip from "./tooltip.jsx"
 import { SCHEDULE, MODAL, INITIAL_VALUES, FORM_CONFIG } from "../store/useGlobalState"
+import FormModal from "./formModal.jsx"
 
 const Schedule = () => {
     console.log("schedule rendered");
@@ -198,7 +199,7 @@ const Schedule = () => {
                 //eventRender={showTooltip}
                 ref={calendarComponentRef}
             />
-            {modalState.modalVisibility && renderModal()}
+            {modalState.modalVisibility && <FormModal toggleModal={toggleModal} handleDelete={handleDelete} />}
             <Tooltip>
                 {tooltipState.show && showTooltip()}
             </Tooltip>
