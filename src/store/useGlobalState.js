@@ -13,7 +13,8 @@ export const TOPICS = "topics"
 const useGlobalState = () => {
     const componentUpdateGlobal = false
     const appStateGlobal = {
-        loggedIn: false
+        loggedIn: false,
+        uid: ""
     }
     const tooltipStateGlobal = {
         show: false
@@ -40,19 +41,22 @@ const useGlobalState = () => {
             origin: "",
             classType: "Not Selected",
             daysOfWeek: [],
-            startRecur: {}
+            startRecur: {},
+            uid: ""
         },
         newWord: {
             phrase: "",
             source: "",
             example: "",
             definition: "",
-            topic: ""
+            topic: "",
+            uid: ""
         },
         newVocabulary: {
             name: "",
             topic: "",
-            level: ""
+            level: "",
+            uid: ""
         }
     }
     const formConfigGlobal = {

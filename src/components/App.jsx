@@ -16,10 +16,11 @@ const App = () => {
                 authTokenFirebAuth0().then(() => {
                     firebaseClient.setAuthStateListener(() => {
                         if (firebaseClient.getCurrentUser()) {
-                            console.log("yes");
+                            const user = firebaseClient.getCurrentUser()
+                            console.log(user);
                             actions({
                                 type: "setAppState",
-                                payload: { ...appState, loggedIn: true }
+                                payload: { ...appState, loggedIn: true, uid: user.uid }
                             })
                         }
                     })
