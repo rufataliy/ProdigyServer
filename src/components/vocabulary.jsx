@@ -68,8 +68,6 @@ const Vocabulary = () => {
             operator: operator,
             searchedValue: searchedValue
         }
-        console.log(props);
-
         const allWords = await newClassForm.dbPath(props)();
         actions({
             type: VOCAB,

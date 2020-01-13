@@ -4,6 +4,7 @@ import Context from "../store/context"
 const ModalComp = (props) => {
     const handleCancel = () => {
         props.nonSubmit()
+        // here should be function to empty all initial values
     };
     console.log(props.isVisible);
 

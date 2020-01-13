@@ -101,10 +101,8 @@ const SideNav = () => {
                         }} >
                             <Switch >
                                 <Route path="/" exact />
-                                <Context.Provider value={state}>
-                                    <Route path="/Schedule" exact component={Schedule} />
-                                    <Route path="/Vocabulary" exact component={Vocabulary} />
-                                </Context.Provider>
+                                <Route path="/Schedule" exact component={Schedule} />
+                                <Route path="/Vocabulary" exact component={Vocabulary} />
                             </Switch >
                         </div>
                     </Content >

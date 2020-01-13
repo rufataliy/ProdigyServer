@@ -42,7 +42,7 @@ const useGlobalState = () => {
             classType: "Not Selected",
             daysOfWeek: [],
             startRecur: {},
-            uid: ""
+            author: ""
         },
         newWord: {
             phrase: "",
@@ -50,13 +50,13 @@ const useGlobalState = () => {
             example: "",
             definition: "",
             topic: "",
-            uid: ""
+            author: ""
         },
         newVocabulary: {
             name: "",
             topic: "",
             level: "",
-            uid: ""
+            author: ""
         }
     }
     const formConfigGlobal = {

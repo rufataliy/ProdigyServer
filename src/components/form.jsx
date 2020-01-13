@@ -6,7 +6,7 @@ import moment from "moment"
 import { MODAL, COMP_UPDATE } from "../store/useGlobalState"
 
 export const FormikForm = (props) => {
-    const { initialValues, compUpdate, modalState, actions } = useContext(Context)
+    const { initialValues, compUpdate, modalState, appState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
     console.log(props);
     // const initialValuesConverted = {
@@ -21,12 +21,15 @@ export const FormikForm = (props) => {
     const formProps = props
     const handleSubmit = (values) => {
         console.log("from submission");
+        console.log(appState);
+
         const submitValues = {
             ...values,
             start: moment(values.start).format(),
             end: moment(values.end).format(),
             startTime: moment(values.startTime).format(),
-            endTime: moment(values.endTime).format()
+            endTime: moment(values.endTime).format(),
+            author: appState.uid
         }
         console.log(submitValues);
 
