@@ -12,9 +12,10 @@ const { Header } = Layout
 
 
 const TopNav = () => {
-    const appState = useContext(Context)
-    console.log(appState);
+    const { appState } = useContext(Context)
 
+    console.log("top nav");
+    console.log(appState);
     const logBtnShow = () => {
         if (appState.loggedIn) {
             return <Button type="primary"
