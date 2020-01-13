@@ -1,0 +1,17 @@
+.tooltip {
+    display: none;
+    background: #3788d8;
+    z-index: 1000;
+    font-size: 0.65em;
+    padding: 5px;
+    color: whitesmoke;
+    border-radius: 5px;
+}
+
+.tooltip:hover {
+    display: block;
+}
+
+.fc-event-container {
+    position: relative;
+}

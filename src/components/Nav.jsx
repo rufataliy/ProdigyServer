@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { browserHistory } from "react-router"
 import { Layout, Menu, Icon } from 'antd';
-
 import About from "./About";
 import Contact from "./Contact.jsx";
 import Schedule from "./Schedule.jsx";
+import Vocabulary from "./vocabulary.jsx"
+import Context from "../store/context";
+import useGlobalState from "../store/useGlobalState";
 
 const { Header, Sider, Content, Footer } = Layout;
 
-
-
-const SiderDemo = () => {
+const SideNav = () => {
     const [collapsed, setCollapse] = useState(false)
-
+    const state = useGlobalState()
+    console.log("sidenav rendered");
     const onCollapse = () => {
         setCollapse(!collapsed)
     };
@@ -27,9 +28,7 @@ const SiderDemo = () => {
                     onCollapse={onCollapse} >
                     <div className="logo" />
                     <Menu theme="dark"
-                        defaultSelectedKeys={
-                            ['1']
-                        }
+                        defaultSelectedKeys={['1']}
                         mode="inline" >
                         <Menu.Item key="1" >
                             <Link className="active item"
@@ -78,7 +77,7 @@ const SiderDemo = () => {
                         </Menu.Item>
                         <Menu.Item key="6" >
                             <Link className="active item"
-                                to="/Contact" >
+                                to="/Vocabulary" >
                                 <Icon type="book" />
                                 <span >
                                     Vocablary
@@ -102,9 +101,8 @@ const SiderDemo = () => {
                         }} >
                             <Switch >
                                 <Route path="/" exact />
-                                <Route path="/About" component={About} />
-                                <Route path="/Contact" component={Contact} />
-                                <Route path="/Schedule" component={Schedule} />
+                                <Route path="/Schedule" exact component={Schedule} />
+                                <Route path="/Vocabulary" exact component={Vocabulary} />
                             </Switch >
                         </div>
                     </Content >
@@ -118,4 +116,4 @@ const SiderDemo = () => {
 }
 
 
-export default SiderDemo
+export default SideNav

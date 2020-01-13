@@ -1,23 +1,62 @@
 import { useState } from "react";
+
+export const MODAL = "setModalState"
+export const SCHEDULE = "setScheduleState"
+export const INITIAL_VALUES = "setInitialValues"
+export const FORM_CONFIG = "setFormConfig"
+export const COMP_UPDATE = "setComponentUpdate"
+export const APP = "setAppState"
+export const VOCAB = "setVocabState"
+export const WORDS = "allWords"
+export const TOPICS = "topics"
+
 const useGlobalState = () => {
+    const componentUpdateGlobal = false
+    const appStateGlobal = {
+        loggedIn: false,
+        uid: ""
+    }
+    const tooltipStateGlobal = {
+        show: false
+    }
     const scheduleStateGlobal = {
-        modalVisibility: false,
         calendarWeekends: true,
         events: []
+    }
+    const modalStateGlobal = {
+        modalVisibility: false,
+    }
+    const vocabStateGlobal = {
+        vocabs: [],
+        allWords: []
     }
     const initialValuesGlobal = {
         newClass: {
             title: "",
-            date: {},
-            time: {},
+            start: {},
+            end: {},
+            startTime: {},
+            endTime: {},
             level: "",
             origin: "",
-            classType: "Not Selected"
+            classType: "Not Selected",
+            daysOfWeek: [],
+            startRecur: {},
+            author: ""
+        },
+        newWord: {
+            phrase: "",
+            source: "",
+            example: "",
+            definition: "",
+            topic: "",
+            author: ""
         },
         newVocabulary: {
-            word: "",
-            example: "",
-            definition: ""
+            name: "",
+            topic: "",
+            level: "",
+            author: ""
         }
     }
     const formConfigGlobal = {
@@ -30,24 +69,44 @@ const useGlobalState = () => {
     const [state, setState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
     const [formConfig, setFormConfig] = useState(formConfigGlobal)
+    const [appState, setAppState] = useState(appStateGlobal)
+    const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
+    const [modalState, setModalState] = useState(modalStateGlobal)
+    const [vocabState, setVocabState] = useState(vocabStateGlobal)
+    const [componentUpdate, setComponentUpdate] = useState(componentUpdateGlobal)
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
-            case "setScheduleState":
+            case SCHEDULE:
                 return setState(payload)
-            case "setInitialValues":
+            case INITIAL_VALUES:
                 return setValues(payload)
-            case "setFormConfig":
+            case FORM_CONFIG:
                 return setFormConfig(payload)
+            case APP:
+                return setAppState(payload)
+            case "setTooltipState":
+                return setTooltipState(payload)
+            case MODAL:
+                return setModalState(payload)
+            case VOCAB:
+                return setVocabState(payload)
+            case COMP_UPDATE:
+                return setComponentUpdate(payload)
             default:
-                return state, initialValues, formConfig;
+                return state, initialValues, formConfig, appState, tooltipState, modalState;
         }
     }
 
     return {
         scheduleState: state,
-        initialValuesGlobal: initialValues,
+        initialValues: initialValues,
         formConfig: formConfig,
+        appState: appState,
+        tooltipState: tooltipState,
+        modalState: modalState,
+        vocabState: vocabState,
+        compUpdate: componentUpdate,
         actions
     }
 }

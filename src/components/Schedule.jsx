@@ -8,16 +8,24 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import ModalComp from "./Modal.jsx"
 import './style/main.scss'
+import "./style/tooltip.scss"
 import { FormikForm } from "./form.jsx"
-import { Popover } from "antd"
 import moment from "moment"
-import Title from "antd/lib/skeleton/Title"
+import Tooltip from "./tooltip.jsx"
+import { SCHEDULE, MODAL, INITIAL_VALUES, FORM_CONFIG } from "../store/useGlobalState"
+import FormModal from "./formModal.jsx"
 
 const Schedule = () => {
-    const { scheduleState,
-        initialValuesGlobal,
+    console.log("schedule rendered");
+    const { modalState,
+        scheduleState,
+        initialValues,
         formConfig,
+        tooltipState,
+        compUpdate,
         actions } = useContext(Context)
+    console.log(modalState);
+
     useEffect(() => {
         const getEvents = async () => {
             const props = {
@@ -26,26 +34,26 @@ const Schedule = () => {
             }
             const classes = await newClassForm.dbPath(props)();
             actions({
-                type: "setScheduleState",
+                type: SCHEDULE,
                 payload: { ...scheduleState, events: classes }
             })
         }
         getEvents()
-    }, []
+    }, [compUpdate]
     )
     const calendarComponentRef = React.createRef();
     const toggleModal = () => {
         actions({
-            type: "setScheduleState",
-            payload: { ...scheduleState, modalVisibility: !scheduleState.modalVisibility }
+            type: MODAL,
+            payload: { ...modalState, modalVisibility: !modalState.modalVisibility }
         })
     }
     const renderModal = () => {
-        console.log(formConfig)
         return (
             <ModalComp
-                nonSubmit={closeModal}
-                onSubmit={closeModal}
+                isVisible={modalState.modalVisibility}
+                nonSubmit={toggleModal}
+                onSubmit={toggleModal}
                 title={formConfig.title}
             >
                 <FormikForm
@@ -53,34 +61,71 @@ const Schedule = () => {
                     collectionName={formConfig.collectionName}
                     docId={formConfig.docId}
                     method={formConfig.method}
+                    handleDelete={handleDelete}
                 />
             </ModalComp>
         )
     }
-    const handleEventHover = () => {
-        console.log("event hovered");
+    const handleDelete = () => {
+        newClassForm.dbPath({ ...formConfig, method: "delete" })().then(() => {
+            actions({
+                type: SCHEDULE,
+                payload: {
+                    compUpdate: !compUpdate
+                }
+            })
+            toggleModal()
+        })
     }
-    const closeModal = () => {
-        toggleModal()
+    const toggleTooltip = () => {
+        actions({
+            type: "setTooltipState",
+            payload: { ...tooltipState, show: !tooltipState.show }
+        })
     }
-
-    const handleEventClick = (info) => {
+    const showTooltip = (info) => {
+        const a = document.querySelector(".tooltip")
+        const rect = info.el.getBoundingClientRect()
+        console.log(rect);
+        const scrollTop = window.scrollY
         const { title, publicId } = info.event._def
         const { start } = info.event
         const { classType, level, origin } = info.event._def.extendedProps
-        actions({
-            type: "setInitialValues",
-            payload: {
-                ...initialValuesGlobal, newClass: {
-                    ...initialValuesGlobal.newClass,
-                    title: title,
-                    classType: classType,
-                    level: level,
-                    origin: origin,
-                    date: moment(start)
-                }
+        a.innerHTML = `<div>
+            <h3>${title}</h3>
+            <p>${origin}</p>
+            <p>${level}</p>
+        </div>`
+        a.style.width = `${rect.width}` + `px`
+        a.style.display = "block"
+        a.style.position = "absolute"
+        a.style.top = `${rect.top + scrollTop - 70}px`
+        a.style.left = `${rect.left}px`
+    }
+    const hideTooltip = (info) => {
+        const a = document.querySelector(".tooltip")
+        a.style.display = "none"
+    }
+    const handleEventClick = (info) => {
+        console.log(info);
+        const { title, publicId } = info.event._def
+        scheduleState.events.forEach(event => {
+            if (event.id == publicId) {
+                actions({
+                    type: INITIAL_VALUES,
+                    payload: {
+                        ...initialValues, newClass: {
+                            ...event,
+                            start: event.start,
+                            end: event.end,
+                            startTime: event.startTime,
+                            endTime: event.endTime
+                        }
+                    }
+                })
             }
         })
+
         actions({
             type: "setFormConfig",
             payload: {
@@ -96,7 +141,7 @@ const Schedule = () => {
     }
     const handleDateClick = (arg) => {
         actions({
-            type: "setFormConfig",
+            type: FORM_CONFIG,
             payload: {
                 ...formConfig,
                 title: `Create new class`,
@@ -107,24 +152,31 @@ const Schedule = () => {
             }
         })
         actions({
-            type: "setInitialValues",
+            type: INITIAL_VALUES,
             payload: {
-                ...initialValuesGlobal, newClass: {
+                ...initialValues, newClass: {
                     title: "",
-                    time: {},
                     level: "",
                     origin: "",
                     classType: "Not Selected",
-                    date: moment(arg.dateStr)
+                    start: moment(arg.dateStr),
+                    end: moment(arg.dateStr),
+                    startTime: moment(arg.dateStr),
+                    endTime: moment(arg.dateStr)
+
                 }
             }
         })
         toggleModal()
     }
+
     return (
-        <div >
+        <div className="calendarParent">
             <FullCalendar
-                eventMouseEnter={handleEventHover}
+                contentHeight={600}
+                height={600}
+                eventMouseEnter={showTooltip}
+                eventMouseLeave={hideTooltip}
                 eventClick={handleEventClick}
                 dateClick={handleDateClick}
                 defaultView="dayGridMonth"
@@ -144,9 +196,13 @@ const Schedule = () => {
                     }
                 }
                 events={scheduleState.events}
+                //eventRender={showTooltip}
                 ref={calendarComponentRef}
             />
-            {scheduleState.modalVisibility && renderModal()}
+            {modalState.modalVisibility && <FormModal toggleModal={toggleModal} handleDelete={handleDelete} />}
+            <Tooltip>
+                {tooltipState.show && showTooltip()}
+            </Tooltip>
         </div>
     )
 }
