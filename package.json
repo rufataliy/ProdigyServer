@@ -10,6 +10,10 @@
         "build": "rmdir /s /q dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --watch",
         "dbServer": "json-server --watch api/db.json --port 3001"
     },
+    "engines": {
+        "node": "10.16.3",
+        "npm": "6.9.0"
+    },
     "devDependencies": {
         "@babel/core": "^7.5.5",
         "@babel/plugin-transform-async-to-generator": "^7.5.0",
