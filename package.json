@@ -8,7 +8,7 @@
     "scripts": {
         "start": "node ./dist/server.js",
         "prod": "NODE_ENV=production node server.js",
-        "build": "rmdir /s /q dist && webpack --mode production hh --config webpack.server.config.js && webpack --mode production --watch",
+        "build": "webpack --mode production --config webpack.server.config.js && webpack --mode production --watch",
         "dbServer": "json-server --watch api/db.json --port 3001"
     },
     "engines": {
