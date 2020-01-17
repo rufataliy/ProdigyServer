@@ -8,7 +8,7 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
-    watch: true,
+    watch: false,
     entry: {
         main: './src/index.js'
     },
