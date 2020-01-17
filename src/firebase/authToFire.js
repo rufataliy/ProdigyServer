@@ -8,7 +8,7 @@ const auth0ToFirebase = async() => {
 }
 
 const firebaseCustomToken = async function setFirebaseCustomToken(tokenFromAuth) {
-    const firebaseTokenRequest = await fetch(process.env.PORT + '/firebase', {
+    const firebaseTokenRequest = await fetch('https://prodigylms.herokuapp.com//firebase', {
         headers: {
             'Authorization': `Bearer ${tokenFromAuth}`,
         },
