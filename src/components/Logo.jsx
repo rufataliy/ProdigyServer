@@ -8,6 +8,6 @@ export const LogoLoading = () => {
 }
 export const LogoHome = () => {
     return (
-        <img className="loading" src={LogoHome} alt="" />
+        <img className="loading" src={logoHome} alt="" />
     )
 }
