@@ -1,10 +1,13 @@
 import React from "react"
 import logoImg from "../logo.png"
-const Logo = () => {
-
+import logoHome from "../logoHome.png"
+export const LogoLoading = () => {
     return (
         <img className="loading" src={logoImg} alt="" />
     )
 }
-
-export default Logo
+export const LogoHome = () => {
+    return (
+        <img className="loading" src={LogoHome} alt="" />
+    )
+}
