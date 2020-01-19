@@ -1,5 +1,5 @@
 import React from "react"
-import { Input, Radio, SubmitButton, DatePicker, TimePicker, Checkbox } from "@jbuschke/formik-antd"
+import { Input, Radio, SubmitButton, DatePicker, TimePicker, Checkbox } from "formik-antd"
 import { Button } from "antd"
 import { db } from "../firebase/firebase"
 
