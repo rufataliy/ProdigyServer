@@ -32,7 +32,7 @@ const WordList = (props) => {
                         key={word.phrase}
                         actions={[
                             <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="edit" onClick={() => props.edit(word)} />,
-                            <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={() => props.delete(word)} />
+                            <Icon style={{ fontSize: 1.5 + 'em' }, { margin: 5 + "px" }} type="delete" onClick={() => props.delete(word.id)} />
                         ]}
                     >
                         <List.Item.Meta
