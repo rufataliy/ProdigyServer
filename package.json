@@ -7,9 +7,9 @@
     "license": "ISC",
     "scripts": {
         "start": "nodemon ./dist/server.js",
-        "build": "rmdir /s /q dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --watch",
+        "build-dev": "rmdir /s /q dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --watch",
         "prod": "NODE_ENV=production nodemon server.js",
-        "build-pro": "webpack --mode production --config webpack.server.config.js && webpack --mode production",
+        "build": "webpack --mode production --config webpack.server.config.js && webpack --mode production",
         "dbServer": "json-server --watch api/db.json --port 3001"
     },
     "engines": {
