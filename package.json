@@ -6,7 +6,7 @@
     "author": "",
     "license": "ISC",
     "scripts": {
-        "start": "node ./dist/server.js",
+        "start": "nodemon ./dist/server.js",
         "build": "rmdir /s /q dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --watch",
         "dbServer": "json-server --watch api/db.json --port 3001"
     },

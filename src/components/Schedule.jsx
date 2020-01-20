@@ -12,7 +12,7 @@ import "./style/tooltip.scss"
 import { FormikForm } from "./form.jsx"
 import moment from "moment"
 import Tooltip from "./tooltip.jsx"
-import { SCHEDULE, MODAL, INITIAL_VALUES, FORM_CONFIG } from "../store/useGlobalState"
+import { SCHEDULE, MODAL, INITIAL_VALUES, FORM_CONFIG, COMP_UPDATE } from "../store/useGlobalState"
 import FormModal from "./formModal.jsx"
 
 const Schedule = () => {
@@ -24,7 +24,6 @@ const Schedule = () => {
         tooltipState,
         compUpdate,
         actions } = useContext(Context)
-    console.log(modalState);
 
     useEffect(() => {
         const getEvents = async () => {
@@ -32,10 +31,10 @@ const Schedule = () => {
                 collectionName: "classes",
                 method: "get"
             }
-            const classes = await newClassForm.dbPath(props)();
+            const events = await newClassForm.dbPath(props)();
             actions({
                 type: SCHEDULE,
-                payload: { ...scheduleState, events: classes }
+                payload: { ...scheduleState, events: events }
             })
         }
         getEvents()
@@ -69,7 +68,7 @@ const Schedule = () => {
     const handleDelete = () => {
         newClassForm.dbPath({ ...formConfig, method: "delete" })().then(() => {
             actions({
-                type: SCHEDULE,
+                type: COMP_UPDATE,
                 payload: {
                     compUpdate: !compUpdate
                 }

@@ -216,20 +216,17 @@ const Vocabulary = () => {
                 }
             })
         })
-        onChange()
+        // onChange()
     }
     const addWordBtn = (vocab) => (
 
         <div>
             <Icon style={{ fontSize: 1.5 + 'em' }} type="delete" onClick={(event) => {
-                console.log(formConfig);
                 event.stopPropagation()
                 handleDelete(vocab.id)
             }} />
             <Icon style={{ fontSize: 1.5 + 'em', margin: 5 + 'px' }} type="edit" onClick={(event) => {
                 event.stopPropagation()
-                console.log(vocabState.vocabs);
-
                 handleEditVocab(vocab)
             }} />
             <Icon style={{ fontSize: 1.5 + 'em' }} type="plus-circle" onClick={(event) => {
@@ -262,10 +259,7 @@ const Vocabulary = () => {
                 getAllWords()
                 break;
             case TOPICS:
-                actions({
-                    type: VOCAB,
-                    payload: { ...vocabState, allWords: [] }
-                })
+
                 break;
         }
     }
