@@ -7,7 +7,7 @@ import Context from "../store/context"
 import { firebaseClient } from "../firebase/firebase"
 import { LogoHome } from "./Logo.jsx"
 const App = () => {
-    console.log("app rerendered");
+    console.log("app rendered");
     const store = useGlobalState();
     const { appState, actions } = store
     useEffect(
@@ -17,7 +17,6 @@ const App = () => {
                     firebaseClient.setAuthStateListener(() => {
                         if (firebaseClient.getCurrentUser()) {
                             const user = firebaseClient.getCurrentUser()
-                            console.log(user);
                             actions({
                                 type: "setAppState",
                                 payload: { ...appState, loggedIn: true, uid: user.uid }

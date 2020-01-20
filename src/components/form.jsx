@@ -8,7 +8,6 @@ import { MODAL, COMP_UPDATE } from "../store/useGlobalState"
 export const FormikForm = (props) => {
     const { initialValues, compUpdate, modalState, appState, actions } = useContext(Context)
     console.log("formikFOrm rendered");
-    console.log(props);
     // const initialValuesConverted = {
     //     ...initialValues.newClass,
     //     start: moment(initialValues.newClass.start),
@@ -16,13 +15,10 @@ export const FormikForm = (props) => {
     //     startTime: moment(initialValues.newClass.startTime),
     //     endTime: moment(initialValues.newClass.endTime)
     // }
-    console.log(initialValues);
 
     const formProps = props
     const handleSubmit = (values) => {
         console.log("from submission");
-        console.log(appState);
-
         const submitValues = {
             ...values,
             start: moment(values.start).format(),
@@ -31,10 +27,7 @@ export const FormikForm = (props) => {
             endTime: moment(values.endTime).format(),
             author: appState.uid
         }
-        console.log(submitValues);
-
         newClassForm.dbPath(props, submitValues)().then(() => {
-            console.log(submitValues);
             actions({
                 type: MODAL,
                 payload: {

@@ -5,7 +5,6 @@ import { db } from "../firebase/firebase"
 
 export const newClassForm = (() => {
     const fields = (props) => {
-        console.log(props);
         const daysOptions = [
             { label: "Sunday", value: 0 },
             { label: "Monday", value: 1 },
@@ -123,8 +122,6 @@ export const newClassForm = (() => {
                         querySnapshot.forEach(function (doc) {
                             const response = { id: doc.id, ...doc.data() }
                             console.log("from get");
-
-                            console.log(response);
                             if (response.daysOfWeek && response.daysOfWeek.length == 0) {
                                 delete response.daysOfWeek
                             }

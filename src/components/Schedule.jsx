@@ -85,7 +85,6 @@ const Schedule = () => {
     const showTooltip = (info) => {
         const a = document.querySelector(".tooltip")
         const rect = info.el.getBoundingClientRect()
-        console.log(rect);
         const scrollTop = window.scrollY
         const { title, publicId } = info.event._def
         const { start } = info.event
@@ -106,7 +105,6 @@ const Schedule = () => {
         a.style.display = "none"
     }
     const handleEventClick = (info) => {
-        console.log(info);
         const { title, publicId } = info.event._def
         scheduleState.events.forEach(event => {
             if (event.id == publicId) {
