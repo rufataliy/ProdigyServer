@@ -1,7 +1,5 @@
 const path = require('path')
-const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const FileManager = require("filemanager-webpack-plugin")
 
 const htmlWebpackPlugin = new HtmlWebPackPlugin({
     template: "./src/index.html",
@@ -10,10 +8,7 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
 });
 
 module.exports = {
-    watch: true,
-    // devServer: {
-    //   historyApiFallback: true
-    // },
+    watch: false,
     entry: {
         main: './src/index.js'
     },
@@ -55,7 +50,12 @@ module.exports = {
                     }
 
                 ]
-            }
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: ['file-loader', ],
+
+            },
         ]
     },
     plugins: [
