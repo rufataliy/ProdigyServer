@@ -1,13 +1,11 @@
 const express = require("express");
 const router = new express.Router();
 const Vocabulary = require("../models/Vocabulary");
-const {
-    Types: { ObjectId: ObjectId }
-} = require("mongoose");
 const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
     Vocabulary.find()
-        .then(items => res.send(items))
+        .then(items => res.status(200).json(items))
         .catch(err => res.send(err));
 });
 router.post("/", (req, res) => {

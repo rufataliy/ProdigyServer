@@ -7,13 +7,12 @@ const klassSchema = new mongoose.Schema({
     classType: String,
     origin: String,
     title: String,
-    Schedule: {
-        dayOfWeek: [String],
-        end: String,
-        endTime: String,
-        start: String,
-        startTime: String
-    }
+    level: String,
+    dayOfWeek: [String],
+    end: String,
+    endTime: String,
+    start: String,
+    startTime: String
 });
 
 const Klass = mongoose.model("Klass", klassSchema);

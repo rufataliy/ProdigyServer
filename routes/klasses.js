@@ -3,16 +3,15 @@ const router = new express.Router();
 const Klass = require("../models/Klass");
 const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
-    const { authorId, studentId } = req.query;
-    console.log(studentId);
-
-    Klass.find({ $or: [{ author: authorId }, { studentList: studentId }] })
+    //const { authorId, studentId } = req.query;
+    // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
+    Klass.find()
         .then(items => res.send(items))
         .catch(err => res.send(err));
 });
 router.post("/", (req, res) => {
     const klass = req.body;
-    console.log(req.body);
+    console.log(req.body, req.user);
     Klass.create(klass)
         .then(items => res.send(items))
         .catch(err => res.send(err));

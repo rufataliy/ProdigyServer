@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");
+const cors = require("cors");
 const flash = require("express-flash");
 const session = require("express-session");
 const bodyParser = require("body-parser");
@@ -59,11 +60,16 @@ app.get("/", (req, res) => {
 app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
-
-app.use("/vocabularies", require("./routes/vocabularies"));
-app.use("/words", require("./routes/words"));
-app.use("/klasses", require("./routes/klasses"));
-app.use("/users", require("./routes/users"));
+app.use(
+    cors({
+        origin: true,
+        credentials: true
+    })
+);
+app.use("/api/vocabularies", require("./routes/vocabularies"));
+app.use("/api/words", require("./routes/words"));
+app.use("/api/klasses", require("./routes/klasses"));
+app.use("/api/users", require("./routes/users"));
 https.createServer({ key, cert }, app).listen("3000", () => {
     console.log("Listening on https://localhost:3000");
 });
