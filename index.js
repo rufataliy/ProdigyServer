@@ -66,6 +66,10 @@ app.use(
         credentials: true
     })
 );
+app.use("/app", isAuthenticated, express.static("app/dist"));
+app.get("/app", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`);
+});
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
