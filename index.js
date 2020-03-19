@@ -11,6 +11,8 @@ const db = mongoose.connection;
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { success, error, warning } = require("./tools/chalk");
 const { auth, requiresAuth } = require("express-openid-connect");
+const auth_config = require("./auth_config");
+console.log(process.env);
 
 mongoose
     .connect("mongodb://localhost/Prodgy", {
@@ -28,29 +30,15 @@ app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 app.use(
     session({
-        secret: "testserver"
+        secret: process.env.SESSION_SECRET
     })
 );
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
 
-const redirectToApp = (req, res, next) => {
-    res.redirect("/app");
-};
-const config = {
-    required: false,
-    auth0Logout: true,
-    baseURL: "https://localhost:3000",
-    issuerBaseURL: "https://prodigy-gate.auth0.com",
-    redirectUriPath: "app",
-    handleCallback: redirectToApp,
-    clientID: "uz6EME6apBI5HNS5K0szg8LY3pgDtqdB",
-    clientSecret: "0WIh0GRjWc6HJsP6bEG9U24nmawAr0YzlouGJuhoSMTIX0kqYKq1oGUyMQMHGsRk",
-    appSessionSecret: "a long, randomly-generated string stored in env"
-};
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+app.use(auth(auth_config));
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index");
