@@ -22,10 +22,10 @@ const _SideBar = () => {
           </div>
           <Nav className="mr-auto pt-5 flex-column">
             <Nav.Link>
-              <Link to="/Schedule">Schedule</Link>
+              <Link to="/app/Schedule">Schedule</Link>
             </Nav.Link>
             <Nav.Link>
-              <Link to="/Vocabulary">Vocabulary</Link>
+              <Link to="/app/Vocabulary">Vocabulary</Link>
             </Nav.Link>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

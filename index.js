@@ -35,26 +35,25 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
 
+const redirectToApp = (req, res, next) => {
+    res.redirect("/app");
+};
 const config = {
     required: false,
     auth0Logout: true,
     baseURL: "https://localhost:3000",
     issuerBaseURL: "https://prodigy-gate.auth0.com",
+    redirectUriPath: "app",
+    handleCallback: redirectToApp,
     clientID: "uz6EME6apBI5HNS5K0szg8LY3pgDtqdB",
     clientSecret: "0WIh0GRjWc6HJsP6bEG9U24nmawAr0YzlouGJuhoSMTIX0kqYKq1oGUyMQMHGsRk",
     appSessionSecret: "a long, randomly-generated string stored in env"
 };
-
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
-    console.log(req.isAuthenticated());
-    if (req.isAuthenticated()) {
-        res.render("index");
-    } else {
-        res.send("login");
-    }
+    res.render("index");
     //res.send(req.isAuthenticated() ? "Logged in" : "Logged out");
 });
 app.get("/profile", requiresAuth(), (req, res) => {
@@ -70,6 +69,9 @@ app.use("/app", isAuthenticated, express.static("app/dist"));
 app.get("/app", (req, res) => {
     res.sendFile(`${__dirname}/index.html`);
 });
+// app.get("/sari/*", (req, res) => {
+//     res.send("hello");
+// });
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));

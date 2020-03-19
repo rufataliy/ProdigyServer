@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, useFormik } from "formik";
+
 import { newClassForm } from "./_newClassTmp.jsx";
 import Context from "../store/context";
 import moment from "moment";
@@ -14,7 +15,6 @@ export const FormikForm = props => {
     actions
   } = useContext(Context);
   console.log("formikFOrm rendered");
-  console.log(props);
   // const initialValuesConverted = {
   //     ...initialValues.newClass,
   //     start: moment(initialValues.newClass.start),
@@ -22,13 +22,9 @@ export const FormikForm = props => {
   //     startTime: moment(initialValues.newClass.startTime),
   //     endTime: moment(initialValues.newClass.endTime)
   // }
-  console.log(initialValues);
 
   const formProps = props;
   const handleSubmit = values => {
-    console.log("from submission");
-    console.log(appState);
-
     const submitValues = {
       ...values,
       start: moment(values.start).format(),
@@ -37,6 +33,8 @@ export const FormikForm = props => {
       endTime: moment(values.endTime).format(),
       author: appState.uid
     };
+    console.log(values);
+
     newClassForm.dbPath[props.method](props, submitValues)
       .then(() => {
         actions({
@@ -55,14 +53,18 @@ export const FormikForm = props => {
       })
       .catch(err => console.log(err));
   };
-  console.log(formProps);
+  // const formik = useFormik({
+  //   initialValues: initialValues[formProps.formType],
+  //   onSubmit: handleSubmit
+  // });
 
   return (
     <Formik
       initialValues={initialValues[formProps.formType]}
       onSubmit={handleSubmit}
-      render={props => <Form>{newClassForm.fields(formProps)}</Form>}
-    />
+    >
+      {props => <Form>{newClassForm.fields(formProps)}</Form>}
+    </Formik>
   );
 };
 

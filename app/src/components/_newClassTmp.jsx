@@ -1,5 +1,10 @@
 import React from "react";
 import api from "../api/api";
+import { Form, Button } from "react-bootstrap";
+import { Field, FieldArray } from "formik";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import {
   Input,
   Radio,
@@ -8,7 +13,6 @@ import {
   TimePicker,
   Checkbox
 } from "formik-antd";
-import { Button } from "antd";
 
 export const newClassForm = (() => {
   const fields = props => {
@@ -22,57 +26,125 @@ export const newClassForm = (() => {
       { label: "Friday", value: 5 },
       { label: "Saturday", value: 6 }
     ];
+
     const field = {
       newClass: (
         <React.Fragment>
-          <div>
-            Title
-            <Input name="title" placeholder="Title" />
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Field className="form-control" name="title" placeholder="Title" />
+          </Form.Group>
+          <Form.Group controlId="recurringDays">
+            <Form.Label>Recurring Days</Form.Label>
+            <FieldArray name="dayOfWeek">
+              {({ field, form }) => {
+                return (
+                  <select multiple row={3} {...field} className="form-control">
+                    {daysOptions.map((option, index) => {
+                      return (
+                        <option key={index} value={option.value}>
+                          {option.label}
+                        </option>
+                      );
+                    })}
+                  </select>
+                );
+              }}
+            </FieldArray>
+          </Form.Group>
+          <div className="d-flex justify-content-between">
+            <Form.Group className="flex-grow-1">
+              <Form.Label>Start Date</Form.Label>
+              <div>
+                <DatePicker name="start" />
+              </div>
+            </Form.Group>
+            <Form.Group className="flex-grow-1">
+              <Form.Label>End Date</Form.Label>
+              <div>
+                <DatePicker name="end" />
+              </div>
+            </Form.Group>
           </div>
-          <div>
-            Recurring Dates
-            <Checkbox.Group name="daysOfWeek" options={daysOptions} />
+          <div className="d-flex justify-content-between">
+            <Form.Group className="flex-grow-1">
+              <Form.Label>Start time</Form.Label>
+              <div>
+                <TimePicker name="startTime" />
+              </div>
+            </Form.Group>
+            <Form.Group className="flex-grow-1">
+              <Form.Label>End time</Form.Label>
+              <div>
+                <TimePicker name="endTime" />
+              </div>
+            </Form.Group>
           </div>
-          <div>
-            Start Date
-            <DatePicker name="start" />
-          </div>
-          <div>
-            End Date
-            <DatePicker name="end" />
-          </div>
-          <div>
-            Start Time
-            <TimePicker name="startTime" format="HH:mm" />
-          </div>
-          <div>
-            End Time
-            <TimePicker name="endTime" format="HH:mm" />
-          </div>
-          <div>
-            Level
-            <Input name="level" placeholder="Level" />
-          </div>
-          <div>
-            Group Type
-            <Radio.Group name="classType">
-              <Radio.Button value="individual">Individual</Radio.Button>
-              <Radio.Button value="group">Group</Radio.Button>
-            </Radio.Group>
-          </div>
-          <div>
-            Origin
-            <Input name="origin" type="text" placeholder="Origin" />
-          </div>
-
-          <Button htmlType="submit" type="primary">
-            {props.method != "put" ? "Submit" : "Update"}
-          </Button>
-          {props.method == "put" && (
-            <Button onClick={props.handleDelete} type="danger">
-              Delete
+          <Form.Group>
+            <Form.Label>Level</Form.Label>
+            <Field className="form-control" name="level" />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Group Type</Form.Label>
+            <Container fluid>
+              <Row>
+                <Col>
+                  <Field name="classType">
+                    {({ field, form }) => (
+                      <Form.Check
+                        hidden
+                        {...field}
+                        checked={field.value === "individual"}
+                        className="radio w-100 flex-grow-1"
+                        type="radio"
+                        label="Individual"
+                        value="individual"
+                        id="groupType-1"
+                      />
+                    )}
+                  </Field>
+                </Col>
+                <Col>
+                  <Field name="classType">
+                    {({ field, form }) => (
+                      <Form.Check
+                        {...field}
+                        checked={field.value === "group"}
+                        hidden
+                        className="radio w-100 flex-grow-1"
+                        type="radio"
+                        label="Group"
+                        value="group"
+                        id="groupType-2"
+                      />
+                    )}
+                  </Field>
+                </Col>
+              </Row>
+            </Container>
+            {/* <Radio.Group name="classType">
+          <Radio.Button value="individual">Individual</Radio.Button>
+          <Radio.Button value="group">Group</Radio.Button>
+          </Radio.Group> */}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Origin</Form.Label>
+            <Field
+              className="form-control"
+              name="origin"
+              placeholder="Origin"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Button type="submit" type="primary">
+              {props.method != "put" ? "Submit" : "Update"}
             </Button>
-          )}
+            {props.method == "put" && (
+              <Button onClick={props.handleDelete} type="danger">
+                Delete
+              </Button>
+            )}
+          </Form.Group>
         </React.Fragment>
       ),
       newWord: (

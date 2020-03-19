@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
     const klass = req.body;
-    console.log(req.body, req.user);
+    console.log(req.body);
     Klass.create(klass)
         .then(items => res.send(items))
         .catch(err => res.send(err));
