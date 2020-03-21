@@ -21,6 +21,7 @@ import {
   COMP_UPDATE
 } from "../store/useGlobalState";
 import FormModal from "./formModal.jsx";
+import BootModal from "./bootModal.jsx";
 
 const Schedule = () => {
   console.log("schedule rendered");
@@ -58,24 +59,6 @@ const Schedule = () => {
       type: MODAL,
       payload: { ...modalState, modalVisibility: !modalState.modalVisibility }
     });
-  };
-  const renderModal = () => {
-    return (
-      <ModalComp
-        isVisible={modalState.modalVisibility}
-        nonSubmit={toggleModal}
-        onSubmit={toggleModal}
-        title={formConfig.title}
-      >
-        <FormikForm
-          formType={formConfig.formType}
-          collectionName={formConfig.collectionName}
-          docId={formConfig.docId}
-          method={formConfig.method}
-          handleDelete={handleDelete}
-        />
-      </ModalComp>
-    );
   };
   const handleDelete = () => {
     newClassForm.dbPath["delete"]({ ...formConfig, method: "delete" }).then(
@@ -182,6 +165,9 @@ const Schedule = () => {
 
   return (
     <div className="calendarParent">
+      <BootModal>
+        <FormikForm handleDelete={handleDelete} />
+      </BootModal>
       <FullCalendar
         contentHeight={600}
         height={600}
@@ -197,12 +183,9 @@ const Schedule = () => {
           right: "dayGridMonth,listWeek,timeGridWeek"
         }}
         events={scheduleState.events}
-        //eventRender={showTooltip}
+        eventRender={showTooltip}
         ref={calendarComponentRef}
       />
-      {modalState.modalVisibility && (
-        <FormModal toggleModal={toggleModal} handleDelete={handleDelete} />
-      )}
       <Tooltip>{tooltipState.show && showTooltip()}</Tooltip>
     </div>
   );

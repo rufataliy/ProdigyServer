@@ -137,10 +137,14 @@ export const newClassForm = (() => {
           </Form.Group>
           <Form.Group>
             <Button type="submit" type="primary">
-              {props.method != "put" ? "Submit" : "Update"}
+              {props.method != "put" ? "Save" : "Update"}
             </Button>
             {props.method == "put" && (
-              <Button onClick={props.handleDelete} type="danger">
+              <Button
+                onClick={props.handleDelete}
+                className="btn-danger"
+                type="danger"
+              >
                 Delete
               </Button>
             )}

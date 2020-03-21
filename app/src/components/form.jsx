@@ -12,6 +12,7 @@ export const FormikForm = props => {
     compUpdate,
     modalState,
     appState,
+    formConfig,
     actions
   } = useContext(Context);
   console.log("formikFOrm rendered");
@@ -23,7 +24,6 @@ export const FormikForm = props => {
   //     endTime: moment(initialValues.newClass.endTime)
   // }
 
-  const formProps = props;
   const handleSubmit = values => {
     const submitValues = {
       ...values,
@@ -33,9 +33,7 @@ export const FormikForm = props => {
       endTime: moment(values.endTime).format(),
       author: appState.uid
     };
-    console.log(values);
-
-    newClassForm.dbPath[props.method](props, submitValues)
+    newClassForm.dbPath[formConfig.method](formConfig, submitValues)
       .then(() => {
         actions({
           type: MODAL,
@@ -57,13 +55,14 @@ export const FormikForm = props => {
   //   initialValues: initialValues[formProps.formType],
   //   onSubmit: handleSubmit
   // });
-
   return (
     <Formik
-      initialValues={initialValues[formProps.formType]}
+      initialValues={initialValues[formConfig.formType]}
       onSubmit={handleSubmit}
     >
-      {props => <Form>{newClassForm.fields(formProps)}</Form>}
+      {props => {
+        return <Form>{newClassForm.fields(formConfig)}</Form>;
+      }}
     </Formik>
   );
 };

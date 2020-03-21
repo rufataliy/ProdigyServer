@@ -15,7 +15,7 @@ import ModalComp from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
 import WordList from "./wordList.jsx";
 import FormModal from "./formModal.jsx";
-
+import AddStudent from "./addStudent.jsx";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 
@@ -39,7 +39,7 @@ const Vocabulary = () => {
       method: "get",
       author: appState.uid
     };
-    const vocabs = await newClassForm.dbPath(props)();
+    const vocabs = await newClassForm.dbPath[props.method](props);
     actions({
       type: VOCAB,
       payload: { ...vocabState, vocabs: vocabs }
@@ -331,6 +331,7 @@ const Vocabulary = () => {
           />
         </TabPane>
       </Tabs>
+      <AddStudent />
     </div>
   );
 };

@@ -7,6 +7,15 @@ router.get("/", (req, res) => {
         .then(items => res.send(items))
         .catch(err => res.send(err));
 });
+router.get("/:email", (req, res) => {
+    const { email } = req.params;
+    console.log(email);
+    User.findOne({ email })
+        .then(item => {
+            res.send(item);
+        })
+        .catch(err => res.send(err));
+});
 router.post("/", (req, res) => {
     const user = req.body;
     console.log(req.body);
