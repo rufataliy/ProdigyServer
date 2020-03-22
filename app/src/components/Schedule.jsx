@@ -46,7 +46,6 @@ const Schedule = () => {
       const events = await newClassForm.dbPath["get"](props);
 
       events.map(event => {
-        console.log(event);
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
           delete event.daysOfWeek;
         }
@@ -87,7 +86,6 @@ const Schedule = () => {
   const showTooltip = info => {
     const a = document.querySelector(".tooltip");
     const rect = info.el.getBoundingClientRect();
-    console.log(rect);
     const scrollTop = window.scrollY;
     const { title, publicId } = info.event._def;
     const { start } = info.event;

@@ -1,49 +1,64 @@
 import React, { useEffect, useState, useContext } from "react";
 import { newClassForm } from "./_newClassTmp.jsx";
 import Context from "../store/context";
-import { FieldArray, Field } from "formik";
+import { FieldArray, Field, Form } from "formik";
 
-const AddStudent = () => {
-  const { compUpdate } = useContext(Context);
+const AddStudent = props => {
   const [students, setStudents] = useState([]);
-  const props = {
+  const [state, setState] = useState();
+  const apiProps = {
     collectionName: "users",
     method: "get",
-    docId: ""
+    docId: state
   };
   const handleChange = event => {
-    props.docId = event.target.value;
+    setState(event.target.value);
   };
 
   const getStudent = async () => {
-    const student = await newClassForm.dbPath["get"](props);
-
+    const student = await newClassForm.dbPath["get"](apiProps);
+    props.push(student);
     setStudents(prevState => [...prevState, student]);
   };
-  //   useEffect(() => {
-  //     getStudents();
-  //   }, [compUpdate]);
+  const handleUnshift = event => {
+    setStudents(prevState => {
+      prevState.splice(event.target.id, 1);
+      return [...prevState];
+    });
+    props.remove(event.target.id);
+  };
   return (
-    <ul class="list-group">
-      <FieldArray name="studentList">
-        {({ field, form }) => {
-          return (
-            <div>
-              <Field type="text" />
-              <button type="submit" />
-            </div>
-          );
-        }}
-      </FieldArray>
-      <input onChange={handleChange} type="text" />
-      <button onClick={getStudent}>add</button>
-      {students.map(student => (
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          {student.name}
-          <span class="badge badge-primary badge-pill">add</span>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <div className="d-flex">
+        <input
+          value={state}
+          className="form-control"
+          onChange={handleChange}
+          placeholder="Email"
+          type="text"
+        />
+        <button className="btn-primary btn" type="button" onClick={getStudent}>
+          add
+        </button>
+      </div>
+      <ul className="list-group">
+        {students.map((student, index) => (
+          <li
+            key={index}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {student.name}
+            <span
+              id={index}
+              onClick={handleUnshift}
+              className="badge badge-primary badge-pill"
+            >
+              remove
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

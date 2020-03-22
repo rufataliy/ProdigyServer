@@ -21,23 +21,20 @@ const _SideBar = () => {
             <span className="sidebar-line"></span>
           </div>
           <Nav className="mr-auto pt-5 flex-column">
-            <Nav.Link>
-              <Link to="/app/Schedule">Schedule</Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link to="/app/Vocabulary">Vocabulary</Link>
-            </Nav.Link>
-            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Link
+              className="nav-link btn btn-outline-primary"
+              role="button"
+              to="/app/Schedule"
+            >
+              Schedule
+            </Link>
+            <Link
+              className="nav-link btn btn-outline-primary"
+              role="button"
+              to="/app/Vocabulary"
+            >
+              Vocabulary
+            </Link>
           </Nav>
         </div>
       </div>
