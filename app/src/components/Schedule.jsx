@@ -44,8 +44,13 @@ const Schedule = () => {
         author: appState.uid
       };
       const events = await newClassForm.dbPath["get"](props);
-      console.log(events);
 
+      events.map(event => {
+        console.log(event);
+        if (event.daysOfWeek && event.daysOfWeek.length == 0) {
+          delete event.daysOfWeek;
+        }
+      });
       actions({
         type: SCHEDULE,
         payload: { ...scheduleState, events: events }
@@ -111,11 +116,11 @@ const Schedule = () => {
           payload: {
             ...initialValues,
             newClass: {
-              ...event
+              ...event,
+              daysOfWeek: event.daysOfWeek ? event.daysOfWeek : []
             }
           }
         });
-        console.log(initialValues);
       }
     });
 
@@ -149,9 +154,7 @@ const Schedule = () => {
       payload: {
         ...initialValues,
         newClass: {
-          title: "",
-          level: "",
-          origin: "",
+          daysOfWeek: [],
           classType: "Not Selected",
           start: moment(arg.dateStr),
           end: moment(arg.dateStr),

@@ -18,13 +18,13 @@ export const newClassForm = (() => {
   const fields = props => {
     console.log(props);
     const daysOptions = [
-      { label: "Sunday", value: 0 },
-      { label: "Monday", value: 1 },
-      { label: "Tuesday", value: 2 },
-      { label: "Wednesday", value: 3 },
-      { label: "Thursday", value: 4 },
-      { label: "Friday", value: 5 },
-      { label: "Saturday", value: 6 }
+      { label: "Sunday", value: "0" },
+      { label: "Monday", value: "1" },
+      { label: "Tuesday", value: "2" },
+      { label: "Wednesday", value: "3" },
+      { label: "Thursday", value: "4" },
+      { label: "Friday", value: "5" },
+      { label: "Saturday", value: "6" }
     ];
 
     const field = {
@@ -34,23 +34,42 @@ export const newClassForm = (() => {
             <Form.Label>Title</Form.Label>
             <Field className="form-control" name="title" placeholder="Title" />
           </Form.Group>
-          <Form.Group controlId="recurringDays">
-            <Form.Label>Recurring Days</Form.Label>
-            <FieldArray name="dayOfWeek">
+          <Form.Group>
+            <Field>
               {({ field, form }) => {
-                return (
-                  <select multiple row={3} {...field} className="form-control">
-                    {daysOptions.map((option, index) => {
-                      return (
-                        <option key={index} value={option.value}>
-                          {option.label}
-                        </option>
-                      );
-                    })}
-                  </select>
-                );
+                console.log(form);
+
+                const onChange = value => {
+                  const { daysOfWeek } = form.values;
+                  if (daysOfWeek.indexOf(value) >= 0) {
+                    daysOfWeek.splice(daysOfWeek.indexOf(value), 1);
+                  } else {
+                    daysOfWeek.push(value);
+                  }
+                  form.setFieldValue("daysOfWeek", form.values.daysOfWeek);
+                };
+                return daysOptions.map(day => {
+                  return (
+                    <Form.Check
+                      hidden
+                      {...field}
+                      checked={
+                        field.value.daysOfWeek &&
+                        field.value.daysOfWeek.indexOf(day.value) >= 0
+                          ? true
+                          : false
+                      }
+                      className="radio w-100 flex-grow-1"
+                      onChange={() => onChange(day.value)}
+                      type="checkbox"
+                      id={`daysOfWeek-${day.value}`}
+                      label={day.label}
+                      value={day.value}
+                    />
+                  );
+                });
               }}
-            </FieldArray>
+            </Field>
           </Form.Group>
           <div className="d-flex justify-content-between">
             <Form.Group className="flex-grow-1">
@@ -122,10 +141,6 @@ export const newClassForm = (() => {
                 </Col>
               </Row>
             </Container>
-            {/* <Radio.Group name="classType">
-          <Radio.Button value="individual">Individual</Radio.Button>
-          <Radio.Button value="group">Group</Radio.Button>
-          </Radio.Group> */}
           </Form.Group>
           <Form.Group>
             <Form.Label>Origin</Form.Label>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { newClassForm } from "./_newClassTmp.jsx";
 import Context from "../store/context";
+import { FieldArray, Field } from "formik";
 
 const AddStudent = () => {
   const { compUpdate } = useContext(Context);
@@ -24,6 +25,16 @@ const AddStudent = () => {
   //   }, [compUpdate]);
   return (
     <ul class="list-group">
+      <FieldArray name="studentList">
+        {({ field, form }) => {
+          return (
+            <div>
+              <Field type="text" />
+              <button type="submit" />
+            </div>
+          );
+        }}
+      </FieldArray>
       <input onChange={handleChange} type="text" />
       <button onClick={getStudent}>add</button>
       {students.map(student => (

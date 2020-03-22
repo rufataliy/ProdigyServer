@@ -25,6 +25,10 @@ export const FormikForm = props => {
   // }
 
   const handleSubmit = values => {
+    console.log("values");
+
+    console.log(values);
+
     const submitValues = {
       ...values,
       start: moment(values.start).format(),
@@ -55,6 +59,8 @@ export const FormikForm = props => {
   //   initialValues: initialValues[formProps.formType],
   //   onSubmit: handleSubmit
   // });
+  console.log(initialValues[formConfig.formType]);
+
   return (
     <Formik
       initialValues={initialValues[formConfig.formType]}

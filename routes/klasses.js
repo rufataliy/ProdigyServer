@@ -6,12 +6,15 @@ router.get("/", (req, res) => {
     //const { authorId, studentId } = req.query;
     // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
     Klass.find()
-        .then(items => res.send(items))
+        .then(items => {
+            res.send(items)
+        })
         .catch(err => res.send(err));
 });
 router.post("/", (req, res) => {
-    const klass = req.body;
     console.log(req.body);
+
+    const klass = req.body;
     Klass.create(klass)
         .then(items => res.send(items))
         .catch(err => res.send(err));
@@ -21,7 +24,6 @@ router.get("/edit/:_id", async(req, res) => {
     const { _id } = req.params;
     Klass.findOne({ _id })
         .then(items => {
-            console.log(items);
             res.send(items);
         })
         .catch(err => res.send(err));
@@ -43,7 +45,6 @@ router.get("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
     Klass.findOne({ _id })
         .then(items => {
-            console.log(items);
             res.send(items);
         })
         .catch(err => res.send(err));
