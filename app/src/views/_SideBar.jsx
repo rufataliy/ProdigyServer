@@ -24,6 +24,13 @@ const _SideBar = () => {
             <Link
               className="nav-link btn btn-outline-primary"
               role="button"
+              to="/app"
+            >
+              Home
+            </Link>
+            <Link
+              className="nav-link btn btn-outline-primary"
+              role="button"
               to="/app/Schedule"
             >
               Schedule

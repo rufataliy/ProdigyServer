@@ -1,10 +1,8 @@
-import React from "react"
-import { LogoHome } from "./Logo.jsx"
-
+import React from "react";
+import { LogoHome } from "./Logo.jsx";
+import DatePicker from "./DatePicker.jsx";
 const Home = () => {
-    return (
-        <LogoHome />
-    )
-}
+  return <DatePicker />;
+};
 
-export default Home
+export default Home;
