@@ -1,4 +1,4 @@
-import React, { useState, createRef } from "react";
+import React, { useState, useRef } from "react";
 import moment from "moment";
 import Helmet from "react-helmet";
 
@@ -7,80 +7,77 @@ import "react-day-picker/lib/style.css";
 
 import { formatDate, parseDate } from "react-day-picker/moment";
 
-export default class DatePicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleFromChange = this.handleFromChange.bind(this);
-    this.handleToChange = this.handleToChange.bind(this);
-    this.state = {
-      from: undefined,
-      to: undefined
-    };
-  }
-
-  showFromMonth() {
-    const { from, to } = this.state;
+export const DatePicker = () => {
+  const initialState = { from: undefined, to: undefined };
+  const [state, setState] = useState(initialState);
+  const { from, to } = state;
+  const toPicker = useRef();
+  const showFromMonth = () => {
+    const { from, to } = state;
     if (!from) {
       return;
     }
     if (moment(to).diff(moment(from), "months") < 2) {
-      this.to.getDayPicker().showMonth(from);
+      toPicker.current.getDayPicker().showMonth(from);
     }
-  }
+  };
 
-  handleFromChange(from) {
+  const handleFromChange = from => {
     // Change the from date and focus the "to" input field
-    this.setState({ from });
-  }
+    console.log(from);
 
-  handleToChange(to) {
-    this.setState({ to }, this.showFromMonth);
-  }
+    setState({ ...state, from });
+  };
 
-  render() {
-    console.log(this);
-    const { from, to } = this.state;
-    const modifiers = { start: from, end: to };
-    return (
-      <div className="InputFromTo">
+  const handleToChange = to => {
+    setState({ ...state, to });
+    showFromMonth();
+  };
+
+  const modifiers = { start: from, end: to };
+
+  return (
+    <div className="InputFromTo">
+      <DayPickerInput
+        value={from}
+        placeholder="From"
+        format="LL"
+        formatDate={formatDate}
+        parseDate={parseDate}
+        dayPickerProps={{
+          selectedDays: [from, { from, to }],
+          disabledDays: { after: to },
+          toMonth: to,
+          modifiers,
+          numberOfMonths: 1,
+          onDayClick: () => {
+            return toPicker.current.input.focus();
+          }
+        }}
+        onDayChange={handleFromChange}
+      />
+      <span className="InputFromTo-to">
         <DayPickerInput
-          value={from}
-          placeholder="From"
+          ref={el => (toPicker.current = el)}
+          value={to}
+          placeholder="To"
           format="LL"
           formatDate={formatDate}
           parseDate={parseDate}
           dayPickerProps={{
             selectedDays: [from, { from, to }],
-            disabledDays: { after: to },
-            toMonth: to,
+            disabledDays: { before: from },
             modifiers,
-            numberOfMonths: 1,
-            onDayClick: () => this.to.getInput().focus()
+            month: from,
+            fromMonth: from,
+            numberOfMonths: 1
           }}
-          onDayChange={this.handleFromChange}
-        />{" "}
-        —{" "}
-        <span className="InputFromTo-to">
-          <DayPickerInput
-            ref={el => (this.to = el)}
-            value={to}
-            placeholder="To"
-            format="LL"
-            formatDate={formatDate}
-            parseDate={parseDate}
-            dayPickerProps={{
-              selectedDays: [from, { from, to }],
-              disabledDays: { before: from },
-              modifiers,
-              month: from,
-              fromMonth: from,
-              numberOfMonths: 1
-            }}
-            onDayChange={this.handleToChange}
-          />
-        </span>
-        <Helmet>
-          <style>{`
+          onDayChange={handleToChange}
+        />
+      </span>
+      <pre>{JSON.stringify(state)}</pre>
+      <Helmet>
+        <style>{`
   .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
     background-color: #f0f8ff !important;
     color: #4a90e2;
@@ -103,8 +100,7 @@ export default class DatePicker extends React.Component {
     margin-left: -198px;
   }
 `}</style>
-        </Helmet>
-      </div>
-    );
-  }
-}
+      </Helmet>
+    </div>
+  );
+};

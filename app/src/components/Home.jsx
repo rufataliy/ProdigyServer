@@ -1,8 +1,12 @@
 import React from "react";
 import { LogoHome } from "./Logo.jsx";
-import DatePicker from "./DatePicker.jsx";
+import { DatePicker } from "./DatePicker.jsx";
 const Home = () => {
-  return <DatePicker />;
+  return (
+    <div>
+      <DatePicker />
+    </div>
+  );
 };
 
 export default Home;

@@ -6,7 +6,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AddStudent from "./addStudent.jsx";
-import { SubmitButton, DatePicker, TimePicker } from "formik-antd";
+import { SubmitButton, TimePicker } from "formik-antd";
+import { DatePicker } from "./DatePicker.jsx";
 
 export const newClassForm = (() => {
   const fields = props => {
@@ -138,14 +139,7 @@ export const newClassForm = (() => {
                 </Form.Group>
               </Col>
               <Col xs={3}>
-                <Form.Group className="flex-grow-1">
-                  <Form.Label>Start Date</Form.Label>
-                  <Field type="date" name="start" />
-                </Form.Group>
-                <Form.Group className="flex-grow-1">
-                  <Form.Label>End Date</Form.Label>
-                  <DatePicker onOpenChange={() => true} name="end" />
-                </Form.Group>
+                <DatePicker />
               </Col>
               <Col xs={3}>
                 <Form.Group className="flex-grow-1">
