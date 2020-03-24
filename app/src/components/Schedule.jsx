@@ -154,10 +154,10 @@ const Schedule = () => {
         newClass: {
           daysOfWeek: [],
           classType: "Not Selected",
-          start: moment(arg.dateStr),
-          end: moment(arg.dateStr),
-          startTime: moment(arg.dateStr),
-          endTime: moment(arg.dateStr)
+          start: arg.dateStr,
+          end: arg.dateStr,
+          startTime: arg.dateStr,
+          endTime: arg.dateStr
         }
       }
     });

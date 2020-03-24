@@ -7,8 +7,10 @@ import "react-day-picker/lib/style.css";
 
 import { formatDate, parseDate } from "react-day-picker/moment";
 
-export const DatePicker = () => {
-  const initialState = { from: undefined, to: undefined };
+export const DatePicker = props => {
+  console.log();
+
+  const initialState = { from: new Date(props.start), to: new Date(props.end) };
   const [state, setState] = useState(initialState);
   const { from, to } = state;
   const toPicker = useRef();
@@ -24,13 +26,13 @@ export const DatePicker = () => {
 
   const handleFromChange = from => {
     // Change the from date and focus the "to" input field
-    console.log(from);
-
     setState({ ...state, from });
+    props.pathValueToFormik("start", state.from, false);
   };
 
   const handleToChange = to => {
     setState({ ...state, to });
+    props.pathValueToFormik("end", state.to, false);
     showFromMonth();
   };
 

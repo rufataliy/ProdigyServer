@@ -59,13 +59,10 @@ export const newClassForm = (() => {
                   </FieldArray>
                 </FormGroup>
               </Col>
-
               <Col xs={4}>
                 <Form.Group>
                   <Field>
                     {({ field, form }) => {
-                      console.log(form);
-
                       const onChange = value => {
                         const { daysOfWeek } = form.values;
                         if (daysOfWeek.indexOf(value) >= 0) {
@@ -139,7 +136,20 @@ export const newClassForm = (() => {
                 </Form.Group>
               </Col>
               <Col xs={3}>
-                <DatePicker />
+                <Field>
+                  {({ field, form, meta }) => {
+                    console.log({ field: field, form: form, meta: meta });
+
+                    return (
+                      <DatePicker
+                        start={field.value.start}
+                        end={field.value.end}
+                        pathValueToFormik={form.setFieldValue}
+                        name="start"
+                      />
+                    );
+                  }}
+                </Field>
               </Col>
               <Col xs={3}>
                 <Form.Group className="flex-grow-1">
