@@ -6,12 +6,11 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AddStudent from "./addStudent.jsx";
-import { SubmitButton, TimePicker } from "formik-antd";
+import { SubmitButton } from "formik-antd";
 import { DatePicker } from "./DatePicker.jsx";
-
+import { TimePicker } from "./TimePicker.jsx";
 export const newClassForm = (() => {
-  const fields = props => {
-    console.log(props);
+  const fields = (props, handleDelete) => {
     const daysOptions = [
       { label: "Sunday", value: "0" },
       { label: "Monday", value: "1" },
@@ -138,14 +137,11 @@ export const newClassForm = (() => {
               <Col xs={3}>
                 <Field>
                   {({ field, form, meta }) => {
-                    console.log({ field: field, form: form, meta: meta });
-
                     return (
                       <DatePicker
                         start={field.value.start}
                         end={field.value.end}
                         pathValueToFormik={form.setFieldValue}
-                        name="start"
                       />
                     );
                   }}
@@ -154,15 +150,33 @@ export const newClassForm = (() => {
               <Col xs={3}>
                 <Form.Group className="flex-grow-1">
                   <Form.Label>Start time</Form.Label>
-                  <div>
-                    <TimePicker name="startTime" />
-                  </div>
+                  <Field>
+                    {({ field, form, meta }) => {
+                      return (
+                        <TimePicker
+                          fieldName="start"
+                          recurrField="startTime"
+                          pathValueToFormik={form.setFieldValue}
+                          initialTime={field.value.start}
+                        />
+                      );
+                    }}
+                  </Field>
                 </Form.Group>
                 <Form.Group className="flex-grow-1">
                   <Form.Label>End time</Form.Label>
-                  <div>
-                    <TimePicker name="endTime" />
-                  </div>
+                  <Field>
+                    {({ field, form, meta }) => {
+                      return (
+                        <TimePicker
+                          fieldName="end"
+                          recurrField="endTime"
+                          pathValueToFormik={form.setFieldValue}
+                          initialTime={field.value.end}
+                        />
+                      );
+                    }}
+                  </Field>
                 </Form.Group>
               </Col>
 
@@ -172,7 +186,7 @@ export const newClassForm = (() => {
                 </Button>
                 {props.method == "put" && (
                   <Button
-                    onClick={props.handleDelete}
+                    onClick={handleDelete}
                     className="btn-danger"
                     type="danger"
                   >

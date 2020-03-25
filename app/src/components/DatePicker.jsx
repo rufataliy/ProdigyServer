@@ -8,8 +8,6 @@ import "react-day-picker/lib/style.css";
 import { formatDate, parseDate } from "react-day-picker/moment";
 
 export const DatePicker = props => {
-  console.log();
-
   const initialState = { from: new Date(props.start), to: new Date(props.end) };
   const [state, setState] = useState(initialState);
   const { from, to } = state;
@@ -32,8 +30,8 @@ export const DatePicker = props => {
 
   const handleToChange = to => {
     setState({ ...state, to });
-    props.pathValueToFormik("end", state.to, false);
     showFromMonth();
+    props.pathValueToFormik("end", state.to, false);
   };
 
   const modifiers = { start: from, end: to };
@@ -77,7 +75,6 @@ export const DatePicker = props => {
           onDayChange={handleToChange}
         />
       </span>
-      <pre>{JSON.stringify(state)}</pre>
       <Helmet>
         <style>{`
   .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {

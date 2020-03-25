@@ -136,6 +136,8 @@ const Schedule = () => {
     toggleModal();
   };
   const handleDateClick = arg => {
+    console.log(arg);
+
     actions({
       type: FORM_CONFIG,
       payload: {
@@ -154,10 +156,8 @@ const Schedule = () => {
         newClass: {
           daysOfWeek: [],
           classType: "Not Selected",
-          start: arg.dateStr,
-          end: arg.dateStr,
-          startTime: arg.dateStr,
-          endTime: arg.dateStr
+          start: arg.date,
+          end: arg.date
         }
       }
     });

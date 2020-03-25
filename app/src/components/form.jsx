@@ -4,7 +4,7 @@ import { Formik, Form, useFormik } from "formik";
 import { newClassForm } from "./_newClassTmp.jsx";
 import Context from "../store/context";
 import moment from "moment";
-import { MODAL, COMP_UPDATE } from "../store/useGlobalState";
+import { MODAL, COMP_UPDATE, FORM_CONFIG } from "../store/useGlobalState";
 
 export const FormikForm = props => {
   const {
@@ -16,49 +16,47 @@ export const FormikForm = props => {
     actions
   } = useContext(Context);
   console.log("formikFOrm rendered");
-  // const initialValuesConverted = {
-  //     ...initialValues.newClass,
-  //     start: moment(initialValues.newClass.start),
-  //     end: moment(initialValues.newClass.end),
-  //     startTime: moment(initialValues.newClass.startTime),
-  //     endTime: moment(initialValues.newClass.endTime)
-  // }
-
+  const reset = () => {
+    actions({
+      type: MODAL,
+      payload: {
+        ...modalState,
+        modalVisibility: !modalState.modalVisibility
+      }
+    });
+    actions({
+      type: COMP_UPDATE,
+      payload: {
+        compUpdate: !compUpdate
+      }
+    });
+  };
   const handleSubmit = values => {
-    const submitValues = {
-      ...values,
-      start: moment(values.start).format(),
-      end: moment(values.end).format(),
-      startTime: moment(values.startTime).format(),
-      endTime: moment(values.endTime).format(),
-      author: appState.uid
-    };
-    newClassForm.dbPath[formConfig.method](formConfig, submitValues)
+    console.log("handleSubmit");
+    console.log(values);
+    values.author = "userID";
+    newClassForm.dbPath[formConfig.method](formConfig, values)
       .then(() => {
-        actions({
-          type: MODAL,
-          payload: {
-            ...modalState,
-            modalVisibility: !modalState.modalVisibility
-          }
-        });
-        actions({
-          type: COMP_UPDATE,
-          payload: {
-            compUpdate: !compUpdate
-          }
-        });
+        reset();
       })
       .catch(err => console.log(err));
   };
-
+  const handleDelete = () => {
+    const config = {
+      ...formConfig,
+      method: "delete"
+    };
+    newClassForm.dbPath[config.method](config)
+      .then(() => reset())
+      .catch(err => console.log(err));
+  };
   return (
     <Formik
       initialValues={initialValues[formConfig.formType]}
       onSubmit={handleSubmit}
     >
       {props => {
-        return <Form>{newClassForm.fields(formConfig)}</Form>;
+        return <Form>{newClassForm.fields(formConfig, handleDelete)}</Form>;
       }}
     </Formik>
   );

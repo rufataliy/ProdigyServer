@@ -15,14 +15,14 @@ export default async(config, submitValues) => {
         },
         method: config.method
     };
+    console.log(url, options);
+
     if (submitValues) {
         options.body = JSON.stringify(submitValues);
     }
-    console.log(url, options);
-
     return fetch(url, options)
         .then(response => {
             return response.json();
         })
-        .catch(err => err);
+        .catch(err => console.log(err));
 };
