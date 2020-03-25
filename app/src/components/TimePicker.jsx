@@ -35,8 +35,14 @@ export const TimePicker = props => {
           time={time}
         />
       )}
-      <span className="timeDisplay" onClick={() => setVisible(!visible)}>
-        {`${time.hour}:${time.minute}`} <Icon name="far ml-2 fa-clock" />
+      <span
+        className="timeDisplay align-items-center d-flex justify-content-between"
+        onClick={() => setVisible(!visible)}
+      >
+        <span>{`${time.hour > 0 ? time.hour : "00"}:${
+          time.minute > 0 ? time.minute : "00"
+        }`}</span>{" "}
+        <Icon name="far ml-2 fa-clock" />
       </span>
     </div>
   );

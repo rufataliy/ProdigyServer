@@ -37,7 +37,11 @@ const AddStudent = props => {
           placeholder="Email"
           type="text"
         />
-        <button className="btn-primary btn" type="button" onClick={getStudent}>
+        <button
+          className="btn-primary btn-sm"
+          type="button"
+          onClick={getStudent}
+        >
           add
         </button>
       </div>
