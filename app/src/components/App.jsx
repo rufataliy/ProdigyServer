@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TopNav from "./TopNav.jsx";
-import useGlobalState from "../store/useGlobalState";
+import useGlobalState, { APP } from "../store/useGlobalState";
 import Context from "../store/context";
 import _SideBar from "../views/_SideBar.jsx";
 import Schedule from "./Schedule.jsx";
@@ -11,10 +11,26 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { browserHistory } from "react-router";
+import VocabularyHome from "./VocabularyHome.jsx";
+import api from "../api/api";
 const App = () => {
   console.log("app rerendered");
   const store = useGlobalState();
 
+  useEffect(() => {
+    const config = {
+      method: "get",
+      collectionName: "profile"
+    };
+    api(config)
+      .then(user => {
+        store.actions({
+          type: APP,
+          payload: { ...store.appState, author: user }
+        });
+      })
+      .catch(err => console.log(err));
+  }, []);
   return (
     <div>
       <Context.Provider value={store}>
@@ -29,7 +45,11 @@ const App = () => {
                 <Switch>
                   <Route path="/app" exact component={Home} />
                   <Route path="/app/Schedule" exact component={Schedule} />
-                  <Route path="/app/Vocabulary" exact component={Vocabulary} />
+                  <Route
+                    path="/app/Vocabulary"
+                    exact
+                    component={VocabularyHome}
+                  />
                 </Switch>
               </Col>
             </Row>

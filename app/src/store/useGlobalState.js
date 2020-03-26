@@ -14,7 +14,7 @@ const useGlobalState = () => {
     const componentUpdateGlobal = false
     const appStateGlobal = {
         loggedIn: false,
-        uid: ""
+        author: ""
     }
     const tooltipStateGlobal = {
         show: false

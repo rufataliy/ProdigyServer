@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 const app = express();
 const fs = require("fs");
-const db = mongoose.connection;
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { success, error, warning } = require("./tools/chalk");
 const { auth, requiresAuth } = require("express-openid-connect");
@@ -55,9 +54,7 @@ app.use("/app", isAuthenticated, express.static("app/dist"));
 app.get("/app", (req, res) => {
     res.sendFile(`${__dirname}/index.html`);
 });
-// app.get("/sari/*", (req, res) => {
-//     res.send("hello");
-// });
+
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));

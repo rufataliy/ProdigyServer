@@ -3,8 +3,8 @@ const router = new express.Router();
 const Vocabulary = require("../models/Vocabulary");
 const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    Vocabulary.find()
+    const author = req.openid.user.sub.replace("auth0|", "")
+    Vocabulary.find({ author })
         .then(items => res.status(200).json(items))
         .catch(err => res.send(err));
 });

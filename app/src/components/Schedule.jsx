@@ -48,6 +48,8 @@ const Schedule = () => {
       events.map(event => {
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
           delete event.daysOfWeek;
+          delete event.startTime;
+          delete event.endTime;
         }
       });
       actions({

@@ -34,7 +34,7 @@ export const FormikForm = props => {
   const handleSubmit = values => {
     console.log("handleSubmit");
     console.log(values);
-    values.author = "userID";
+    values.author = appState.author.sub;
     newClassForm.dbPath[formConfig.method](formConfig, values)
       .then(() => {
         reset();
@@ -50,6 +50,7 @@ export const FormikForm = props => {
       .then(() => reset())
       .catch(err => console.log(err));
   };
+
   return (
     <Formik
       initialValues={initialValues[formConfig.formType]}

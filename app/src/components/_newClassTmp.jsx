@@ -213,7 +213,9 @@ export const newClassForm = (() => {
           <Field type="text" name="example" placeholder="Example" />
           <Field type="text" name="topic" placeholder="Topic" />
           <Field type="text" name="source" placeholder="Source" />
-          <SubmitButton>Save</SubmitButton>
+          <Button type="submit" className="btn-sm" type="primary">
+            {props.method != "put" ? "Save" : "Update"}
+          </Button>
         </React.Fragment>
       ),
       newVocabulary: (
@@ -221,7 +223,9 @@ export const newClassForm = (() => {
           <Field type="text" name="name" placeholder="Name" />
           <Field type="text" name="topic" placeholder="Topic" />
           <Field type="text" name="level" placeholder="Level" />
-          <SubmitButton>Save</SubmitButton>
+          <Button type="submit" className="btn-sm" type="primary">
+            {props.method != "put" ? "Save" : "Update"}
+          </Button>
         </React.Fragment>
       )
     };

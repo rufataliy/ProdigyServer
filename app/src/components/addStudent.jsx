@@ -7,7 +7,7 @@ const AddStudent = props => {
   const [students, setStudents] = useState([]);
   const [state, setState] = useState();
   const apiProps = {
-    collectionName: "users",
+    collectionName: "klasses/addStudent",
     method: "get",
     docId: state
   };
@@ -17,8 +17,10 @@ const AddStudent = props => {
 
   const getStudent = async () => {
     const student = await newClassForm.dbPath["get"](apiProps);
-    props.push(student);
-    setStudents(prevState => [...prevState, student]);
+
+    props.push(student[0].user_id);
+    setStudents(prevState => [...prevState, student[0]]);
+    setState("");
   };
   const handleUnshift = event => {
     setStudents(prevState => {
