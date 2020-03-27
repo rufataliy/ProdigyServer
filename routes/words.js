@@ -2,11 +2,9 @@ const express = require("express");
 const router = new express.Router();
 const Word = require("../models/Word");
 const { warning } = require("../tools/chalk");
-router.get("/", (req, res) => {
-    const { author } = req.query;
-    console.log(author);
-
-    Word.find({ author })
+router.get("/:docId", (req, res) => {
+    const { docId } = req.params;
+    Word.find({ vocabularyId: docId })
         .then(items => res.send(items))
         .catch(err => res.send(err));
 });

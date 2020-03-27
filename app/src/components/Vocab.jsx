@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import Context from "../store/context";
 
 const Vocab = props => {
-  const { vocab } = props;
+  const { vocabId } = useParams();
+  console.log(vocabId);
+
+  const {
+    vocabState: { vocabs }
+  } = useContext(Context);
+  let { vocab } = props;
+  if (vocabId) {
+    vocabs.map(item => {
+      if (item._id === vocabId) {
+        vocab = item;
+      }
+    });
+  }
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Body>

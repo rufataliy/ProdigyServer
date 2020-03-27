@@ -44,12 +44,8 @@ const App = () => {
               <Col bsPrefix={"col-auto col-md-9 mx-auto pt-5 "}>
                 <Switch>
                   <Route path="/app" exact component={Home} />
-                  <Route path="/app/Schedule" exact component={Schedule} />
-                  <Route
-                    path="/app/Vocabulary"
-                    exact
-                    component={VocabularyHome}
-                  />
+                  <Route path="/app/Schedule" component={Schedule} />
+                  <Route path="/app/Vocabulary" component={VocabularyHome} />
                 </Switch>
               </Col>
             </Row>
