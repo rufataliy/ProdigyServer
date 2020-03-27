@@ -28,21 +28,20 @@ const useGlobalState = () => {
     }
     const vocabStateGlobal = {
         vocabs: [],
-        allWords: [],
+        words: [],
         searchTerm: ""
     }
     const initialValuesGlobal = {
         newClass: {
             title: "",
-            start: {},
-            end: {},
-            startTime: {},
-            endTime: {},
+            start: "",
+            end: "",
+            startTime: "",
+            endTime: "",
             level: "",
             origin: "",
             classType: "Not Selected",
             daysOfWeek: [""],
-            startRecur: {},
             author: ""
         },
         newWord: {

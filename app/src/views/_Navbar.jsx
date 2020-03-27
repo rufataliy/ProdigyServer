@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import ProfileInfo from "../components/ProfileInfo.jsx";
 const _NavBar = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
@@ -24,7 +25,7 @@ const _NavBar = () => {
           </NavDropdown>
         </Nav>
         <Nav>
-          <Nav.Link href="#deets">More deets</Nav.Link>
+          <ProfileInfo />
           <Nav.Link eventKey={2} href="/logout">
             Log out
           </Nav.Link>

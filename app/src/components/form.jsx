@@ -4,7 +4,7 @@ import { Formik, Form, useFormik } from "formik";
 import { newClassForm } from "./_newClassTmp.jsx";
 import Context from "../store/context";
 import moment from "moment";
-import { MODAL, COMP_UPDATE, FORM_CONFIG } from "../store/useGlobalState";
+import { MODAL, COMP_UPDATE } from "../store/useGlobalState";
 
 export const FormikForm = props => {
   const {
@@ -50,12 +50,8 @@ export const FormikForm = props => {
       .then(() => reset())
       .catch(err => console.log(err));
   };
-
   return (
-    <Formik
-      initialValues={initialValues[formConfig.formType]}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {props => {
         return <Form>{newClassForm.fields(formConfig, handleDelete)}</Form>;
       }}

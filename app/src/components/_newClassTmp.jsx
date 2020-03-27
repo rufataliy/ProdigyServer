@@ -6,7 +6,6 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AddStudent from "./addStudent.jsx";
-import { SubmitButton } from "formik-antd";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
 export const newClassForm = (() => {
@@ -22,7 +21,7 @@ export const newClassForm = (() => {
     ];
 
     const field = {
-      newClass: (
+      klasses: (
         <React.Fragment>
           <Container>
             <Row>
@@ -206,7 +205,7 @@ export const newClassForm = (() => {
           </Container>
         </React.Fragment>
       ),
-      newWord: (
+      words: (
         <React.Fragment>
           <Field type="text" name="phrase" placeholder="Phrase" />
           <Field type="text" name="definition" placeholder="Definition" />
@@ -218,7 +217,7 @@ export const newClassForm = (() => {
           </Button>
         </React.Fragment>
       ),
-      newVocabulary: (
+      vocabularies: (
         <React.Fragment>
           <Field type="text" name="name" placeholder="Name" />
           <Field type="text" name="topic" placeholder="Topic" />
@@ -229,7 +228,7 @@ export const newClassForm = (() => {
         </React.Fragment>
       )
     };
-    return field[props.formType];
+    return field[props.collectionName];
   };
   //
   const dbPath = {

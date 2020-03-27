@@ -5,8 +5,6 @@ import Context from "../store/context";
 
 const Vocab = props => {
   const { vocabId } = useParams();
-  console.log(vocabId);
-
   const {
     vocabState: { vocabs }
   } = useContext(Context);

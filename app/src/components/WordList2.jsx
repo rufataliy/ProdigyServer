@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
-import { Accordion, Card, Button } from "react-bootstrap";
+import Word from "./Word.jsx";
 import { useContext, useEffect } from "react";
 import Context from "../store/context";
 const Wordlist = () => {
@@ -15,13 +15,11 @@ const Wordlist = () => {
     };
     api(config)
       .then(words => {
-        console.log(words);
-
         actions({
           type: "setVocabState",
           payload: {
             ...vocabState,
-            allWords: words
+            words
           }
         });
       })
@@ -29,17 +27,8 @@ const Wordlist = () => {
   }, [compUpdate]);
   return (
     <div>
-      {vocabState.allWords.map(word => (
-        <Accordion>
-          <Card>
-            <Accordion.Toggle as={Button} variant="link" eventKey={word._id}>
-              <Card.Header>{`${word.phrase} - ${word.definition}`}</Card.Header>
-            </Accordion.Toggle>
-            <Accordion.Collapse eventKey={word._id}>
-              <Card.Body>{word.example}</Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
+      {vocabState.words.map(word => (
+        <Word word={word} />
       ))}
     </div>
   );

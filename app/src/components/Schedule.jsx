@@ -1,49 +1,32 @@
 import React, { useContext, useEffect } from "react";
-import { newClassForm } from "./_newClassTmp.jsx";
+import { Spinner } from "react-bootstrap";
 import Context from "../store/context";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Calendar } from "@fullcalendar/core";
-import ModalComp from "./Modal.jsx";
 import "./style/main.scss";
 import "./style/tooltip.scss";
+import { StateHandler } from "./StateHandler.jsx";
 import { FormikForm } from "./form.jsx";
-import moment from "moment";
 import Tooltip from "./tooltip.jsx";
-import {
-  SCHEDULE,
-  MODAL,
-  INITIAL_VALUES,
-  FORM_CONFIG,
-  COMP_UPDATE
-} from "../store/useGlobalState";
-import FormModal from "./formModal.jsx";
+import { SCHEDULE, COMP_UPDATE } from "../store/useGlobalState";
 import BootModal from "./bootModal.jsx";
-
-const Schedule = () => {
+import { newClass } from "../utils/defaultInitialValues";
+import { createKlass, editKlass, getKlass } from "../utils/defaultAPIConfig";
+import api from "../api/api.js";
+const Schedule = props => {
+  const { setAction } = props;
   console.log("schedule rendered");
-  const {
-    modalState,
-    scheduleState,
-    initialValues,
-    formConfig,
-    tooltipState,
-    compUpdate,
-    appState,
-    actions
-  } = useContext(Context);
+
+  const { scheduleState, tooltipState, compUpdate, actions } = useContext(
+    Context
+  );
 
   useEffect(() => {
-    const getEvents = async () => {
-      const props = {
-        collectionName: "klasses",
-        method: "get",
-        author: appState.uid
-      };
-      const events = await newClassForm.dbPath["get"](props);
+    api(getKlass).then(events => {
+      console.log(events);
 
       events.map(event => {
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
@@ -52,33 +35,11 @@ const Schedule = () => {
           delete event.endTime;
         }
       });
-      actions({
-        type: SCHEDULE,
-        payload: { ...scheduleState, events: events }
-      });
-    };
-    getEvents();
+      setAction({ payload: events, actionNames: [SCHEDULE] });
+    });
   }, [compUpdate]);
   const calendarComponentRef = React.createRef();
-  const toggleModal = () => {
-    actions({
-      type: MODAL,
-      payload: { ...modalState, modalVisibility: !modalState.modalVisibility }
-    });
-  };
-  const handleDelete = () => {
-    newClassForm.dbPath["delete"]({ ...formConfig, method: "delete" }).then(
-      () => {
-        actions({
-          type: COMP_UPDATE,
-          payload: {
-            compUpdate: !compUpdate
-          }
-        });
-        toggleModal();
-      }
-    );
-  };
+
   const toggleTooltip = () => {
     actions({
       type: "setTooltipState",
@@ -108,90 +69,63 @@ const Schedule = () => {
     a.style.display = "none";
   };
   const handleEventClick = info => {
-    const { title, _id } = info.event.extendedProps;
+    const { _id } = info.event.extendedProps;
     scheduleState.events.forEach(event => {
       if (event._id == _id) {
-        actions({
-          type: INITIAL_VALUES,
+        props.setAction({
+          config: { ...editKlass, docId: _id, title: event.title },
           payload: {
-            ...initialValues,
-            newClass: {
-              ...event,
-              daysOfWeek: event.daysOfWeek ? event.daysOfWeek : []
-            }
-          }
+            ...event,
+            daysOfWeek: event.daysOfWeek ? event.daysOfWeek : []
+          },
+          actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
         });
       }
     });
-
-    actions({
-      type: "setFormConfig",
-      payload: {
-        ...formConfig,
-        title: `Update ${title}`,
-        collectionName: "klasses",
-        formType: "newClass",
-        docId: _id,
-        method: "put"
-      }
-    });
-    toggleModal();
   };
   const handleDateClick = arg => {
-    console.log(arg);
-
-    actions({
-      type: FORM_CONFIG,
-      payload: {
-        ...formConfig,
-        title: `Create new class`,
-        collectionName: "klasses",
-        formType: "newClass",
-        docId: "",
-        method: "post"
-      }
+    props.setAction({
+      config: createKlass,
+      payload: { ...newClass, start: arg.date, end: arg.date },
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
     });
-    actions({
-      type: INITIAL_VALUES,
-      payload: {
-        ...initialValues,
-        newClass: {
-          daysOfWeek: [],
-          classType: "Not Selected",
-          start: arg.date,
-          end: arg.date
-        }
-      }
-    });
-    toggleModal();
   };
 
   return (
     <div className="calendarParent">
       <BootModal>
-        <FormikForm handleDelete={handleDelete} />
+        <FormikForm />
       </BootModal>
-      <FullCalendar
-        contentHeight={600}
-        height={600}
-        eventMouseEnter={showTooltip}
-        eventMouseLeave={hideTooltip}
-        eventClick={handleEventClick}
-        dateClick={handleDateClick}
-        defaultView="dayGridMonth"
-        plugins={[dayGridPlugin, listPlugin, interactionPlugin, timeGridPlugin]}
-        header={{
-          left: "prev,next today",
-          center: "Schedulee",
-          right: "dayGridMonth,listWeek,timeGridWeek"
-        }}
-        events={scheduleState.events}
-        eventRender={showTooltip}
-        ref={calendarComponentRef}
-      />
+      {scheduleState.events.length > 0 ? (
+        <FullCalendar
+          contentHeight={600}
+          height={600}
+          eventMouseEnter={showTooltip}
+          eventMouseLeave={hideTooltip}
+          eventClick={handleEventClick}
+          dateClick={handleDateClick}
+          defaultView="dayGridMonth"
+          plugins={[
+            dayGridPlugin,
+            listPlugin,
+            interactionPlugin,
+            timeGridPlugin
+          ]}
+          header={{
+            left: "prev,next today",
+            center: "Schedulee",
+            right: "dayGridMonth,listWeek,timeGridWeek"
+          }}
+          events={scheduleState.events}
+          eventRender={showTooltip}
+          ref={calendarComponentRef}
+        />
+      ) : (
+        <Spinner animation="border" variant="secondary" />
+      )}
       <Tooltip>{tooltipState.show && showTooltip()}</Tooltip>
     </div>
   );
 };
 
-export default Schedule;
+export default StateHandler(Schedule);
