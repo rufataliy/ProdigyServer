@@ -12,6 +12,11 @@ export const createVocabulary = {
     collectionName: "vocabularies",
     method: "post"
 }
+export const assignVocabularyOptions = {
+    collectionName: "vocabularies/assignTo",
+    method: "post",
+    params: ""
+}
 export const getKlass = {
     collectionName: "klasses",
     method: "get"

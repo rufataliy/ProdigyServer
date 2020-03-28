@@ -5,6 +5,7 @@ const wordSchema = new mongoose.Schema({
     level: String,
     phrase: String,
     vocabularyId: String,
+    studentList: [String],
     definition: String,
     topic: String,
     example: String

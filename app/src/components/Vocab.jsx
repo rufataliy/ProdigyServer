@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { useParams, useRouteMatch, Link } from "react-router-dom";
 import Context from "../store/context";
-import { editVocabulary } from "../utils/defaultAPIConfig";
+import {
+  editVocabulary,
+  assignVocabularyOptions
+} from "../utils/defaultAPIConfig";
 import { StateHandler } from "./StateHandler.jsx";
 const Vocab = ({ setAction, vocab }) => {
   const { vocabId } = useParams();
@@ -26,6 +29,16 @@ const Vocab = ({ setAction, vocab }) => {
       actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
     });
   };
+  const assignToKlass = () => {
+    setAction({
+      config: {
+        ...assignVocabularyOptions,
+        params: vocab._id,
+        title: vocab.title
+      },
+      actionNames: ["setFormConfig", "toggleModal"]
+    });
+  };
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Body>
@@ -38,6 +51,9 @@ const Vocab = ({ setAction, vocab }) => {
         </a>
         <a class="ml-3" onClick={editVocab} href="#">
           delete
+        </a>
+        <a class="ml-3" onClick={assignToKlass} href="#">
+          assign to a klass
         </a>
       </Card.Body>
     </Card>

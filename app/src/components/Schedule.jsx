@@ -26,8 +26,6 @@ const Schedule = props => {
 
   useEffect(() => {
     api(getKlass).then(events => {
-      console.log(events);
-
       events.map(event => {
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
           delete event.daysOfWeek;

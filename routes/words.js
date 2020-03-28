@@ -27,7 +27,7 @@ router.get("/edit/:_id", async(req, res) => {
         })
         .catch(err => res.send(err));
 });
-router.post("/edit/:_id", async(req, res) => {
+router.put("/edit/:_id", async(req, res) => {
     const { _id } = req.params;
     const update = req.body;
     console.log(_id, update);

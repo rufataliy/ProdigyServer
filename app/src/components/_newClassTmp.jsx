@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AddStudent from "./addStudent.jsx";
+import AssignTo from "./AssignTo.jsx";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
 export const newClassForm = (() => {
@@ -226,7 +227,11 @@ export const newClassForm = (() => {
             {props.method != "put" ? "Save" : "Update"}
           </Button>
           {props.method == "put" && (
-            <Button onClick={handleDelete} className="btn-danger" type="danger">
+            <Button
+              onClick={handleDelete}
+              className="btn-danger btn-sm"
+              type="danger"
+            >
               Delete
             </Button>
           )}
@@ -241,9 +246,19 @@ export const newClassForm = (() => {
             {props.method != "put" ? "Save" : "Update"}
           </Button>
           {props.method == "put" && (
-            <Button onClick={handleDelete} className="btn-danger" type="danger">
+            <Button
+              onClick={handleDelete}
+              className="btn-danger btn-sm"
+              type="danger"
+            >
               Delete
             </Button>
+          )}
+        </React.Fragment>
+      ),
+      "vocabularies/assignTo": (
+        <React.Fragment>
+          <AssignTo />
           )}
         </React.Fragment>
       )

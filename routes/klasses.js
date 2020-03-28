@@ -5,8 +5,6 @@ const request = require("request");
 const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
-    console.log(author);
-
     // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
     Klass.find({ $or: [{ author }, { studentList: author }] })
         .then(items => {
@@ -15,8 +13,6 @@ router.get("/", (req, res) => {
         .catch(err => res.send(err));
 });
 router.post("/", (req, res) => {
-    console.log(req.body);
-
     const klass = req.body;
     Klass.create(klass)
         .then(items => res.send(items))

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = new express.Router();
 const Vocabulary = require("../models/Vocabulary");
-const { warning } = require("../tools/chalk");
+const Klass = require("../models/Klass")
+const { warning, error } = require("../tools/chalk");
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
-    Vocabulary.find({ author })
+    Vocabulary.find({ $or: [{ author }, { studentList: author }] })
         .then(items => res.status(200).json(items))
         .catch(err => res.send(err));
 });
@@ -53,5 +54,24 @@ router.delete("/delete/:_id", async(req, res) => {
             res.send(items);
         })
         .catch(err => res.send(err));
+});
+router.post("/assignTo/:_id", async(req, res) => {
+    const { _id } = req.params;
+    const { klassId } = req.body
+    console.log(req.params);
+
+    Klass.findById(klassId).then(klass => {
+        console.log(klass.studentList);
+
+        Vocabulary.findByIdAndUpdate({ _id }, {
+                $push: {
+                    studentList: { $each: klass.studentList }
+                }
+            })
+            .then(vocabulary => {
+                res.send({ vocabulary, klass })
+            }).catch(err => error(err))
+    }).catch(err => error(err))
+
 });
 module.exports = router;
