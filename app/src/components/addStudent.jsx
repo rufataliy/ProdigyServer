@@ -40,11 +40,14 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
     });
   };
   const handleUnshift = event => {
+    // If event.target is passed to splice function it becomes null ????
+    const { id } = event.target;
+
     setStudents(prevState => {
-      prevState.splice(event.target.id, 1);
+      prevState.splice(id, 1);
       return [...prevState];
     });
-    remove(event.target.id);
+    remove(id);
   };
   return (
     <div>

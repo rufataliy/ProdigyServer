@@ -5,7 +5,7 @@ export const getVocabulary = {
 export const editVocabulary = {
     collectionName: "vocabularies",
     method: "put",
-    docId: "",
+    params: "",
     title: ""
 }
 export const createVocabulary = {
@@ -33,4 +33,20 @@ export const getStudentOptions = {
     collectionName: "klasses/addStudent/byemail",
     method: "get",
     params: ""
+}
+export const getWordsOptions = {
+    collectionName: "words",
+    method: "get",
+    params: ""
+}
+export const createWordOptions = {
+    collectionName: "words",
+    method: "post",
+    title: ""
+}
+export const editWordOptions = {
+    collectionName: "words",
+    method: "put",
+    params: "",
+    title: ""
 }

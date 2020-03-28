@@ -225,6 +225,11 @@ export const newClassForm = (() => {
           <Button type="submit" className="btn-sm" type="primary">
             {props.method != "put" ? "Save" : "Update"}
           </Button>
+          {props.method == "put" && (
+            <Button onClick={handleDelete} className="btn-danger" type="danger">
+              Delete
+            </Button>
+          )}
         </React.Fragment>
       ),
       vocabularies: (
@@ -235,6 +240,11 @@ export const newClassForm = (() => {
           <Button type="submit" className="btn-sm" type="primary">
             {props.method != "put" ? "Save" : "Update"}
           </Button>
+          {props.method == "put" && (
+            <Button onClick={handleDelete} className="btn-danger" type="danger">
+              Delete
+            </Button>
+          )}
         </React.Fragment>
       )
     };

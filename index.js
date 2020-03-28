@@ -54,8 +54,6 @@ app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.use("/app/Schedule", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.use("/app/Vocabulary", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app", (req, res) => {
-    console.log(`${__dirname}/index.html`);
-
     res.sendFile(`index.html`, {
         root: "./app/dist"
     });

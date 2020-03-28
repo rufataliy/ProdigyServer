@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteMatch, Link } from "react-router-dom";
 import Context from "../store/context";
-
-const Vocab = props => {
+import { editVocabulary } from "../utils/defaultAPIConfig";
+import { StateHandler } from "./StateHandler.jsx";
+const Vocab = ({ setAction, vocab }) => {
   const { vocabId } = useParams();
+  const { url } = useRouteMatch();
+  console.log(url);
+
   const {
     vocabState: { vocabs }
   } = useContext(Context);
-  let { vocab } = props;
   if (vocabId) {
     vocabs.map(item => {
       if (item._id === vocabId) {
@@ -16,17 +19,29 @@ const Vocab = props => {
       }
     });
   }
+  const editVocab = () => {
+    setAction({
+      config: { ...editVocabulary, params: vocab._id, title: vocab.title },
+      payload: vocab,
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
+    });
+  };
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Body>
         <Card.Title>{vocab.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{vocab.topic}</Card.Subtitle>
         <Card.Text>{vocab.level}</Card.Text>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
+        <Link to={`${url}words/${vocab._id}`}>See words</Link>
+        <a class="ml-3" onClick={editVocab} href="#">
+          edit
+        </a>
+        <a class="ml-3" onClick={editVocab} href="#">
+          delete
+        </a>
       </Card.Body>
     </Card>
   );
 };
 
-export default Vocab;
+export default StateHandler(Vocab);

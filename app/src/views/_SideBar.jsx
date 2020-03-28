@@ -31,14 +31,14 @@ const _SideBar = () => {
             <Link
               className="nav-link btn btn-outline-primary"
               role="button"
-              to="/app/Schedule"
+              to="/app/Schedule/"
             >
               Schedule
             </Link>
             <Link
               className="nav-link btn btn-outline-primary"
               role="button"
-              to="/app/Vocabulary"
+              to="/app/Vocabulary/"
             >
               Vocabulary
             </Link>

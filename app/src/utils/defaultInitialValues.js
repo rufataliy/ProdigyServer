@@ -17,7 +17,8 @@ export const newWord = {
     example: "",
     definition: "",
     topic: "",
-    author: ""
+    author: "",
+    vocabularyId: ""
 }
 export const newVocabulary = {
     name: "",

@@ -9,7 +9,7 @@ const VocabularyHome = props => {
   return (
     <div>
       <Route exact path={path} component={VocabularyList} />
-      <Route path={`${path}/:vocabId`}>
+      <Route path={`${path}/words/:vocabularyId`}>
         <Wordlist />
       </Route>
     </div>

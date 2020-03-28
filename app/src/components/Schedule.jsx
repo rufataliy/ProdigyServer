@@ -73,7 +73,7 @@ const Schedule = props => {
     scheduleState.events.forEach(event => {
       if (event._id == _id) {
         props.setAction({
-          config: { ...editKlass, docId: _id, title: event.title },
+          config: { ...editKlass, params: _id, title: event.title },
           payload: {
             ...event,
             daysOfWeek: event.daysOfWeek ? event.daysOfWeek : []

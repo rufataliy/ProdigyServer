@@ -42,9 +42,7 @@ const VocabularyList = props => {
         <FormikForm />
       </BootModal>
       {vocabState.vocabs.map(vocab => (
-        <Link to={`${url}/${vocab._id}`}>
-          <Vocab vocab={vocab} />
-        </Link>
+        <Vocab key={vocab._id} vocab={vocab} />
       ))}
     </div>
   );
