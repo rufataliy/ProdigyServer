@@ -50,10 +50,15 @@ app.use(
         credentials: true
     })
 );
-app.use("/app/*", isAuthenticated, express.static("app/dist"));
-app.get("/app/*", (req, res) => {
-    console.log("app/*");
-    res.sendFile(`${__dirname}/index.html`);
+app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.use("/app/Schedule", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.use("/app/Vocabulary", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.get("/app", (req, res) => {
+    console.log(`${__dirname}/index.html`);
+
+    res.sendFile(`index.html`, {
+        root: "./app/dist"
+    });
 });
 app.use("/api/*", isAuthenticated)
 app.use("/api/vocabularies", require("./routes/vocabularies"));

@@ -8,6 +8,7 @@ export const newClass = {
     origin: "",
     classType: "Not Selected",
     daysOfWeek: [],
+    studentList: [],
     author: ""
 }
 export const newWord = {
