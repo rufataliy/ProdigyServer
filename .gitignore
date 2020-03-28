@@ -106,3 +106,4 @@ localhost-key.pem
 localhost.pem
 prodigy-gate.pem
 auth_config.js
+playground/test.js
