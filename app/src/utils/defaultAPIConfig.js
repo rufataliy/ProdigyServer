@@ -24,3 +24,13 @@ export const createKlass = {
     collectionName: "klasses",
     method: "post"
 }
+export const getStudentListOptions = {
+    collectionName: "klasses/addStudent/byid",
+    method: "get",
+    params: ""
+}
+export const getStudentOptions = {
+    collectionName: "klasses/addStudent/byemail",
+    method: "get",
+    params: ""
+}

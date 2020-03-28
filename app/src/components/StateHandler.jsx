@@ -13,7 +13,7 @@ import {
 } from "../store/useGlobalState";
 
 export const StateHandler = Component => {
-  return () => {
+  return props => {
     const { actions, modalState, scheduleState } = useContext(Context);
 
     const setAction = ({ config, payload, actionNames }) => {
@@ -51,6 +51,6 @@ export const StateHandler = Component => {
         ops[name]();
       });
     };
-    return <Component setAction={setAction} />;
+    return <Component {...props} setAction={setAction} />;
   };
 };

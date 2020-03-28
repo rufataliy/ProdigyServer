@@ -1,39 +1,56 @@
 import React, { useEffect, useState, useContext } from "react";
-import { newClassForm } from "./_newClassTmp.jsx";
+import { StateHandler } from "./StateHandler.jsx";
 import Context from "../store/context";
-import { FieldArray, Field, Form } from "formik";
-
-const AddStudent = props => {
+import api from "../api/api.js";
+import { Spinner } from "react-bootstrap";
+import {
+  getStudentListOptions,
+  getStudentOptions
+} from "../utils/defaultAPIConfig";
+const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   const [students, setStudents] = useState([]);
-  const [state, setState] = useState();
-  const apiProps = {
-    collectionName: "klasses/addStudent",
-    method: "get",
-    docId: state
-  };
+  const [inputValue, setInputValue] = useState();
+  const [fetching, setFetching] = useState(false);
+  const { compUpdate } = useContext(Context);
+  useEffect(() => {
+    if (initialStudentList.length > 0) {
+      setFetching(true);
+      api({
+        ...getStudentListOptions,
+        params: initialStudentList.toString()
+      }).then(students => {
+        setStudents(students);
+        setFetching(false);
+      });
+    }
+  }, [compUpdate]);
+  const studentListLoading =
+    initialStudentList.length > 0 && students.length < 1;
   const handleChange = event => {
-    setState(event.target.value);
+    setInputValue(event.target.value);
   };
 
-  const getStudent = async () => {
-    const student = await newClassForm.dbPath["get"](apiProps);
-
-    props.push(student[0].user_id);
-    setStudents(prevState => [...prevState, student[0]]);
-    setState("");
+  const getStudent = () => {
+    setFetching(true);
+    api({ ...getStudentOptions, params: inputValue }).then(students => {
+      setStudents(prevState => [...prevState, students[0]]);
+      setInputValue("");
+      push(students[0].user_id);
+      setFetching(false);
+    });
   };
   const handleUnshift = event => {
     setStudents(prevState => {
       prevState.splice(event.target.id, 1);
       return [...prevState];
     });
-    props.remove(event.target.id);
+    remove(event.target.id);
   };
   return (
     <div>
       <div className="d-flex">
         <input
-          value={state}
+          value={inputValue}
           className="form-control"
           onChange={handleChange}
           placeholder="Email"
@@ -44,28 +61,36 @@ const AddStudent = props => {
           type="button"
           onClick={getStudent}
         >
-          add
+          {fetching ? (
+            <Spinner animation="border" variant="secondary" />
+          ) : (
+            "add"
+          )}
         </button>
       </div>
       <ul className="list-group">
-        {students.map((student, index) => (
-          <li
-            key={index}
-            className="list-group-item d-flex justify-content-between align-items-center"
-          >
-            {student.name}
-            <span
-              id={index}
-              onClick={handleUnshift}
-              className="badge badge-primary badge-pill"
+        {studentListLoading ? (
+          <Spinner animation="border" variant="secondary" />
+        ) : (
+          students.map((student, index) => (
+            <li
+              key={index}
+              className="list-group-item d-flex justify-content-between align-items-center"
             >
-              remove
-            </span>
-          </li>
-        ))}
+              {student.name}
+              <span
+                id={index}
+                onClick={handleUnshift}
+                className="badge badge-primary badge-pill"
+              >
+                remove
+              </span>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
 };
 
-export default AddStudent;
+export default StateHandler(AddStudent);

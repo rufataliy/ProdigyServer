@@ -41,7 +41,7 @@ const useGlobalState = () => {
             level: "",
             origin: "",
             classType: "Not Selected",
-            daysOfWeek: [""],
+            daysOfWeek: [],
             author: ""
         },
         newWord: {

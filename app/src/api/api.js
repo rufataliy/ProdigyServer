@@ -2,16 +2,16 @@ export default async(config, submitValues) => {
     console.log(config);
     console.log(submitValues);
 
-    const editPath = {
+    const path = {
         post: "",
         get: "",
         put: "/edit",
         delete: "/delete"
     };
-    const docId = config.docId ? `/${config.docId}` : "";
+    const params = config.params ? `/${config.params}` : "";
     let url = `https://localhost:3000/api/${config.collectionName +
-    editPath[config.method] +
-    docId}`;
+    path[config.method] +
+    params}`;
     if (config.collectionName === "profile") {
         url = `https://localhost:3000/${config.collectionName}`;
     }

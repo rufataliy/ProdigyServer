@@ -11,10 +11,11 @@ const Wordlist = () => {
     const config = {
       collectionName: "words",
       method: "get",
-      docId: vocabId
+      params: vocabId
     };
     api(config)
       .then(words => {
+        console.log(words);
         actions({
           type: "setVocabState",
           payload: {

@@ -3,6 +3,8 @@ const router = new express.Router();
 const Word = require("../models/Word");
 const { warning } = require("../tools/chalk");
 router.get("/:docId", (req, res) => {
+    console.log("words");
+
     const { docId } = req.params;
     Word.find({ vocabularyId: docId })
         .then(items => res.send(items))

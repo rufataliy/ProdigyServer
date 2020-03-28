@@ -22,22 +22,44 @@ router.post("/", (req, res) => {
         .then(items => res.send(items))
         .catch(err => res.send(err));
 });
-router.get("/addStudent/:email", (req, res) => {
-    const { email } = req.params;
+router.get("/addStudent/byid/:idList", (req, res) => {
+    const idList = req.params.idList.replace(/,/g, '" OR "');
+    const query = ('user_id:("').concat(idList, '")')
+    warning(query)
+    const options = {
+        method: "GET",
+        url: "https://prodigy-gate.auth0.com/api/v2/users",
+        qs: {
+            q: query,
+            search_engine: 'v3'
+        },
+        headers: {
+            authorization: `Bearer ${ process.env.ACCESS_TOKEN }`
+        }
+    };
+    request(options, function(error, response, users) {
+        if (error) {
+            console.log(error);
+        }
+        res.send(users);
+    });
+});
+router.get("/addStudent/byemail/:email", (req, res) => {
+    const email = req.params
+    console.log(email);
+
     const options = {
         method: "GET",
         url: "https://prodigy-gate.auth0.com/api/v2/users-by-email",
-        qs: { email },
+        qs: email,
         headers: {
-            authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+            authorization: `Bearer ${ process.env.ACCESS_TOKEN }`
         }
     };
     request(options, function(error, response, user) {
         if (error) {
             console.log(error);
         }
-        console.log(user);
-
         res.send(user);
     });
 });

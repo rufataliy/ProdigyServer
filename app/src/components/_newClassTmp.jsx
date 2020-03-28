@@ -181,7 +181,17 @@ export const newClassForm = (() => {
                   <FormGroup>
                     <FieldArray name="studentList">
                       {({ push, remove }) => {
-                        return <AddStudent remove={remove} push={push} />;
+                        return (
+                          <Field>
+                            {({ field }) => (
+                              <AddStudent
+                                initialStudentList={field.value.studentList}
+                                remove={remove}
+                                push={push}
+                              />
+                            )}
+                          </Field>
+                        );
                       }}
                     </FieldArray>
                   </FormGroup>
