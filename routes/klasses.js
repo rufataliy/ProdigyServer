@@ -2,6 +2,8 @@ const express = require("express");
 const router = new express.Router();
 const Klass = require("../models/Klass");
 const request = require("request");
+const refreshToken = require("../tools/getNewAuth0Token")
+const Token = require("../models/Token")
 const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
@@ -21,44 +23,67 @@ router.post("/", (req, res) => {
 router.get("/addStudent/byid/:idList", (req, res) => {
     const idList = req.params.idList.replace(/,/g, '" OR "');
     const query = ('user_id:("').concat(idList, '")')
-    warning(query)
-    const options = {
-        method: "GET",
-        url: "https://prodigy-gate.auth0.com/api/v2/users",
-        qs: {
-            q: query,
-            search_engine: 'v3'
-        },
-        headers: {
-            authorization: `Bearer ${ process.env.ACCESS_TOKEN }`
-        }
-    };
-    request(options, function(error, response, users) {
-        if (error) {
-            console.log(error);
-        }
-        res.send(users);
-    });
+    Token.findOne().then(token => {
+        const options = {
+            method: "GET",
+            url: "https://prodigy-gate.auth0.com/api/v2/users",
+            qs: {
+                q: query,
+                search_engine: 'v3'
+            },
+            headers: {
+                authorization: `Bearer ${token.access_token}`
+            }
+        };
+        request(options, function(error, response, users) {
+            if (error) {
+                console.log(error);
+                if (error.error === "Unauthorized") {
+                    refreshToken()
+                    request(options, (error, response, users) => {
+                        if (error) {
+                            console.log(error);
+
+                        }
+                        res.send(users)
+                    })
+                }
+            }
+            res.send(users);
+        });
+    }).catch(err => console.log(err))
+
 });
 router.get("/addStudent/byemail/:email", (req, res) => {
     const email = req.params
-    console.log(email);
+    Token.findOne().then(token => {
+        const options = {
+            method: "GET",
+            url: "https://prodigy-gate.auth0.com/api/v2/users",
+            qs: email,
+            headers: {
+                authorization: `Bearer ${token.access_token}`
+            }
+        };
+        request(options, function(error, response, users) {
+            if (error) {
+                console.log(error);
+                if (error.error === "Unauthorized") {
+                    refreshToken()
+                    request(options, (error, response, users) => {
+                        if (error) {
+                            console.log(error);
+                        }
+                        res.send(users)
+                    })
+                }
+            }
+            res.send(users);
+        });
+    }).catch(err => console.log(err))
 
-    const options = {
-        method: "GET",
-        url: "https://prodigy-gate.auth0.com/api/v2/users-by-email",
-        qs: email,
-        headers: {
-            authorization: `Bearer ${ process.env.ACCESS_TOKEN }`
-        }
-    };
-    request(options, function(error, response, user) {
-        if (error) {
-            console.log(error);
-        }
-        res.send(user);
-    });
 });
+
 router.get("/edit/:_id", async(req, res) => {
     //if authorId is athor of the doc
     const { _id } = req.params;

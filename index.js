@@ -11,7 +11,6 @@ const isAuthenticated = require("./middlewares/isAuthenticated");
 const { success, error, warning } = require("./tools/chalk");
 const { auth, requiresAuth } = require("express-openid-connect");
 const auth_config = require("./auth_config");
-
 mongoose
     .connect("mongodb://localhost/Prodgy", {
         useNewUrlParser: true,

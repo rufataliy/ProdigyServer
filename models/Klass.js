@@ -14,6 +14,7 @@ const klassSchema = new mongoose.Schema({
     vocabularyList: [String],
     studentList: [String]
 }, { selectPopulatedPaths: true });
+
 const Klass = mongoose.model("Klass", klassSchema);
 
 module.exports = Klass;
