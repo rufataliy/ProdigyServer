@@ -24,7 +24,8 @@ export const newVocabulary = {
     name: "",
     topic: "",
     level: "",
-    author: ""
+    author: "",
+    klassList: []
 }
 export const formConfig = {
     title: "",

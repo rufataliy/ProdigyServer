@@ -239,26 +239,76 @@ export const newClassForm = (() => {
       ),
       vocabularies: (
         <React.Fragment>
-          <Field type="text" name="name" placeholder="Name" />
-          <Field type="text" name="topic" placeholder="Topic" />
-          <Field type="text" name="level" placeholder="Level" />
-          <Button type="submit" className="btn-sm" type="primary">
-            {props.method != "put" ? "Save" : "Update"}
-          </Button>
-          {props.method == "put" && (
-            <Button
-              onClick={handleDelete}
-              className="btn-danger btn-sm"
-              type="danger"
-            >
-              Delete
-            </Button>
-          )}
+          <Container>
+            <Row>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="name"
+                    placeholder="Name"
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="topic"
+                    placeholder="Topic"
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="level"
+                    placeholder="Level"
+                  />
+                </Form.Group>
+              </Col>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Col xs={12} bsPrefix={"p-0"}>
+                  <FieldArray name="klassList">
+                    {({ push, remove }) => {
+                      return (
+                        <Field>
+                          {({ field }) => (
+                            <AssignTo
+                              push={push}
+                              remove={remove}
+                              initialKlassList={field.value.klassList}
+                            />
+                          )}
+                        </Field>
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
+              </Col>
+              <Button type="submit" className="btn-sm btn-block" type="primary">
+                {props.method != "put" ? "Save" : "Update"}
+              </Button>
+              {props.method == "put" && (
+                <Button
+                  onClick={handleDelete}
+                  className="btn-danger btn-sm"
+                  type="danger"
+                >
+                  Delete
+                </Button>
+              )}
+            </Row>
+          </Container>
         </React.Fragment>
       ),
       "vocabularies/assignTo": (
         <React.Fragment>
-          <AssignTo />
+          <Field>
+            {({ field, form, meta }) => {
+              return <AssignTo initialKlassList={field.value.klassList} />;
+            }}
+          </Field>
           )}
         </React.Fragment>
       )

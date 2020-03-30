@@ -36,7 +36,8 @@ const Vocab = ({ setAction, vocab }) => {
         params: vocab._id,
         title: vocab.title
       },
-      actionNames: ["setFormConfig", "toggleModal"]
+      payload: vocab,
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
     });
   };
   return (
@@ -46,14 +47,11 @@ const Vocab = ({ setAction, vocab }) => {
         <Card.Subtitle className="mb-2 text-muted">{vocab.topic}</Card.Subtitle>
         <Card.Text>{vocab.level}</Card.Text>
         <Link to={`${url}words/${vocab._id}`}>See words</Link>
-        <a class="ml-3" onClick={editVocab} href="#">
+        <a className="ml-3" onClick={editVocab} href="#">
           edit
         </a>
-        <a class="ml-3" onClick={editVocab} href="#">
+        <a className="ml-3" onClick={editVocab} href="#">
           delete
-        </a>
-        <a class="ml-3" onClick={assignToKlass} href="#">
-          assign to a klass
         </a>
       </Card.Body>
     </Card>

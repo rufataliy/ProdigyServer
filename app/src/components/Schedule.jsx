@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import Context from "../store/context";
 import FullCalendar from "@fullcalendar/react";
@@ -18,6 +18,7 @@ import { createKlass, editKlass, getKlass } from "../utils/defaultAPIConfig";
 import api from "../api/api.js";
 const Schedule = props => {
   const { setAction } = props;
+  const [fetching, setFetching] = useState(false);
   console.log("schedule rendered");
 
   const { scheduleState, tooltipState, compUpdate, actions } = useContext(
@@ -25,6 +26,7 @@ const Schedule = props => {
   );
 
   useEffect(() => {
+    setFetching(true);
     api(getKlass).then(events => {
       events.map(event => {
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
@@ -34,6 +36,7 @@ const Schedule = props => {
         }
       });
       setAction({ payload: events, actionNames: [SCHEDULE] });
+      setFetching(false);
     });
   }, [compUpdate]);
   const calendarComponentRef = React.createRef();
@@ -94,7 +97,7 @@ const Schedule = props => {
       <BootModal>
         <FormikForm />
       </BootModal>
-      {scheduleState.events.length > 0 ? (
+      {!fetching ? (
         <FullCalendar
           contentHeight={600}
           height={600}

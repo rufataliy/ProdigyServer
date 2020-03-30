@@ -10,53 +10,90 @@ import {
   assignVocabularyOptions,
   getKlass
 } from "../utils/defaultAPIConfig";
-const AssignTo = ({ setAction, push, remove, initialStudentList }) => {
+const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
   const [klasses, setKlasses] = useState([]);
-  const [addedKlasses, setAddedKlasses] = useState([]);
+  const [addedKlasses, setAddedKlasses] = useState(initialKlassList);
   const [fetching, setFetching] = useState(false);
-  const [klassId, setklassId] = useState("");
-  const { compUpdate, formConfig } = useContext(Context);
+  const [index, setIndex] = useState("");
+  const [error, setError] = useState("");
+  const { compUpdate } = useContext(Context);
+  console.log(initialKlassList);
+
   useEffect(() => {
+    // fetching klass of the author
     setFetching(true);
     api(getKlass).then(klasses => {
-      setKlasses(klasses);
+      if (klasses != null) setKlasses(klasses);
       setFetching(false);
     });
   }, [compUpdate]);
 
   const handleChange = event => {
-    setklassId(event.target.value);
+    setError("");
+    const { value: i } = event.target;
+    setIndex(i);
+    if (alreadyAssigned(i) && i !== "") setError("Already assigned");
   };
-
+  const alreadyAssigned = i => {
+    return i && addedKlasses.find(({ klassId }) => klassId == klasses[i]._id);
+  };
   const assign = () => {
-    api(formConfig, { klassId })
-      .then(({ klass, vocabulary }) => {
-        setAddedKlasses(prevState => [...prevState, klass.title]);
-        setklassId("");
-      })
-      .catch(err => console.log(err));
+    if (index !== "" && error === "") {
+      const { title, _id: klassId } = klasses[index];
+      push({ title, klassId });
+      setAddedKlasses(prevState => [...prevState, { title, klassId }]);
+      setIndex("");
+    } else if (error === "") {
+      setError("Please choose a klass");
+    }
+  };
+  const handleUnshift = event => {
+    // If event.target is passed to splice function it becomes null ????
+    const { id } = event.target;
+    setAddedKlasses(prevState => {
+      prevState.splice(id, 1);
+      return [...prevState];
+    });
+    remove(id);
   };
   return (
     <div>
-      <Form.Group>
-        <Form.Label>Your klasses</Form.Label>
-        <Form.Control onChange={handleChange} as="select" value={klassId}>
-          <option>Choose a klass</option>
-          {klasses.length > 0 ? (
-            klasses.map(klass => (
-              <option value={klass._id}>{klass.title}</option>
-            ))
-          ) : (
+      <div className="d-flex">
+        <select className="w-100 select" onChange={handleChange} value={index}>
+          <option value="">Choose a klass</option>
+          {klasses.map((klass, index) => (
+            <option key={index} value={index}>
+              {klass.title}
+            </option>
+          ))}
+        </select>
+        <button className="btn-primary btn-sm" type="button" onClick={assign}>
+          {fetching ? (
             <Spinner animation="border" variant="secondary" />
+          ) : (
+            "assign"
           )}
-        </Form.Control>
-      </Form.Group>
-      <button onClick={assign} type="button">
-        assign
-      </button>
-      {addedKlasses.map(klass => (
-        <p>{klass}</p>
-      ))}
+        </button>
+      </div>
+      <p className="text-danger">{error}</p>
+      <ul className="list-group list-box">
+        Assigned to
+        {addedKlasses.map((klass, index) => (
+          <li
+            key={index}
+            className="list-group-item d-flex justify-content-between align-items-center"
+          >
+            {klass.title}
+            <span
+              id={index}
+              onClick={handleUnshift}
+              className="badge badge-primary badge-pill"
+            >
+              remove
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

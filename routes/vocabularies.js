@@ -58,15 +58,15 @@ router.delete("/delete/:_id", async(req, res) => {
 router.post("/assignTo/:_id", async(req, res) => {
     const { _id } = req.params;
     const { klassId } = req.body
-    console.log(req.params);
+    console.log(klassId);
 
     Klass.findById(klassId).then(klass => {
-        console.log(klass.studentList);
-
+        console.log(klass);
         Vocabulary.findByIdAndUpdate({ _id }, {
                 $push: {
+                    klassList: { title: klass.title, klassId: klass._id },
                     studentList: { $each: klass.studentList }
-                }
+                },
             })
             .then(vocabulary => {
                 res.send({ vocabulary, klass })

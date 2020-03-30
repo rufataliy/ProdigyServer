@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const vocabularySchema = new mongoose.Schema({
     author: String,
     studentList: [String],
-    klassList: [],
+    klassList: [Object],
     wordList: [String],
     level: String,
     name: String,

@@ -4,13 +4,12 @@ const Klass = require("../models/Klass");
 const request = require("request");
 const refreshToken = require("../tools/getNewAuth0Token")
 const Token = require("../models/Token")
-const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
     // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
     Klass.find({ $or: [{ author }, { studentList: author }] })
         .then(items => {
-            res.send(items);
+            setTimeout(() => res.send(items), 3000)
         })
         .catch(err => res.send(err));
 });
@@ -56,10 +55,12 @@ router.get("/addStudent/byid/:idList", (req, res) => {
 });
 router.get("/addStudent/byemail/:email", (req, res) => {
     const email = req.params
+    console.log(email);
+
     Token.findOne().then(token => {
         const options = {
             method: "GET",
-            url: "https://prodigy-gate.auth0.com/api/v2/users",
+            url: "https://prodigy-gate.auth0.com/api/v2/users-by-email",
             qs: email,
             headers: {
                 authorization: `Bearer ${token.access_token}`
@@ -74,10 +75,14 @@ router.get("/addStudent/byemail/:email", (req, res) => {
                         if (error) {
                             console.log(error);
                         }
+                        console.log(users);
+
                         res.send(users)
                     })
                 }
             }
+            console.log(users);
+
             res.send(users);
         });
     }).catch(err => console.log(err))
