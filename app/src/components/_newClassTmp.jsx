@@ -203,7 +203,7 @@ export const newClassForm = (() => {
                     {props.method == "put" && (
                       <Button
                         onClick={handleDelete}
-                        className="btn-danger"
+                        className="btn-danger btn-sm"
                         type="danger"
                       >
                         Delete

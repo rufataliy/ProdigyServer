@@ -7,10 +7,12 @@ import {
   getStudentListOptions,
   getStudentOptions
 } from "../utils/defaultAPIConfig";
+import Icon from "../views/_Icon.jsx";
 const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   const [students, setStudents] = useState([]);
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState("");
   const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState("");
   const { compUpdate } = useContext(Context);
   useEffect(() => {
     if (initialStudentList.length > 0) {
@@ -18,26 +20,39 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
       api({
         ...getStudentListOptions,
         params: initialStudentList.toString()
-      }).then(students => {
-        setStudents(students);
-        setFetching(false);
-      });
+      })
+        .then(students => {
+          if (Array.isArray(students)) {
+            setStudents(students);
+          }
+          setFetching(false);
+        })
+        .catch(err => console.log(err));
     }
   }, [compUpdate]);
   const studentListLoading =
     initialStudentList.length > 0 && students.length < 1;
   const handleChange = event => {
+    setError("");
     setInputValue(event.target.value);
   };
 
   const getStudent = () => {
-    setFetching(true);
-    api({ ...getStudentOptions, params: inputValue }).then(students => {
-      setStudents(prevState => [...prevState, students[0]]);
-      setInputValue("");
-      push(students[0].user_id);
-      setFetching(false);
-    });
+    if (inputValue.trim() !== "") {
+      setFetching(true);
+      api({ ...getStudentOptions, params: inputValue }).then(students => {
+        if (students[0]) {
+          setStudents(prevState => [...prevState, students[0]]);
+          setInputValue("");
+          push(students[0].user_id);
+        } else if (students.length < 1) {
+          setError("user is not found");
+        }
+        setFetching(false);
+      });
+    } else {
+      setError("please enter an email");
+    }
   };
   const handleUnshift = event => {
     // If event.target is passed to splice function it becomes null ????
@@ -57,7 +72,7 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
           className="form-control"
           onChange={handleChange}
           placeholder="Email"
-          type="text"
+          type="email"
         />
         <button
           className="btn-primary btn-sm"
@@ -71,6 +86,7 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
           )}
         </button>
       </div>
+      <p className="text-danger">{error}</p>
       <ul className="list-group">
         {studentListLoading ? (
           <Spinner animation="border" variant="secondary" />
@@ -81,13 +97,11 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               {student.name}
-              <span
+              <Icon
                 id={index}
                 onClick={handleUnshift}
-                className="badge badge-primary badge-pill"
-              >
-                remove
-              </span>
+                className="fas fa-trash"
+              ></Icon>
             </li>
           ))
         )}

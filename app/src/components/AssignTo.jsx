@@ -2,22 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import { StateHandler } from "./StateHandler.jsx";
 import Context from "../store/context";
 import api from "../api/api.js";
-import { Form } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
-import {
-  getStudentListOptions,
-  getStudentOptions,
-  assignVocabularyOptions,
-  getKlass
-} from "../utils/defaultAPIConfig";
-const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
+import Icon from "../views/_Icon.jsx";
+import { getKlass } from "../utils/defaultAPIConfig";
+const AssignTo = ({ push, remove, initialKlassList }) => {
   const [klasses, setKlasses] = useState([]);
   const [addedKlasses, setAddedKlasses] = useState(initialKlassList);
   const [fetching, setFetching] = useState(false);
   const [index, setIndex] = useState("");
   const [error, setError] = useState("");
   const { compUpdate } = useContext(Context);
-  console.log(initialKlassList);
 
   useEffect(() => {
     // fetching klass of the author
@@ -34,9 +28,11 @@ const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
     setIndex(i);
     if (alreadyAssigned(i) && i !== "") setError("Already assigned");
   };
+
   const alreadyAssigned = i => {
     return i && addedKlasses.find(({ klassId }) => klassId == klasses[i]._id);
   };
+
   const assign = () => {
     if (index !== "" && error === "") {
       const { title, _id: klassId } = klasses[index];
@@ -47,6 +43,7 @@ const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
       setError("Please choose a klass");
     }
   };
+
   const handleUnshift = event => {
     // If event.target is passed to splice function it becomes null ????
     const { id } = event.target;
@@ -56,6 +53,7 @@ const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
     });
     remove(id);
   };
+
   return (
     <div>
       <div className="d-flex">
@@ -84,13 +82,11 @@ const AssignTo = ({ setAction, push, remove, initialKlassList }) => {
             className="list-group-item d-flex justify-content-between align-items-center"
           >
             {klass.title}
-            <span
+            <Icon
               id={index}
               onClick={handleUnshift}
-              className="badge badge-primary badge-pill"
-            >
-              remove
-            </span>
+              className="fas fa-trash"
+            ></Icon>
           </li>
         ))}
       </ul>

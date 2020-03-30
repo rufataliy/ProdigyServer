@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
     Klass.find({ $or: [{ author }, { studentList: author }] })
         .then(items => {
-            setTimeout(() => res.send(items), 3000)
+            setTimeout(() => res.send(items), 1)
         })
         .catch(err => res.send(err));
 });
@@ -36,19 +36,20 @@ router.get("/addStudent/byid/:idList", (req, res) => {
         };
         request(options, function(error, response, users) {
             if (error) {
-                console.log(error);
-                if (error.error === "Unauthorized") {
-                    refreshToken()
-                    request(options, (error, response, users) => {
-                        if (error) {
-                            console.log(error);
-
-                        }
-                        res.send(users)
-                    })
-                }
+                console.log("error", error);
             }
-            res.send(users);
+            console.log(typeof users);
+
+            if (JSON.parse(users).error === "Unauthorized") {
+                refreshToken()
+                request(options, (error, response, users) => {
+                    if (error) {
+                        console.log("after refresh", users);
+                    }
+                    res.send(users)
+                    return;
+                })
+            } else { res.send(users); }
         });
     }).catch(err => console.log(err))
 
@@ -69,21 +70,17 @@ router.get("/addStudent/byemail/:email", (req, res) => {
         request(options, function(error, response, users) {
             if (error) {
                 console.log(error);
-                if (error.error === "Unauthorized") {
-                    refreshToken()
-                    request(options, (error, response, users) => {
-                        if (error) {
-                            console.log(error);
-                        }
-                        console.log(users);
-
-                        res.send(users)
-                    })
-                }
             }
-            console.log(users);
-
-            res.send(users);
+            if (JSON.parse(users).error === "Unauthorized") {
+                refreshToken()
+                request(options, (error, response, users) => {
+                    if (error) {
+                        console.log("after refresh", users);
+                    }
+                    res.send(users)
+                    return;
+                })
+            } else { res.send(users); }
         });
     }).catch(err => console.log(err))
 
