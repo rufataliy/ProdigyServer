@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { useParams, useRouteMatch, Link } from "react-router-dom";
 import Context from "../store/context";
+import Icon from "../views/_Icon.jsx";
 import {
   editVocabulary,
   assignVocabularyOptions
@@ -10,7 +11,6 @@ import { StateHandler } from "./StateHandler.jsx";
 const Vocab = ({ setAction, vocab }) => {
   const { vocabId } = useParams();
   const { url } = useRouteMatch();
-  console.log(url);
 
   const {
     vocabState: { vocabs }
@@ -29,17 +29,6 @@ const Vocab = ({ setAction, vocab }) => {
       actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
     });
   };
-  const assignToKlass = () => {
-    setAction({
-      config: {
-        ...assignVocabularyOptions,
-        params: vocab._id,
-        title: vocab.title
-      },
-      payload: vocab,
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
-    });
-  };
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Body>
@@ -47,12 +36,8 @@ const Vocab = ({ setAction, vocab }) => {
         <Card.Subtitle className="mb-2 text-muted">{vocab.topic}</Card.Subtitle>
         <Card.Text>{vocab.level}</Card.Text>
         <Link to={`${url}words/${vocab._id}`}>See words</Link>
-        <a className="ml-3" onClick={editVocab} href="#">
-          edit
-        </a>
-        <a className="ml-3" onClick={editVocab} href="#">
-          delete
-        </a>
+        <Icon onClick={editVocab} className="ml-3 fas fa-pen" />
+        <Icon onClick={editVocab} className="ml-3 fas fa-trash" />
       </Card.Body>
     </Card>
   );

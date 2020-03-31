@@ -42,6 +42,13 @@ const _SideBar = () => {
             >
               Vocabulary
             </Link>
+            <Link
+              className="nav-link btn btn-outline-primary"
+              role="button"
+              to="/app/test/"
+            >
+              Test
+            </Link>
           </Nav>
         </div>
       </div>

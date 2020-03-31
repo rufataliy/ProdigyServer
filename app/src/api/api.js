@@ -1,7 +1,4 @@
 export default async(config, submitValues) => {
-    console.log(config);
-    console.log(submitValues);
-
     const path = {
         post: "",
         get: "",
@@ -21,7 +18,6 @@ export default async(config, submitValues) => {
         },
         method: config.method
     };
-    console.log(url, options);
 
     if (submitValues) {
         options.body = JSON.stringify(submitValues);

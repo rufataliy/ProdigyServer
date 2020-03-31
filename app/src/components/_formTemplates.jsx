@@ -9,8 +9,10 @@ import AddStudent from "./addStudent.jsx";
 import AssignTo from "./AssignTo.jsx";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
-export const newClassForm = (() => {
+export const _formTemplates = (() => {
   const fields = (props, handleDelete) => {
+    const { formConfig, errors, touched } = props;
+
     const daysOptions = [
       { label: "Sunday", value: "0" },
       { label: "Monday", value: "1" },
@@ -20,7 +22,6 @@ export const newClassForm = (() => {
       { label: "Friday", value: "5" },
       { label: "Saturday", value: "6" }
     ];
-
     const field = {
       klasses: (
         <React.Fragment>
@@ -198,9 +199,9 @@ export const newClassForm = (() => {
                   </FormGroup>
                   <Form.Group>
                     <Button type="submit" className="btn-sm" type="primary">
-                      {props.method != "put" ? "Save" : "Update"}
+                      {formConfig.method != "put" ? "Save" : "Update"}
                     </Button>
-                    {props.method == "put" && (
+                    {formConfig.method == "put" && (
                       <Button
                         onClick={handleDelete}
                         className="btn-danger btn-sm"
@@ -224,9 +225,9 @@ export const newClassForm = (() => {
           <Field type="text" name="topic" placeholder="Topic" />
           <Field type="text" name="source" placeholder="Source" />
           <Button type="submit" className="btn-sm" type="primary">
-            {props.method != "put" ? "Save" : "Update"}
+            {formConfig.method != "put" ? "Save" : "Update"}
           </Button>
-          {props.method == "put" && (
+          {formConfig.method == "put" && (
             <Button
               onClick={handleDelete}
               className="btn-danger btn-sm"
@@ -249,6 +250,9 @@ export const newClassForm = (() => {
                     name="name"
                     placeholder="Name"
                   />
+                  <p className="text-danger">
+                    {touched.name && errors.name ? errors.name : null}
+                  </p>
                 </Form.Group>
                 <Form.Group>
                   <Field
@@ -257,6 +261,7 @@ export const newClassForm = (() => {
                     name="topic"
                     placeholder="Topic"
                   />
+                  <p className="text-danger">{touched.topic && errors.topic}</p>
                 </Form.Group>
                 <Form.Group>
                   <Field
@@ -265,6 +270,7 @@ export const newClassForm = (() => {
                     name="level"
                     placeholder="Level"
                   />
+                  <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
               </Col>
               <Col bsPrefix={"p-0 col-12"}>
@@ -287,9 +293,9 @@ export const newClassForm = (() => {
                 </Col>
               </Col>
               <Button type="submit" className="btn-sm btn-block" type="primary">
-                {props.method != "put" ? "Save" : "Update"}
+                {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
-              {props.method == "put" && (
+              {formConfig.method == "put" && (
                 <Button
                   onClick={handleDelete}
                   className="btn-danger btn-sm"
@@ -313,7 +319,7 @@ export const newClassForm = (() => {
         </React.Fragment>
       )
     };
-    return field[props.collectionName];
+    return field[formConfig.collectionName];
   };
   //
   const dbPath = {

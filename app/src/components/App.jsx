@@ -12,6 +12,7 @@ import Col from "react-bootstrap/Col";
 import { browserHistory } from "react-router";
 import VocabularyHome from "./VocabularyHome.jsx";
 import api from "../api/api";
+import { ValidationSchemaExample } from "./test.jsx";
 const App = () => {
   console.log("app rerendered");
   const store = useGlobalState();
@@ -45,6 +46,7 @@ const App = () => {
                   <Route path="/app" exact component={Home} />
                   <Route path="/app/Schedule" component={Schedule} />
                   <Route path="/app/Vocabulary" component={VocabularyHome} />
+                  <Route path="/app/test" component={ValidationSchemaExample} />
                 </Switch>
               </Col>
             </Row>

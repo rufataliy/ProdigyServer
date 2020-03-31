@@ -11,8 +11,6 @@ const BootModal = props => {
       payload: { ...modalState, modalVisibility: false }
     });
   };
-  console.log(props);
-
   return (
     <Modal
       onHide={onHide}

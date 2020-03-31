@@ -1,12 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { Formik, Form, useFormik } from "formik";
-
-import { newClassForm } from "./_newClassTmp.jsx";
+import React, { useContext } from "react";
+import { Formik, Form } from "formik";
+import { _formTemplates } from "./_formTemplates.jsx";
 import Context from "../store/context";
-import moment from "moment";
 import { MODAL, COMP_UPDATE } from "../store/useGlobalState";
+import { vocabularySchema } from "../utils/validationSchemas.js";
 
-export const FormikForm = props => {
+export const FormikForm = () => {
   const {
     initialValues,
     compUpdate,
@@ -15,7 +14,7 @@ export const FormikForm = props => {
     formConfig,
     actions
   } = useContext(Context);
-  console.log("formikFOrm rendered");
+  console.log("formikForm rendered");
   const reset = () => {
     actions({
       type: MODAL,
@@ -33,11 +32,10 @@ export const FormikForm = props => {
   };
   const handleSubmit = values => {
     console.log("handleSubmit");
-    console.log(values);
     values.author = appState.author.sub;
-    newClassForm.dbPath[formConfig.method](formConfig, values)
+    _formTemplates.dbPath[formConfig.method](formConfig, values)
       .then(() => {
-        reset();
+        // reset();
       })
       .catch(err => console.log(err));
   };
@@ -46,27 +44,21 @@ export const FormikForm = props => {
       ...formConfig,
       method: "delete"
     };
-    newClassForm.dbPath[config.method](config)
+    _formTemplates.dbPath[config.method](config)
       .then(() => reset())
       .catch(err => console.log(err));
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {props => {
-        return <Form>{newClassForm.fields(formConfig, handleDelete)}</Form>;
-      }}
+    <Formik
+      validationSchema={vocabularySchema}
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+    >
+      {props => (
+        <Form>
+          {_formTemplates.fields({ ...props, formConfig }, handleDelete)}
+        </Form>
+      )}
     </Formik>
   );
 };
-
-// export const FormikForm = withFormik({
-//     mapPropsToValues: (props) => {
-//         newClassForm.defaultValues(props).newClass
-//     },
-//     handleSubmit: (values, MyForm) => {
-//         const { collectionName, method } = MyForm.props
-//         newClassForm.dbPath(collectionName, method, values);
-//         console.log(values);
-
-//     }
-// })(MyForm)
