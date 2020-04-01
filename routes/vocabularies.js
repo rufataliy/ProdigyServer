@@ -1,8 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const Vocabulary = require("../models/Vocabulary");
-const Klass = require("../models/Klass")
-const { warning, error } = require("../tools/chalk");
+const Klass = require("../models/Klass");
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
     Vocabulary.find({ $or: [{ author }, { studentList: author }] })
@@ -57,21 +56,23 @@ router.delete("/delete/:_id", async(req, res) => {
 });
 router.post("/assignTo/:_id", async(req, res) => {
     const { _id } = req.params;
-    const { klassId } = req.body
+    const { klassId } = req.body;
     console.log(klassId);
 
-    Klass.findById(klassId).then(klass => {
-        console.log(klass);
-        Vocabulary.findByIdAndUpdate({ _id }, {
-                $push: {
-                    klassList: { title: klass.title, klassId: klass._id },
-                    studentList: { $each: klass.studentList }
-                },
-            })
-            .then(vocabulary => {
-                res.send({ vocabulary, klass })
-            }).catch(err => error(err))
-    }).catch(err => error(err))
-
+    Klass.findById(klassId)
+        .then(klass => {
+            console.log(klass);
+            Vocabulary.findByIdAndUpdate({ _id }, {
+                    $push: {
+                        klassList: { title: klass.title, klassId: klass._id },
+                        studentList: { $each: klass.studentList }
+                    }
+                })
+                .then(vocabulary => {
+                    res.send({ vocabulary, klass });
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
 });
 module.exports = router;

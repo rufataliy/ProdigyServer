@@ -8,7 +8,6 @@ var mongoose = require("mongoose");
 const app = express();
 const fs = require("fs");
 const isAuthenticated = require("./middlewares/isAuthenticated");
-const { success, error, warning } = require("./tools/chalk");
 const { auth, requiresAuth } = require("express-openid-connect");
 const auth_config = require("./auth_config");
 mongoose
@@ -50,14 +49,22 @@ app.use(
     })
 );
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.use("/app/Schedule", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.use("/app/Vocabulary", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.use(
+    "/app/Schedule",
+    isAuthenticated,
+    express.static(`${__dirname}/app/dist`)
+);
+app.use(
+    "/app/Vocabulary",
+    isAuthenticated,
+    express.static(`${__dirname}/app/dist`)
+);
 app.get("/app", (req, res) => {
     res.sendFile(`index.html`, {
         root: "./app/dist"
     });
 });
-app.use("/api/*", isAuthenticated)
+app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));

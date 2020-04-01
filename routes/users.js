@@ -1,7 +1,6 @@
 const express = require("express");
 const router = new express.Router();
 const User = require("../models/User");
-const { warning } = require("../tools/chalk");
 router.get("/", (req, res) => {
     User.find()
         .then(items => res.send(items))

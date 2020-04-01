@@ -1,7 +1,6 @@
 const express = require("express");
 const router = new express.Router();
 const Word = require("../models/Word");
-const { warning } = require("../tools/chalk");
 router.get("/:docId", (req, res) => {
     console.log("words");
 
