@@ -9,15 +9,15 @@ const app = express();
 const fs = require("fs");
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
-const auth_config = require("./auth_config");
+const { config } = require("./auth_config");
 mongoose
     .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         autoIndex: false
     })
-    .then(() => success("DB CONNECTED"))
-    .catch(err => error("DB COULDN'T CONNECT"));
+    .then(() => console.log("DB CONNECTED"))
+    .catch(err => console.log("DB COULDN'T CONNECT"));
 
 const key = fs.readFileSync("./localhost-key.pem");
 const cert = fs.readFileSync("./localhost.pem");
@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(auth_config));
+app.use(auth(config));
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index");
@@ -42,6 +42,7 @@ app.get("/", (req, res) => {
 app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
+
 app.use(
     cors({
         origin: true,
