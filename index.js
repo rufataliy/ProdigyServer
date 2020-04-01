@@ -12,7 +12,7 @@ const { success, error, warning } = require("./tools/chalk");
 const { auth, requiresAuth } = require("express-openid-connect");
 const auth_config = require("./auth_config");
 mongoose
-    .connect("mongodb://localhost/Prodgy", {
+    .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         autoIndex: false
