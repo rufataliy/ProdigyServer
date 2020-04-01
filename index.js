@@ -26,6 +26,8 @@ app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 app.use(
     session({
+        resave: true,
+        saveUninitialized: true,
         secret: process.env.SESSION_SECRET
     })
 );
