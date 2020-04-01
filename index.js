@@ -62,14 +62,16 @@ app.use(
     isAuthenticated,
     express.static(`${__dirname}/app/dist`)
 );
-app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, { root: __dirname + "/dist" });
-});
+// app.get("/app", (req, res) => {
+//     console.log(__dirname);
+
+//     res.sendFile(`index.html`, { root: __dirname + "/dist" });
+// });
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
-app.listen(process.env.PORT, () => {
+https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
     console.log("Listening on https://localhost:3000");
 });
