@@ -63,9 +63,7 @@ app.use(
     express.static(`${__dirname}/app/dist`)
 );
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, {
-        root: "./app/dist"
-    });
+    res.sendFile(`index.html`);
 });
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
