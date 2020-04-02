@@ -1,7 +1,7 @@
 const config = {
     required: false,
     auth0Logout: true,
-    baseURL: "https://prodigylms.herokuapp.com",
+    baseURL: process.env.BASE_URL,
     issuerBaseURL: "https://prodigy-gate.auth0.com",
     clientID: process.env.CLIENT_ID,
     redirectUriPath: "/app",
