@@ -23,8 +23,8 @@ mongoose
 const key = fs.readFileSync("./localhost-key.pem");
 const cert = fs.readFileSync("./localhost.pem");
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views"));
-app.use(express.static(path.join(__dirname, "/public")));
+app.set("views", path.join(process.cwd(), "/views"));
+app.use(express.static(path.join(process.cwd(), "/public")));
 app.use(
     session({
         resave: true,
@@ -44,7 +44,7 @@ app.use(
         credentials: true
     })
 );
-console.log(path.join(__dirname, "/app/dist"));
+console.log(process.cwd());
 
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
@@ -57,7 +57,7 @@ app.get("/profile", requiresAuth(), (req, res) => {
 app.use(
     "/app",
     isAuthenticated,
-    express.static(path.join(__dirname, "/app/dist"))
+    express.static(path.join(process.cwd(), "/app/dist"))
 );
 app.get("/app", (req, res) => {
     res.sendFile(`index.html`);
@@ -66,12 +66,12 @@ app.get("/app", (req, res) => {
 app.use(
     "/app/Schedule",
     isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
+    express.static(`${process.cwd()}/app/dist`)
 );
 app.use(
     "/app/Vocabulary",
     isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
+    express.static(`${process.cwd()}/app/dist`)
 );
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
