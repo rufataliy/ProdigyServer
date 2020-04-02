@@ -11,7 +11,6 @@ const fs = require("fs");
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
-const root = path.resolve(__dirname);
 mongoose
     .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
@@ -23,6 +22,7 @@ mongoose
 
 const key = fs.readFileSync("./localhost-key.pem");
 const cert = fs.readFileSync("./localhost.pem");
+const root = path.dirname(require.main.filename);
 app.set("view engine", "ejs");
 app.set("views", path.join(root, "/views"));
 app.use(express.static(path.join(root, "/public")));
@@ -45,7 +45,7 @@ app.use(
         credentials: true
     })
 );
-console.log("root", root);
+console.log("root", path.dirname(require.main.filename));
 
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
@@ -68,9 +68,9 @@ app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
 // if ((process.env.NODE_ENV = "dev")) {
-//     https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
-//         console.log("Listening on https://localhost:3000");
-//     });
+// https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
+//     console.log("Listening on https://localhost:3000");
+// });
 // } else {
 app.listen(process.env.PORT, () => {
     console.log("production");
