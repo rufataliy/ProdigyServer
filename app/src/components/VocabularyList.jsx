@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Vocab from "./Vocab.jsx";
 import Context from "../store/context";
@@ -9,14 +9,18 @@ import BootModal from "./bootModal.jsx";
 import { FormikForm } from "./form.jsx";
 import { newVocabulary } from "../utils/defaultInitialValues.js";
 import { getVocabulary, createVocabulary } from "../utils/defaultAPIConfig";
+import { Spinner } from "react-bootstrap";
 const VocabularyList = props => {
   const { actions, vocabState, compUpdate } = useContext(Context);
+  const [fetching, setFetching] = useState(false);
   const { url } = useRouteMatch();
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
 
   useEffect(() => {
+    setFetching(true);
     api(getVocabulary)
       .then(vocabs => {
+        setFetching(false);
         actions({
           type: VOCAB,
           payload: {
@@ -41,9 +45,11 @@ const VocabularyList = props => {
       <BootModal>
         <FormikForm />
       </BootModal>
-      {vocabState.vocabs.map(vocab => (
-        <Vocab key={vocab._id} vocab={vocab} />
-      ))}
+      {!fetching && vocabState.vocabs ? (
+        vocabState.vocabs.map(vocab => <Vocab key={vocab._id} vocab={vocab} />)
+      ) : (
+        <Spinner animation="border" variant="secondary" />
+      )}
     </div>
   );
 };

@@ -5,12 +5,13 @@ export default async(config, submitValues) => {
         put: "/edit",
         delete: "/delete"
     };
+    const baseUrl = window.location.origin;
     const params = config.params ? `/${config.params}` : "";
-    let url = `https://localhost:3000/api/${config.collectionName +
+    let url = `${baseUrl}/api/${config.collectionName +
     path[config.method] +
     params}`;
     if (config.collectionName === "profile") {
-        url = `https://localhost:3000/${config.collectionName}`;
+        url = `${baseUrl}/${config.collectionName}`;
     }
     const options = {
         headers: {

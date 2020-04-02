@@ -22,10 +22,9 @@ mongoose
 
 const key = fs.readFileSync("./localhost-key.pem");
 const cert = fs.readFileSync("./localhost.pem");
-const root = path.dirname(require.main.filename);
 app.set("view engine", "ejs");
-app.set("views", path.join(root, "/views"));
-app.use(express.static(path.join(root, "/public")));
+app.set("views", __dirname + "/views");
+app.use(express.static(__dirname + "/public"));
 app.use(
     session({
         resave: true,
@@ -45,7 +44,6 @@ app.use(
         credentials: true
     })
 );
-console.log("rooot", path.dirname(require.main.filename));
 
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
@@ -55,24 +53,32 @@ app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use("/app", isAuthenticated, express.static(path.join(root, "/app/dist")));
+app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, { root: "/dist" });
+    res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
-app.use("/app/Schedule", isAuthenticated, express.static(`${root}/app/dist`));
-app.use("/app/Vocabulary", isAuthenticated, express.static(`${root}/app/dist`));
+app.use(
+    "/app/Schedule",
+    isAuthenticated,
+    express.static(`${__dirname}/app/dist`)
+);
+app.use(
+    "/app/Vocabulary",
+    isAuthenticated,
+    express.static(`${__dirname}/app/dist`)
+);
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
 // if ((process.env.NODE_ENV = "dev")) {
-// https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
-//     console.log("Listening on https://localhost:3000");
-// });
-// } else {
-app.listen(process.env.PORT, () => {
-    console.log("production");
+https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
+    console.log("Listening on https://localhost:3000");
 });
+// } else {
+// app.listen(process.env.PORT, () => {
+//     console.log("production");
+// });
 // }
