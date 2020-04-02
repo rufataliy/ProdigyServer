@@ -103,7 +103,7 @@ dist
 
 # TernJS port file
 .tern-port
-localhost-key.pem
-localhost.pem
+./localhost-key.pem
+./localhost.pem
 prodigy-gate.pem
 playground/test.js
