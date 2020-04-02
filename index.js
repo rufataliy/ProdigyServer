@@ -43,6 +43,7 @@ app.use(
         credentials: true
     })
 );
+console.log("dirname", __dirname);
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index");
@@ -52,6 +53,8 @@ app.get("/profile", requiresAuth(), (req, res) => {
 });
 
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
+console.log(__dirname + "/app/dist");
+
 app.use(
     "/app/Schedule",
     isAuthenticated,
@@ -62,16 +65,14 @@ app.use(
     isAuthenticated,
     express.static(`${__dirname}/app/dist`)
 );
-app.get("/app", (req, res) => {
-    console.log("dirname", __dirname);
-
-    res.sendFile(`index.html`, { root: __dirname + "/dist" });
-});
+// app.get("/app", (req, res) => {
+//     res.sendFile(`index.html`, { root: __dirname + "\\app\\dist\\" });
+// });
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
-app.listen(process.env.PORT, () => {
+https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
     console.log("Listening on https://localhost:3000");
 });

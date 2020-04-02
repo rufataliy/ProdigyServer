@@ -35,7 +35,7 @@ export const FormikForm = () => {
     values.author = appState.author.sub;
     _formTemplates.dbPath[formConfig.method](formConfig, values)
       .then(() => {
-        // reset();
+        reset();
       })
       .catch(err => console.log(err));
   };
@@ -50,7 +50,7 @@ export const FormikForm = () => {
   };
   return (
     <Formik
-      validationSchema={vocabularySchema}
+      // validationSchema={vocabularySchema}
       initialValues={initialValues}
       onSubmit={handleSubmit}
     >

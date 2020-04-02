@@ -16,7 +16,7 @@ import { ValidationSchemaExample } from "./test.jsx";
 const App = () => {
   console.log("app rerendered");
   const store = useGlobalState();
-
+  const { compUpdate } = store;
   useEffect(() => {
     const config = {
       method: "get",
@@ -30,7 +30,7 @@ const App = () => {
         });
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [compUpdate]);
   return (
     <div>
       <Context.Provider value={store}>
