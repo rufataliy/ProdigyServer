@@ -67,12 +67,12 @@ app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
-if ((process.env.NODE_ENV = "dev")) {
-    https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
-        console.log("Listening on https://localhost:3000");
-    });
-} else {
-    app.listen(process.env.PORT, () => {
-        console.log("Listening on https://localhost:3000");
-    });
-}
+// if ((process.env.NODE_ENV = "dev")) {
+//     https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
+//         console.log("Listening on https://localhost:3000");
+//     });
+// } else {
+app.listen(process.env.PORT, () => {
+    console.log("production");
+});
+// }
