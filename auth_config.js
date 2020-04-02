@@ -7,6 +7,5 @@ const config = {
     redirectUriPath: "/app",
     appSessionSecret: process.env.APP_SESSION_SECRET_AUTH
 };
-console.log(process.env.APP_SESSION_SECRET_AUTH);
 
 module.exports.config = config;

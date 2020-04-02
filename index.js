@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");
+const path = require("path");
 const cors = require("cors");
 const flash = require("express-flash");
 const session = require("express-session");
@@ -22,8 +23,8 @@ mongoose
 const key = fs.readFileSync("./localhost-key.pem");
 const cert = fs.readFileSync("./localhost.pem");
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-app.use(express.static(__dirname + "/public"));
+app.set("views", path.join(__dirname, "/views"));
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(
     session({
         resave: true,
@@ -43,7 +44,8 @@ app.use(
         credentials: true
     })
 );
-console.log("dirname", __dirname);
+console.log(path.join(__dirname, "/app/dist"));
+
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index");
@@ -52,7 +54,11 @@ app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.use(
+    "/app",
+    isAuthenticated,
+    express.static(path.join(__dirname, "/app/dist"))
+);
 app.get("/app", (req, res) => {
     res.sendFile(`index.html`);
 });
