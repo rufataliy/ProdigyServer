@@ -45,7 +45,7 @@ app.use(
         credentials: true
     })
 );
-console.log("root", path.dirname(require.main.filename));
+console.log("rooot", path.dirname(require.main.filename));
 
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
@@ -57,7 +57,7 @@ app.get("/profile", requiresAuth(), (req, res) => {
 
 app.use("/app", isAuthenticated, express.static(path.join(root, "/app/dist")));
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`);
+    res.sendFile(`index.html`, { root: "/dist" });
 });
 
 app.use("/app/Schedule", isAuthenticated, express.static(`${root}/app/dist`));
