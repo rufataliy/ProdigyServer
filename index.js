@@ -63,7 +63,7 @@ app.use(
     express.static(`${__dirname}/app/dist`)
 );
 app.get("/app", (req, res) => {
-    console.log(__dirname);
+    console.log("dirname", __dirname);
 
     res.sendFile(`index.html`, { root: __dirname + "/dist" });
 });
