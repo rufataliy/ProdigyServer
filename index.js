@@ -37,6 +37,12 @@ app.use(flash());
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
+app.use(
+    cors({
+        origin: true,
+        credentials: true
+    })
+);
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index");
@@ -45,12 +51,6 @@ app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use(
-    cors({
-        origin: true,
-        credentials: true
-    })
-);
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.use(
     "/app/Schedule",
@@ -62,11 +62,11 @@ app.use(
     isAuthenticated,
     express.static(`${__dirname}/app/dist`)
 );
-// app.get("/app", (req, res) => {
-//     console.log(__dirname);
+app.get("/app", (req, res) => {
+    console.log(__dirname);
 
-//     res.sendFile(`index.html`, { root: __dirname + "/dist" });
-// });
+    res.sendFile(`index.html`, { root: __dirname + "/dist" });
+});
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
