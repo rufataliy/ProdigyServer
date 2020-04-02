@@ -20,8 +20,6 @@ mongoose
     .then(() => console.log("DB CONNECTED"))
     .catch(err => console.log("DB COULDN'T CONNECT"));
 
-const key = fs.readFileSync("./localhost-key.pem");
-const cert = fs.readFileSync("./localhost.pem");
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
@@ -74,6 +72,8 @@ app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
 if ((process.env.NODE_ENV = "dev")) {
+    const key = fs.readFileSync("./localhost-key.pem");
+    const cert = fs.readFileSync("./localhost.pem");
     https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
         console.log("Listening on https://localhost:3000");
     });
