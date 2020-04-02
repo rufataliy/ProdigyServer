@@ -53,7 +53,9 @@ app.get("/profile", requiresAuth(), (req, res) => {
 });
 
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-console.log(__dirname + "/app/dist");
+app.get("/app", (req, res) => {
+    res.sendFile(`index.html`);
+});
 
 app.use(
     "/app/Schedule",
@@ -65,9 +67,6 @@ app.use(
     isAuthenticated,
     express.static(`${__dirname}/app/dist`)
 );
-// app.get("/app", (req, res) => {
-//     res.sendFile(`index.html`, { root: __dirname + "\\app\\dist\\" });
-// });
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
