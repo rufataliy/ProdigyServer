@@ -73,6 +73,6 @@ app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
-https.createServer({ key, cert }, app).listen(process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log("Listening on https://localhost:3000");
 });
