@@ -131,3 +131,17 @@ select.select {
 i:hover {
     cursor: pointer;
 }
+
+.quick-access-btn {
+    height: 200px;
+    width: 200px;
+    max-width: 100%;
+}
+
+.quick-access-icon {
+    font-size: 5rem;
+}
+
+.quick-access-name {
+    font-size: 1.5rem;
+}

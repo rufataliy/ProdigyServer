@@ -2,7 +2,7 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { StateHandler } from "./StateHandler.jsx";
 import VocabularyList from "./VocabularyList.jsx";
-import Wordlist from "./WordList2.jsx";
+import Wordlist from "./WordList.jsx";
 const VocabularyHome = props => {
   const { path } = useRouteMatch();
 

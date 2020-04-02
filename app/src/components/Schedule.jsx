@@ -11,8 +11,8 @@ import "./style/tooltip.scss";
 import { StateHandler } from "./StateHandler.jsx";
 import { FormikForm } from "./form.jsx";
 import Tooltip from "./tooltip.jsx";
-import { SCHEDULE, COMP_UPDATE } from "../store/useGlobalState";
-import BootModal from "./bootModal.jsx";
+import { SCHEDULE } from "../store/useGlobalState";
+import Modal from "./Modal.jsx";
 import { newClass } from "../utils/defaultInitialValues";
 import { createKlass, editKlass, getKlass } from "../utils/defaultAPIConfig";
 import api from "../api/api.js";
@@ -94,9 +94,9 @@ const Schedule = props => {
 
   return (
     <div className="calendarParent">
-      <BootModal>
+      <Modal>
         <FormikForm />
-      </BootModal>
+      </Modal>
       {!fetching ? (
         <FullCalendar
           contentHeight={600}

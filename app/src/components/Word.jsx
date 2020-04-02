@@ -2,7 +2,7 @@ import React from "react";
 import { Accordion, Card, Button } from "react-bootstrap";
 import { StateHandler } from "./StateHandler.jsx";
 import { editWordOptions } from "../utils/defaultAPIConfig.js";
-import BootModal from "./bootModal.jsx";
+import Modal from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
 const Word = ({ setAction, word }) => {
   const editWord = () => {
@@ -14,9 +14,9 @@ const Word = ({ setAction, word }) => {
   };
   return (
     <Accordion>
-      <BootModal>
+      <Modal>
         <FormikForm />
-      </BootModal>
+      </Modal>
       <Card>
         <Accordion.Toggle as={Button} variant="link" eventKey={word._id}>
           <Card.Header>{`${word.phrase} - ${word.definition}`}</Card.Header>
