@@ -3,10 +3,10 @@ const vocabularySchema = new mongoose.Schema({
     author: String,
     studentList: [String],
     klassList: [Object],
-    wordList: [String],
+    wordList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Word" }],
     level: String,
     name: String,
-    topic: String
+    topic: String,
 });
 
 const Vocabulary = mongoose.model("Vocabulary", vocabularySchema);
