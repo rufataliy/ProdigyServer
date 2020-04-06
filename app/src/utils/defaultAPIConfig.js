@@ -1,57 +1,65 @@
 export const getVocabulary = {
     collectionName: "vocabularies",
-    method: "get"
-}
+    method: "get",
+};
 export const editVocabulary = {
     collectionName: "vocabularies",
     method: "put",
     params: "",
-    title: ""
-}
+    title: "",
+};
 export const createVocabulary = {
     collectionName: "vocabularies",
-    method: "post"
-}
+    method: "post",
+};
 export const assignVocabularyOptions = {
     collectionName: "vocabularies/assignTo",
     method: "post",
-    params: ""
-}
+    params: "",
+};
 export const getKlass = {
     collectionName: "klasses",
-    method: "get"
-}
+    method: "get",
+};
 export const editKlass = {
     collectionName: "klasses",
-    method: "put"
-}
+    method: "put",
+};
 export const createKlass = {
     collectionName: "klasses",
-    method: "post"
-}
+    method: "post",
+};
 export const getStudentListOptions = {
     collectionName: "klasses/addStudent/byid",
     method: "get",
-    params: ""
-}
+    params: "",
+};
 export const getStudentOptions = {
     collectionName: "klasses/addStudent/byemail",
     method: "get",
-    params: ""
-}
+    params: "",
+};
 export const getWordsOptions = {
     collectionName: "words",
     method: "get",
-    params: ""
-}
+    params: "",
+};
 export const createWordOptions = {
     collectionName: "words",
     method: "post",
-    title: ""
-}
+    title: "",
+};
 export const editWordOptions = {
     collectionName: "words",
     method: "put",
     params: "",
-    title: ""
-}
+    title: "",
+};
+export const getChats = {
+    collectionName: "chats",
+    method: "get",
+};
+export const getContacts = {
+    collectionName: "users",
+    method: "get",
+};

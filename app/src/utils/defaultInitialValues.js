@@ -9,8 +9,8 @@ export const newClass = {
     classType: "Not Selected",
     daysOfWeek: [],
     studentList: [],
-    author: ""
-}
+    author: "",
+};
 export const newWord = {
     phrase: "",
     source: "",
@@ -18,19 +18,23 @@ export const newWord = {
     definition: "",
     topic: "",
     author: "",
-    vocabularyId: ""
-}
+    vocabularyId: "",
+};
 export const newVocabulary = {
     name: "",
     topic: "",
     level: "",
     author: "",
-    klassList: []
-}
+    klassList: [],
+};
 export const formConfig = {
     title: "",
     formType: "",
     docId: "",
     collectionName: "",
-    method: ""
-}
+    method: "",
+};
+export const newChat = {
+    title: "",
+    participants: [],
+};

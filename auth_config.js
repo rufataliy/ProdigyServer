@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const ObjectId = require("mongodb").ObjectID;
 const User = require("./models/User");
 const config = {
     required: false,

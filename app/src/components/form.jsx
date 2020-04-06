@@ -12,7 +12,7 @@ export const FormikForm = () => {
     modalState,
     appState,
     formConfig,
-    actions
+    actions,
   } = useContext(Context);
   console.log("formikForm rendered");
   const reset = () => {
@@ -20,33 +20,33 @@ export const FormikForm = () => {
       type: MODAL,
       payload: {
         ...modalState,
-        modalVisibility: !modalState.modalVisibility
-      }
+        modalVisibility: !modalState.modalVisibility,
+      },
     });
     actions({
       type: COMP_UPDATE,
       payload: {
-        compUpdate: !compUpdate
-      }
+        compUpdate: !compUpdate,
+      },
     });
   };
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     console.log("handleSubmit");
     values.author = appState.author.sub;
     _formTemplates.dbPath[formConfig.method](formConfig, values)
       .then(() => {
         reset();
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
   const handleDelete = () => {
     const config = {
       ...formConfig,
-      method: "delete"
+      method: "delete",
     };
     _formTemplates.dbPath[config.method](config)
       .then(() => reset())
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
   return (
     <Formik
@@ -54,7 +54,7 @@ export const FormikForm = () => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
     >
-      {props => (
+      {(props) => (
         <Form>
           {_formTemplates.fields({ ...props, formConfig }, handleDelete)}
         </Form>

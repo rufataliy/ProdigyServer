@@ -20,7 +20,7 @@ export const _formTemplates = (() => {
       { label: "Wednesday", value: "3" },
       { label: "Thursday", value: "4" },
       { label: "Friday", value: "5" },
-      { label: "Saturday", value: "6" }
+      { label: "Saturday", value: "6" },
     ];
     const field = {
       klasses: (
@@ -56,7 +56,7 @@ export const _formTemplates = (() => {
                     <Form.Group>
                       <Field>
                         {({ field, form }) => {
-                          const onChange = value => {
+                          const onChange = (value) => {
                             const { daysOfWeek } = form.values;
                             if (daysOfWeek.indexOf(value) >= 0) {
                               daysOfWeek.splice(daysOfWeek.indexOf(value), 1);
@@ -68,7 +68,7 @@ export const _formTemplates = (() => {
                               form.values.daysOfWeek
                             );
                           };
-                          return daysOptions.map(day => {
+                          return daysOptions.map((day) => {
                             return (
                               <Form.Check
                                 hidden
@@ -317,7 +317,27 @@ export const _formTemplates = (() => {
           </Field>
           )}
         </React.Fragment>
-      )
+      ),
+      newChat: (
+        <React.Fragment>
+          <Field type="text" name="phrase" placeholder="Phrase" />
+          <FieldArray name="participants">
+            {({ push, remove }) => {
+              return (
+                <Field>
+                  {({ field }) => (
+                    <AddStudent
+                      initialStudentList={field.value.studentList}
+                      remove={remove}
+                      push={push}
+                    />
+                  )}
+                </Field>
+              );
+            }}
+          </FieldArray>
+        </React.Fragment>
+      ),
     };
     return field[formConfig.collectionName];
   };
@@ -329,15 +349,15 @@ export const _formTemplates = (() => {
     put: (props, submitValues) => {
       return api(props, submitValues);
     },
-    delete: props => {
+    delete: (props) => {
       return api(props);
     },
-    get: props => {
+    get: (props) => {
       return api(props);
-    }
+    },
   };
   return {
     fields: fields,
-    dbPath: dbPath
+    dbPath: dbPath,
   };
 })();
