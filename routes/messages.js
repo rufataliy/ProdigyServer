@@ -13,6 +13,8 @@ io.on("connection", (socket) => {
         (err, userid) => {
             socket.emit("connected", { msg: "you are connected" });
             socket.on(`message${userid}`, (msg) => {
+                console.log(msg);
+
                 const _id = msg.chatId ? msg.chatId : ObjectId();
                 Message.create({ author: userid, content: msg.content })
                     .then((message) => {
@@ -23,11 +25,11 @@ io.on("connection", (socket) => {
                             $push: { messages: message._id },
                         }, { upsert: true, useFindAndModify: true, new: true }).then((item) => {
                             console.log(item);
+
                             console.log("********MESSAGE******");
                             if (!message.chatId) {
                                 message.chatId = item._id;
                                 message.save();
-                                console.log(message);
                             }
                             io.emit(`message${userid}`, message);
                         });

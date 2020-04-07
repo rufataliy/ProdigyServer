@@ -26,7 +26,7 @@ export default async(config, submitValues) => {
 
     return fetch(url, options)
         .then(response => {
-            console.log(response);
+            // console.log(response);
 
             return response.json();
         })

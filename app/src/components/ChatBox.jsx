@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import io from "socket.io-client";
 import Messages from "./Messages.jsx";
@@ -8,35 +8,70 @@ import People from "./People.jsx";
 import ChatList from "./ChatList.jsx";
 import Modal from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
+import { getChats } from "../utils/defaultAPIConfig.js";
+import api from "../api/api";
 
-const ChatBox = ({ chats, setChats }) => {
-  const { compUpdate, actions } = useContext(Context);
-  const [state, setState] = useState();
-  const [inputValue, setInputValue] = useState("");
+const ChatBox = ({ socket }) => {
+  const { compUpdate, actions, appState } = useContext(Context);
   const [key, setKey] = useState("people");
-  const socket = io("https://localhost:3000");
   const [messages, setMessages] = useState();
   const [msgBody, setMsgBody] = useState("");
-  const {
-    appState: { author },
-  } = useContext(Context);
+  const [chats, setChats] = useState();
+  const [newMessage, setNewMessage] = useState();
+  console.log("chat rerendered");
   useEffect(() => {
-    socket.on("chat", (a) => {
-      setState(() => a.chats);
+    socket = io("https://localhost:3000", { forceNew: true });
+    api(getChats)
+      .then((chats) => {
+        setChats(chats);
+      })
+      .catch((err) => console.log(err));
+    socket.on(`message${appState.author.sub}`, (newMessage) => {
+      console.log(newMessage);
+      setNewMessage((prevState) => ({ ...newMessage }));
     });
-  }, [compUpdate]);
-  socket.on(`message${author.sub}`, (a) => {
-    chats[0].messages.push(a);
-    setChats(() => chats);
-    actions({
-      type: "setComponentUpdate",
-      payload: !compUpdate,
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+  const updateMessages = useMemo(() => (newMessage) => {
+    setChats((prevState) => {
+      console.log(prevState);
+      return prevState.map((chat, index) => {
+        if (chat._id === newMessage.chatId) {
+          chat.messages.push(newMessage);
+          setMessages(chat.messages);
+          // setNewMessage({});
+          return chat;
+        } else {
+          return chat;
+        }
+      });
     });
   });
+  // useEffect(() => {
+  //   console.log("on message");
+
+  //   socket.on(`message`, (newMessage) => {
+  //     console.log(newMessage);
+  //     updateMessages(newMessage);
+  //     // setNewMessage((prevState) => ({ ...newMessage }));
+  //   });
+  // }, []);
+  useEffect(() => {
+    chats &&
+      chats.map((chat, index) => {
+        if (chat._id === newMessage.chatId) {
+          chat.messages.push(newMessage);
+          setMessages(chat.messages);
+          setNewMessage({});
+        }
+      });
+  }, [newMessage]);
 
   const openChat = (event) => {
     const { id } = event.target;
-    chats.map((chat) => {
+    chats.map((chat, index) => {
       if (chat._id === id) {
         setMessages([...chat.messages]);
         setMsgBody({ chatId: id, participants: chat.participants });
@@ -69,22 +104,29 @@ const ChatBox = ({ chats, setChats }) => {
         onSelect={(k) => setKey(k)}
       >
         <Tab eventKey="people" title="People">
-          <People newChat={newChat} />
+          {key == "people" && <People newChat={newChat} />}
         </Tab>
         <Tab eventKey="chats" title="Chats">
-          <ChatList
-            chats={chats}
-            addParticipant={addParticipant}
-            openChat={openChat}
-          />
+          {key == "chats" && (
+            <ChatList
+              chats={chats}
+              addParticipant={addParticipant}
+              openChat={openChat}
+            />
+          )}
         </Tab>
         <Tab eventKey="messages" title="Messages">
-          <Messages messages={messages} />
-          <SendMessages msgBody={msgBody} chatId={chats} socket={socket} />
+          {key == "messages" && (
+            <div>
+              <Messages messages={messages} />
+              <SendMessages msgBody={msgBody} socket={socket} />
+            </div>
+          )}
         </Tab>
       </Tabs>
+      {JSON.stringify(newMessage && newMessage.content)}
     </div>
   );
 };
 
-export default ChatBox;
+export default React.memo(ChatBox);

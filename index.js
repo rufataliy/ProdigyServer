@@ -47,7 +47,10 @@ app.use(
 );
 app.get("/loginCheck", (req, res) => {
     if (req.isAuthenticated()) {
-        res.redirect("/app");
+        jwt.sign(req.openid.user.sub, "lululu", (err, token) => {
+            res.cookie("userid", token);
+            res.redirect("/app")
+        })
     } else {
         res.redirect("/login");
     }
@@ -61,7 +64,7 @@ app.get("/profile", requiresAuth(), (req, res) => {
 });
 
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.get("/app", (req, res) => {
+app.get("/app", isAuthenticated, (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });
 });
 

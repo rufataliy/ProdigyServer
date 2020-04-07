@@ -4,7 +4,6 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 const _SideBar = () => {
   const [open, setOpen] = useState(false);
-  console.log(open);
   const onClick = () => {
     setOpen(!open);
   };

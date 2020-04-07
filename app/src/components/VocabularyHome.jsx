@@ -3,7 +3,7 @@ import { Route, useRouteMatch } from "react-router-dom";
 import { StateHandler } from "./StateHandler.jsx";
 import VocabularyList from "./VocabularyList.jsx";
 import Wordlist from "./WordList.jsx";
-const VocabularyHome = props => {
+const VocabularyHome = (props) => {
   const { path } = useRouteMatch();
 
   return (
@@ -15,4 +15,4 @@ const VocabularyHome = props => {
     </div>
   );
 };
-export default StateHandler(VocabularyHome);
+export default React.memo(StateHandler(VocabularyHome));

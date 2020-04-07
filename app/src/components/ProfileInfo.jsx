@@ -2,9 +2,7 @@ import React, { useContext, useState } from "react";
 import Context from "../store/context";
 import { Nav, Spinner } from "react-bootstrap";
 export default () => {
-  const {
-    appState: { author }
-  } = useContext(Context);
+  const { author } = useContext(Context);
   const toggleShow = () => setShow(!show);
   return (
     <Nav.Item>

@@ -13,11 +13,11 @@ import { browserHistory } from "react-router";
 import VocabularyHome from "./VocabularyHome.jsx";
 import api from "../api/api";
 import { ValidationSchemaExample } from "./test.jsx";
+import ChatBox from "./ChatBox.jsx";
 import Chat from "./Chat.jsx";
 const App = () => {
-  console.log("app rerendered");
   const store = useGlobalState();
-  const { compUpdate } = store;
+  const { compUpdate, appState } = store;
   useEffect(() => {
     const config = {
       method: "get",
@@ -25,37 +25,41 @@ const App = () => {
     };
     api(config)
       .then((user) => {
+        console.log("api call");
         store.actions({
           type: APP,
           payload: { ...store.appState, author: user },
         });
       })
       .catch((err) => console.log(err));
-  }, [compUpdate]);
+  }, []);
   return (
     <div>
-      <Context.Provider value={store}>
+      {console.log("rendered app")}
+      <Context.Provider value={appState}>
         <TopNav />
-        <Router history={browserHistory}>
-          <Container fluid>
-            <Row bsPrefix={"row flex-nowrap overflowx-hidden"}>
-              <Col bsPrefix={"col-auto p-0"}>
-                <_SideBar />
-              </Col>
-              <Col bsPrefix={"col-auto col-md-9 mx-auto pt-5 "}>
-                <Switch>
-                  <Route path="/app" exact component={Home} />
+      </Context.Provider>
+      <Router history={browserHistory}>
+        <Container fluid>
+          <Row bsPrefix={"row flex-nowrap overflowx-hidden"}>
+            <Col bsPrefix={"col-auto p-0"}>
+              <_SideBar />
+            </Col>
+            <Col bsPrefix={"col-auto col-md-9 mx-auto pt-5 "}>
+              <Switch>
+                <Route path="/app" exact component={Home} />
+                <Context.Provider value={store}>
                   <Route path="/app/Schedule" component={Schedule} />
                   <Route path="/app/Vocabulary" component={VocabularyHome} />
                   <Route path="/app/test" component={Chat} />
-                </Switch>
-              </Col>
-            </Row>
-          </Container>
-        </Router>
-      </Context.Provider>
+                </Context.Provider>
+              </Switch>
+            </Col>
+          </Row>
+        </Container>
+      </Router>
     </div>
   );
 };
 
-export default App;
+export default React.memo(App, (prev, next) => console.log(prev, nex));

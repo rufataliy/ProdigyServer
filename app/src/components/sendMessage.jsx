@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { useEffect } from "react";
 import Context from "../store/context";
 
 const sendMessage = ({ socket, msgBody }) => {
@@ -8,10 +7,6 @@ const sendMessage = ({ socket, msgBody }) => {
   } = useContext(Context);
 
   const [value, setValue] = useState("");
-
-  useEffect(() => {
-    socket.on("connection", console.log("connected"));
-  }, []);
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -22,8 +17,7 @@ const sendMessage = ({ socket, msgBody }) => {
       ...msgBody,
       content: value,
     };
-    socket.emit(`message${author.sub}`, msg);
-    console.log(msg);
+    socket.emit(`message`, msg);
     setValue("");
   };
 

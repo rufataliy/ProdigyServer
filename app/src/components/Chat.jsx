@@ -3,16 +3,11 @@ import ChatBox from "./ChatBox.jsx";
 import api from "../api/api";
 import { useEffect } from "react";
 import { getChats } from "../utils/defaultAPIConfig.js";
+import io from "socket.io-client";
 const Chat = () => {
-  const [chats, setChats] = useState();
-  useEffect(() => {
-    api(getChats)
-      .then((chats) => {
-        setChats(chats);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-  return <ChatBox setChats={setChats} chats={chats} />;
+  const [socket, setSocket] = useState(io("https://localhost:3000"));
+  console.log("CHAT");
+  return <ChatBox socket={socket} />;
 };
 
 export default Chat;

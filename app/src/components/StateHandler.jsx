@@ -9,48 +9,49 @@ import {
   APP,
   VOCAB,
   WORDS,
-  TOPICS
+  TOPICS,
 } from "../store/useGlobalState";
+import { useMemo } from "react";
 
-export const StateHandler = Component => {
-  return props => {
+export const StateHandler = (Component) => {
+  return (props) => {
     const { actions, modalState, scheduleState } = useContext(Context);
 
-    const setAction = ({ config, payload, actionNames }) => {
+    const setAction = useMemo(() => ({ config, payload, actionNames }) => {
       const ops = {
         setFormConfig: () =>
           actions({
             type: FORM_CONFIG,
-            payload: config
+            payload: config,
           }),
         setInitialState: () =>
           actions({
             type: INITIAL_VALUES,
             payload: {
-              ...payload
-            }
+              ...payload,
+            },
           }),
         setScheduleState: () =>
           actions({
             type: SCHEDULE,
             payload: {
               ...scheduleState,
-              events: payload
-            }
+              events: payload,
+            },
           }),
         toggleModal: () =>
           actions({
             type: MODAL,
             payload: {
               ...modalState,
-              modalVisibility: !modalState.modalVisibility
-            }
-          })
+              modalVisibility: !modalState.modalVisibility,
+            },
+          }),
       };
-      actionNames.map(name => {
+      actionNames.map((name) => {
         ops[name]();
       });
-    };
+    });
     return <Component {...props} setAction={setAction} />;
   };
 };
