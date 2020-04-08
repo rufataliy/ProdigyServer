@@ -148,3 +148,19 @@ i:hover {
 
 
 /* CHAT */
+
+.messagesBox {
+    height: 150px;
+    overflow: auto;
+}
+
+.chat {
+    position: absolute;
+    padding: 20px;
+    right: 15%;
+    bottom: 20%;
+    height: 300px;
+    z-index: 1000000;
+    box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}

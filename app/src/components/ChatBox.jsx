@@ -12,75 +12,94 @@ import { getChats } from "../utils/defaultAPIConfig.js";
 import api from "../api/api";
 
 const ChatBox = ({ socket }) => {
-  const { compUpdate, actions, appState } = useContext(Context);
+  const { author } = useContext(Context);
   const [key, setKey] = useState("people");
   const [messages, setMessages] = useState();
-  const [msgBody, setMsgBody] = useState("");
+  const [chatState, setChatState] = useState({ state: "initial" });
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState();
-  console.log("chat rerendered");
+  const [response, setReponse] = useState({});
+  let update;
   useEffect(() => {
-    socket = io("https://localhost:3000", { forceNew: true });
     api(getChats)
       .then((chats) => {
         setChats(chats);
       })
       .catch((err) => console.log(err));
-    socket.on(`message${appState.author.sub}`, (newMessage) => {
-      console.log(newMessage);
-      setNewMessage((prevState) => ({ ...newMessage }));
-    });
+    socket.on("connected", (a) => console.log(a));
+    socket.on(`message${author.sub}`, (response) => setReponse(() => response));
     return () => {
       socket.disconnect();
     };
   }, []);
-  const updateMessages = useMemo(() => (newMessage) => {
-    setChats((prevState) => {
-      console.log(prevState);
-      return prevState.map((chat, index) => {
-        if (chat._id === newMessage.chatId) {
-          chat.messages.push(newMessage);
-          setMessages(chat.messages);
-          // setNewMessage({});
-          return chat;
-        } else {
-          return chat;
-        }
-      });
-    });
-  });
-  // useEffect(() => {
-  //   console.log("on message");
-
-  //   socket.on(`message`, (newMessage) => {
-  //     console.log(newMessage);
-  //     updateMessages(newMessage);
-  //     // setNewMessage((prevState) => ({ ...newMessage }));
-  //   });
-  // }, []);
   useEffect(() => {
+    console.log("socket effect");
+    console.log(chatState);
+    console.log(response);
+    if (response.chat) {
+      if (chatState.state === "new") {
+        setChatState({ ...chatState, chatId: response.chat._id });
+      }
+      setChats((prevState) => [response.chat, ...prevState]);
+      // setNewMessage((prevState) => ({ ...response.message }));
+      // if (!chatState.participants && !chatState.chatId) {
+      //   console.log("new chat");
+      //   setChatState((prevState) => ({
+      //     ...prevState,
+      //     chatId: response.chat._id,
+      //   }));
+      // }
+      setNewMessage((prevState) => ({ ...response.message }));
+    } else {
+      setNewMessage((prevState) => ({ ...response.message }));
+    }
+  }, [author, response]);
+  useEffect(() => {
+    console.log("set new messages");
     chats &&
-      chats.map((chat, index) => {
-        if (chat._id === newMessage.chatId) {
-          chat.messages.push(newMessage);
-          setMessages(chat.messages);
-          setNewMessage({});
-        }
-      });
+      setChats(() =>
+        chats.map((chat, index) => {
+          if (chat._id === newMessage.chatId) {
+            chat.messages.push(newMessage);
+            if (
+              chatState.state === "existing" &&
+              chatState.chatId === newMessage.chatId
+              // || (!msgBody.chatId && msgBody.participants)
+            ) {
+              setMessages(chat.messages);
+            } else {
+              chat.new = true;
+            }
+            setNewMessage({});
+            return chat;
+          } else {
+            return chat;
+          }
+        })
+      );
   }, [newMessage]);
 
-  const openChat = (event) => {
-    const { id } = event.target;
+  const openChat = (id) => {
     chats.map((chat, index) => {
       if (chat._id === id) {
         setMessages([...chat.messages]);
-        setMsgBody({ chatId: id, participants: chat.participants });
+        setChatState(() => ({
+          chatId: id,
+          participants: chat.participants,
+          state: "existing",
+        }));
       }
     });
     setKey("messages");
   };
-  const newChat = (userId) => {
-    setMsgBody({ participants: userId });
+  const newChat = (userId, name) => {
+    setMessages([]);
+    setChatState(() => ({
+      participants: [userId, author.sub],
+      name,
+      chatId: null,
+      state: "new",
+    }));
     setKey("messages");
   };
   const addParticipant = () => {
@@ -93,15 +112,17 @@ const ChatBox = ({ socket }) => {
     });
     setChats(newChats);
   };
+  const handleSelect = (k) => {
+    setChatState(() => ({ state: "initial" }));
+    setMessages([]);
+    setKey(k);
+  };
   return (
     <div>
-      <Modal>
-        <FormikForm />
-      </Modal>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
-        onSelect={(k) => setKey(k)}
+        onSelect={(k) => handleSelect(k)}
       >
         <Tab eventKey="people" title="People">
           {key == "people" && <People newChat={newChat} />}
@@ -117,9 +138,17 @@ const ChatBox = ({ socket }) => {
         </Tab>
         <Tab eventKey="messages" title="Messages">
           {key == "messages" && (
-            <div>
-              <Messages messages={messages} />
-              <SendMessages msgBody={msgBody} socket={socket} />
+            <div className="d-flex flex-column  justify-content-between">
+              <Messages
+                authorid={author.sub}
+                chatState={chatState}
+                messages={messages}
+              />
+              <SendMessages
+                chatState={chatState}
+                authorid={author.sub}
+                socket={socket}
+              />
             </div>
           )}
         </Tab>

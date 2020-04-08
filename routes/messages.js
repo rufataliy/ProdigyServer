@@ -12,26 +12,35 @@ io.on("connection", (socket) => {
         "lululu",
         (err, userid) => {
             socket.emit("connected", { msg: "you are connected" });
+            console.log(`message${userid}`);
+
             socket.on(`message${userid}`, (msg) => {
                 console.log(msg);
 
-                const _id = msg.chatId ? msg.chatId : ObjectId();
-                Message.create({ author: userid, content: msg.content })
+                const chatId = msg.chatId ? msg.chatId : ObjectId();
+                Message.create({ author: userid, content: msg.content, chatId })
                     .then((message) => {
-                        Chat.findOneAndUpdate({ _id }, {
+                        Chat.findOneAndUpdate({ _id: chatId }, {
                             createdAt: Date.now(),
                             author: userid,
                             participants: msg.participants,
                             $push: { messages: message._id },
-                        }, { upsert: true, useFindAndModify: true, new: true }).then((item) => {
-                            console.log(item);
+                        }, { upsert: true, useFindAndModify: true, new: true }).then((chat, a) => {
+                            console.log(chat);
 
-                            console.log("********MESSAGE******");
-                            if (!message.chatId) {
-                                message.chatId = item._id;
-                                message.save();
+                            if (!msg.chatId) {
+                                console.log("********NEW CHAT******");
+                                chat.participants.map((participant) =>
+                                    io.emit(`message${participant}`, { message, chat })
+                                );
+                                // io.emit(`message${userid}`, { message, chat });
+                            } else {
+                                console.log("********OLD CHAT******");
+                                chat.participants.map((participant) =>
+                                    io.emit(`message${participant}`, { message })
+                                );
+                                // io.emit(`message${userid}`, { message });
                             }
-                            io.emit(`message${userid}`, message);
                         });
                     })
                     .catch((err) => console.log(err));

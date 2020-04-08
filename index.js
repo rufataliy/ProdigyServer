@@ -8,10 +8,10 @@ const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
-
-// configure store for session and store sessions
-//there then get session id from socket and
-//get session from and se user.
+const jwt = require("jsonwebtoken")
+    // configure store for session and store sessions
+    //there then get session id from socket and
+    //get session from and se user.
 mongoose
     .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,

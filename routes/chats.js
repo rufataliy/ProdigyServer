@@ -4,7 +4,7 @@ const Chat = require("../models/Chat");
 
 router.get("/", (req, res) => {
     const author = req.openid.user.sub;
-    Chat.find({ author })
+    Chat.find({ participants: author })
         .populate("messages")
         .populate("participants")
         .then((chats) => {

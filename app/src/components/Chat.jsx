@@ -7,7 +7,11 @@ import io from "socket.io-client";
 const Chat = () => {
   const [socket, setSocket] = useState(io("https://localhost:3000"));
   console.log("CHAT");
-  return <ChatBox socket={socket} />;
+  return (
+    <div className="chat">
+      <ChatBox socket={socket} />
+    </div>
+  );
 };
 
 export default Chat;

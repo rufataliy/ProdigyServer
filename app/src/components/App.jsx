@@ -33,11 +33,13 @@ const App = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+  const renderChat = () => <Chat />;
   return (
     <div>
       {console.log("rendered app")}
       <Context.Provider value={appState}>
         <TopNav />
+        {appState.author && renderChat()}
       </Context.Provider>
       <Router history={browserHistory}>
         <Container fluid>
@@ -51,7 +53,7 @@ const App = () => {
                 <Context.Provider value={store}>
                   <Route path="/app/Schedule" component={Schedule} />
                   <Route path="/app/Vocabulary" component={VocabularyHome} />
-                  <Route path="/app/test" component={Chat} />
+                  {/* <Route path="/app/test" component={Chat} /> */}
                 </Context.Provider>
               </Switch>
             </Col>
