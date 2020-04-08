@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import api from "../api/api";
 import { useEffect } from "react";
 import { getContacts } from "../utils/defaultAPIConfig.js";
-import { ListGroup } from "react-bootstrap";
-const People = ({ newChat }) => {
+import { ListGroup, Button } from "react-bootstrap";
+import Icon from "../views/_Icon.jsx";
+const People = ({ newChat, setKey }) => {
   const [people, setPeople] = useState();
   useEffect(() => {
     api(getContacts)
@@ -14,6 +15,13 @@ const People = ({ newChat }) => {
   }, []);
   return (
     <div>
+      <Button
+        onClick={() => setKey("chats")}
+        className="floating rounded-btn"
+        variant="outline-primary"
+      >
+        <Icon className="fas fa-chevron-left" />
+      </Button>
       <ListGroup as="ul">
         {Array.isArray(people)
           ? people.map((person, index) => (

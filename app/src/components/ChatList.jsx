@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { ListGroup } from "react-bootstrap";
-const ChatList = ({ chats, openChat, addParticipant }) => {
+import { ListGroup, Button } from "react-bootstrap";
+import Icon from "../views/_Icon.jsx";
+const ChatList = ({ chats, openChat, setKey, addParticipant }) => {
   return (
     <div>
+      <Button
+        onClick={() => setKey("people")}
+        className="floating rounded-btn"
+        variant="outline-primary"
+      >
+        <Icon className="fas fa-plus" />
+      </Button>
       <ListGroup className="messagesBox" as="ul">
         {chats != undefined
           ? chats.map((chat, index) => (

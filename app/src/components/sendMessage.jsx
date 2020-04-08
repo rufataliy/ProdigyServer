@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import Context from "../store/context";
-
+import Icon from "../views/_Icon.jsx";
+import { Button, FormControl, InputGroup } from "react-bootstrap";
 const sendMessage = ({ socket, chatState, authorid }) => {
   const [value, setValue] = useState("");
   const onChange = (event) => {
@@ -19,14 +20,20 @@ const sendMessage = ({ socket, chatState, authorid }) => {
 
   return (
     <div>
-      <input onChange={onChange} type="text" value={value} />
-      <button
-        disabled={chatState.state === "initial" ? true : false}
-        type="button"
-        onClick={send}
-      >
-        Send
-      </button>
+      <InputGroup>
+        <FormControl onChange={onChange} type="text" value={value} />
+        <InputGroup.Append>
+          <Button
+            className="rounded-btn"
+            variant="outline-primary"
+            disabled={chatState.state === "initial" ? true : false}
+            type="button"
+            onClick={send}
+          >
+            <Icon className="fas fa-paper-plane" />
+          </Button>
+        </InputGroup.Append>
+      </InputGroup>
     </div>
   );
 };

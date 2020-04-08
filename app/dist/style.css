@@ -152,6 +152,7 @@ i:hover {
 .messagesBox {
     height: 150px;
     overflow: auto;
+    flex-grow: 1;
 }
 
 .chat {
@@ -163,4 +164,26 @@ i:hover {
     z-index: 1000000;
     box-shadow: 1px 0px 10px 1px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
+}
+
+.chat .tab-content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat .tab-content>* {
+    flex-grow: 1;
+}
+
+.rounded-btn {
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.floating {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }

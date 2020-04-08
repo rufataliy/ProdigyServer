@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Button } from "react-bootstrap";
 import io from "socket.io-client";
 import Messages from "./Messages.jsx";
 import SendMessages from "./sendMessage.jsx";
@@ -13,7 +13,7 @@ import api from "../api/api";
 
 const ChatBox = ({ socket }) => {
   const { author } = useContext(Context);
-  const [key, setKey] = useState("people");
+  const [key, setKey] = useState("chats");
   const [messages, setMessages] = useState();
   const [chatState, setChatState] = useState({ state: "initial" });
   const [chats, setChats] = useState();
@@ -118,43 +118,42 @@ const ChatBox = ({ socket }) => {
     setKey(k);
   };
   return (
-    <div>
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={key}
-        onSelect={(k) => handleSelect(k)}
-      >
-        <Tab eventKey="people" title="People">
-          {key == "people" && <People newChat={newChat} />}
-        </Tab>
-        <Tab eventKey="chats" title="Chats">
-          {key == "chats" && (
-            <ChatList
-              chats={chats}
-              addParticipant={addParticipant}
-              openChat={openChat}
+    <Tabs
+      id="controlled-tab-example"
+      activeKey={key}
+      onSelect={(k) => handleSelect(k)}
+    >
+      <Tab eventKey="people">
+        {key == "people" && <People setKey={setKey} newChat={newChat} />}
+      </Tab>
+      <Tab eventKey="chats" title="Chats">
+        {key == "chats" && (
+          <ChatList
+            setKey={setKey}
+            chats={chats}
+            addParticipant={addParticipant}
+            openChat={openChat}
+          />
+        )}
+      </Tab>
+      <Tab eventKey="messages" title="Messages">
+        {key == "messages" && (
+          <div className="d-flex h-100 flex-column justify-content-between">
+            <Messages
+              authorid={author.sub}
+              chatState={chatState}
+              messages={messages}
             />
-          )}
-        </Tab>
-        <Tab eventKey="messages" title="Messages">
-          {key == "messages" && (
-            <div className="d-flex flex-column  justify-content-between">
-              <Messages
-                authorid={author.sub}
-                chatState={chatState}
-                messages={messages}
-              />
-              <SendMessages
-                chatState={chatState}
-                authorid={author.sub}
-                socket={socket}
-              />
-            </div>
-          )}
-        </Tab>
-      </Tabs>
+            <SendMessages
+              chatState={chatState}
+              authorid={author.sub}
+              socket={socket}
+            />
+          </div>
+        )}
+      </Tab>
       {JSON.stringify(newMessage && newMessage.content)}
-    </div>
+    </Tabs>
   );
 };
 

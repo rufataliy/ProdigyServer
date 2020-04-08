@@ -8,7 +8,7 @@ const Chat = () => {
   const [socket, setSocket] = useState(io("https://localhost:3000"));
   console.log("CHAT");
   return (
-    <div className="chat">
+    <div className="chat d-flex flex-column flex-justify-between">
       <ChatBox socket={socket} />
     </div>
   );
