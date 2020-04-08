@@ -107,3 +107,5 @@ localhost-key.pem
 localhost.pem
 prodigy-gate.pem
 playground/test.js
+app\dist\main.js.map
+app\dist\main.js
