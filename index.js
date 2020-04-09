@@ -91,7 +91,7 @@ app.use("/api/messages", require("./routes/messages"));
 //         console.log("Listening on https://localhost:3000");
 //     });
 // } else {
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log("production");
 });
 // }
