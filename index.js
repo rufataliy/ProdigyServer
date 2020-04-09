@@ -9,8 +9,6 @@ const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
 const jwt = require("jsonwebtoken");
-const path = require("path");
-const root = path.dirname(require.main.filename);
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -25,8 +23,8 @@ mongoose
     .catch((err) => console.log("DB COULDN'T CONNECT"));
 
 app.set("view engine", "ejs");
-app.set("views", root + "/views");
-app.use(express.static(root + "/public"));
+app.set("views", "/views");
+app.use(express.static("/public"));
 app.use(
     session({
         resave: false,
@@ -65,14 +63,14 @@ app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use("/app", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app", isAuthenticated, express.static(`/app/dist`));
 app.get("/app", isAuthenticated, (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
-app.use("/app/Schedule", isAuthenticated, express.static(`${root}/app/dist`));
-app.use("/app/Vocabulary", isAuthenticated, express.static(`${root}/app/dist`));
-app.use("/app/test", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app/Schedule", isAuthenticated, express.static(`/app/dist`));
+app.use("/app/Vocabulary", isAuthenticated, express.static(`/app/dist`));
+app.use("/app/test", isAuthenticated, express.static(`/app/dist`));
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
