@@ -109,3 +109,5 @@ prodigy-gate.pem
 playground/test.js
 app\dist\main.js.map
 app\dist\main.js
+cert.pem
+key.pem

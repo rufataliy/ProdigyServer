@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { getChats } from "../utils/defaultAPIConfig.js";
 import io from "socket.io-client";
 const Chat = () => {
-  const [socket, setSocket] = useState(io("https://localhost:3000"));
+  const [socket, setSocket] = useState(io("https://prodigy.rufataliyev.com"));
   const [closed, setClosed] = useState(false);
   console.log("CHAT");
   return (
