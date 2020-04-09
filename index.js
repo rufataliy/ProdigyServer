@@ -67,14 +67,14 @@ app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use("/app", isAuthenticated, express.static(path.join(root, "/dist")));
+app.use("/app", isAuthenticated, express.static(path.join(root, "/app/dist")));
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, { root: "/dist" });
+    res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
-app.use("/app/Schedule", isAuthenticated, express.static(`/app/dist`));
-app.use("/app/Vocabulary", isAuthenticated, express.static(`/app/dist`));
-app.use("/app/test", isAuthenticated, express.static(`/app/dist`));
+app.use("/app/Schedule", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app/Vocabulary", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app/test", isAuthenticated, express.static(`${root}/app/dist`));
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
