@@ -9,6 +9,7 @@ const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 const root = path.dirname(require.main.filename);
 // configure store for session and store sessions
 //there then get session id from socket and
