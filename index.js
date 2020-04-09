@@ -9,6 +9,8 @@ const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -22,12 +24,13 @@ mongoose
     .then(() => console.log("DB CONNECTED"))
     .catch((err) => console.log("DB COULDN'T CONNECT"));
 
+const root = path.dirname(require.main.filename);
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-app.use(express.static(__dirname + "/public"));
+app.set("views", path.join(root, "/views"));
+app.use(express.static(path.join(root, "/public")));
 app.use(
     session({
-        resave: false,
+        resave: true,
         saveUninitialized: true,
         secret: process.env.SESSION_SECRET,
     })
@@ -37,7 +40,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-
 app.use(auth(config));
 app.use(
     cors({
@@ -55,30 +57,24 @@ app.get("/loginCheck", (req, res) => {
         res.redirect("/login");
     }
 });
+console.log("root", path.dirname(require.main.filename));
+
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
-    res.render("index", { baseUrl: req.headers.host });
+    res.render("index");
 });
 app.get("/profile", requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.openid.user));
 });
 
-app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.get("/app", isAuthenticated, (req, res) => {
-    res.sendFile(`index.html`, { root: "/app/dist" });
+app.use("/app", isAuthenticated, express.static(path.join(root, "/app/dist")));
+app.get("/app", (req, res) => {
+    res.sendFile(`index.html`, { root: "/dist" });
 });
 
-app.use(
-    "/app/Schedule",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
-app.use(
-    "/app/Vocabulary",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
-app.use("/app/test", isAuthenticated, express.static(`${__dirname}/app/dist`));
+app.use("/app/Schedule", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app/Vocabulary", isAuthenticated, express.static(`${root}/app/dist`));
+app.use("/app/test", isAuthenticated, express.static(`${root}/app/dist`));
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
