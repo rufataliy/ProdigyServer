@@ -25,6 +25,7 @@ mongoose
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
+
 app.use(
     session({
         resave: false,
@@ -64,7 +65,7 @@ app.get("/profile", requiresAuth(), (req, res) => {
 });
 
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.get("/app", isAuthenticated, (req, res) => {
+app.get("/app", (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
