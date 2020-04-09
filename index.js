@@ -8,10 +8,10 @@ const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
-const jwt = require("jsonwebtoken")
-    // configure store for session and store sessions
-    //there then get session id from socket and
-    //get session from and se user.
+const jwt = require("jsonwebtoken");
+// configure store for session and store sessions
+//there then get session id from socket and
+//get session from and se user.
 mongoose
     .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
@@ -47,10 +47,10 @@ app.use(
 );
 app.get("/loginCheck", (req, res) => {
     if (req.isAuthenticated()) {
-        jwt.sign(req.openid.user.sub, "lululu", (err, token) => {
+        jwt.sign(req.openid.user.sub, process.env.JWT_SECRET, (err, token) => {
             res.cookie("userid", token);
-            res.redirect("/app")
-        })
+            res.redirect("/app");
+        });
     } else {
         res.redirect("/login");
     }

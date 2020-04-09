@@ -9,25 +9,22 @@ const ObjectId = require("mongoose").Types.ObjectId;
 io.on("connection", (socket) => {
     jwt.verify(
         cookieParser.parse(socket.request.headers.cookie).userid,
-        "lululu",
+        process.env.JWT_SECRET,
         (err, userid) => {
             socket.emit("connected", { msg: "you are connected" });
             console.log(`message${userid}`);
 
             socket.on(`message${userid}`, (msg) => {
-                console.log(msg);
-
                 const chatId = msg.chatId ? msg.chatId : ObjectId();
                 Message.create({ author: userid, content: msg.content, chatId })
                     .then((message) => {
                         Chat.findOneAndUpdate({ _id: chatId }, {
                             createdAt: Date.now(),
+                            title: msg.title,
                             author: userid,
                             participants: msg.participants,
                             $push: { messages: message._id },
                         }, { upsert: true, useFindAndModify: true, new: true }).then((chat, a) => {
-                            console.log(chat);
-
                             if (!msg.chatId) {
                                 console.log("********NEW CHAT******");
                                 chat.participants.map((participant) =>

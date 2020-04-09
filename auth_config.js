@@ -12,23 +12,27 @@ const config = {
         // This will store the user identity claims in the session.
         const user = req.openidTokens.claims();
         user._id = user.sub;
-        jwt.sign(req.openidTokens.claims().sub, "lululu", (err, token) => {
-            if (!err) {
-                res.cookie("userid", token);
-                User.findByIdAndUpdate({ _id: user._id }, user, { upsert: true })
-                    .then((user) => {
-                        console.log(user);
-                        res.redirect("/app");
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        next();
-                    });
-            } else {
-                console.log(err);
-                res.redirect("/login");
+        jwt.sign(
+            req.openidTokens.claims().sub,
+            process.env.JWT_SECRET,
+            (err, token) => {
+                if (!err) {
+                    res.cookie("userid", token);
+                    User.findByIdAndUpdate({ _id: user._id }, user, { upsert: true })
+                        .then((user) => {
+                            console.log(user);
+                            res.redirect("/app");
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            next();
+                        });
+                } else {
+                    console.log(err);
+                    res.redirect("/login");
+                }
             }
-        });
+        );
     },
 };
 module.exports.config = config;
