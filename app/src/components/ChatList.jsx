@@ -6,7 +6,7 @@ const ChatList = ({ chats, openChat, setKey, addParticipant }) => {
     <div>
       <Button
         onClick={() => setKey("people")}
-        className="floating rounded-btn"
+        className="floating-top rounded-btn"
         variant="outline-primary"
       >
         <Icon className="fas fa-plus" />
@@ -24,10 +24,7 @@ const ChatList = ({ chats, openChat, setKey, addParticipant }) => {
                 }}
                 variant={chat.new ? "success" : ""}
               >
-                {chat._id}
-                {/* <button key={index} id={chat._id} onClick={addParticipant}>
-                  add
-                </button> */}
+                {chat.title}
               </ListGroup.Item>
             ))
           : "loading"}

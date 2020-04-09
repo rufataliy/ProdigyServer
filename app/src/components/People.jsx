@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getContacts } from "../utils/defaultAPIConfig.js";
 import { ListGroup, Button } from "react-bootstrap";
 import Icon from "../views/_Icon.jsx";
-const People = ({ newChat, setKey }) => {
+const People = ({ newChat, resetChatState, setKey }) => {
   const [people, setPeople] = useState();
   useEffect(() => {
     api(getContacts)
@@ -16,8 +16,11 @@ const People = ({ newChat, setKey }) => {
   return (
     <div>
       <Button
-        onClick={() => setKey("chats")}
-        className="floating rounded-btn"
+        onClick={() => {
+          resetChatState();
+          setKey("chats");
+        }}
+        className="floating-top rounded-btn"
         variant="outline-primary"
       >
         <Icon className="fas fa-chevron-left" />

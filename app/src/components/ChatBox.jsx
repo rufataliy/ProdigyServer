@@ -10,8 +10,9 @@ import Modal from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
 import { getChats } from "../utils/defaultAPIConfig.js";
 import api from "../api/api";
-
-const ChatBox = ({ socket }) => {
+import ChatTitle from "./ChatTitle.jsx";
+const ChatBox = ({ socket, closed }) => {
+  const defaultChatState = { state: "intital" };
   const { author } = useContext(Context);
   const [key, setKey] = useState("chats");
   const [messages, setMessages] = useState();
@@ -37,18 +38,14 @@ const ChatBox = ({ socket }) => {
     console.log(chatState);
     console.log(response);
     if (response.chat) {
-      if (chatState.state === "new") {
+      if (
+        chatState.state === "new" &&
+        chatState.title === response.chat.title
+      ) {
         setChatState({ ...chatState, chatId: response.chat._id });
       }
       setChats((prevState) => [response.chat, ...prevState]);
-      // setNewMessage((prevState) => ({ ...response.message }));
-      // if (!chatState.participants && !chatState.chatId) {
-      //   console.log("new chat");
-      //   setChatState((prevState) => ({
-      //     ...prevState,
-      //     chatId: response.chat._id,
-      //   }));
-      // }
+
       setNewMessage((prevState) => ({ ...response.message }));
     } else {
       setNewMessage((prevState) => ({ ...response.message }));
@@ -62,7 +59,6 @@ const ChatBox = ({ socket }) => {
           if (chat._id === newMessage.chatId) {
             chat.messages.push(newMessage);
             if (
-              chatState.state === "existing" &&
               chatState.chatId === newMessage.chatId
               // || (!msgBody.chatId && msgBody.participants)
             ) {
@@ -85,6 +81,7 @@ const ChatBox = ({ socket }) => {
         setMessages([...chat.messages]);
         setChatState(() => ({
           chatId: id,
+          title: chat.title,
           participants: chat.participants,
           state: "existing",
         }));
@@ -100,7 +97,10 @@ const ChatBox = ({ socket }) => {
       chatId: null,
       state: "new",
     }));
-    setKey("messages");
+    setKey("newChat");
+  };
+  const resetChatState = () => {
+    setChatState(() => defaultChatState);
   };
   const addParticipant = () => {
     const { id } = event.target;
@@ -117,43 +117,62 @@ const ChatBox = ({ socket }) => {
     setMessages([]);
     setKey(k);
   };
+
   return (
-    <Tabs
-      id="controlled-tab-example"
-      activeKey={key}
-      onSelect={(k) => handleSelect(k)}
-    >
-      <Tab eventKey="people">
-        {key == "people" && <People setKey={setKey} newChat={newChat} />}
-      </Tab>
-      <Tab eventKey="chats" title="Chats">
-        {key == "chats" && (
-          <ChatList
-            setKey={setKey}
-            chats={chats}
-            addParticipant={addParticipant}
-            openChat={openChat}
-          />
-        )}
-      </Tab>
-      <Tab eventKey="messages" title="Messages">
-        {key == "messages" && (
-          <div className="d-flex h-100 flex-column justify-content-between">
-            <Messages
-              authorid={author.sub}
-              chatState={chatState}
-              messages={messages}
-            />
-            <SendMessages
-              chatState={chatState}
-              authorid={author.sub}
-              socket={socket}
-            />
-          </div>
-        )}
-      </Tab>
-      {JSON.stringify(newMessage && newMessage.content)}
-    </Tabs>
+    <React.Fragment>
+      {closed === false && (
+        <Tabs
+          id="controlled-tab-example"
+          activeKey={key}
+          onSelect={(k) => handleSelect(k)}
+        >
+          <Tab eventKey="people">
+            {key == "people" && (
+              <People
+                resetChatState={resetChatState}
+                setKey={setKey}
+                newChat={newChat}
+              />
+            )}
+          </Tab>
+          <Tab eventKey="newChat">
+            {key == "newChat" && (
+              <ChatTitle setChatState={setChatState} setKey={setKey} />
+            )}
+          </Tab>
+          <Tab eventKey="chats">
+            {key == "chats" && (
+              <ChatList
+                resetChatState={resetChatState}
+                setKey={setKey}
+                chats={chats}
+                setChatState={setChatState}
+                addParticipant={addParticipant}
+                openChat={openChat}
+              />
+            )}
+          </Tab>
+          <Tab eventKey="messages">
+            {key == "messages" && (
+              <div className="d-flex h-100 flex-column justify-content-between">
+                <Messages
+                  setKey={setKey}
+                  resetChatState={resetChatState}
+                  authorid={author.sub}
+                  chatState={chatState}
+                  messages={messages}
+                />
+                <SendMessages
+                  chatState={chatState}
+                  authorid={author.sub}
+                  socket={socket}
+                />
+              </div>
+            )}
+          </Tab>
+        </Tabs>
+      )}
+    </React.Fragment>
   );
 };
 

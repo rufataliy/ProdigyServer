@@ -1,10 +1,29 @@
 import React, { useState, useEffect } from "react";
-const Messages = ({ messages, authorid, chatState }) => {
+import { Button } from "react-bootstrap";
+import Icon from "../views/_Icon.jsx";
+const Messages = ({
+  messages,
+  setKey,
+  resetChatState,
+  authorid,
+  chatState,
+}) => {
   return (
     <div className="messagesBox">
+      <div>
+        <Button
+          onClick={() => {
+            resetChatState(), setKey("chats");
+          }}
+          className="floating-top rounded-btn"
+          variant="outline-primary"
+        >
+          <Icon className="fas fa-chevron-left" />
+        </Button>
+      </div>
       <h4>
         <span className="badge badge-secondary">
-          {chatState && chatState.name}
+          {chatState && chatState.title}
         </span>
       </h4>
       {messages &&
