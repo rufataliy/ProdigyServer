@@ -6,15 +6,15 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie");
 const Chat = require("../models/Chat");
 const ObjectId = require("mongoose").Types.ObjectId;
+const { JWT_SECRET } = process.env;
 io.on("connection", (socket) => {
-    console.log(process.env.JWT_SECRET);
-
     jwt.verify(
         cookieParser.parse(socket.request.headers.cookie).userid,
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         (err, userid) => {
-            socket.emit("connected", { msg: "you are connected" });
-            console.log(`message${userid}`);
+            console.log(userid);
+
+            socket.emit("connected", { msg: "you are here" });
 
             socket.on(`message${userid}`, (msg) => {
                 const chatId = msg.chatId ? msg.chatId : ObjectId();

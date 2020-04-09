@@ -46,16 +46,7 @@ app.use(
         credentials: true,
     })
 );
-app.get("/loginCheck", (req, res) => {
-    if (req.isAuthenticated()) {
-        jwt.sign(req.openid.user.sub, process.env.JWT_SECRET, (err, token) => {
-            res.cookie("userid", token);
-            res.redirect("/app");
-        });
-    } else {
-        res.redirect("/login");
-    }
-});
+
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
     res.render("index", { baseUrl: req.headers.host });
@@ -69,17 +60,10 @@ app.get("/app", (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
-app.use(
-    "/app/Schedule",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
-app.use(
-    "/app/Vocabulary",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
+app.use("/app/Schedule", express.static(`${__dirname}/app/dist`));
+app.use("/app/Vocabulary", express.static(`${__dirname}/app/dist`));
 app.use("/app/test", isAuthenticated, express.static(`${__dirname}/app/dist`));
+
 app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
@@ -93,6 +77,6 @@ app.use("/api/messages", require("./routes/messages"));
 //     });
 // } else {
 server.listen(process.env.PORT, () => {
-    console.log("production");
+    console.log("server running");
 });
 // }
