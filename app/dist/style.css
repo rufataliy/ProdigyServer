@@ -181,7 +181,7 @@ i:hover {
 .chat {
     width: 350px;
     height: 560px;
-    max-height: 100vh;
+    max-height: 80vh;
     max-width: 100%;
     transition: 0.3s ease-out;
     z-index: 1000000;
