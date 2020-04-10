@@ -1,7 +1,15 @@
+.main {}
+
+.sticky {
+    position: sticky;
+    top: 0px;
+    z-index: 10000;
+}
+
 .sidebarWrapper {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     transition: 0.3s;
-    /* position: absolute; */
+    position: fixed;
     z-index: 100;
     margin-left: -200px;
     left: 0;
@@ -155,16 +163,29 @@ i:hover {
     flex-grow: 1;
 }
 
-.chat {
-    position: absolute;
-    right: 3%;
-    bottom: 2%;
-    height: 300px;
-    max-height: 300px;
-    transition: 0.3s ease-out;
-    width: 250px;
-    z-index: 1000000;
+.chat-wrapper {
+    max-width: 100%;
+    max-height: 100%;
+    position: fixed;
+    bottom: 1.3em;
+    right: 1.3em;
+    z-index: 10000;
     box-shadow: 0px -1px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+@media only screen and (max-width: 350px) {
+    .chat-wrapper {
+        right: 0;
+    }
+}
+
+.chat {
+    width: 350px;
+    height: 560px;
+    max-height: 560px;
+    max-width: 100%;
+    transition: 0.3s ease-out;
+    z-index: 1000000;
     border-radius: 5px;
     background: white;
 }
@@ -172,6 +193,7 @@ i:hover {
 .chat .tab-content {
     display: flex;
     flex-grow: 1;
+    min-height: 0;
 }
 
 .chat .tab-content>* {
@@ -221,4 +243,51 @@ i:hover {
     border-radius: 50%;
     background: transparent;
     box-shadow: none;
+}
+
+.chat-main {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.chat-main .chat-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.message-row p {
+    border-radius: 0;
+    padding: 5px 8px;
+    background: #2196f3;
+    color: white;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.author-message p {
+    background: #eae3e3;
+    color: inherit;
+    padding: 5px 8px;
+    border-radius: 0;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.author-message {
+    justify-content: flex-end;
+}
+
+.message-row {
+    display: flex;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: lightgray;
 }
