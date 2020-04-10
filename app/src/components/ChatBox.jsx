@@ -27,7 +27,6 @@ const ChatBox = ({ socket, closed }) => {
         setChats(chats);
       })
       .catch((err) => console.log(err));
-    socket.on("connected", (a) => console.log(a));
     socket.on(`message${author.sub}`, (response) => setReponse(() => response));
     return () => {
       socket.disconnect();
@@ -135,7 +134,7 @@ const ChatBox = ({ socket, closed }) => {
               />
             )}
           </Tab>
-          <Tab eventKey="newChat">
+          <Tab className="pr-2 pl-2" eventKey="newChat">
             {key == "newChat" && (
               <ChatTitle setChatState={setChatState} setKey={setKey} />
             )}
@@ -152,7 +151,7 @@ const ChatBox = ({ socket, closed }) => {
               />
             )}
           </Tab>
-          <Tab eventKey="messages">
+          <Tab className="pr-2 pl-2 pb-2" eventKey="messages">
             {key == "messages" && (
               <div className="d-flex h-100 flex-column justify-content-between">
                 <Messages

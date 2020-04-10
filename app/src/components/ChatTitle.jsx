@@ -21,7 +21,8 @@ const ChatTitle = ({ setChatState, setKey }) => {
       >
         <Icon className="fas fa-chevron-left" />
       </Button>
-      <InputGroup>
+      <h6 className="text-primary mb-1 mt-1 text-center">Chat title</h6>
+      <InputGroup className="mt-4">
         <FormControl onChange={onChange} type="text" value={value} />
         <InputGroup.Append>
           <Button

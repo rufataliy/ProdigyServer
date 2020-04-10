@@ -21,11 +21,9 @@ const Messages = ({
           <Icon className="fas fa-chevron-left" />
         </Button>
       </div>
-      <h4>
-        <span className="badge badge-secondary">
-          {chatState && chatState.title}
-        </span>
-      </h4>
+      <h6 className="text-primary mb-1 mt-1 text-center">
+        {chatState && chatState.title}
+      </h6>
       {messages &&
         messages.map((message, index) => (
           <p

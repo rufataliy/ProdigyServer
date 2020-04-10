@@ -12,10 +12,9 @@ io.on("connection", (socket) => {
         cookieParser.parse(socket.request.headers.cookie).userid,
         JWT_SECRET,
         (err, userid) => {
-            console.log(userid);
-
-            socket.emit("connected", { msg: "you are here" });
-
+            console.log("connected");
+            socket.emit("connected", { connected: true });
+            socket.emit("connect", { connected: true });
             socket.on(`message${userid}`, (msg) => {
                 const chatId = msg.chatId ? msg.chatId : ObjectId();
                 Message.create({ author: userid, content: msg.content, chatId })
