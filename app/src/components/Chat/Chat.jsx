@@ -7,7 +7,7 @@ import { getChats } from "../../utils/defaultAPIConfig.js";
 import io from "socket.io-client";
 import { Badge, Button } from "react-bootstrap";
 const Chat = () => {
-  const [socket, setSocket] = useState(io("https://localhost:3000"));
+  const [socket, setSocket] = useState(io("https://prodigy.rufataliyev.com"));
   const [online, setOnline] = useState(false);
   const [closed, setClosed] = useState(true);
   useEffect(() => {
