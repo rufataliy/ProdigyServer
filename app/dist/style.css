@@ -169,6 +169,7 @@ i:hover {
     right: 1.3em;
     z-index: 10000;
     box-shadow: 0px -1px 6px 0px rgba(0, 0, 0, 0.3);
+    transition: 0.4s ease-out;
 }
 
 @media only screen and (max-width: 550px) {
@@ -183,7 +184,6 @@ i:hover {
     height: 560px;
     max-height: 80vh;
     max-width: 100%;
-    transition: 0.3s ease-out;
     z-index: 1000000;
     border-radius: 5px;
     background: white;
