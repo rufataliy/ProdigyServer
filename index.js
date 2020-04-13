@@ -71,12 +71,7 @@ app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
-// if ((process.env.NODE_ENV = "dev")) {
-//     server.listen(process.env.PORT, () => {
-//         console.log("Listening on https://localhost:3000");
-//     });
-// } else {
+
 server.listen(process.env.PORT, () => {
     console.log("server running");
 });
-// }
