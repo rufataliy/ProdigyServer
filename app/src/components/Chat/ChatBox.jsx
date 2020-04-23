@@ -14,11 +14,11 @@ const ChatBox = ({ socket, closed }) => {
   const { author } = useContext(Context);
   const [key, setKey] = useState("chats");
   const [messages, setMessages] = useState();
-  const [chatState, setChatState] = useState({ state: "initial" });
+  const [chatState, setChatState] = useState(defaultChatState);
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState();
   const [response, setReponse] = useState({});
-  let update;
+  //gets chats and sets incoming message listener
   useEffect(() => {
     api(getChats)
       .then((chats) => {
@@ -30,8 +30,9 @@ const ChatBox = ({ socket, closed }) => {
       socket.disconnect();
     };
   }, []);
+  //checks if new chat imcoming chat is the current open chat updates chatState
+  //else updates newMessage
   useEffect(() => {
-    console.log("socket effect");
     if (response.chat) {
       if (
         chatState.state === "new" &&
@@ -43,8 +44,10 @@ const ChatBox = ({ socket, closed }) => {
     }
     setNewMessage((prevState) => ({ ...response.message }));
   }, [author, response]);
+  //adds incoming message to the chat
+  //if opened chat is the chat of incoming message updates the messages
+  //else sets the new property of chat to true
   useEffect(() => {
-    console.log("set new messages");
     chats &&
       setChats(() =>
         chats.map((chat, index) => {
@@ -57,6 +60,7 @@ const ChatBox = ({ socket, closed }) => {
               setMessages(chat.messages);
             } else {
               chat.new = true;
+              chat.newCount = chat.newCount ? chat.newCount + 1 : 1;
             }
             setNewMessage({});
             return chat;
@@ -135,6 +139,7 @@ const ChatBox = ({ socket, closed }) => {
           <Tab eventKey="chats">
             {key == "chats" && (
               <ChatList
+                setChats={setChats}
                 resetChatState={resetChatState}
                 setKey={setKey}
                 chats={chats}

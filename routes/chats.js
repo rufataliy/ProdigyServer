@@ -12,5 +12,15 @@ router.get("/", (req, res) => {
         })
         .catch((err) => console.log(err));
 });
+router.delete("/delete/:chatId", (req, res) => {
+    const author = req.openid.user.sub;
+    Chat.findByIdAndUpdate({ _id: req.params.chatId }, {
+            $pull: { participants: author },
+        })
+        .then((chat) => {
+            res.send({ chat });
+        })
+        .catch((err) => console.log(err));
+});
 
 module.exports = router;

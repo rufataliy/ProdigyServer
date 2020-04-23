@@ -63,3 +63,7 @@ export const getContacts = {
     collectionName: "users",
     method: "get",
 };
+export const removeChatOptions = {
+    collectionName: "chats",
+    method: "delete",
+};
