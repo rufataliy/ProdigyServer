@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
     picture: String,
     email: String,
     email_verified: mongoose.SchemaTypes.Boolean,
-    _id: String,
 });
 
 const User = mongoose.model("User", userSchema);

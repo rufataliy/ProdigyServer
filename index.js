@@ -9,6 +9,7 @@ const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
 const jwt = require("jsonwebtoken");
+const User = require("./models/User");
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -52,7 +53,9 @@ app.get("/", (req, res) => {
     res.render("index", { baseUrl: req.headers.host });
 });
 app.get("/profile", requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.openid.user));
+    User.findOne({ email: req.openid.user.email })
+        .then((user) => res.send(user))
+        .catch(console.log);
 });
 
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));

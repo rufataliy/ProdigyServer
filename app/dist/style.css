@@ -279,6 +279,10 @@ i:hover {
     justify-content: flex-end;
 }
 
+.author-name {
+    color: #b1afaf;
+}
+
 .message-row {
     display: flex;
 }

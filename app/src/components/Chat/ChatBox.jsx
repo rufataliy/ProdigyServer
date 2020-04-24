@@ -18,14 +18,21 @@ const ChatBox = ({ socket, closed }) => {
   const [chats, setChats] = useState();
   const [newMessage, setNewMessage] = useState();
   const [response, setReponse] = useState({});
+  const [fetching, setFetching] = useState(false);
   //gets chats and sets incoming message listener
   useEffect(() => {
+    setFetching(true);
     api(getChats)
       .then((chats) => {
+        console.log("chats");
+        console.log(chats);
         setChats(chats);
+        setFetching(false);
       })
       .catch((err) => console.log(err));
-    socket.on(`message${author.sub}`, (response) => setReponse(() => response));
+    console.log(author);
+
+    socket.on(`message${author._id}`, (response) => setReponse(() => response));
     return () => {
       socket.disconnect();
     };
@@ -88,7 +95,7 @@ const ChatBox = ({ socket, closed }) => {
   const newChat = (userId, name) => {
     setMessages([]);
     setChatState(() => ({
-      participants: [userId, author.sub],
+      participants: [userId, author._id],
       name,
       chatId: null,
       state: "new",
@@ -139,6 +146,7 @@ const ChatBox = ({ socket, closed }) => {
           <Tab eventKey="chats">
             {key == "chats" && (
               <ChatList
+                fetching={fetching}
                 setChats={setChats}
                 resetChatState={resetChatState}
                 setKey={setKey}
@@ -155,7 +163,7 @@ const ChatBox = ({ socket, closed }) => {
                 socket={socket}
                 setKey={setKey}
                 resetChatState={resetChatState}
-                authorid={author.sub}
+                authorid={author._id}
                 chatState={chatState}
                 messages={messages}
               />

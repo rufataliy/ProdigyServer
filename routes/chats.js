@@ -3,11 +3,15 @@ const router = new express.Router();
 const Chat = require("../models/Chat");
 
 router.get("/", (req, res) => {
-    const author = req.openid.user.sub;
-    Chat.find({ participants: author })
-        .populate("messages")
-        .populate("participants")
+    Chat.find({ participants: req.user._id })
+        .populate({ path: "participants", select: "name" })
+        .populate({
+            path: "messages",
+            populate: { path: "author", select: "name" },
+        })
         .then((chats) => {
+            console.log("chats");
+            console.log(chats);
             res.send(chats);
         })
         .catch((err) => console.log(err));

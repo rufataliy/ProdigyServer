@@ -4,7 +4,14 @@ import RoundedBtn from "../../views/_RoundedBtn.jsx";
 import ChatMain from "../../views/_ChatMain.jsx";
 import api from "../../api/api.js";
 import { removeChatOptions, getChats } from "../../utils/defaultAPIConfig";
-const ChatList = ({ chats, openChat, setChats, setKey, addParticipant }) => {
+const ChatList = ({
+  chats,
+  openChat,
+  fetching,
+  setChats,
+  setKey,
+  addParticipant,
+}) => {
   const removeChat = (chatId) => {
     api({
       ...removeChatOptions,

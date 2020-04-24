@@ -7,22 +7,31 @@ const cookieParser = require("cookie");
 const Chat = require("../models/Chat");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { JWT_SECRET } = process.env;
+Message.deleteMany();
 io.on("connection", (socket) => {
     jwt.verify(
-        cookieParser.parse(socket.request.headers.cookie).userid,
+        cookieParser.parse(socket.request.headers.cookie).user,
         JWT_SECRET,
-        (err, userid) => {
-            console.log("connected");
+        (err, user) => {
             socket.emit("connected", { connected: true });
             socket.emit("connect", { connected: true });
-            socket.on(`message${userid}`, (msg) => {
+            socket.on(`message${user._id}`, (msg) => {
+                console.log(msg);
+
                 const chatId = msg.chatId ? msg.chatId : ObjectId();
-                Message.create({ author: userid, content: msg.content, chatId })
+                Message.findOneAndUpdate({ _id: ObjectId() }, { author: user._id, content: msg.content, chatId }, {
+                        upsert: true,
+                        new: true,
+                        populate: {
+                            path: "author",
+                            select: "name",
+                        },
+                    })
                     .then((message) => {
                         Chat.findOneAndUpdate({ _id: chatId }, {
                             createdAt: Date.now(),
                             title: msg.title,
-                            author: userid,
+                            author: user._id,
                             participants: msg.participants,
                             $push: { messages: message._id },
                         }, { upsert: true, useFindAndModify: true, new: true }).then((chat, a) => {
@@ -31,13 +40,12 @@ io.on("connection", (socket) => {
                                 chat.participants.map((participant) =>
                                     io.emit(`message${participant}`, { message, chat })
                                 );
-                                // io.emit(`message${userid}`, { message, chat });
                             } else {
+                                console.log(message);
                                 console.log("********OLD CHAT******");
                                 chat.participants.map((participant) =>
                                     io.emit(`message${participant}`, { message })
                                 );
-                                // io.emit(`message${userid}`, { message });
                             }
                         });
                     })
@@ -45,9 +53,6 @@ io.on("connection", (socket) => {
             });
         }
     );
-});
-router.get("/", (req, res) => {
-    console.log("hit");
 });
 
 module.exports = router;
