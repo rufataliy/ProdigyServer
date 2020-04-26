@@ -3,20 +3,17 @@ import { Card } from "react-bootstrap";
 import { useParams, useRouteMatch, Link } from "react-router-dom";
 import Context from "../store/context";
 import Icon from "../views/_Icon.jsx";
-import {
-  editVocabulary,
-  assignVocabularyOptions
-} from "../utils/defaultAPIConfig";
+import { editVocabulary } from "../utils/defaultAPIConfig";
 import { StateHandler } from "./StateHandler.jsx";
 const Vocab = ({ setAction, vocab }) => {
   const { vocabId } = useParams();
   const { url } = useRouteMatch();
 
   const {
-    vocabState: { vocabs }
+    vocabState: { vocabs },
   } = useContext(Context);
   if (vocabId) {
-    vocabs.map(item => {
+    vocabs.map((item) => {
       if (item._id === vocabId) {
         vocab = item;
       }
@@ -26,12 +23,12 @@ const Vocab = ({ setAction, vocab }) => {
     setAction({
       config: { ...editVocabulary, params: vocab._id, title: vocab.title },
       payload: vocab,
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
     });
   };
   return (
-    <span className="quick-access-btn mr-3">
-      <Card style={{ width: "18rem" }}>
+    <span className="m-2 quick-access-btn">
+      <Card style={{ width: "100%" }}>
         <Card.Body>
           <Card.Title>{vocab.name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">

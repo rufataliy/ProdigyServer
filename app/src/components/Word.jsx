@@ -9,21 +9,23 @@ const Word = ({ setAction, word }) => {
     setAction({
       config: { ...editWordOptions, params: word._id, title: word.title },
       payload: word,
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
     });
   };
+  console.log("word rendered");
+
   return (
-    <Accordion>
-      <Modal>
-        <FormikForm />
-      </Modal>
-      <Card>
-        <Accordion.Toggle as={Button} variant="link" eventKey={word._id}>
-          <Card.Header>{`${word.phrase} - ${word.definition}`}</Card.Header>
+    <Accordion className="m-2">
+      <Card style={{ width: "18rem" }}>
+        <Accordion.Toggle as={Card} variant="link" eventKey={word._id}>
+          <Card.Header>{`${word.phrase}`}</Card.Header>
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={word._id}>
           <Card.Body>
-            {word.example}
+            <p className="text-secondary">Definition</p>
+            <p>{word.definition}</p>
+            <p className="text-secondary">Example</p>
+            <p>{word.example}</p>
             <a onClick={editWord} href="#">
               edit
             </a>
@@ -36,4 +38,4 @@ const Word = ({ setAction, word }) => {
     </Accordion>
   );
 };
-export default StateHandler(Word);
+export default React.memo(StateHandler(Word));

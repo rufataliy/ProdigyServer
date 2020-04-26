@@ -15,7 +15,8 @@ import { useMemo } from "react";
 
 export const StateHandler = (Component) => {
   return (props) => {
-    const { actions, modalState, scheduleState } = useContext(Context);
+    const { actions, toggleModal, scheduleState } = useContext(Context);
+    console.log("statehandler");
 
     const setAction = useMemo(() => ({ config, payload, actionNames }) => {
       const ops = {
@@ -39,14 +40,7 @@ export const StateHandler = (Component) => {
               events: payload,
             },
           }),
-        toggleModal: () =>
-          actions({
-            type: MODAL,
-            payload: {
-              ...modalState,
-              modalVisibility: !modalState.modalVisibility,
-            },
-          }),
+        toggleModal: toggleModal,
       };
       actionNames.map((name) => {
         ops[name]();

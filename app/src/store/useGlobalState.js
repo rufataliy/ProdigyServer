@@ -74,6 +74,7 @@ const useGlobalState = () => {
     const [modalState, setModalState] = useState(modalStateGlobal)
     const [vocabState, setVocabState] = useState(vocabStateGlobal)
     const [componentUpdate, setComponentUpdate] = useState(componentUpdateGlobal)
+
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
@@ -98,6 +99,15 @@ const useGlobalState = () => {
         }
     }
 
+    const toggleModal = () => {
+        actions({
+            type: MODAL,
+            payload: {
+                ...modalState,
+                modalVisibility: !modalState.modalVisibility,
+            }
+        });
+    }
     return {
         scheduleState: state,
         initialValues: initialValues,
@@ -107,6 +117,7 @@ const useGlobalState = () => {
         modalState: modalState,
         vocabState: vocabState,
         compUpdate: componentUpdate,
+        toggleModal,
         actions
     }
 }

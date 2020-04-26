@@ -11,6 +11,7 @@ export const editVocabulary = {
 export const createVocabulary = {
     collectionName: "vocabularies",
     method: "post",
+    title: "New vocabulary"
 };
 export const assignVocabularyOptions = {
     collectionName: "vocabularies/assignTo",
@@ -28,6 +29,7 @@ export const editKlass = {
 export const createKlass = {
     collectionName: "klasses",
     method: "post",
+    title: "New class"
 };
 export const getStudentListOptions = {
     collectionName: "klasses/addStudent/byid",
@@ -47,7 +49,7 @@ export const getWordsOptions = {
 export const createWordOptions = {
     collectionName: "words",
     method: "post",
-    title: "",
+    title: "New word",
 };
 export const editWordOptions = {
     collectionName: "words",

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 import Helmet from "react-helmet";
 import { Form } from "react-bootstrap";
@@ -7,11 +7,13 @@ import "react-day-picker/lib/style.css";
 
 import { formatDate, parseDate } from "react-day-picker/moment";
 
-export const DatePicker = props => {
-  const initialState = { from: new Date(props.start), to: new Date(props.end) };
-  const [state, setState] = useState(initialState);
+export const DatePicker = (props) => {
+  const [state, setState] = useState({});
   const { from, to } = state;
   const toPicker = useRef();
+  useEffect(() => {
+    setState({ from: new Date(props.start), to: new Date(props.end) });
+  }, [props]);
   const showFromMonth = () => {
     const { from, to } = state;
     if (!from) {
@@ -21,17 +23,22 @@ export const DatePicker = props => {
       toPicker.current.getDayPicker().showMonth(from);
     }
   };
+  const handleFromChange = (from) => {
+    state.from.setDate(from.getDate());
+    console.log(state.from);
 
-  const handleFromChange = from => {
     // Change the from date and focus the "to" input field
-    setState({ ...state, from });
+    setState({ ...state });
     props.pathValueToFormik("start", state.from, false);
+    // props.pathValueToFormik("startTime", from, false);
   };
 
-  const handleToChange = to => {
+  const handleToChange = (to) => {
     setState({ ...state, to });
     showFromMonth();
-    props.pathValueToFormik("end", state.to, false);
+    console.log(to);
+    props.pathValueToFormik("end", to, false);
+    props.pathValueToFormik("endTime", to, false);
   };
 
   const modifiers = { start: from, end: to };
@@ -41,6 +48,7 @@ export const DatePicker = props => {
       <Form.Group>
         <Form.Label>Start time</Form.Label>
         <DayPickerInput
+          className="timeDisplay"
           value={from}
           placeholder="From"
           format="LL"
@@ -54,7 +62,7 @@ export const DatePicker = props => {
             numberOfMonths: 1,
             onDayClick: () => {
               return toPicker.current.input.focus();
-            }
+            },
           }}
           onDayChange={handleFromChange}
         />
@@ -63,7 +71,7 @@ export const DatePicker = props => {
         <Form.Label>End time</Form.Label>
         <span className="InputFromTo-to">
           <DayPickerInput
-            ref={el => (toPicker.current = el)}
+            ref={(el) => (toPicker.current = el)}
             value={to}
             placeholder="To"
             format="LL"
@@ -75,7 +83,7 @@ export const DatePicker = props => {
               modifiers,
               month: from,
               fromMonth: from,
-              numberOfMonths: 1
+              numberOfMonths: 1,
             }}
             onDayChange={handleToChange}
           />

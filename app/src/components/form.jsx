@@ -32,7 +32,7 @@ export const FormikForm = () => {
   };
   const handleSubmit = (values) => {
     console.log("handleSubmit");
-    values.author = appState.author.sub;
+    values.author = appState.author._id;
     _formTemplates.dbPath[formConfig.method](formConfig, values)
       .then(() => {
         reset();

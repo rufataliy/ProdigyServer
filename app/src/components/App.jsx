@@ -13,9 +13,17 @@ import { browserHistory } from "react-router";
 import VocabularyHome from "./VocabularyHome.jsx";
 import api from "../api/api";
 import Chat from "./Chat/Chat.jsx";
+import Modal from "./Modal.jsx";
 const App = () => {
   const store = useGlobalState();
-  const { compUpdate, appState } = store;
+  const {
+    compUpdate,
+    modalState,
+    vocabState,
+    toggleModal,
+    actions,
+    appState,
+  } = store;
   useEffect(() => {
     const config = {
       method: "get",
@@ -35,6 +43,9 @@ const App = () => {
   return (
     <React.Fragment>
       {console.log("rendered app")}
+      <Context.Provider value={store}>
+        <Modal title="New word" />
+      </Context.Provider>
       <Context.Provider value={appState}>
         <TopNav />
         {appState.author && renderChat()}
@@ -46,10 +57,12 @@ const App = () => {
               <Col bsPrefix={"col-auto p-0"}>
                 <_SideBar />
               </Col>
-              <Col bsPrefix={"col-auto col-md-9 mx-auto pt-5 "}>
+              <Col bsPrefix={"col-auto min-vh-100 col-md-9 mx-auto pt-4 "}>
                 <Switch>
                   <Route path="/app" exact component={Home} />
-                  <Context.Provider value={store}>
+                  <Context.Provider
+                    value={{ vocabState, toggleModal, actions }}
+                  >
                     <Route path="/app/Schedule" component={Schedule} />
                     <Route path="/app/Vocabulary" component={VocabularyHome} />
                   </Context.Provider>

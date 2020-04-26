@@ -2,17 +2,19 @@ import React, { useContext } from "react";
 import { Modal as BoostrapModal } from "react-bootstrap";
 import Context from "../store/context";
 import { MODAL } from "../store/useGlobalState";
-const Modal = props => {
-  const { modalState, actions } = useContext(Context);
+import { FormikForm } from "./form.jsx";
+const Modal = (props) => {
+  const { modalState, actions, formConfig } = useContext(Context);
   const onHide = () => {
     actions({
       type: MODAL,
-      payload: { ...modalState, modalVisibility: false }
+      payload: { ...modalState, modalVisibility: false },
     });
   };
+  console.log(props.title);
+
   return (
     <BoostrapModal
-      title={props.title}
       onHide={onHide}
       show={modalState.modalVisibility}
       size="lg"
@@ -21,10 +23,12 @@ const Modal = props => {
     >
       <BoostrapModal.Header closeButton>
         <BoostrapModal.Title id="contained-modal-title-vcenter">
-          {props.title}
+          {formConfig.title}
         </BoostrapModal.Title>
       </BoostrapModal.Header>
-      <BoostrapModal.Body>{props.children}</BoostrapModal.Body>
+      <BoostrapModal.Body>
+        <FormikForm />
+      </BoostrapModal.Body>
     </BoostrapModal>
   );
 };

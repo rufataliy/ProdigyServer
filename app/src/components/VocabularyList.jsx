@@ -10,7 +10,8 @@ import { FormikForm } from "./form.jsx";
 import { newVocabulary } from "../utils/defaultInitialValues.js";
 import { getVocabulary, createVocabulary } from "../utils/defaultAPIConfig";
 import { Spinner } from "react-bootstrap";
-const VocabularyList = props => {
+import RoundedBtn from "../views/_RoundedBtn.jsx";
+const VocabularyList = (props) => {
   const { actions, vocabState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(false);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
@@ -18,40 +19,42 @@ const VocabularyList = props => {
   useEffect(() => {
     setFetching(true);
     api(getVocabulary)
-      .then(vocabs => {
+      .then((vocabs) => {
         setFetching(false);
         actions({
           type: VOCAB,
           payload: {
             ...vocabState,
-            vocabs
-          }
+            vocabs,
+          },
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, [compUpdate]);
 
   const createVocab = () => {
     props.setAction({
       config: createVocabulary,
       payload: newVocabulary,
-      actionNames
+      actionNames,
     });
   };
   return (
-    <div>
-      <button onClick={createVocab}>add vocabulary</button>
-      <Modal>
-        <FormikForm />
-      </Modal>
-      {!fetching && vocabState.vocabs ? (
-        vocabState.vocabs.map(vocab => (
-          <Vocabulary key={vocab._id} vocab={vocab} />
-        ))
-      ) : (
-        <Spinner animation="border" variant="secondary" />
-      )}
-    </div>
+    <React.Fragment>
+      <div className="d-flex p-3 align-items-center">
+        <h3 className="text-primary mb-0 mr-3">Vocabularies </h3>
+        <RoundedBtn onClick={createVocab} iconName="fas fa-plus" />
+      </div>
+      <div className="d-flex flex-wrap">
+        {!fetching && vocabState.vocabs ? (
+          vocabState.vocabs.map((vocab) => (
+            <Vocabulary key={vocab._id} vocab={vocab} />
+          ))
+        ) : (
+          <Spinner animation="border" variant="secondary" />
+        )}
+      </div>
+    </React.Fragment>
   );
 };
-export default StateHandler(VocabularyList);
+export default React.memo(StateHandler(VocabularyList));

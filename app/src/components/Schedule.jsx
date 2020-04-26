@@ -16,19 +16,17 @@ import Modal from "./Modal.jsx";
 import { newClass } from "../utils/defaultInitialValues";
 import { createKlass, editKlass, getKlass } from "../utils/defaultAPIConfig";
 import api from "../api/api.js";
-const Schedule = props => {
+const Schedule = (props) => {
   const { setAction } = props;
   const [fetching, setFetching] = useState(false);
   console.log("schedule rendered");
 
-  const { scheduleState, tooltipState, compUpdate, actions } = useContext(
-    Context
-  );
+  const { scheduleState, compUpdate } = useContext(Context);
 
   useEffect(() => {
     setFetching(true);
-    api(getKlass).then(events => {
-      events.map(event => {
+    api(getKlass).then((events) => {
+      events.map((event) => {
         if (event.daysOfWeek && event.daysOfWeek.length == 0) {
           delete event.daysOfWeek;
           delete event.startTime;
@@ -41,90 +39,88 @@ const Schedule = props => {
   }, [compUpdate]);
   const calendarComponentRef = React.createRef();
 
-  const toggleTooltip = () => {
-    actions({
-      type: "setTooltipState",
-      payload: { ...tooltipState, show: !tooltipState.show }
-    });
-  };
-  const showTooltip = info => {
-    const a = document.querySelector(".tooltip");
-    const rect = info.el.getBoundingClientRect();
-    const scrollTop = window.scrollY;
-    const { title, publicId } = info.event._def;
-    const { start } = info.event;
-    const { classType, level, origin } = info.event._def.extendedProps;
-    a.innerHTML = `<div>
-            <h3>${title}</h3>
-            <p>${origin}</p>
-            <p>${level}</p>
-        </div>`;
-    a.style.width = `${rect.width}` + `px`;
-    a.style.display = "block";
-    a.style.position = "absolute";
-    a.style.top = `${rect.top + scrollTop - 70}px`;
-    a.style.left = `${rect.left}px`;
-  };
-  const hideTooltip = info => {
-    const a = document.querySelector(".tooltip");
-    a.style.display = "none";
-  };
-  const handleEventClick = info => {
+  // const toggleTooltip = () => {
+  //   actions({
+  //     type: "setTooltipState",
+  //     payload: { ...tooltipState, show: !tooltipState.show },
+  //   });
+  // };
+  // const showTooltip = (info) => {
+  //   const a = document.querySelector(".tooltip");
+  //   const rect = info.el.getBoundingClientRect();
+  //   const scrollTop = window.scrollY;
+  //   const { title, publicId } = info.event._def;
+  //   const { start } = info.event;
+  //   const { classType, level, origin } = info.event._def.extendedProps;
+  //   a.innerHTML = `<div>
+  //           <h3>${title}</h3>
+  //           <p>${origin}</p>
+  //           <p>${level}</p>
+  //       </div>`;
+  //   a.style.width = `${rect.width}` + `px`;
+  //   a.style.display = "block";
+  //   a.style.position = "absolute";
+  //   a.style.top = `${rect.top + scrollTop - 70}px`;
+  //   a.style.left = `${rect.left}px`;
+  // };
+  // const hideTooltip = (info) => {
+  //   const a = document.querySelector(".tooltip");
+  //   a.style.display = "none";
+  // };
+  const handleEventClick = (info) => {
     const { _id } = info.event.extendedProps;
-    scheduleState.events.forEach(event => {
+    scheduleState.events.forEach((event) => {
       if (event._id == _id) {
         props.setAction({
           config: { ...editKlass, params: _id, title: event.title },
           payload: {
             ...event,
-            daysOfWeek: event.daysOfWeek ? event.daysOfWeek : []
+            daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
           },
-          actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
+          actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
         });
       }
     });
   };
-  const handleDateClick = arg => {
+  const handleDateClick = (arg) => {
     props.setAction({
       config: createKlass,
       payload: { ...newClass, start: arg.date, end: arg.date },
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"]
+      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
     });
   };
 
   return (
     <div className="calendarParent">
-      <Modal>
-        <FormikForm />
-      </Modal>
+      <h3 className="text-primary">Schedule</h3>
       {!fetching ? (
         <FullCalendar
-          contentHeight={600}
-          height={600}
-          eventMouseEnter={showTooltip}
-          eventMouseLeave={hideTooltip}
+          aspectRatio={2.5}
+          // eventMouseEnter={showTooltip}
+          // eventMouseLeave={hideTooltip}
           eventClick={handleEventClick}
           dateClick={handleDateClick}
           defaultView="dayGridMonth"
+          fixedWeekCount={false}
           plugins={[
             dayGridPlugin,
             listPlugin,
             interactionPlugin,
-            timeGridPlugin
+            timeGridPlugin,
           ]}
           header={{
             left: "prev,next today",
             center: "Schedulee",
-            right: "dayGridMonth,listWeek,timeGridWeek"
+            right: "dayGridMonth,listWeek,timeGridWeek",
           }}
           events={scheduleState.events}
-          eventRender={showTooltip}
+          // eventRender={showTooltip}
           ref={calendarComponentRef}
         />
       ) : (
         <Spinner animation="border" variant="secondary" />
       )}
-      <Tooltip>{tooltipState.show && showTooltip()}</Tooltip>
+      {/* <Tooltip>{tooltipState.show && showTooltip()}</Tooltip> */}
     </div>
   );
 };

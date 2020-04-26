@@ -27,7 +27,7 @@ export const _formTemplates = (() => {
         <React.Fragment>
           <Container>
             <Row>
-              <Col bsPrefix={"p-0 col-7"}>
+              <Col bsPrefix={"p-0 col-12 col-lg-7"}>
                 <Row>
                   <Col xs={7}>
                     <Form.Group>
@@ -52,7 +52,7 @@ export const _formTemplates = (() => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={5} md={4}>
                     <Form.Group>
                       <Field>
                         {({ field, form }) => {
@@ -95,7 +95,52 @@ export const _formTemplates = (() => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs={4}>
+                  <Col md={4} xs={6}>
+                    <Field>
+                      {({ field, form, meta }) => {
+                        return (
+                          <DatePicker
+                            start={field.value.start}
+                            end={field.value.end}
+                            pathValueToFormik={form.setFieldValue}
+                          />
+                        );
+                      }}
+                    </Field>
+                  </Col>
+                  <Col md={3} xs={6}>
+                    <Form.Group className="flex-grow-1">
+                      <Form.Label>Start time</Form.Label>
+                      <Field>
+                        {({ field, form, meta }) => {
+                          return (
+                            <TimePicker
+                              fieldName="start"
+                              recurrField="startTime"
+                              pathValueToFormik={form.setFieldValue}
+                              initialTime={field.value.start}
+                            />
+                          );
+                        }}
+                      </Field>
+                    </Form.Group>
+                    <Form.Group className="flex-grow-1">
+                      <Form.Label>End time</Form.Label>
+                      <Field>
+                        {({ field, form, meta }) => {
+                          return (
+                            <TimePicker
+                              fieldName="end"
+                              recurrField="endTime"
+                              pathValueToFormik={form.setFieldValue}
+                              initialTime={field.value.end}
+                            />
+                          );
+                        }}
+                      </Field>
+                    </Form.Group>
+                  </Col>
+                  <Col md={4} xs={12}>
                     <Form.Group>
                       <Form.Label>Group Type</Form.Label>
                       <Col>
@@ -130,55 +175,9 @@ export const _formTemplates = (() => {
                       </Col>
                     </Form.Group>
                   </Col>
-                  <Col xs={4}>
-                    <Field>
-                      {({ field, form, meta }) => {
-                        return (
-                          <DatePicker
-                            start={field.value.start}
-                            end={field.value.end}
-                            pathValueToFormik={form.setFieldValue}
-                          />
-                        );
-                      }}
-                    </Field>
-                  </Col>
-                  <Col xs={3}>
-                    <Form.Group className="flex-grow-1">
-                      <Form.Label>Start time</Form.Label>
-                      <Field>
-                        {({ field, form, meta }) => {
-                          return (
-                            <TimePicker
-                              className
-                              fieldName="start"
-                              recurrField="startTime"
-                              pathValueToFormik={form.setFieldValue}
-                              initialTime={field.value.start}
-                            />
-                          );
-                        }}
-                      </Field>
-                    </Form.Group>
-                    <Form.Group className="flex-grow-1">
-                      <Form.Label>End time</Form.Label>
-                      <Field>
-                        {({ field, form, meta }) => {
-                          return (
-                            <TimePicker
-                              fieldName="end"
-                              recurrField="endTime"
-                              pathValueToFormik={form.setFieldValue}
-                              initialTime={field.value.end}
-                            />
-                          );
-                        }}
-                      </Field>
-                    </Form.Group>
-                  </Col>
                 </Row>
               </Col>
-              <Col bsPrefix={"p-0 col-5"}>
+              <Col bsPrefix={"p-0 col-12 col-lg-5"}>
                 <Col xs={12}>
                   <FormGroup>
                     <FieldArray name="studentList">
@@ -219,11 +218,46 @@ export const _formTemplates = (() => {
       ),
       words: (
         <React.Fragment>
-          <Field type="text" name="phrase" placeholder="Phrase" />
-          <Field type="text" name="definition" placeholder="Definition" />
-          <Field type="text" name="example" placeholder="Example" />
-          <Field type="text" name="topic" placeholder="Topic" />
-          <Field type="text" name="source" placeholder="Source" />
+          <Form.Group>
+            <Field
+              type="text"
+              className="form-control"
+              name="phrase"
+              placeholder="Phrase"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Field
+              type="text"
+              className="form-control"
+              name="definition"
+              placeholder="Definition"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Field
+              type="text"
+              className="form-control"
+              name="example"
+              placeholder="Example"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Field
+              type="text"
+              className="form-control"
+              name="topic"
+              placeholder="Topic"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Field
+              type="text"
+              className="form-control"
+              name="source"
+              placeholder="Source"
+            />
+          </Form.Group>
           <Button type="submit" className="btn-sm" type="primary">
             {formConfig.method != "put" ? "Save" : "Update"}
           </Button>
