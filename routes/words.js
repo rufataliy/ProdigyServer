@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Word = require("../models/Word");
 const Vocabulary = require("../models/Vocabulary");
+
 router.get("/:docId", (req, res) => {
     const { docId } = req.params;
     Word.find({ vocabularyId: docId })

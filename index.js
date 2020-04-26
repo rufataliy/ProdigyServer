@@ -57,7 +57,11 @@ app.get("/profile", requiresAuth(), (req, res) => {
         .then((user) => res.send(user))
         .catch(console.log);
 });
+app.get("/logoutCheck", (req, res) => {
+    res.clearCookie("user")
 
+    res.redirect("/logout")
+})
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app", (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });

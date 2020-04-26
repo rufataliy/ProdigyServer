@@ -7,6 +7,7 @@ const wordSchema = new mongoose.Schema({
     definition: String,
     topic: String,
     example: String,
+    vocabularyId: mongoose.SchemaTypes.ObjectId
 });
 
 const Word = mongoose.model("Word", wordSchema);

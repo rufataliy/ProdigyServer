@@ -5,7 +5,7 @@ const request = require("request");
 const refreshToken = require("../tools/getNewAuth0Token")
 const Token = require("../models/Token")
 router.get("/", (req, res) => {
-    const author = req.openid.user.sub;
+    const author = req.user._id;
     // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
     Klass.find({ $or: [{ author }, { studentList: author }] })
         .then(items => {
@@ -15,6 +15,7 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
     const klass = req.body;
+    console.log(req.body);
     Klass.create(klass)
         .then(items => res.send(items))
         .catch(err => res.send(err));
@@ -38,8 +39,6 @@ router.get("/addStudent/byid/:idList", (req, res) => {
             if (error) {
                 console.log("error", error);
             }
-            console.log(typeof users);
-
             if (JSON.parse(users).error === "Unauthorized") {
                 refreshToken()
                 request(options, (error, response, users) => {

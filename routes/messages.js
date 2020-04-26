@@ -7,7 +7,6 @@ const cookieParser = require("cookie");
 const Chat = require("../models/Chat");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { JWT_SECRET } = process.env;
-Message.deleteMany();
 io.on("connection", (socket) => {
     jwt.verify(
         cookieParser.parse(socket.request.headers.cookie).user,
