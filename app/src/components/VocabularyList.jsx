@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Vocabulary from "./Vocabulary.jsx";
 import Context from "../store/context";
@@ -8,10 +8,14 @@ import { StateHandler } from "./StateHandler.jsx";
 import Modal from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
 import { newVocabulary } from "../utils/defaultInitialValues.js";
-import { getVocabulary, createVocabulary } from "../utils/defaultAPIConfig";
+import {
+  getVocabulary,
+  createVocabulary,
+  editVocabulary,
+} from "../utils/defaultAPIConfig";
 import { Spinner } from "react-bootstrap";
 import RoundedBtn from "../views/_RoundedBtn.jsx";
-const VocabularyList = (props) => {
+const VocabularyList = ({ setAction }) => {
   const { actions, vocabState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(false);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
@@ -33,12 +37,21 @@ const VocabularyList = (props) => {
   }, [compUpdate]);
 
   const createVocab = () => {
-    props.setAction({
+    setAction({
       config: createVocabulary,
       payload: newVocabulary,
       actionNames,
     });
   };
+  const editVocab = useCallback(
+    (vocab) =>
+      setAction({
+        config: { ...editVocabulary, params: vocab._id, title: vocab.title },
+        payload: vocab,
+        actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+      }),
+    []
+  );
   return (
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
@@ -48,7 +61,7 @@ const VocabularyList = (props) => {
       <div className="d-flex flex-wrap">
         {!fetching && vocabState.vocabs ? (
           vocabState.vocabs.map((vocab) => (
-            <Vocabulary key={vocab._id} vocab={vocab} />
+            <Vocabulary editVocab={editVocab} key={vocab._id} vocab={vocab} />
           ))
         ) : (
           <Spinner animation="border" variant="secondary" />

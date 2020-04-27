@@ -2,15 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Vocabulary = require("../models/Vocabulary");
 const Klass = require("../models/Klass");
-const vocabulary = {
-    name: "ielts",
-    topic: "reading words",
-    level: "intermediate",
-    author: "5ea20e17c22ae8f32ac0b331"
-}
-for (let i = 0; i < 20; i++) {
-    Vocabulary.create(vocabulary)
-}
+
 router.get("/", (req, res) => {
     console.log(req.user);
     const author = req.user._id;

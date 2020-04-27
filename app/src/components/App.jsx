@@ -60,9 +60,7 @@ const App = () => {
               <Col bsPrefix={"col-auto min-vh-100 col-md-9 mx-auto pt-4 "}>
                 <Switch>
                   <Route path="/app" exact component={Home} />
-                  <Context.Provider
-                    value={{ vocabState, toggleModal, actions }}
-                  >
+                  <Context.Provider value={store}>
                     <Route path="/app/Schedule" component={Schedule} />
                     <Route path="/app/Vocabulary" component={VocabularyHome} />
                   </Context.Provider>

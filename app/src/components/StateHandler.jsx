@@ -18,34 +18,37 @@ export const StateHandler = (Component) => {
     const { actions, toggleModal, scheduleState } = useContext(Context);
     console.log("statehandler");
 
-    const setAction = useMemo(() => ({ config, payload, actionNames }) => {
-      const ops = {
-        setFormConfig: () =>
-          actions({
-            type: FORM_CONFIG,
-            payload: config,
-          }),
-        setInitialState: () =>
-          actions({
-            type: INITIAL_VALUES,
-            payload: {
-              ...payload,
-            },
-          }),
-        setScheduleState: () =>
-          actions({
-            type: SCHEDULE,
-            payload: {
-              ...scheduleState,
-              events: payload,
-            },
-          }),
-        toggleModal: toggleModal,
-      };
-      actionNames.map((name) => {
-        ops[name]();
-      });
-    });
+    const setAction = useMemo(
+      () => ({ config, payload, actionNames }) => {
+        const ops = {
+          setFormConfig: () =>
+            actions({
+              type: FORM_CONFIG,
+              payload: config,
+            }),
+          setInitialState: () =>
+            actions({
+              type: INITIAL_VALUES,
+              payload: {
+                ...payload,
+              },
+            }),
+          setScheduleState: () =>
+            actions({
+              type: SCHEDULE,
+              payload: {
+                ...scheduleState,
+                events: payload,
+              },
+            }),
+          toggleModal: toggleModal,
+        };
+        actionNames.map((name) => {
+          ops[name]();
+        });
+      },
+      [Context]
+    );
     return <Component {...props} setAction={setAction} />;
   };
 };

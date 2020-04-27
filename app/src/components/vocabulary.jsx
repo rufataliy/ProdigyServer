@@ -5,27 +5,18 @@ import Context from "../store/context";
 import Icon from "../views/_Icon.jsx";
 import { editVocabulary } from "../utils/defaultAPIConfig";
 import { StateHandler } from "./StateHandler.jsx";
-const Vocab = ({ setAction, vocab }) => {
+const Vocab = ({ editVocab, vocab }) => {
   const { vocabId } = useParams();
   const { url } = useRouteMatch();
 
-  const {
-    vocabState: { vocabs },
-  } = useContext(Context);
-  if (vocabId) {
-    vocabs.map((item) => {
-      if (item._id === vocabId) {
-        vocab = item;
-      }
-    });
-  }
-  const editVocab = () => {
-    setAction({
-      config: { ...editVocabulary, params: vocab._id, title: vocab.title },
-      payload: vocab,
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-    });
-  };
+  // if (vocabId) {
+  //   vocabs.map((item) => {
+  //     if (item._id === vocabId) {
+  //       vocab = item;
+  //     }
+  //   });
+  // }
+
   return (
     <span className="m-2 quick-access-btn">
       <Card style={{ width: "100%" }}>
@@ -36,12 +27,15 @@ const Vocab = ({ setAction, vocab }) => {
           </Card.Subtitle>
           <Card.Text>{vocab.level}</Card.Text>
           <Link to={`words/${vocab._id}`}>See words</Link>
-          <Icon onClick={editVocab} className="ml-3 fas fa-pen" />
-          <Icon onClick={editVocab} className="ml-3 fas fa-trash" />
+          <Icon onClick={() => editVocab(vocab)} className="ml-3 fas fa-pen" />
+          <Icon
+            onClick={() => editVocab(vocab)}
+            className="ml-3 fas fa-trash"
+          />
         </Card.Body>
       </Card>
     </span>
   );
 };
 
-export default StateHandler(Vocab);
+export default React.memo(Vocab);

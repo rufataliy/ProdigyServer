@@ -4,14 +4,7 @@ import { StateHandler } from "./StateHandler.jsx";
 import { editWordOptions } from "../utils/defaultAPIConfig.js";
 import Modal from "./Modal.jsx";
 import { FormikForm } from "./form.jsx";
-const Word = ({ setAction, word }) => {
-  const editWord = () => {
-    setAction({
-      config: { ...editWordOptions, params: word._id, title: word.title },
-      payload: word,
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-    });
-  };
+const Word = ({ word, editWord }) => {
   console.log("word rendered");
 
   return (
@@ -26,10 +19,10 @@ const Word = ({ setAction, word }) => {
             <p>{word.definition}</p>
             <p className="text-secondary">Example</p>
             <p>{word.example}</p>
-            <a onClick={editWord} href="#">
+            <a onClick={() => editWord(word)} href="#">
               edit
             </a>
-            <a onClick={editWord} href="#">
+            <a onClick={() => editWord(word)} href="#">
               delete
             </a>
           </Card.Body>
@@ -38,4 +31,4 @@ const Word = ({ setAction, word }) => {
     </Accordion>
   );
 };
-export default React.memo(StateHandler(Word));
+export default React.memo(Word);

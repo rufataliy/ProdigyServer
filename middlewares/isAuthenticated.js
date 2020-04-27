@@ -9,7 +9,7 @@ const isAuthenticated = (req, res, next) => {
             if (!err) {
                 req.user = user;
             } else {
-                console.log("Verify token isAthenticated");
+                console.log("Verify token err isAthenticated");
             }
             next()
         });

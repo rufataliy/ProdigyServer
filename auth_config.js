@@ -9,8 +9,6 @@ const saveUser = async function(req, res, next) {
         User.findOneAndUpdate({ email: user.email }, user, { upsert: true })
             .lean()
             .then((user) => {
-                console.log(req.openid.user);
-
                 jwt.sign(user, process.env.JWT_SECRET, (err, token) => {
                     res.cookie("user", token).redirect("/app");
                 });

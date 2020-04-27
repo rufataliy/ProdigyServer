@@ -15,8 +15,6 @@ io.on("connection", (socket) => {
             socket.emit("connected", { connected: true });
             socket.emit("connect", { connected: true });
             socket.on(`message${user._id}`, (msg) => {
-                console.log(msg);
-
                 const chatId = msg.chatId ? msg.chatId : ObjectId();
                 Message.findOneAndUpdate({ _id: ObjectId() }, { author: user._id, content: msg.content, chatId }, {
                         upsert: true,
