@@ -69,3 +69,35 @@ export const removeChatOptions = {
     collectionName: "chats",
     method: "delete",
 };
+export const getLessonOptions = {
+    collectionName: "lessons",
+    method: "get",
+};
+export const createLessonOptions = {
+    collectionName: "lessons",
+    method: "post",
+    title: "New lesson",
+};
+
+export const editLessonOptions = {
+    collectionName: "lessons",
+    method: "put",
+    params: "",
+    title: "",
+};
+export const getSectionsOptions = {
+    collectionName: "Sections",
+    method: "get",
+};
+export const createSectionOptions = {
+    collectionName: "sections",
+    method: "post",
+    title: "New section",
+};
+
+export const editSectionOptions = {
+    collectionName: "lessons",
+    method: "put",
+    params: "",
+    title: "",
+};

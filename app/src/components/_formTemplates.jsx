@@ -352,6 +352,76 @@ export const _formTemplates = (() => {
           )}
         </React.Fragment>
       ),
+      lessons: (
+        <React.Fragment>
+          <Container>
+            <Row>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="title"
+                    placeholder="Title"
+                  />
+                  <p className="text-danger">
+                    {touched.title && errors.title ? errors.title : null}
+                  </p>
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="level"
+                    placeholder="Level"
+                  />
+                  <p className="text-danger">{touched.level && errors.level}</p>
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="level"
+                    placeholder="Level"
+                  />
+                  <p className="text-danger">{touched.level && errors.level}</p>
+                </Form.Group>
+              </Col>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Col xs={12} bsPrefix={"p-0"}>
+                  <FieldArray name="klassList">
+                    {({ push, remove }) => {
+                      return (
+                        <Field>
+                          {({ field }) => (
+                            <AssignTo
+                              push={push}
+                              remove={remove}
+                              initialKlassList={field.value.klassList}
+                            />
+                          )}
+                        </Field>
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
+              </Col>
+              <Button type="submit" className="btn-sm btn-block" type="primary">
+                {formConfig.method != "put" ? "Save" : "Update"}
+              </Button>
+              {formConfig.method == "put" && (
+                <Button
+                  onClick={handleDelete}
+                  className="btn-danger btn-sm"
+                  type="danger"
+                >
+                  Delete
+                </Button>
+              )}
+            </Row>
+          </Container>
+        </React.Fragment>
+      ),
       newChat: (
         <React.Fragment>
           <Field type="text" name="phrase" placeholder="Phrase" />

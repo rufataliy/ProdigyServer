@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
         .catch((err) => console.log(err));
 });
 router.delete("/delete/:chatId", (req, res) => {
-    const author = req.openid.user.sub;
+    const author = req.user._id
     Chat.findByIdAndUpdate({ _id: req.params.chatId }, {
             $pull: { participants: author },
         })

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Word from "./Word.jsx";
@@ -11,15 +11,16 @@ import {
 } from "../utils/defaultAPIConfig";
 import { newWord } from "../utils/defaultInitialValues";
 import { StateHandler } from "./StateHandler.jsx";
-import { FormikForm } from "./form.jsx";
-import Modal from "./Modal.jsx";
 import RoundedBtn from "../views/_RoundedBtn.jsx";
 import { Spinner } from "react-bootstrap";
+import Loading from "../views/_Loading.jsx";
 const Wordlist = ({ setAction }) => {
   const { vocabularyId } = useParams();
   const { vocabState, compUpdate, actions } = useContext(Context);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
+  const [fetching, setFetching] = useState(false);
   useEffect(() => {
+    setFetching(true);
     api({ ...getWordsOptions, params: vocabularyId })
       .then((words) => {
         console.log("words fetched");
@@ -30,8 +31,12 @@ const Wordlist = ({ setAction }) => {
             words,
           },
         });
+        setFetching(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setFetching(true);
+        console.log(err);
+      });
   }, [compUpdate]);
 
   const createWord = useCallback(
@@ -59,12 +64,12 @@ const Wordlist = ({ setAction }) => {
         <RoundedBtn onClick={createWord} iconName="fas fa-plus" />
       </div>
       <div className="d-flex flex-wrap">
-        {vocabState.words ? (
+        {!fetching && vocabState.words ? (
           vocabState.words.map((word) => (
             <Word editWord={editWord} key={word._id} word={word} />
           ))
         ) : (
-          <Spinner animation="border" variant="secondary" />
+          <Loading />
         )}
       </div>
     </React.Fragment>

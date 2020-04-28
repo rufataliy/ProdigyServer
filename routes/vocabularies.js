@@ -4,7 +4,6 @@ const Vocabulary = require("../models/Vocabulary");
 const Klass = require("../models/Klass");
 
 router.get("/", (req, res) => {
-    console.log(req.user);
     const author = req.user._id;
     Vocabulary.find({ $or: [{ author }, { studentList: author }] })
         .then((items) => res.status(200).json(items))

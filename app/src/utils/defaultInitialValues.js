@@ -38,3 +38,17 @@ export const newChat = {
     title: "",
     participants: [],
 };
+export const newSection = {
+    title: "",
+    level: "",
+    sectionType: "",
+    text: ""
+};
+export const newLesson = {
+    author: "",
+    title: "",
+    level: "",
+    vocabularyList: [],
+    studentList: [],
+    sectionList: []
+};

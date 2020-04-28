@@ -16,20 +16,20 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
   useEffect(() => {
     // fetching klass of the author
     setFetching(true);
-    api(getKlass).then(klasses => {
+    api(getKlass).then((klasses) => {
       if (klasses != null) setKlasses(klasses);
       setFetching(false);
     });
   }, [compUpdate]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setError("");
     const { value: i } = event.target;
     setIndex(i);
     if (alreadyAssigned(i) && i !== "") setError("Already assigned");
   };
 
-  const alreadyAssigned = i => {
+  const alreadyAssigned = (i) => {
     return i && addedKlasses.find(({ klassId }) => klassId == klasses[i]._id);
   };
 
@@ -37,17 +37,17 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
     if (index !== "" && error === "") {
       const { title, _id: klassId } = klasses[index];
       push({ title, klassId });
-      setAddedKlasses(prevState => [...prevState, { title, klassId }]);
+      setAddedKlasses((prevState) => [...prevState, { title, klassId }]);
       setIndex("");
     } else if (error === "") {
       setError("Please choose a klass");
     }
   };
 
-  const handleUnshift = event => {
+  const handleUnshift = (event) => {
     // If event.target is passed to splice function it becomes null ????
     const { id } = event.target;
-    setAddedKlasses(prevState => {
+    setAddedKlasses((prevState) => {
       prevState.splice(id, 1);
       return [...prevState];
     });
@@ -59,11 +59,12 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
       <div className="d-flex">
         <select className="w-100 select" onChange={handleChange} value={index}>
           <option value="">Choose a klass</option>
-          {klasses.map((klass, index) => (
-            <option key={index} value={index}>
-              {klass.title}
-            </option>
-          ))}
+          {klasses &&
+            klasses.map((klass, index) => (
+              <option key={index} value={index}>
+                {klass.title}
+              </option>
+            ))}
         </select>
         <button className="btn-primary btn-sm" type="button" onClick={assign}>
           {fetching ? (
@@ -76,19 +77,20 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
       <p className="text-danger">{error}</p>
       <ul className="list-group list-box">
         Assigned to
-        {addedKlasses.map((klass, index) => (
-          <li
-            key={index}
-            className="list-group-item d-flex justify-content-between align-items-center"
-          >
-            {klass.title}
-            <Icon
-              id={index}
-              onClick={handleUnshift}
-              className="fas fa-trash"
-            ></Icon>
-          </li>
-        ))}
+        {addedKlasses &&
+          addedKlasses.map((klass, index) => (
+            <li
+              key={index}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {klass.title}
+              <Icon
+                id={index}
+                onClick={handleUnshift}
+                className="fas fa-trash"
+              ></Icon>
+            </li>
+          ))}
       </ul>
     </div>
   );

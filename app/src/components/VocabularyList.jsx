@@ -13,7 +13,7 @@ import {
   createVocabulary,
   editVocabulary,
 } from "../utils/defaultAPIConfig";
-import { Spinner } from "react-bootstrap";
+import Loading from "../views/_Loading.jsx";
 import RoundedBtn from "../views/_RoundedBtn.jsx";
 const VocabularyList = ({ setAction }) => {
   const { actions, vocabState, compUpdate } = useContext(Context);
@@ -24,7 +24,6 @@ const VocabularyList = ({ setAction }) => {
     setFetching(true);
     api(getVocabulary)
       .then((vocabs) => {
-        setFetching(false);
         actions({
           type: VOCAB,
           payload: {
@@ -32,8 +31,12 @@ const VocabularyList = ({ setAction }) => {
             vocabs,
           },
         });
+        setFetching(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setFetching(false);
+        console.log(err);
+      });
   }, [compUpdate]);
 
   const createVocab = () => {
@@ -64,7 +67,7 @@ const VocabularyList = ({ setAction }) => {
             <Vocabulary editVocab={editVocab} key={vocab._id} vocab={vocab} />
           ))
         ) : (
-          <Spinner animation="border" variant="secondary" />
+          <Loading />
         )}
       </div>
     </React.Fragment>

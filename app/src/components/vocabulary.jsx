@@ -9,14 +9,6 @@ const Vocab = ({ editVocab, vocab }) => {
   const { vocabId } = useParams();
   const { url } = useRouteMatch();
 
-  // if (vocabId) {
-  //   vocabs.map((item) => {
-  //     if (item._id === vocabId) {
-  //       vocab = item;
-  //     }
-  //   });
-  // }
-
   return (
     <span className="m-2 quick-access-btn">
       <Card style={{ width: "100%" }}>

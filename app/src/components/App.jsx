@@ -4,6 +4,7 @@ import useGlobalState, { APP } from "../store/useGlobalState";
 import Context from "../store/context";
 import _SideBar from "../views/_SideBar.jsx";
 import Schedule from "./Schedule.jsx";
+import LessonHome from "./LessonHome.jsx";
 import Home from "./Home.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
@@ -63,6 +64,7 @@ const App = () => {
                   <Context.Provider value={store}>
                     <Route path="/app/Schedule" component={Schedule} />
                     <Route path="/app/Vocabulary" component={VocabularyHome} />
+                    <Route path="/app/Lesson" component={LessonHome} />
                   </Context.Provider>
                 </Switch>
               </Col>

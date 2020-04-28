@@ -7,6 +7,7 @@ export const FORM_CONFIG = "setFormConfig"
 export const COMP_UPDATE = "setComponentUpdate"
 export const APP = "setAppState"
 export const VOCAB = "setVocabState"
+export const LESSON = "setLessonState"
 export const WORDS = "allWords"
 export const TOPICS = "topics"
 
@@ -30,6 +31,10 @@ const useGlobalState = () => {
         vocabs: [],
         words: [],
         searchTerm: ""
+    }
+    const lessonStateGlobal = {
+        lessons: [],
+        sections: []
     }
     const initialValuesGlobal = {
         newClass: {
@@ -73,6 +78,7 @@ const useGlobalState = () => {
     const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
     const [modalState, setModalState] = useState(modalStateGlobal)
     const [vocabState, setVocabState] = useState(vocabStateGlobal)
+    const [lessonState, setLessonState] = useState(lessonStateGlobal)
     const [componentUpdate, setComponentUpdate] = useState(componentUpdateGlobal)
 
     const actions = (action) => {
@@ -92,10 +98,12 @@ const useGlobalState = () => {
                 return setModalState(payload)
             case VOCAB:
                 return setVocabState(payload)
+            case LESSON:
+                return setLessonState(payload)
             case COMP_UPDATE:
                 return setComponentUpdate(payload)
             default:
-                return state, initialValues, formConfig, appState, tooltipState, modalState;
+                return state, initialValues, formConfig, appState, tooltipState, lessonState, modalState;
         }
     }
 
@@ -117,6 +125,7 @@ const useGlobalState = () => {
         modalState: modalState,
         vocabState: vocabState,
         compUpdate: componentUpdate,
+        lessonState,
         toggleModal,
         actions
     }
