@@ -13,6 +13,7 @@ import { newSection } from "../utils/defaultInitialValues";
 import { StateHandler } from "./StateHandler.jsx";
 import RoundedBtn from "../views/_RoundedBtn.jsx";
 import Loading from "../views/_Loading.jsx";
+import Tabs from "../views/_Tabs.jsx";
 const Sectionlist = ({ setAction }) => {
   const { lessonId } = useParams();
   const { lessonState, compUpdate, actions } = useContext(Context);
@@ -42,7 +43,7 @@ const Sectionlist = ({ setAction }) => {
     () =>
       setAction({
         config: createSectionOptions,
-        payload: { ...newSection, vocabularyId: vocabularyId },
+        payload: { ...newSection, lessonId },
         actionNames,
       }),
     []
@@ -68,13 +69,7 @@ const Sectionlist = ({ setAction }) => {
       </div>
       <div className="d-flex flex-wrap">
         {!fetching && lessonState.sections ? (
-          lessonState.sections.map((section) => (
-            <Section
-              editSection={editSection}
-              key={section._id}
-              section={section}
-            />
-          ))
+          <Tabs items={lessonState.sections} />
         ) : (
           <Loading />
         )}

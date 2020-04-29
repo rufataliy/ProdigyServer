@@ -12,7 +12,6 @@ import {
 import { newWord } from "../utils/defaultInitialValues";
 import { StateHandler } from "./StateHandler.jsx";
 import RoundedBtn from "../views/_RoundedBtn.jsx";
-import { Spinner } from "react-bootstrap";
 import Loading from "../views/_Loading.jsx";
 const Wordlist = ({ setAction }) => {
   const { vocabularyId } = useParams();

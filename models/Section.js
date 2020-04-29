@@ -5,7 +5,8 @@ const sectionSchema = new mongoose.Schema({
     title: String,
     level: String,
     sectionType: String,
-    text: String
+    text: String,
+    lessonId: mongoose.SchemaTypes.ObjectId,
 }, { selectPopulatedPaths: true, strict: false });
 
 const Section = mongoose.model("Section", sectionSchema);

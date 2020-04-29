@@ -10,12 +10,11 @@ const Lesson = ({ lesson }) => {
     <span className="m-2 quick-access-btn">
       <Card style={{ width: "100%" }}>
         <Card.Body>
-          <Card.Title>{lesson.name}</Card.Title>
+          <Card.Title>{lesson.title}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            {lesson.topic}
+            {lesson.level}
           </Card.Subtitle>
-          <Card.Text>{lesson.level}</Card.Text>
-          <Link to={`words/${lesson._id}`}>See lesson</Link>
+          <Link to={`lessons/${lesson._id}`}>See lesson</Link>
           <Icon
             onClick={() => editlesson(lesson)}
             className="ml-3 fas fa-pen"

@@ -58,10 +58,10 @@ app.get("/profile", requiresAuth(), (req, res) => {
         .catch(console.log);
 });
 app.get("/logoutCheck", (req, res) => {
-    res.clearCookie("user")
+    res.clearCookie("user");
 
-    res.redirect("/logout")
-})
+    res.redirect("/logout");
+});
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app", (req, res) => {
     res.sendFile(`index.html`, { root: "/app/dist" });
@@ -75,9 +75,11 @@ app.use("/api/*", isAuthenticated);
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
 app.use("/api/klasses", require("./routes/klasses"));
+app.use("/api/lessons", require("./routes/lessons"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
+app.use("/api/sections", require("./routes/sections"));
 
 server.listen(process.env.PORT, () => {
     console.log("server running");

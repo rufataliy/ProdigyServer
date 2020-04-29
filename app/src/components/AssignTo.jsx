@@ -14,7 +14,7 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
   const { compUpdate } = useContext(Context);
 
   useEffect(() => {
-    // fetching klass of the author
+    // fetching klasses of the author
     setFetching(true);
     api(getKlass).then((klasses) => {
       if (klasses != null) setKlasses(klasses);

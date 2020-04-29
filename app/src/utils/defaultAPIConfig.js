@@ -1,3 +1,8 @@
+export const createVocabulary = {
+    collectionName: "vocabularies",
+    method: "post",
+    title: "New vocabulary"
+};
 export const getVocabulary = {
     collectionName: "vocabularies",
     method: "get",
@@ -7,11 +12,6 @@ export const editVocabulary = {
     method: "put",
     params: "",
     title: "",
-};
-export const createVocabulary = {
-    collectionName: "vocabularies",
-    method: "post",
-    title: "New vocabulary"
 };
 export const assignVocabularyOptions = {
     collectionName: "vocabularies/assignTo",
@@ -101,3 +101,9 @@ export const editSectionOptions = {
     params: "",
     title: "",
 };
+
+export const _buildApiOptions = ({ collectionName, method }) => ({
+    collectionName,
+    method,
+
+})

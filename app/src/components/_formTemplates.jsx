@@ -9,6 +9,8 @@ import AddStudent from "./addStudent.jsx";
 import AssignTo from "./AssignTo.jsx";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
+import AddToLesson from "./AddToLesson.jsx";
+import TextEditor from "./TextEditor.jsx";
 export const _formTemplates = (() => {
   const fields = (props, handleDelete) => {
     const { formConfig, errors, touched } = props;
@@ -377,6 +379,59 @@ export const _formTemplates = (() => {
                   />
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
+              </Col>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Col xs={12} bsPrefix={"p-0"}>
+                  <FieldArray name="sectionList">
+                    {({ push, remove }) => {
+                      return (
+                        <Field>
+                          {({ field }) => (
+                            <AddToLesson
+                              push={push}
+                              remove={remove}
+                              collectionName="sections"
+                              initialList={field.value.sectionList}
+                            />
+                          )}
+                        </Field>
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
+              </Col>
+              <Button type="submit" className="btn-sm btn-block" type="primary">
+                {formConfig.method != "put" ? "Save" : "Update"}
+              </Button>
+              {formConfig.method == "put" && (
+                <Button
+                  onClick={handleDelete}
+                  className="btn-danger btn-sm"
+                  type="danger"
+                >
+                  Delete
+                </Button>
+              )}
+            </Row>
+          </Container>
+        </React.Fragment>
+      ),
+      sections: (
+        <React.Fragment>
+          <Container>
+            <Row>
+              <Col bsPrefix={"p-0 col-12"}>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="title"
+                    placeholder="Title"
+                  />
+                  <p className="text-danger">
+                    {touched.title && errors.title ? errors.title : null}
+                  </p>
+                </Form.Group>
                 <Form.Group>
                   <Field
                     type="text"
@@ -386,26 +441,89 @@ export const _formTemplates = (() => {
                   />
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="level"
+                    placeholder="Level"
+                  />
+                  <p className="text-danger">{touched.level && errors.level}</p>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Group Type</Form.Label>
+                  <Col>
+                    <Field name="sectionType">
+                      {({ field, form }) => (
+                        <Form.Check
+                          hidden
+                          {...field}
+                          checked={field.value === "reading"}
+                          className="radio w-100 flex-grow-1"
+                          type="radio"
+                          label="Reading"
+                          value="reading"
+                          id="groupType-1"
+                        />
+                      )}
+                    </Field>
+                    <Field name="sectionType">
+                      {({ field, form }) => (
+                        <Form.Check
+                          {...field}
+                          checked={field.value === "writing"}
+                          hidden
+                          className="radio w-100 flex-grow-1"
+                          type="radio"
+                          label="Writing"
+                          value="writing"
+                          id="groupType-2"
+                        />
+                      )}
+                    </Field>
+                    <Field name="sectionType">
+                      {({ field, form }) => (
+                        <Form.Check
+                          {...field}
+                          checked={field.value === "speaking"}
+                          hidden
+                          className="radio w-100 flex-grow-1"
+                          type="radio"
+                          label="Speaking"
+                          value="speaking"
+                          id="groupType-3"
+                        />
+                      )}
+                    </Field>
+                    <Field name="sectionType">
+                      {({ field, form }) => (
+                        <Form.Check
+                          {...field}
+                          checked={field.value === "listening"}
+                          hidden
+                          className="radio w-100 flex-grow-1"
+                          type="radio"
+                          label="Listening"
+                          value="listening"
+                          id="groupType-4"
+                        />
+                      )}
+                    </Field>
+                  </Col>
+                </Form.Group>
+                <FormGroup>
+                  <Field name="text">
+                    {({ field, form }) => (
+                      <TextEditor
+                        form={form}
+                        onChange={field.onChange}
+                        initialText={field.value.text}
+                      />
+                    )}
+                  </Field>
+                </FormGroup>
               </Col>
-              <Col bsPrefix={"p-0 col-12"}>
-                <Col xs={12} bsPrefix={"p-0"}>
-                  <FieldArray name="klassList">
-                    {({ push, remove }) => {
-                      return (
-                        <Field>
-                          {({ field }) => (
-                            <AssignTo
-                              push={push}
-                              remove={remove}
-                              initialKlassList={field.value.klassList}
-                            />
-                          )}
-                        </Field>
-                      );
-                    }}
-                  </FieldArray>
-                </Col>
-              </Col>
+
               <Button type="submit" className="btn-sm btn-block" type="primary">
                 {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
