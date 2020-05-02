@@ -8,6 +8,7 @@ const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
 const { config } = require("./auth_config");
 const { server, app } = require("./server");
+const fileupload = require("express-fileupload");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 // configure store for session and store sessions
@@ -22,7 +23,7 @@ mongoose
     })
     .then(() => console.log("DB CONNECTED"))
     .catch((err) => console.log("DB COULDN'T CONNECT"));
-
+app.use(fileupload());
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
@@ -80,6 +81,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/sections", require("./routes/sections"));
+app.use("/api/fileuploads", require("./routes/fileuploads"));
 
 server.listen(process.env.PORT, () => {
     console.log("server running");

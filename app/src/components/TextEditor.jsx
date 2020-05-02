@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useRef } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ClassicEditor from "ckeditor5-build-classic-plus";
+
 export default ({ contentName, onChange, form }) => {
   return (
     <div className="App">
       <label className="form-label">Content</label>
       <CKEditor
         editor={ClassicEditor}
-        config={{ minHeight: 300 }}
-        data="<p>Enter your content here</p>"
-        onInit={(editor) => {
-          // You can store the "editor" and use when it is needed.
+        config={{
+          simpleUpload: {
+            // The URL that the images are uploaded to.
+            uploadUrl:
+              "https://localhost:3000/api/fileuploads/textEditorImageUpload",
+
+            // Headers sent along with the XMLHttpRequest to the upload server.
+            headers: {
+              "X-CSRF-TOKEN": "CSFR-Token",
+              Authorization: "Bearer <JSON Web Token>",
+            },
+          },
         }}
+        data="<p>Enter your content here</p>"
+        onInit={(editor) => {}}
         onChange={(event, editor) => {
           const data = editor.getData();
           form.setFieldValue("text", data);
         }}
-        onBlur={(event, editor) => {
-          console.log("Blur.", editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log("Focus.", editor);
-        }}
+        onBlur={(event, editor) => {}}
+        onFocus={(event, editor) => {}}
       />
     </div>
   );

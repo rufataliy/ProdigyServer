@@ -1,7 +1,7 @@
 export const createVocabulary = {
     collectionName: "vocabularies",
     method: "post",
-    title: "New vocabulary"
+    title: "New vocabulary",
 };
 export const getVocabulary = {
     collectionName: "vocabularies",
@@ -29,7 +29,7 @@ export const editKlass = {
 export const createKlass = {
     collectionName: "klasses",
     method: "post",
-    title: "New class"
+    title: "New class",
 };
 export const getStudentListOptions = {
     collectionName: "klasses/addStudent/byid",
@@ -105,5 +105,4 @@ export const editSectionOptions = {
 export const _buildApiOptions = ({ collectionName, method }) => ({
     collectionName,
     method,
-
-})
+});

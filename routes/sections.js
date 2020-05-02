@@ -10,6 +10,8 @@ router.get("/:lessonId", (req, res) => {
         .catch((err) => res.send(err));
 });
 router.post("/", (req, res) => {
+    console.log(req.body);
+
     const section = req.body;
     const { lessonId: _id } = req.body;
     console.log(req.body);
