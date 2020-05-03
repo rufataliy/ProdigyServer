@@ -442,17 +442,22 @@ export const _formTemplates = (() => {
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
                 <Form.Group>
-                  <Field
-                    type="text"
-                    className="form-control"
-                    name="level"
-                    placeholder="Level"
-                  />
-                  <p className="text-danger">{touched.level && errors.level}</p>
-                </Form.Group>
-                <Form.Group>
                   <Form.Label>Group Type</Form.Label>
                   <Col>
+                    <Field name="sectionType">
+                      {({ field, form }) => (
+                        <Form.Check
+                          {...field}
+                          checked={field.value === "grammar"}
+                          hidden
+                          className="radio w-100 flex-grow-1"
+                          type="radio"
+                          label="Grammer"
+                          value="grammar"
+                          id="groupType-4"
+                        />
+                      )}
+                    </Field>
                     <Field name="sectionType">
                       {({ field, form }) => (
                         <Form.Check
@@ -517,7 +522,7 @@ export const _formTemplates = (() => {
                       <TextEditor
                         form={form}
                         onChange={field.onChange}
-                        initialText={field.value.text}
+                        initialText={form.initialValues.text}
                       />
                     )}
                   </Field>

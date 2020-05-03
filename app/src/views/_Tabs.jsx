@@ -1,5 +1,6 @@
 import React from "react";
 import { Tab, Row, Col, Container, Nav } from "react-bootstrap";
+import Icon from "./_Icon.jsx";
 const _Tabs = (props) => {
   // props.items[0]._id return error of cannot read property of undefined
   return (
@@ -21,15 +22,29 @@ const _Tabs = (props) => {
                 })}
             </Nav>
           </Col>
-          <Col sm={9}>
-            <Tab.Content>
+          <Col className="left-border" sm={9}>
+            <Tab.Content className="position-relative ">
               {props.items &&
                 props.items.map((item) => {
                   return (
-                    <Tab.Pane
-                      dangerouslySetInnerHTML={{ __html: item.text }}
-                      eventKey={item._id}
-                    ></Tab.Pane>
+                    <React.Fragment>
+                      <Tab.Pane key={item._id} eventKey={item._id}>
+                        <div
+                          className="section-content"
+                          dangerouslySetInnerHTML={{ __html: item.text }}
+                        ></div>
+                        <div className="section-buttons-box">
+                          <Icon
+                            onClick={() => props.editSection(item)}
+                            className="ml-3 fas fa-pen"
+                          />
+                          <Icon
+                            onClick={() => props.editSection(item)}
+                            className="ml-3 fas fa-trash"
+                          />
+                        </div>
+                      </Tab.Pane>
+                    </React.Fragment>
                   );
                 })}
             </Tab.Content>

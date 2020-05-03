@@ -96,7 +96,7 @@ export const createSectionOptions = {
 };
 
 export const editSectionOptions = {
-    collectionName: "lessons",
+    collectionName: "sections",
     method: "put",
     params: "",
     title: "",

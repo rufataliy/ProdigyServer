@@ -69,7 +69,7 @@ const Sectionlist = ({ setAction }) => {
       </div>
       <div className="d-flex flex-wrap">
         {!fetching && lessonState.sections ? (
-          <Tabs items={lessonState.sections} />
+          <Tabs editSection={editSection} items={lessonState.sections} />
         ) : (
           <Loading />
         )}
