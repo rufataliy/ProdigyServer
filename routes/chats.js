@@ -10,8 +10,6 @@ router.get("/", (req, res) => {
             populate: { path: "author", select: "name" },
         })
         .then((chats) => {
-            console.log("chats");
-            console.log(chats);
             res.send(chats);
         })
         .catch((err) => console.log(err));

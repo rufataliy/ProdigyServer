@@ -58,7 +58,9 @@ const App = () => {
               <Col bsPrefix={"col-auto p-0"}>
                 <_SideBar />
               </Col>
-              <Col bsPrefix={"col-auto min-vh-100 col-md-9 mx-auto pt-4 "}>
+              <Col
+                bsPrefix={"col-auto min-vh-100 col-12 col-md-9 mx-auto pt-4 "}
+              >
                 <Switch>
                   <Route path="/app" exact component={Home} />
                   <Context.Provider value={store}>

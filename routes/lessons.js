@@ -6,7 +6,12 @@ const Section = require("../models/Section");
 router.get("/", (req, res) => {
     const author = req.user._id;
     Lesson.find({ $or: [{ author }, { studentList: author }] })
-        .then((items) => res.status(200).json(items))
+        .populate({ path: "sectionList", select: "title" })
+        .then((items) => {
+            console.log(items);
+
+            res.status(200).json(items)
+        })
         .catch((err) => res.send(err));
 });
 router.post("/", (req, res) => {

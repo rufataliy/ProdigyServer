@@ -2,9 +2,9 @@ import React, { useRef } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "ckeditor5-build-classic-plus";
 
-const TextEditor =  ({ contentName, initialText, onChange, form }) => {
+const TextEditor = ({ initialText, form }) => {
   console.log(initialText);
-  
+
   return (
     <div className="App">
       <label className="form-label">Content</label>
@@ -35,4 +35,4 @@ const TextEditor =  ({ contentName, initialText, onChange, form }) => {
     </div>
   );
 };
-export default TextEditor
+export default TextEditor;

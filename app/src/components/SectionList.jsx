@@ -20,30 +20,32 @@ const Sectionlist = ({ setAction }) => {
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const [fetching, setFetching] = useState(false);
   useEffect(() => {
+    let mounted = true;
     setFetching(true);
     api({ ...getSectionsOptions, params: lessonId })
       .then((sections) => {
-        console.log("sections fetched");
-        actions({
-          type: LESSON,
-          payload: {
-            ...lessonState,
-            sections,
-          },
-        });
+        mounted &&
+          actions({
+            type: LESSON,
+            payload: {
+              ...lessonState,
+              sections,
+            },
+          });
         setFetching(false);
       })
       .catch((err) => {
         setFetching(true);
         console.log(err);
       });
+    return () => (mounted = false);
   }, [compUpdate]);
 
   const createSection = useCallback(
     () =>
       setAction({
         config: createSectionOptions,
-        payload: { ...newSection, lessonId },
+        payload: { ...newSection, lessonIdList: [lessonId] },
         actionNames,
       }),
     []

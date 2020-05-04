@@ -18,9 +18,11 @@ const LessonList = ({ setAction }) => {
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
 
   useEffect(() => {
+    let mounted = true;
     setFetching(true);
     api(getLessonOptions)
       .then((lessons) => {
+        console.log(lessons);
         actions({
           type: LESSON,
           payload: {
@@ -34,6 +36,7 @@ const LessonList = ({ setAction }) => {
         setFetching(false);
         console.log(err);
       });
+    return () => (mounted = false);
   }, [compUpdate]);
 
   const createlesson = () => {

@@ -6,9 +6,16 @@ const sectionSchema = new mongoose.Schema({
     level: String,
     sectionType: String,
     text: String,
-    lessonId: mongoose.SchemaTypes.ObjectId,
+    lessonIdList: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Lesson"
+    },
 }, { selectPopulatedPaths: true, strict: false });
 
+sectionSchema.post("remove", section => {
+    const { _id } = section
+    Lesson.updateMany({ _id: section.lessonIdList })
+})
 const Section = mongoose.model("Section", sectionSchema);
 
 module.exports = Section;

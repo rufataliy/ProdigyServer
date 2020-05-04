@@ -5,6 +5,8 @@ import { Spinner } from "react-bootstrap";
 import Icon from "../views/_Icon.jsx";
 import { getKlass } from "../utils/defaultAPIConfig";
 import { _buildApiOptions } from "../utils/defaultAPIConfig";
+import capitalize from "../utils/capitalize";
+
 const AssignTo = ({ push, remove, initialList, collectionName }) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState(initialList);
@@ -26,29 +28,30 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
     setError("");
     const { value: i } = event.target;
     setIndex(i);
+    console.log(alreadyAssigned(i));
     if (alreadyAssigned(i) && i !== "") setError("Already assigned");
   };
 
   const alreadyAssigned = (i) => {
-    return i && addedItems.find(({ itemId }) => itemId == list[i]._id);
+    return i && addedItems.find(({ _id }) => _id == list[i]._id);
   };
 
   const assign = () => {
     if (index !== "" && error === "") {
       //_id is destructed as itemId
-      const { title, _id: itemId } = list[index];
-      push({ title, itemId });
-      setAddedItems((prevState) => [...prevState, { title, itemId }]);
+      const { title, _id } = list[index];
+      push({ title, _id });
+      setAddedItems((prevState) => [...prevState, { title, _id }]);
       setIndex("");
     } else if (error === "") {
-      setError("Please choose a klass");
+      setError("Please choose a section");
     }
   };
 
   const handleUnshift = (event) => {
     // If event.target is passed to splice function it becomes null ????
     const { id } = event.target;
-    setAddedKlasses((prevState) => {
+    setAddedItems((prevState) => {
       prevState.splice(id, 1);
       return [...prevState];
     });
@@ -77,7 +80,7 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
       </div>
       <p className="text-danger">{error}</p>
       <ul className="list-group list-box">
-        Assigned to
+        {capitalize(collectionName)}
         {addedItems &&
           addedItems.map((item, index) => (
             <li

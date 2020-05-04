@@ -2,30 +2,34 @@ const express = require("express");
 const router = new express.Router();
 const Lesson = require("../models/Lesson");
 const Section = require("../models/Section");
-
+router.get("/", (req, res) => {
+    const author = req.user._id;
+    Section.find({ author })
+        .then((items) => res.status(200).json(items))
+        .catch((err) => res.send(err));
+})
 router.get("/:lessonId", (req, res) => {
     const author = req.user._id;
-    Section.find({ lessonId: req.params.lessonId })
+    Section.find({ lessonIdList: req.params.lessonId })
         .then((items) => res.status(200).json(items))
         .catch((err) => res.send(err));
 });
 router.post("/", (req, res) => {
-    console.log(req.body);
-
     const section = req.body;
-    const { lessonId: _id } = req.body;
+    const lessonId = req.body.lessonIdList[0];
     console.log(req.body);
     Section.create(section)
         .then((section) => {
-            console.log(section);
-            Lesson.findByIdAndUpdate({ _id }, {
+            Lesson.findByIdAndUpdate({ _id: lessonId }, {
                 $push: {
                     sectionList: section._id,
                 },
             }).then((lesson) => {
-                console.log("lesson", lesson);
+                res.status(200).send();
+            }).catch(err => {
+                console.log(err)
+                res.send(err)
             });
-            res.send(item);
         })
         .catch((err) => res.send(err));
 });

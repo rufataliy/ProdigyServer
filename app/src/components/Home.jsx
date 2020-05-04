@@ -20,6 +20,14 @@ const Home = () => {
         <Icon className="quick-access-icon mb-3 mt-3 fas fa-language" />
         <span className="d-block quick-access-name">Vocabulary</span>
       </Link>
+      <Link
+        type="button"
+        to="/app/Lesson"
+        class="btn quick-access-btn mr-3 btn-outline-primary"
+      >
+        <Icon className="quick-access-icon mb-3 mt-3 fab fa-leanpub" />
+        <span className="d-block quick-access-name">Lesson</span>
+      </Link>
     </div>
   );
 };
