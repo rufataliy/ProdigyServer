@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
-import { useParams, useRouteMatch, Link } from "react-router-dom";
-import Icon from "../views/_Icon.jsx";
+import { Link } from "react-router-dom";
+import Icon from "../../views/_Icon.jsx";
 const Lesson = ({ lesson, editLesson }) => {
-  const { lessonId } = useParams();
-  const { url } = useRouteMatch();
-
   return (
     <span className="m-2 quick-access-btn">
       <Card style={{ width: "100%" }}>

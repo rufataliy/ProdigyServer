@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StateHandler } from "./StateHandler.jsx";
-import Context from "../store/context";
-import api from "../api/api.js";
+import { StateHandler } from "../StateHandler.jsx";
+import Context from "../../store/context";
+import api from "../../api/api.js";
 import { Spinner } from "react-bootstrap";
 import {
   getStudentListOptions,
-  getStudentOptions
-} from "../utils/defaultAPIConfig";
-import Icon from "../views/_Icon.jsx";
+  getStudentOptions,
+} from "../../utils/defaultAPIConfig";
+import Icon from "../../views/_Icon.jsx";
 const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   const [students, setStudents] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -19,20 +19,20 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
       setFetching(true);
       api({
         ...getStudentListOptions,
-        params: initialStudentList.toString()
+        params: initialStudentList.toString(),
       })
-        .then(students => {
+        .then((students) => {
           if (Array.isArray(students)) {
             setStudents(students);
           }
           setFetching(false);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     }
   }, [compUpdate]);
   const studentListLoading =
     initialStudentList.length > 0 && students.length < 1;
-  const handleChange = event => {
+  const handleChange = (event) => {
     setError("");
     setInputValue(event.target.value);
   };
@@ -40,9 +40,9 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   const getStudent = () => {
     if (inputValue.trim() !== "") {
       setFetching(true);
-      api({ ...getStudentOptions, params: inputValue }).then(students => {
+      api({ ...getStudentOptions, params: inputValue }).then((students) => {
         if (students[0]) {
-          setStudents(prevState => [...prevState, students[0]]);
+          setStudents((prevState) => [...prevState, students[0]]);
           setInputValue("");
           push(students[0].user_id);
         } else if (students.length < 1) {
@@ -54,11 +54,11 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
       setError("please enter an email");
     }
   };
-  const handleUnshift = event => {
+  const handleUnshift = (event) => {
     // If event.target is passed to splice function it becomes null ????
     const { id } = event.target;
 
-    setStudents(prevState => {
+    setStudents((prevState) => {
       prevState.splice(id, 1);
       return [...prevState];
     });

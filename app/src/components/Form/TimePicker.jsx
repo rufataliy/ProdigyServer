@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
 import TimeKeeper from "react-timekeeper";
-import Icon from "../views/_Icon.jsx";
+import Icon from "../../views/_Icon.jsx";
 
-export const TimePicker = props => {
+export const TimePicker = (props) => {
   const initialTime = new Date(props.initialTime);
 
   const defaultTime = {
     hour: initialTime.getHours(),
-    minute: initialTime.getMinutes()
+    minute: initialTime.getMinutes(),
   };
 
   const [time, setTime] = useState(defaultTime);
@@ -29,8 +29,8 @@ export const TimePicker = props => {
         <TimeKeeper
           hour24Mode
           closeOnMinuteSelect
-          onChange={newTime => handleChange(newTime)}
-          onDoneClick={newTime => handleDoneClick(newTime)}
+          onChange={(newTime) => handleChange(newTime)}
+          onDoneClick={(newTime) => handleDoneClick(newTime)}
           switchToMinuteOnHourSelect
           time={time}
         />

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import { _formTemplates } from "./_formTemplates.jsx";
-import Context from "../store/context";
-import { MODAL, COMP_UPDATE } from "../store/useGlobalState";
-import { vocabularySchema } from "../utils/validationSchemas.js";
+import Context from "../../store/context";
+import { MODAL, COMP_UPDATE } from "../../store/useGlobalState";
+import { vocabularySchema } from "../../utils/validationSchemas.js";
 
 export const FormikForm = () => {
   const {

@@ -1,5 +1,5 @@
 import React from "react";
-import api from "../api/api";
+import api from "../../api/api";
 import { Form, Button, FormGroup } from "react-bootstrap";
 import { Field, FieldArray } from "formik";
 import Container from "react-bootstrap/Container";
@@ -9,7 +9,7 @@ import AddStudent from "./addStudent.jsx";
 import AssignTo from "./AssignTo.jsx";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
-import AddToLesson from "./AddToLesson.jsx";
+import AddToLesson from "../Lesson/AddToLesson.jsx";
 import TextEditor from "./TextEditor.jsx";
 export const _formTemplates = (() => {
   const fields = (props, handleDelete) => {

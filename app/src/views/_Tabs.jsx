@@ -5,13 +5,14 @@ const _Tabs = (props) => {
   // props.items[0]._id return error of cannot read property of undefined
   return (
     <Tab.Container
+      unmountOnExit
       id="left-tabs-example"
       defaultActiveKey={props.items[0] && props.items[0]._id}
     >
       <Container fluid>
         <Row>
           <Col sm={3}>
-            <Nav variant="pills" className="flex-column">
+            <Nav variant="tabs" className="flex-column">
               {props.items &&
                 props.items.map((item) => {
                   return (
@@ -22,7 +23,7 @@ const _Tabs = (props) => {
                 })}
             </Nav>
           </Col>
-          <Col className="left-border p-0" sm={9}>
+          <Col className="side-borders p-0" sm={9}>
             <Tab.Content className="position-relative ">
               {props.items &&
                 props.items.map((item) => {

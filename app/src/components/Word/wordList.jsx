@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api/api";
+import api from "../../api/api";
 import Word from "./Word.jsx";
 import { useContext, useEffect, useCallback } from "react";
-import Context from "../store/context";
+import Context from "../../store/context";
 import {
   getWordsOptions,
   createWordOptions,
   editWordOptions,
-} from "../utils/defaultAPIConfig";
-import { newWord } from "../utils/defaultInitialValues";
-import { StateHandler } from "./StateHandler.jsx";
-import RoundedBtn from "../views/_RoundedBtn.jsx";
-import Loading from "../views/_Loading.jsx";
+} from "../../utils/defaultAPIConfig";
+import { newWord } from "../../utils/defaultInitialValues";
+import { StateHandler } from "../StateHandler.jsx";
+import RoundedBtn from "../../views/_RoundedBtn.jsx";
+import Loading from "../../views/_Loading.jsx";
 const Wordlist = ({ setAction }) => {
   const { vocabularyId } = useParams();
   const { vocabState, compUpdate, actions } = useContext(Context);

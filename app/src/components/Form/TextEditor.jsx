@@ -1,10 +1,7 @@
 import React, { useRef } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "ckeditor5-build-classic-plus";
-
 const TextEditor = ({ initialText, form }) => {
-  console.log(initialText);
-
   return (
     <div className="App">
       <label className="form-label">Content</label>
@@ -24,7 +21,9 @@ const TextEditor = ({ initialText, form }) => {
           },
         }}
         data={initialText}
-        onInit={(editor) => {}}
+        onInit={(editor) => {
+          editor = editor;
+        }}
         onChange={(event, editor) => {
           const data = editor.getData();
           form.setFieldValue("text", data);
@@ -35,4 +34,5 @@ const TextEditor = ({ initialText, form }) => {
     </div>
   );
 };
-export default TextEditor;
+
+export default React.memo(TextEditor);

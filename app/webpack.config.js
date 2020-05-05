@@ -65,11 +65,6 @@ module.exports = {
                     },
                 ],
             },
-            // {
-            //     test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-            //     use: ["raw-loader"],
-            // },
-
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: ["file-loader"],

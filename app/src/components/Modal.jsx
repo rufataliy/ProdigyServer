@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Modal as BoostrapModal } from "react-bootstrap";
 import Context from "../store/context";
 import { MODAL } from "../store/useGlobalState";
-import { FormikForm } from "./form.jsx";
+import { FormikForm } from "./Form/form.jsx";
 const Modal = (props) => {
   const { modalState, actions, formConfig } = useContext(Context);
   const onHide = () => {

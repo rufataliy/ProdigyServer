@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
-import { StateHandler } from "./StateHandler.jsx";
+import { StateHandler } from "../StateHandler.jsx";
 import LessonList from "./LessonList.jsx";
-import SectionList from "./SectionList.jsx";
+import SectionList from "../Section/SectionList.jsx";
 const LessonHome = (props) => {
   const { path } = useRouteMatch();
 

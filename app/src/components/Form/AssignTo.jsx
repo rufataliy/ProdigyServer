@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StateHandler } from "./StateHandler.jsx";
-import Context from "../store/context";
-import api from "../api/api.js";
+import { StateHandler } from "../StateHandler.jsx";
+import Context from "../../store/context";
+import api from "../../api/api.js";
 import { Spinner } from "react-bootstrap";
-import Icon from "../views/_Icon.jsx";
-import { getKlass } from "../utils/defaultAPIConfig";
+import Icon from "../../views/_Icon.jsx";
+import { getKlass } from "../../utils/defaultAPIConfig";
 const AssignTo = ({ push, remove, initialKlassList }) => {
   const [klasses, setKlasses] = useState([]);
   const [addedKlasses, setAddedKlasses] = useState(initialKlassList);
@@ -52,6 +52,8 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
       return [...prevState];
     });
     remove(id);
+    setIndex("");
+    setError("");
   };
 
   return (

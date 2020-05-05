@@ -1,12 +1,8 @@
 import React from "react";
 import { Accordion, Card, Button } from "react-bootstrap";
-import { StateHandler } from "./StateHandler.jsx";
-import { editWordOptions } from "../utils/defaultAPIConfig.js";
-import Modal from "./Modal.jsx";
-import { FormikForm } from "./form.jsx";
+import { StateHandler } from "../StateHandler.jsx";
+import { editWordOptions } from "../../utils/defaultAPIConfig.js";
 const Word = ({ word, editWord }) => {
-  console.log("word rendered");
-
   return (
     <Accordion className="m-2">
       <Card style={{ width: "18rem" }}>

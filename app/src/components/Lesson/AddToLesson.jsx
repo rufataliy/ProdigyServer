@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import Context from "../store/context";
-import api from "../api/api.js";
+import Context from "../../store/context";
+import api from "../../api/api.js";
 import { Spinner } from "react-bootstrap";
-import Icon from "../views/_Icon.jsx";
-import { getKlass } from "../utils/defaultAPIConfig";
-import { _buildApiOptions } from "../utils/defaultAPIConfig";
-import capitalize from "../utils/capitalize";
+import Icon from "../../views/_Icon.jsx";
+import { getKlass } from "../../utils/defaultAPIConfig";
+import { _buildApiOptions } from "../../utils/defaultAPIConfig";
+import capitalize from "../../utils/capitalize";
 
 const AssignTo = ({ push, remove, initialList, collectionName }) => {
   const [list, setList] = useState([]);

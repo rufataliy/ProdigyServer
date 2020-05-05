@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api/api";
+import api from "../../api/api";
 import { useContext, useEffect, useCallback } from "react";
-import Context from "../store/context";
-import { LESSON } from "../store/useGlobalState";
+import Context from "../../store/context";
+import { LESSON } from "../../store/useGlobalState";
 import {
   getSectionsOptions,
   createSectionOptions,
   editSectionOptions,
-} from "../utils/defaultAPIConfig";
-import { newSection } from "../utils/defaultInitialValues";
-import { StateHandler } from "./StateHandler.jsx";
-import RoundedBtn from "../views/_RoundedBtn.jsx";
-import Loading from "../views/_Loading.jsx";
-import Tabs from "../views/_Tabs.jsx";
+} from "../../utils/defaultAPIConfig";
+import { newSection } from "../../utils/defaultInitialValues";
+import { StateHandler } from "../StateHandler.jsx";
+import RoundedBtn from "../../views/_RoundedBtn.jsx";
+import Loading from "../../views/_Loading.jsx";
+import Tabs from "../../views/_Tabs.jsx";
 const Sectionlist = ({ setAction }) => {
   const { lessonId } = useParams();
   const { lessonState, compUpdate, actions } = useContext(Context);
@@ -22,22 +22,23 @@ const Sectionlist = ({ setAction }) => {
   useEffect(() => {
     let mounted = true;
     setFetching(true);
-    api({ ...getSectionsOptions, params: lessonId })
-      .then((sections) => {
-        mounted &&
-          actions({
-            type: LESSON,
-            payload: {
-              ...lessonState,
-              sections,
-            },
-          });
-        setFetching(false);
-      })
-      .catch((err) => {
-        setFetching(true);
-        console.log(err);
-      });
+    mounted &&
+      api({ ...getSectionsOptions, params: lessonId })
+        .then((sections) => {
+          mounted &&
+            actions({
+              type: LESSON,
+              payload: {
+                ...lessonState,
+                sections,
+              },
+            });
+          setFetching(false);
+        })
+        .catch((err) => {
+          setFetching(true);
+          console.log(err);
+        });
     return () => (mounted = false);
   }, [compUpdate]);
 
