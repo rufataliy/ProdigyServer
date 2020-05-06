@@ -358,7 +358,7 @@ export const _formTemplates = (() => {
         <React.Fragment>
           <Container>
             <Row>
-              <Col bsPrefix={"p-0 col-12"}>
+              <Col bsPrefix={"col-12 col-md-6"}>
                 <Form.Group>
                   <Field
                     type="text"
@@ -380,7 +380,7 @@ export const _formTemplates = (() => {
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
               </Col>
-              <Col bsPrefix={"p-0 col-12"}>
+              <Col bsPrefix={"col-12 col-md-6"}>
                 <Col xs={12} bsPrefix={"p-0"}>
                   <FieldArray name="sectionList">
                     {({ push, remove }) => {

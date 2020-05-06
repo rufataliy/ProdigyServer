@@ -3,18 +3,19 @@ import TopNav from "./TopNav.jsx";
 import useGlobalState, { APP } from "../store/useGlobalState";
 import Context from "../store/context";
 import _SideBar from "../views/_SideBar.jsx";
-import Schedule from "./Schedule.jsx";
+import Schedule from "./Schedule/Schedule.jsx";
 import LessonHome from "./Lesson/LessonHome.jsx";
-import Home from "./Home.jsx";
+import Home from "./Home/Home.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { browserHistory } from "react-router";
 import VocabularyHome from "./Vocabulary/VocabularyHome.jsx";
 import api from "../api/api";
 import Chat from "./Chat/Chat.jsx";
 import Modal from "./Modal.jsx";
+import ProgramHome from "./Programs/ProgramHome.jsx";
+import { links } from "../utils/links.js";
 const App = () => {
   const store = useGlobalState();
   const {
@@ -52,20 +53,21 @@ const App = () => {
         {appState.author && renderChat()}
       </Context.Provider>
       <div className="main">
-        <Router history={browserHistory}>
+        <Router>
           <Container fluid>
             <Row bsPrefix={"row flex-nowrap overflow-hidden"}>
               <Col bsPrefix={"col-auto p-0"}>
-                <_SideBar />
+                <_SideBar links={links} />
               </Col>
               <Col
                 bsPrefix={"col-auto min-vh-100 col-12 col-md-9 mx-auto pt-4 "}
               >
                 <Switch>
-                  <Route path="/app" exact component={Home} />
+                  <Route exact path="/app" component={Home} />
                   <Context.Provider value={store}>
                     <Route path="/app/Schedule" component={Schedule} />
                     <Route path="/app/Vocabulary" component={VocabularyHome} />
+                    {/* <Route path="/app/Program/" component={ProgramHome} /> */}
                     <Route path="/app/Lesson" component={LessonHome} />
                   </Context.Provider>
                 </Switch>

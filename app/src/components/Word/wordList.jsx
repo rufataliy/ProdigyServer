@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
-import Word from "./Word.jsx";
 import { useContext, useEffect, useCallback } from "react";
 import Context from "../../store/context";
 import {
@@ -11,9 +10,11 @@ import {
 } from "../../utils/defaultAPIConfig";
 import { newWord } from "../../utils/defaultInitialValues";
 import { StateHandler } from "../StateHandler.jsx";
-import RoundedBtn from "../../views/_RoundedBtn.jsx";
-import Loading from "../../views/_Loading.jsx";
+import List from "../../views/_List.jsx";
+import Word from "./Word.jsx";
 const Wordlist = ({ setAction }) => {
+  console.log("hit");
+
   const { vocabularyId } = useParams();
   const { vocabState, compUpdate, actions } = useContext(Context);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
@@ -57,21 +58,14 @@ const Wordlist = ({ setAction }) => {
     []
   );
   return (
-    <React.Fragment>
-      <div className="d-flex p-3 align-items-center">
-        <h3 className="text-primary mb-0 mr-3">Words </h3>
-        <RoundedBtn onClick={createWord} iconName="fas fa-plus" />
-      </div>
-      <div className="d-flex flex-wrap">
-        {!fetching && vocabState.words ? (
-          vocabState.words.map((word) => (
-            <Word editWord={editWord} key={word._id} word={word} />
-          ))
-        ) : (
-          <Loading />
-        )}
-      </div>
-    </React.Fragment>
+    <List
+      Component={Word}
+      fetching={fetching}
+      editItem={editWord}
+      items={vocabState.words}
+      createItem={createWord}
+      listName="Words"
+    />
   );
 };
 export default React.memo(StateHandler(Wordlist));

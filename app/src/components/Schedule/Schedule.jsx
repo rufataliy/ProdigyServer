@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import Context from "../store/context";
+import Context from "../../store/context";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import "./style/main.scss";
-import "./style/tooltip.scss";
-import { StateHandler } from "./StateHandler.jsx";
-import { SCHEDULE } from "../store/useGlobalState";
-import { newClass } from "../utils/defaultInitialValues";
-import { createKlass, editKlass, getKlass } from "../utils/defaultAPIConfig";
-import api from "../api/api.js";
-import Loading from "../views/_Loading.jsx";
+import "../style/main.scss";
+import "../style/tooltip.scss";
+import { StateHandler } from "../StateHandler.jsx";
+import { SCHEDULE } from "../../store/useGlobalState";
+import { newClass } from "../../utils/defaultInitialValues";
+import { createKlass, editKlass, getKlass } from "../../utils/defaultAPIConfig";
+import api from "../../api/api.js";
+import Loading from "../../views/_Loading.jsx";
 const Schedule = ({ setAction }) => {
   const [fetching, setFetching] = useState(false);
   console.log("schedule rendered");

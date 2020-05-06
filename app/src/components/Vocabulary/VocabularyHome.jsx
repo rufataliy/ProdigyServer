@@ -6,13 +6,14 @@ import Wordlist from "../Word/wordList.jsx";
 
 const VocabularyHome = (props) => {
   const { path } = useRouteMatch();
+  console.log(path);
 
   return (
     <React.Fragment>
-      <Route exact path={path} component={VocabularyList} />
-      <Route path={`${path}/words/:vocabularyId`}>
+      <Route path={`${path}/vocabularies/:vocabularyId`}>
         <Wordlist />
       </Route>
+      <Route exact path={path} component={VocabularyList} />
     </React.Fragment>
   );
 };

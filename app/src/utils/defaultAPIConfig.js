@@ -1,13 +1,13 @@
-export const createVocabulary = {
+export const createVocabularyOptions = {
     collectionName: "vocabularies",
     method: "post",
     title: "New vocabulary",
 };
-export const getVocabulary = {
+export const getVocabularyOptions = {
     collectionName: "vocabularies",
     method: "get",
 };
-export const editVocabulary = {
+export const editVocabularyOptions = {
     collectionName: "vocabularies",
     method: "put",
     params: "",

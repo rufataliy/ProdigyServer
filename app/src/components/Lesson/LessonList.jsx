@@ -10,8 +10,8 @@ import {
   createLessonOptions,
   editLessonOptions,
 } from "../../utils/defaultAPIConfig";
-import Loading from "../../views/_Loading.jsx";
-import RoundedBtn from "../../views/_RoundedBtn.jsx";
+import List from "../../views/_List.jsx";
+import ListItem from "../../views/_ListItem.jsx";
 const LessonList = ({ setAction }) => {
   const { actions, lessonState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(false);
@@ -40,7 +40,7 @@ const LessonList = ({ setAction }) => {
     return () => (mounted = false);
   }, [compUpdate]);
 
-  const createlesson = () => {
+  const createLesson = () => {
     setAction({
       config: createLessonOptions,
       payload: newLesson,
@@ -62,19 +62,14 @@ const LessonList = ({ setAction }) => {
   );
   return (
     <React.Fragment>
-      <div className="d-flex p-3 align-items-center">
-        <h3 className="text-primary mb-0 mr-3">Lessons </h3>
-        <RoundedBtn onClick={createlesson} iconName="fas fa-plus" />
-      </div>
-      <div className="d-flex flex-wrap">
-        {!fetching && lessonState.lessons ? (
-          lessonState.lessons.map((lesson, index) => (
-            <Lesson editLesson={editLesson} key={lesson._id} lesson={lesson} />
-          ))
-        ) : (
-          <Loading />
-        )}
-      </div>
+      <List
+        Component={ListItem}
+        fetching={fetching}
+        editItem={editLesson}
+        items={lessonState.lessons}
+        createItem={createLesson}
+        listName="Lessons"
+      />
     </React.Fragment>
   );
 };

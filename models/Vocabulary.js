@@ -5,7 +5,7 @@ const vocabularySchema = new mongoose.Schema({
     klassList: [Object],
     wordList: [{ type: mongoose.Schema.Types.ObjectId, ref: "Word" }],
     level: String,
-    name: String,
+    title: String,
     topic: String,
 });
 
