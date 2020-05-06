@@ -18,7 +18,7 @@ const Sectionlist = ({ setAction }) => {
   const { lessonId } = useParams();
   const { lessonState, compUpdate, actions } = useContext(Context);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   useEffect(() => {
     let mounted = true;
     setFetching(true);

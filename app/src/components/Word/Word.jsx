@@ -1,7 +1,5 @@
 import React from "react";
-import { Accordion, Card, Button } from "react-bootstrap";
-import { StateHandler } from "../StateHandler.jsx";
-import { editWordOptions } from "../../utils/defaultAPIConfig.js";
+import { Accordion, Card } from "react-bootstrap";
 const Word = ({ item, editItem }) => {
   return (
     <Accordion className="m-2">

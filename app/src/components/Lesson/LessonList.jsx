@@ -14,7 +14,7 @@ import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 const LessonList = ({ setAction }) => {
   const { actions, lessonState, compUpdate } = useContext(Context);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
 
   useEffect(() => {

@@ -18,7 +18,7 @@ const Wordlist = ({ setAction }) => {
   const { vocabularyId } = useParams();
   const { vocabState, compUpdate, actions } = useContext(Context);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   useEffect(() => {
     setFetching(true);
     api({ ...getWordsOptions, params: vocabularyId })
