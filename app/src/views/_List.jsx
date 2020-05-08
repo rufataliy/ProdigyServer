@@ -17,18 +17,16 @@ const _List = ({
         <RoundedBtn onClick={createItem} iconName="fas fa-plus" />
       </div>
       <div className="d-flex flex-wrap">
-        {!fetching && items ? (
-          items.map((item) => (
-            <Component
-              path={listName}
-              editItem={editItem}
-              key={item._id}
-              item={item}
-            />
-          ))
-        ) : (
-          <Loading />
-        )}
+        {!fetching && items
+          ? items.map((item) => (
+              <Component
+                path={listName}
+                editItem={editItem}
+                key={item._id}
+                item={item}
+              />
+            ))
+          : fetching && <Loading />}
       </div>
     </React.Fragment>
   );

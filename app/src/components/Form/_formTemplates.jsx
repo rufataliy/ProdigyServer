@@ -354,6 +354,68 @@ export const _formTemplates = (() => {
           )}
         </React.Fragment>
       ),
+      programs: (
+        <React.Fragment>
+          <Container>
+            <Row>
+              <Col bsPrefix={"col-12 col-md-6"}>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="title"
+                    placeholder="Title"
+                  />
+                  <p className="text-danger">
+                    {touched.title && errors.title ? errors.title : null}
+                  </p>
+                </Form.Group>
+                <Form.Group>
+                  <Field
+                    type="text"
+                    className="form-control"
+                    name="description"
+                    placeholder="Description"
+                  />
+                  <p className="text-danger">{touched.level && errors.level}</p>
+                </Form.Group>
+              </Col>
+              <Col bsPrefix={"col-12 col-md-6"}>
+                <Col xs={12} bsPrefix={"p-0"}>
+                  <FieldArray name="lessonList">
+                    {({ push, remove }) => {
+                      return (
+                        <Field>
+                          {({ field }) => (
+                            <AddToLesson
+                              push={push}
+                              remove={remove}
+                              collectionName="lessons"
+                              initialList={field.value.lessonList}
+                            />
+                          )}
+                        </Field>
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
+              </Col>
+              <Button type="submit" className="btn-sm btn-block" type="primary">
+                {formConfig.method != "put" ? "Save" : "Update"}
+              </Button>
+              {formConfig.method == "put" && (
+                <Button
+                  onClick={handleDelete}
+                  className="btn-danger btn-sm"
+                  type="danger"
+                >
+                  Delete
+                </Button>
+              )}
+            </Row>
+          </Container>
+        </React.Fragment>
+      ),
       lessons: (
         <React.Fragment>
           <Container>

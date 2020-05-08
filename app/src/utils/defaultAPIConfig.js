@@ -98,10 +98,21 @@ export const createSectionOptions = {
 export const editSectionOptions = {
     collectionName: "sections",
     method: "put",
-    params: "",
-    title: "",
+};
+export const getProgramsOptions = {
+    collectionName: "programs",
+    method: "get",
+};
+export const createProgramOptions = {
+    collectionName: "programs",
+    method: "post",
+    title: "New program",
 };
 
+export const editProgramOptions = {
+    collectionName: "programs",
+    method: "put",
+};
 export const _buildApiOptions = ({ collectionName, method }) => ({
     collectionName,
     method,

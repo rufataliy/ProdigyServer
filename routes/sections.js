@@ -17,7 +17,6 @@ router.get("/:lessonId", (req, res) => {
 router.post("/", (req, res) => {
     const section = req.body;
     const lessonId = req.body.lessonIdList[0];
-    console.log(req.body);
     Section.create(section)
         .then((section) => {
             Lesson.findByIdAndUpdate({ _id: lessonId }, {
@@ -37,7 +36,6 @@ router.get("/edit/:_id", async(req, res) => {
     const { _id } = req.params;
     Section.findOne({ _id })
         .then((items) => {
-            console.log(items);
             res.send(items);
         })
         .catch((err) => res.send(err));
@@ -55,18 +53,14 @@ router.get("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
     Section.findOne({ _id })
         .then((items) => {
-            console.log(items);
             res.send(items);
         })
         .catch((err) => res.send(err));
 });
 router.delete("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
-    console.log(_id);
-
     Section.deleteOne({ _id })
         .then((items) => {
-            console.log(items);
             res.send(items);
         })
         .catch((err) => res.send(err));
@@ -74,11 +68,9 @@ router.delete("/delete/:_id", async(req, res) => {
 router.post("/assignTo/:_id", async(req, res) => {
     const { _id } = req.params;
     const { klassId } = req.body;
-    console.log(klassId);
 
     Klass.findById(klassId)
         .then((klass) => {
-            console.log(klass);
             Section.findByIdAndUpdate({ _id }, {
                     $push: {
                         klassList: { title: klass.title, klassId: klass._id },

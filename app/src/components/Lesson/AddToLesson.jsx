@@ -19,7 +19,8 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
     // fetching list of the author
     setFetching(true);
     api(_buildApiOptions({ collectionName, method: "get" })).then((items) => {
-      if (items != null) setList(items);
+      console.log(items);
+      items && setList(items);
       setFetching(false);
     });
   }, [compUpdate]);
@@ -62,7 +63,7 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
     <div>
       <div className="d-flex">
         <select className="w-100 select" onChange={handleChange} value={index}>
-          <option value="">Choose a section</option>
+          <option value="">Choose {collectionName}</option>
           {list &&
             list.map((item, index) => (
               <option key={index} value={index}>

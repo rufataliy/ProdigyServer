@@ -2,11 +2,10 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import { StateHandler } from "../StateHandler.jsx";
 import VocabularyList from "./VocabularyList.jsx";
-import Wordlist from "../Word/wordList.jsx";
+import Wordlist from "../Word/WordList.jsx";
 
 const VocabularyHome = (props) => {
   const { path } = useRouteMatch();
-  console.log(path);
 
   return (
     <React.Fragment>

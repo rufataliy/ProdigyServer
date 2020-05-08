@@ -52,3 +52,11 @@ export const newLesson = {
     studentList: [],
     sectionList: []
 };
+export const newProgram = {
+    author: "",
+    title: "",
+    desciption: "",
+    klassList: [],
+    studentList: [],
+    lessonList: []
+};

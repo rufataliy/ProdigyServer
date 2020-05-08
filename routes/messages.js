@@ -38,7 +38,6 @@ io.on("connection", (socket) => {
                                     io.emit(`message${participant}`, { message, chat })
                                 );
                             } else {
-                                console.log(message);
                                 console.log("********OLD CHAT******");
                                 chat.participants.map((participant) =>
                                     io.emit(`message${participant}`, { message })

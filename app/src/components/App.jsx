@@ -67,7 +67,7 @@ const App = () => {
                   <Context.Provider value={store}>
                     <Route path="/app/Schedule" component={Schedule} />
                     <Route path="/app/Vocabulary" component={VocabularyHome} />
-                    {/* <Route path="/app/Program/" component={ProgramHome} /> */}
+                    <Route path="/app/Program" component={ProgramHome} />
                     <Route path="/app/Lesson" component={LessonHome} />
                   </Context.Provider>
                 </Switch>

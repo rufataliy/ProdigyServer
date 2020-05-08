@@ -37,18 +37,15 @@ router.get("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
     Vocabulary.findOne({ _id })
         .then((items) => {
-            console.log(items);
             res.send(items);
         })
         .catch((err) => res.send(err));
 });
 router.delete("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
-    console.log(_id);
 
     Vocabulary.deleteOne({ _id })
         .then((items) => {
-            console.log(items);
             res.send(items);
         })
         .catch((err) => res.send(err));
@@ -56,11 +53,9 @@ router.delete("/delete/:_id", async(req, res) => {
 router.post("/assignTo/:_id", async(req, res) => {
     const { _id } = req.params;
     const { klassId } = req.body;
-    console.log(klassId);
 
     Klass.findById(klassId)
         .then((klass) => {
-            console.log(klass);
             Vocabulary.findByIdAndUpdate({ _id }, {
                     $push: {
                         klassList: { title: klass.title, klassId: klass._id },

@@ -10,15 +10,13 @@ export const VOCAB = "setVocabState"
 export const LESSON = "setLessonState"
 export const WORDS = "allWords"
 export const TOPICS = "topics"
+export const PROGRAM = "setProgramState"
 
 const useGlobalState = () => {
-    const componentUpdateGlobal = false
+    const compUpdateGlobal = false
     const appStateGlobal = {
         loggedIn: false,
         author: ""
-    }
-    const tooltipStateGlobal = {
-        show: false
     }
     const scheduleStateGlobal = {
         calendarWeekends: true,
@@ -31,6 +29,9 @@ const useGlobalState = () => {
         vocabs: [],
         words: [],
         searchTerm: ""
+    }
+    const programStateGlobal = {
+        programs: []
     }
     const lessonStateGlobal = {
         lessons: [],
@@ -71,39 +72,39 @@ const useGlobalState = () => {
         collectionName: "",
         method: ""
     }
-    const [state, setState] = useState(scheduleStateGlobal)
+    const [scheduleState, setScheduleState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
     const [formConfig, setFormConfig] = useState(formConfigGlobal)
     const [appState, setAppState] = useState(appStateGlobal)
-    const [tooltipState, setTooltipState] = useState(tooltipStateGlobal)
     const [modalState, setModalState] = useState(modalStateGlobal)
     const [vocabState, setVocabState] = useState(vocabStateGlobal)
     const [lessonState, setLessonState] = useState(lessonStateGlobal)
-    const [componentUpdate, setComponentUpdate] = useState(componentUpdateGlobal)
+    const [programState, setProgramState] = useState(programStateGlobal)
+    const [compUpdate, setCompUpdate] = useState(compUpdateGlobal)
 
     const actions = (action) => {
         const { type, payload } = action
         switch (type) {
             case SCHEDULE:
-                return setState(payload)
+                return setScheduleState(payload)
             case INITIAL_VALUES:
                 return setValues(payload)
             case FORM_CONFIG:
                 return setFormConfig(payload)
             case APP:
                 return setAppState(payload)
-            case "setTooltipState":
-                return setTooltipState(payload)
             case MODAL:
                 return setModalState(payload)
             case VOCAB:
                 return setVocabState(payload)
             case LESSON:
                 return setLessonState(payload)
+            case PROGRAM:
+                return setProgramState(payload)
             case COMP_UPDATE:
-                return setComponentUpdate(payload)
+                return setCompUpdate(payload)
             default:
-                return state, initialValues, formConfig, appState, tooltipState, lessonState, modalState;
+                return scheduleState, initialValues, formConfig, programState, appState, lessonState, modalState, compUpdate;
         }
     }
 
@@ -117,16 +118,16 @@ const useGlobalState = () => {
         });
     }
     return {
-        scheduleState: state,
-        initialValues: initialValues,
-        formConfig: formConfig,
-        appState: appState,
-        tooltipState: tooltipState,
-        modalState: modalState,
-        vocabState: vocabState,
-        compUpdate: componentUpdate,
+        scheduleState,
+        initialValues,
+        formConfig,
+        appState,
+        modalState,
+        vocabState,
+        compUpdate,
         lessonState,
         toggleModal,
+        programState,
         actions
     }
 }

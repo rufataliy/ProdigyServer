@@ -15,7 +15,6 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
     const klass = req.body;
-    console.log(req.body);
     Klass.create(klass)
         .then(items => res.send(items))
         .catch(err => res.send(err));
@@ -55,8 +54,6 @@ router.get("/addStudent/byid/:idList", (req, res) => {
 });
 router.get("/addStudent/byemail/:email", (req, res) => {
     const email = req.params
-    console.log(email);
-
     Token.findOne().then(token => {
         const options = {
             method: "GET",
