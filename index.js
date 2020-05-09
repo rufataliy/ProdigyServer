@@ -81,6 +81,7 @@ app.use("/api/users", require("./routes/users"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/sections", require("./routes/sections"));
+app.use("/api/programs", require("./routes/programs"));
 app.use("/api/fileuploads", require("./routes/fileuploads"));
 
 server.listen(process.env.PORT, () => {

@@ -9,7 +9,7 @@ import AddStudent from "./addStudent.jsx";
 import AssignTo from "./AssignTo.jsx";
 import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
-import AddToLesson from "../Lesson/AddToLesson.jsx";
+import AddToList from "./AddToList.jsx";
 import TextEditor from "./TextEditor.jsx";
 export const _formTemplates = (() => {
   const fields = (props, handleDelete) => {
@@ -278,7 +278,7 @@ export const _formTemplates = (() => {
         <React.Fragment>
           <Container>
             <Row>
-              <Col bsPrefix={"p-0 col-12"}>
+              <Col bsPrefix={"col-12 col-md-6"}>
                 <Form.Group>
                   <Field
                     type="text"
@@ -309,17 +309,18 @@ export const _formTemplates = (() => {
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
               </Col>
-              <Col bsPrefix={"p-0 col-12"}>
+              <Col bsPrefix={"col-12 col-md-6"}>
                 <Col xs={12} bsPrefix={"p-0"}>
                   <FieldArray name="klassList">
                     {({ push, remove }) => {
                       return (
                         <Field>
                           {({ field }) => (
-                            <AssignTo
+                            <AddToList
                               push={push}
                               remove={remove}
-                              initialKlassList={field.value.klassList}
+                              collectionName="klasses"
+                              initialList={field.value.klassList}
                             />
                           )}
                         </Field>
@@ -370,6 +371,8 @@ export const _formTemplates = (() => {
                     {touched.title && errors.title ? errors.title : null}
                   </p>
                 </Form.Group>
+              </Col>
+              <Col bsPrefix={"col-12 col-md-6"}>
                 <Form.Group>
                   <Field
                     type="text"
@@ -387,11 +390,31 @@ export const _formTemplates = (() => {
                       return (
                         <Field>
                           {({ field }) => (
-                            <AddToLesson
+                            <AddToList
                               push={push}
                               remove={remove}
                               collectionName="lessons"
                               initialList={field.value.lessonList}
+                            />
+                          )}
+                        </Field>
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
+              </Col>
+              <Col bsPrefix={"col-12 col-md-6"}>
+                <Col xs={12} bsPrefix={"p-0"}>
+                  <FieldArray name="klassList">
+                    {({ push, remove }) => {
+                      return (
+                        <Field>
+                          {({ field }) => (
+                            <AddToList
+                              push={push}
+                              remove={remove}
+                              collectionName="klasses"
+                              initialList={field.value.klassList}
                             />
                           )}
                         </Field>
@@ -449,7 +472,7 @@ export const _formTemplates = (() => {
                       return (
                         <Field>
                           {({ field }) => (
-                            <AddToLesson
+                            <AddToList
                               push={push}
                               remove={remove}
                               collectionName="sections"
@@ -470,9 +493,8 @@ export const _formTemplates = (() => {
                   onClick={handleDelete}
                   className="btn-danger btn-sm"
                   type="danger"
-                >
-                  Delete
-                </Button>
+                  value="Delete"
+                />
               )}
             </Row>
           </Container>

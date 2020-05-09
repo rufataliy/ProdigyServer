@@ -1,16 +1,6 @@
 import React, { useContext } from "react";
 import Context from "../store/context";
-import {
-  MODAL,
-  SCHEDULE,
-  INITIAL_VALUES,
-  FORM_CONFIG,
-  COMP_UPDATE,
-  APP,
-  VOCAB,
-  WORDS,
-  TOPICS,
-} from "../store/useGlobalState";
+import { SCHEDULE, INITIAL_VALUES, FORM_CONFIG } from "../store/useGlobalState";
 import { useMemo } from "react";
 
 export const StateHandler = (Component) => {

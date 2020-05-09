@@ -4,7 +4,12 @@ const Word = ({ item, editItem }) => {
   return (
     <Accordion className="m-2">
       <Card style={{ width: "18rem" }}>
-        <Accordion.Toggle as={Card} variant="link" eventKey={item._id}>
+        <Accordion.Toggle
+          style={{ cursor: "pointer" }}
+          as={Card}
+          variant="link"
+          eventKey={item._id}
+        >
           <Card.Header>{`${item.phrase}`}</Card.Header>
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={item._id}>

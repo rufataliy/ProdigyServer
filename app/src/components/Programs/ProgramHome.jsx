@@ -6,17 +6,20 @@ import SectionList from "../Section/SectionList.jsx";
 import ProgramList from "./ProgramList.jsx";
 const ProgramHome = (props) => {
   const { path } = useRouteMatch();
-  console.log("ProgramHome");
+  console.log(path);
 
   return (
     <React.Fragment>
       <Route exact path={path} component={ProgramList} />
-      {/* <Route
+      <Route
         exact
-        path={`${path}/lessons/:programId/`}
+        path={`${path}/programs/:programId/`}
         component={LessonList}
       />
-      <Route path={`${path}/lessons/:lessonId`} component={SectionList} /> */}
+      <Route
+        path={`${path}/programs/lessons/:lessonId`}
+        component={SectionList}
+      />
     </React.Fragment>
   );
 };

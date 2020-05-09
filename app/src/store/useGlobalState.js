@@ -70,7 +70,8 @@ const useGlobalState = () => {
         formType: "",
         docId: "",
         collectionName: "",
-        method: ""
+        method: "",
+        modalSize: ""
     }
     const [scheduleState, setScheduleState] = useState(scheduleStateGlobal)
     const [initialValues, setValues] = useState(initialValuesGlobal)
