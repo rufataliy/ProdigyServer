@@ -23,7 +23,6 @@ const LessonList = ({ setAction }) => {
     mounted &&
       api(getLessonOptions)
         .then((lessons) => {
-          console.log(lessons);
           actions({
             type: LESSON,
             payload: {

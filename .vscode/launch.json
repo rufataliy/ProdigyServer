@@ -5,11 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "port": 3000,
-      "type": "chrome",
+      "envFile": "${workspaceFolder}/.env",
+      "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\index.js"
     }
   ]
 }

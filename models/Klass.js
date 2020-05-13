@@ -12,7 +12,8 @@ const klassSchema = new mongoose.Schema({
     endTime: String,
     startTime: String,
     vocabularyList: [String],
-    studentList: [String]
+    studentList: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
+    programList: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Program" }],
 }, { selectPopulatedPaths: true });
 
 const Klass = mongoose.model("Klass", klassSchema);

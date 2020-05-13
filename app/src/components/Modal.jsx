@@ -11,7 +11,6 @@ const Modal = (props) => {
       payload: { ...modalState, modalVisibility: false },
     });
   };
-  console.log(props.title);
 
   return (
     <BoostrapModal

@@ -24,13 +24,10 @@ const ChatBox = ({ socket, closed }) => {
     setFetching(true);
     api(getChats)
       .then((chats) => {
-        console.log("chats");
-        console.log(chats);
         setChats(chats);
         setFetching(false);
       })
       .catch((err) => console.log(err));
-    console.log(author);
 
     socket.on(`message${author._id}`, (response) => setReponse(() => response));
     return () => {

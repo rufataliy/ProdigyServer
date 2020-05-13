@@ -40,11 +40,11 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   const getStudent = () => {
     if (inputValue.trim() !== "") {
       setFetching(true);
-      api({ ...getStudentOptions, params: inputValue }).then((students) => {
-        if (students[0]) {
-          setStudents((prevState) => [...prevState, students[0]]);
+      api({ ...getStudentOptions, params: inputValue }).then((student) => {
+        if (student) {
+          setStudents((prevState) => [...prevState, student]);
           setInputValue("");
-          push(students[0].user_id);
+          push(student._id);
         } else if (students.length < 1) {
           setError("user is not found");
         }

@@ -9,6 +9,8 @@ export const newClass = {
     classType: "Not Selected",
     daysOfWeek: [],
     studentList: [],
+    programList: [],
+    removedProgramsList: [],
     author: "",
 };
 export const newWord = {
@@ -42,7 +44,7 @@ export const newSection = {
     title: "",
     level: "",
     sectionType: "",
-    text: ""
+    text: "",
 };
 export const newLesson = {
     author: "",
@@ -50,7 +52,7 @@ export const newLesson = {
     level: "",
     vocabularyList: [],
     studentList: [],
-    sectionList: []
+    sectionList: [],
 };
 export const newProgram = {
     author: "",
@@ -58,5 +60,5 @@ export const newProgram = {
     desciption: "",
     klassList: [],
     studentList: [],
-    lessonList: []
+    lessonList: [],
 };

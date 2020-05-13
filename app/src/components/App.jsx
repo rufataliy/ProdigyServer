@@ -7,17 +7,18 @@ import Schedule from "./Schedule/Schedule.jsx";
 import LessonHome from "./Lesson/LessonHome.jsx";
 import Home from "./Home/Home.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Row, Col, Container } from "react-bootstrap";
 import VocabularyHome from "./Vocabulary/VocabularyHome.jsx";
 import api from "../api/api";
 import Chat from "./Chat/Chat.jsx";
 import Modal from "./Modal.jsx";
 import ProgramHome from "./Programs/ProgramHome.jsx";
 import { links } from "../utils/links.js";
+import Bread from "./Bread.jsx";
+
 const App = () => {
   const store = useGlobalState();
+
   const {
     compUpdate,
     modalState,
@@ -62,15 +63,20 @@ const App = () => {
               <Col
                 bsPrefix={"col-auto min-vh-100 col-12 col-md-9 mx-auto pt-4 "}
               >
-                <Switch>
-                  <Route exact path="/app" component={Home} />
-                  <Context.Provider value={store}>
-                    <Route path="/app/Schedule" component={Schedule} />
-                    <Route path="/app/Vocabulary" component={VocabularyHome} />
-                    <Route path="/app/Program" component={ProgramHome} />
-                    <Route path="/app/Lesson" component={LessonHome} />
-                  </Context.Provider>
-                </Switch>
+                <Bread>
+                  <Switch>
+                    <Route exact path="/app" component={Home} />
+                    <Context.Provider value={store}>
+                      <Route path="/app/Schedule" component={Schedule} />
+                      <Route
+                        path="/app/Vocabulary"
+                        component={VocabularyHome}
+                      />
+                      <Route path="/app/Program" component={ProgramHome} />
+                      <Route path="/app/Lesson" component={LessonHome} />
+                    </Context.Provider>
+                  </Switch>
+                </Bread>
               </Col>
             </Row>
           </Container>

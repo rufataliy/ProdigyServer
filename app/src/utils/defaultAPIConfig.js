@@ -21,26 +21,26 @@ export const assignVocabularyOptions = {
 export const getKlass = {
     collectionName: "klasses",
     method: "get",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 export const editKlass = {
     collectionName: "klasses",
     method: "put",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 export const createKlass = {
     collectionName: "klasses",
     method: "post",
     title: "New class",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 export const getStudentListOptions = {
-    collectionName: "klasses/addStudent/byid",
+    collectionName: "klasses/addStudent",
     method: "get",
     params: "",
 };
 export const getStudentOptions = {
-    collectionName: "klasses/addStudent/byemail",
+    collectionName: "klasses/addStudent",
     method: "get",
     params: "",
 };
@@ -91,19 +91,19 @@ export const editLessonOptions = {
 export const getSectionsOptions = {
     collectionName: "Sections",
     method: "get",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 export const createSectionOptions = {
     collectionName: "sections",
     method: "post",
     title: "New section",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 
 export const editSectionOptions = {
     collectionName: "sections",
     method: "put",
-    modalSize: "lg"
+    modalSize: "lg",
 };
 export const getProgramsOptions = {
     collectionName: "programs",

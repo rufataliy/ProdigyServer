@@ -9,7 +9,7 @@
     },
     "scripts": {
         "start": "node index.js",
-        "server": "env-cmd -f ./.env nodemon ./index.js",
+        "server": "env-cmd -f ./.env nodemon ./index.js --inspect",
         "play": "nodemon ./playground//test.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

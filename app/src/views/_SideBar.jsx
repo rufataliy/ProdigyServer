@@ -25,7 +25,11 @@ const _SideBar = ({ links }) => {
               <Link
                 className="nav-link btn btn-outline-primary"
                 role="button"
-                to={`/app${title !== "Home" ? "/" + title : ""}/`}
+                to={(location) => ({
+                  ...location,
+                  bread: { id: "", lable: title },
+                  pathname: `/app${title !== "Home" ? "/" + title : ""}/`,
+                })}
               >
                 {title}
               </Link>

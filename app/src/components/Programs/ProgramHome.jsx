@@ -4,9 +4,9 @@ import { StateHandler } from "../StateHandler.jsx";
 import LessonList from "../Lesson/LessonList.jsx";
 import SectionList from "../Section/SectionList.jsx";
 import ProgramList from "./ProgramList.jsx";
+
 const ProgramHome = (props) => {
   const { path } = useRouteMatch();
-  console.log(path);
 
   return (
     <React.Fragment>

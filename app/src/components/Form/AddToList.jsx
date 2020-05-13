@@ -7,13 +7,14 @@ import { getKlass } from "../../utils/defaultAPIConfig";
 import { _buildApiOptions } from "../../utils/defaultAPIConfig";
 import capitalize from "../../utils/capitalize";
 
-const AssignTo = ({ push, remove, initialList, collectionName }) => {
+const AddToList = ({ form, push, remove, initialList, collectionName }) => {
   const [list, setList] = useState([]);
-  const [addedItems, setAddedItems] = useState(initialList);
+  const [addedItems, setAddedItems] = useState([...initialList]);
   const [fetching, setFetching] = useState(false);
   const [index, setIndex] = useState("");
   const [error, setError] = useState("");
   const { compUpdate } = useContext(Context);
+  console.log(initialList);
 
   useEffect(() => {
     // fetching list of the author
@@ -39,11 +40,16 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
 
   const assign = () => {
     if (index !== "" && error === "") {
-      //_id is destructed as itemId
       const { title, _id } = list[index];
-      push({ title, _id });
+      push(_id);
       setAddedItems((prevState) => [...prevState, { title, _id }]);
       setIndex("");
+      if (initialList.length > 0) {
+        delete form.values.removedProgramsList[_id];
+        form.setFieldValue("removedProgramsList", {
+          ...form.values.removedProgramsList,
+        });
+      }
     } else if (error === "") {
       setError("Please choose a section");
     }
@@ -51,12 +57,20 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
 
   const handleUnshift = (event) => {
     // If event.target is passed to splice function it becomes null ????
-    const { id } = event.target;
+    const { id: index } = event.target;
     setAddedItems((prevState) => {
-      prevState.splice(id, 1);
+      if (initialList.length > 0) {
+        console.log(form.values);
+
+        form.setFieldValue("removedProgramsList", {
+          ...form.values.removedProgramsList,
+          [prevState[index]]: prevState[index],
+        });
+      }
+      prevState.splice(index, 1);
       return [...prevState];
     });
-    remove(id);
+    remove(index);
   };
 
   return (
@@ -96,4 +110,4 @@ const AssignTo = ({ push, remove, initialList, collectionName }) => {
   );
 };
 
-export default AssignTo;
+export default AddToList;

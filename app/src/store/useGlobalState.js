@@ -1,113 +1,95 @@
 import { useState } from "react";
 
-export const MODAL = "setModalState"
-export const SCHEDULE = "setScheduleState"
-export const INITIAL_VALUES = "setInitialValues"
-export const FORM_CONFIG = "setFormConfig"
-export const COMP_UPDATE = "setComponentUpdate"
-export const APP = "setAppState"
-export const VOCAB = "setVocabState"
-export const LESSON = "setLessonState"
-export const WORDS = "allWords"
-export const TOPICS = "topics"
-export const PROGRAM = "setProgramState"
+export const MODAL = "setModalState";
+export const SCHEDULE = "setScheduleState";
+export const INITIAL_VALUES = "setInitialValues";
+export const FORM_CONFIG = "setFormConfig";
+export const COMP_UPDATE = "setComponentUpdate";
+export const APP = "setAppState";
+export const VOCAB = "setVocabState";
+export const LESSON = "setLessonState";
+export const WORDS = "allWords";
+export const TOPICS = "topics";
+export const PROGRAM = "setProgramState";
 
 const useGlobalState = () => {
-    const compUpdateGlobal = false
+    const compUpdateGlobal = false;
     const appStateGlobal = {
         loggedIn: false,
-        author: ""
-    }
+        author: "",
+    };
     const scheduleStateGlobal = {
         calendarWeekends: true,
-        events: []
-    }
+        events: [],
+    };
     const modalStateGlobal = {
         modalVisibility: false,
-    }
+    };
     const vocabStateGlobal = {
         vocabs: [],
         words: [],
-        searchTerm: ""
-    }
+    };
     const programStateGlobal = {
-        programs: []
-    }
+        programs: [],
+    };
     const lessonStateGlobal = {
         lessons: [],
-        sections: []
-    }
-    const initialValuesGlobal = {
-        newClass: {
-            title: "",
-            start: "",
-            end: "",
-            startTime: "",
-            endTime: "",
-            level: "",
-            origin: "",
-            classType: "Not Selected",
-            daysOfWeek: [],
-            author: ""
-        },
-        newWord: {
-            phrase: "",
-            source: "",
-            example: "",
-            definition: "",
-            topic: "",
-            author: ""
-        },
-        newVocabulary: {
-            name: "",
-            topic: "",
-            level: "",
-            author: ""
-        }
-    }
+        sections: [],
+    };
+    const initialValuesGlobal = {};
     const formConfigGlobal = {
         title: "",
         formType: "",
         docId: "",
         collectionName: "",
         method: "",
-        modalSize: ""
-    }
-    const [scheduleState, setScheduleState] = useState(scheduleStateGlobal)
-    const [initialValues, setValues] = useState(initialValuesGlobal)
-    const [formConfig, setFormConfig] = useState(formConfigGlobal)
-    const [appState, setAppState] = useState(appStateGlobal)
-    const [modalState, setModalState] = useState(modalStateGlobal)
-    const [vocabState, setVocabState] = useState(vocabStateGlobal)
-    const [lessonState, setLessonState] = useState(lessonStateGlobal)
-    const [programState, setProgramState] = useState(programStateGlobal)
-    const [compUpdate, setCompUpdate] = useState(compUpdateGlobal)
+        modalSize: "",
+    };
+    const [scheduleState, setScheduleState] = useState(scheduleStateGlobal);
+    const [initialValues, setValues] = useState(initialValuesGlobal);
+    const [formConfig, setFormConfig] = useState(formConfigGlobal);
+    const [appState, setAppState] = useState(appStateGlobal);
+    const [modalState, setModalState] = useState(modalStateGlobal);
+    const [vocabState, setVocabState] = useState(vocabStateGlobal);
+    const [lessonState, setLessonState] = useState(lessonStateGlobal);
+    const [programState, setProgramState] = useState(programStateGlobal);
+    const [compUpdate, setCompUpdate] = useState(compUpdateGlobal);
 
     const actions = (action) => {
-        const { type, payload } = action
+        const { type, payload } = action;
         switch (type) {
             case SCHEDULE:
-                return setScheduleState(payload)
+                return setScheduleState(payload);
             case INITIAL_VALUES:
-                return setValues(payload)
+                return setValues(payload);
             case FORM_CONFIG:
-                return setFormConfig(payload)
+                return setFormConfig(payload);
             case APP:
-                return setAppState(payload)
+                return setAppState(payload);
             case MODAL:
-                return setModalState(payload)
+                return setModalState(payload);
             case VOCAB:
-                return setVocabState(payload)
+                return setVocabState(payload);
             case LESSON:
-                return setLessonState(payload)
+                return setLessonState(payload);
             case PROGRAM:
-                return setProgramState(payload)
+                return setProgramState(payload);
             case COMP_UPDATE:
-                return setCompUpdate(payload)
+                return setCompUpdate(payload);
             default:
-                return scheduleState, initialValues, formConfig, programState, appState, lessonState, modalState, compUpdate;
+                return (
+                    vocabState,
+                    scheduleState,
+                    initialValues,
+                    formConfig,
+                    programState,
+                    appState,
+                    lessonState,
+                    modalState,
+                    compUpdate
+                );
         }
-    }
+    };
 
     const toggleModal = () => {
         actions({
@@ -115,9 +97,9 @@ const useGlobalState = () => {
             payload: {
                 ...modalState,
                 modalVisibility: !modalState.modalVisibility,
-            }
+            },
         });
-    }
+    };
     return {
         scheduleState,
         initialValues,
@@ -129,8 +111,8 @@ const useGlobalState = () => {
         lessonState,
         toggleModal,
         programState,
-        actions
-    }
-}
+        actions,
+    };
+};
 
-export default useGlobalState
+export default useGlobalState;

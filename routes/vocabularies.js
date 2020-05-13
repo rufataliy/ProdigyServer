@@ -6,6 +6,7 @@ const Klass = require("../models/Klass");
 router.get("/", (req, res) => {
     const author = req.user._id;
     Vocabulary.find({ $or: [{ author }, { studentList: author }] })
+        .populate({ path: "klassList", select: ["title", "studentList"] })
         .then((items) => res.status(200).json(items))
         .catch((err) => res.send(err));
 });

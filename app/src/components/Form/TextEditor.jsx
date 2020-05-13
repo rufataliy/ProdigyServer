@@ -8,6 +8,7 @@ const TextEditor = ({ initialText, form }) => {
       <CKEditor
         editor={ClassicEditor}
         config={{
+          extraAllowedContent: "iframe",
           simpleUpload: {
             // The URL that the images are uploaded to.
             uploadUrl:
@@ -22,7 +23,7 @@ const TextEditor = ({ initialText, form }) => {
         }}
         data={initialText}
         onInit={(editor) => {
-          editor = editor;
+          // editor = editor;
         }}
         onChange={(event, editor) => {
           const data = editor.getData();

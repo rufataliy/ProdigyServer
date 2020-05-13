@@ -213,6 +213,21 @@ export const _formTemplates = (() => {
                     )}
                   </Form.Group>
                 </Col>
+                <Col xs={12}>
+                  <FieldArray name="programList">
+                    {({ push, remove, form }) => {
+                      return (
+                        <AddToList
+                          push={push}
+                          remove={remove}
+                          collectionName="programs"
+                          form={form}
+                          initialList={form.initialValues.programList}
+                        />
+                      );
+                    }}
+                  </FieldArray>
+                </Col>
               </Col>
             </Row>
           </Container>
@@ -491,10 +506,11 @@ export const _formTemplates = (() => {
               {formConfig.method == "put" && (
                 <Button
                   onClick={handleDelete}
-                  className="btn-danger btn-sm"
+                  className="btn-danger btn-sm btn-block"
                   type="danger"
-                  value="Delete"
-                />
+                >
+                  Delete
+                </Button>
               )}
             </Row>
           </Container>

@@ -2,8 +2,14 @@ import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import { _formTemplates } from "./_formTemplates.jsx";
 import Context from "../../store/context";
-import { MODAL, COMP_UPDATE } from "../../store/useGlobalState";
+import {
+  MODAL,
+  COMP_UPDATE,
+  INITIAL_VALUES,
+  FORM_CONFIG,
+} from "../../store/useGlobalState";
 import { vocabularySchema } from "../../utils/validationSchemas.js";
+import { useEffect } from "react";
 
 export const FormikForm = () => {
   const {
@@ -14,6 +20,12 @@ export const FormikForm = () => {
     formConfig,
     actions,
   } = useContext(Context);
+  useEffect(() => {
+    return () => {
+      actions({ type: INITIAL_VALUES, payload: {} });
+      actions({ type: FORM_CONFIG, payload: {} });
+    };
+  }, []);
   console.log("formikForm rendered");
   const reset = () => {
     actions({

@@ -13,6 +13,7 @@ import { newClass } from "../../utils/defaultInitialValues";
 import { createKlass, editKlass, getKlass } from "../../utils/defaultAPIConfig";
 import api from "../../api/api.js";
 import Loading from "../../views/_Loading.jsx";
+import _ from "lodash";
 const Schedule = ({ setAction }) => {
   const [fetching, setFetching] = useState(false);
   console.log("schedule rendered");
@@ -44,10 +45,13 @@ const Schedule = ({ setAction }) => {
     const selectedEvent = scheduleState.events.find(
       (event) => event._id === _id
     );
+    const event = _.cloneDeep(selectedEvent);
+    console.log(event === selectedEvent);
+
     setAction({
       config: { ...editKlass, params: _id, title: event.title },
       payload: {
-        ...selectedEvent,
+        ...event,
         daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
       },
       actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
