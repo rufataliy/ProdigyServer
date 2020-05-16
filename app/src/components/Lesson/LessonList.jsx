@@ -12,16 +12,20 @@ import {
 } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
+import { useParams, useRouteMatch } from "react-router-dom";
+
 const LessonList = ({ setAction }) => {
   const { actions, lessonState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
+  const { programId } = useParams();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api(getLessonOptions)
+      api({ ...getLessonOptions, url })
         .then((lessons) => {
           actions({
             type: LESSON,
@@ -68,6 +72,7 @@ const LessonList = ({ setAction }) => {
         items={lessonState.lessons}
         createItem={createLesson}
         listName="Lessons"
+        childRoute="sections"
       />
     </React.Fragment>
   );

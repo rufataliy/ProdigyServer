@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 
 const _SideBar = ({ links }) => {
   const [open, setOpen] = useState(false);
@@ -21,14 +20,13 @@ const _SideBar = ({ links }) => {
             <span className="sidebar-line"></span>
           </div>
           <Nav className="mr-auto pt-5 flex-column">
-            {links.map(({ title }) => (
+            {links.map(({ title, path }) => (
               <Link
                 className="nav-link btn btn-outline-primary"
                 role="button"
                 to={(location) => ({
                   ...location,
-                  bread: { id: "", lable: title },
-                  pathname: `/app${title !== "Home" ? "/" + title : ""}/`,
+                  pathname: `/app${path}/`,
                 })}
               >
                 {title}
@@ -41,4 +39,4 @@ const _SideBar = ({ links }) => {
   );
 };
 
-export default _SideBar;
+export default memo(_SideBar);

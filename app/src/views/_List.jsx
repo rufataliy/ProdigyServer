@@ -1,7 +1,7 @@
 import React from "react";
 import Loading from "./_Loading.jsx";
-import ListItem from "./_ListItem.jsx";
 import RoundedBtn from "./_RoundedBtn.jsx";
+
 const _List = ({
   items,
   createItem,
@@ -9,11 +9,12 @@ const _List = ({
   Component,
   fetching,
   listName,
+  childRoute,
 }) => {
   return (
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
-        <h3 className="text-primary mb-0 mr-3">{listName} </h3>
+        <h3 className="text-primary mb-0 mr-3">{listName}</h3>
         <RoundedBtn onClick={createItem} iconName="fas fa-plus" />
       </div>
       <div className="d-flex flex-wrap">
@@ -24,6 +25,7 @@ const _List = ({
                 editItem={editItem}
                 key={item._id}
                 item={item}
+                childRoute={childRoute}
               />
             ))
           : fetching && <Loading />}

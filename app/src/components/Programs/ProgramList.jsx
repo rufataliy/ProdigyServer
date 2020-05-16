@@ -11,16 +11,18 @@ import {
 } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
+import { useRouteMatch } from "react-router-dom";
 const ProgramList = ({ setAction }) => {
   const { actions, programState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api(getProgramsOptions)
+      api({ ...getProgramsOptions, url })
         .then((programs) => {
           actions({
             type: PROGRAM,
@@ -67,6 +69,7 @@ const ProgramList = ({ setAction }) => {
         items={programState.programs}
         createItem={createProgram}
         listName="Programs"
+        childRoute="lessons"
       />
     </React.Fragment>
   );

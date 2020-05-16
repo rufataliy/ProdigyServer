@@ -60,8 +60,6 @@ const AddToList = ({ form, push, remove, initialList, collectionName }) => {
     const { id: index } = event.target;
     setAddedItems((prevState) => {
       if (initialList.length > 0) {
-        console.log(form.values);
-
         form.setFieldValue("removedProgramsList", {
           ...form.values.removedProgramsList,
           [prevState[index]]: prevState[index],

@@ -9,7 +9,7 @@ const LessonHome = (props) => {
   return (
     <React.Fragment>
       <Route exact path={path} component={LessonList} />
-      <Route path={`${path}/lessons/:lessonId`}>
+      <Route path={`${path}/:lessonId/sections`}>
         <SectionList />
       </Route>
     </React.Fragment>

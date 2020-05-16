@@ -11,13 +11,10 @@ const ProgramHome = (props) => {
   return (
     <React.Fragment>
       <Route exact path={path} component={ProgramList} />
+      <Route exact path={`${path}/:programId/lessons`} component={LessonList} />
       <Route
         exact
-        path={`${path}/programs/:programId/`}
-        component={LessonList}
-      />
-      <Route
-        path={`${path}/programs/lessons/:lessonId`}
+        path={`${path}/:programId/lessons/:lessonId/sections`}
         component={SectionList}
       />
     </React.Fragment>

@@ -72,8 +72,9 @@ const App = () => {
                         path="/app/Vocabulary"
                         component={VocabularyHome}
                       />
-                      <Route path="/app/Program" component={ProgramHome} />
-                      <Route path="/app/Lesson" component={LessonHome} />
+                      {/* <Route path="/app/Program" component={ProgramHome} /> */}
+                      <Route path="/app/programs" component={ProgramHome} />
+                      <Route path="/app/lessons" component={LessonHome} />
                     </Context.Provider>
                   </Switch>
                 </Bread>

@@ -11,6 +11,7 @@ import { DatePicker } from "./DatePicker.jsx";
 import { TimePicker } from "./TimePicker.jsx";
 import AddToList from "./AddToList.jsx";
 import TextEditor from "./TextEditor.jsx";
+
 export const _formTemplates = (() => {
   const fields = (props, handleDelete) => {
     const { formConfig, errors, touched } = props;

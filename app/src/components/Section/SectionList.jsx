@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import api from "../../api/api";
 import { useContext, useEffect, useCallback } from "react";
 import Context from "../../store/context";
@@ -14,16 +14,22 @@ import { StateHandler } from "../StateHandler.jsx";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 import Loading from "../../views/_Loading.jsx";
 import Tabs from "../../views/_Tabs.jsx";
+
 const Sectionlist = ({ setAction }) => {
   const { lessonId } = useParams();
   const { lessonState, compUpdate, actions } = useContext(Context);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const [fetching, setFetching] = useState(true);
+  const { url } = useRouteMatch();
+  console.log("sections");
+
+  console.log(url);
+
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api({ ...getSectionsOptions, params: lessonId })
+      api({ ...getSectionsOptions, url })
         .then((sections) => {
           mounted &&
             actions({

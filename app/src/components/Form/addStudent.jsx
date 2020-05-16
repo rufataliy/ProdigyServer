@@ -8,28 +8,13 @@ import {
   getStudentOptions,
 } from "../../utils/defaultAPIConfig";
 import Icon from "../../views/_Icon.jsx";
+
 const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(initialStudentList);
   const [inputValue, setInputValue] = useState("");
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState("");
-  const { compUpdate } = useContext(Context);
-  useEffect(() => {
-    if (initialStudentList.length > 0) {
-      setFetching(true);
-      api({
-        ...getStudentListOptions,
-        params: initialStudentList.toString(),
-      })
-        .then((students) => {
-          if (Array.isArray(students)) {
-            setStudents(students);
-          }
-          setFetching(false);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [compUpdate]);
+
   const studentListLoading =
     initialStudentList.length > 0 && students.length < 1;
   const handleChange = (event) => {
