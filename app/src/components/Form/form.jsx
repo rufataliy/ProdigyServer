@@ -10,6 +10,7 @@ import {
 } from "../../store/useGlobalState";
 import { vocabularySchema } from "../../utils/validationSchemas.js";
 import { useEffect } from "react";
+import api from "../../api/api";
 
 export const FormikForm = () => {
   const {
@@ -45,7 +46,7 @@ export const FormikForm = () => {
   const handleSubmit = (values) => {
     console.log("handleSubmit");
     values.author = appState.author._id;
-    _formTemplates.dbPath[formConfig.method](formConfig, values)
+    api(formConfig, values)
       .then(() => {
         reset();
       })

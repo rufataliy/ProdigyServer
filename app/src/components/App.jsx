@@ -11,7 +11,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import VocabularyHome from "./Vocabulary/VocabularyHome.jsx";
 import api from "../api/api";
 import Chat from "./Chat/Chat.jsx";
-import Modal from "./Modal.jsx";
+import Modal from "./Modal/Modal.jsx";
 import ProgramHome from "./Programs/ProgramHome.jsx";
 import { links } from "../utils/links.js";
 import Bread from "./Bread.jsx";
@@ -47,7 +47,7 @@ const App = () => {
     <React.Fragment>
       {console.log("rendered app")}
       <Context.Provider value={store}>
-        <Modal title="New word" />
+        <Modal />
       </Context.Provider>
       <Context.Provider value={appState}>
         <TopNav />

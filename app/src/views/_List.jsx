@@ -6,6 +6,7 @@ const _List = ({
   items,
   createItem,
   editItem,
+  deleteItem,
   Component,
   fetching,
   listName,
@@ -22,6 +23,7 @@ const _List = ({
               <Component
                 path={listName}
                 editItem={editItem}
+                deleteItem={deleteItem}
                 key={item._id}
                 item={item}
               />
