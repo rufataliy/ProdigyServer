@@ -21,15 +21,12 @@ const Sectionlist = ({ setAction }) => {
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
-  console.log("sections");
-
-  console.log(url);
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api({ ...getSectionsOptions, url })
+      api({ ...getSectionsOptions, endpoint: url })
         .then((sections) => {
           mounted &&
             actions({
@@ -62,7 +59,7 @@ const Sectionlist = ({ setAction }) => {
       setAction({
         config: {
           ...editSectionOptions,
-          params: section._id,
+          endpoint: editSectionOptions.endpoint + section._id,
           title: section.title,
         },
         payload: section,

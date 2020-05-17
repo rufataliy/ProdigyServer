@@ -25,7 +25,7 @@ const LessonList = ({ setAction }) => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api({ ...getLessonOptions, url })
+      api({ ...getLessonOptions, endpoint: url })
         .then((lessons) => {
           actions({
             type: LESSON,
@@ -55,11 +55,26 @@ const LessonList = ({ setAction }) => {
       setAction({
         config: {
           ...editLessonOptions,
-          params: lesson._id,
+          endpoint: editLessonOptions.endpoint + lesson._id,
           title: lesson.title,
+          modalType: "FormikForm",
         },
         payload: lesson,
         actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+      }),
+    []
+  );
+  const deleteLesson = useCallback(
+    (lesson) =>
+      setAction({
+        config: {
+          method: "delete",
+          endpoint: "/lessons/delete/" + lesson._id,
+          title: lesson.title,
+          modalType: "DeleteConfirm",
+        },
+        payload: lesson,
+        actionNames: ["setFormConfig", "toggleModal"],
       }),
     []
   );
@@ -68,9 +83,10 @@ const LessonList = ({ setAction }) => {
       <List
         Component={ListItem}
         fetching={fetching}
-        editItem={editLesson}
-        items={lessonState.lessons}
         createItem={createLesson}
+        editItem={editLesson}
+        deleteItem={deleteLesson}
+        items={lessonState.lessons}
         listName="Lessons"
         childRoute="sections"
       />

@@ -22,7 +22,7 @@ const ProgramList = ({ setAction }) => {
     let mounted = true;
     setFetching(true);
     mounted &&
-      api({ ...getProgramsOptions, url })
+      api({ ...getProgramsOptions, endpoint: url })
         .then((programs) => {
           actions({
             type: PROGRAM,
@@ -52,11 +52,11 @@ const ProgramList = ({ setAction }) => {
       setAction({
         config: {
           ...editProgramOptions,
-          params: program._id,
+          endpoint: editProgramOptions.endpoint + program._id,
           title: program.title,
         },
         payload: program,
-        actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+        actionNames,
       }),
     []
   );

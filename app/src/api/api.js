@@ -10,7 +10,6 @@ export default async (config, submitValues) => {
   //     let url = `${baseUrl}/api/${
   //     config.collectionName + path[config.method] + params
   //   }`;
-
   if (config.collectionName === "profile") {
     url = `${baseUrl}/${config.collectionName}`;
   }
@@ -24,11 +23,13 @@ export default async (config, submitValues) => {
   if (submitValues) {
     options.body = JSON.stringify(submitValues);
   }
-  let url = config.url.replace("app", "api");
+  const { endpoint } = config;
+  let url = endpoint.replace("app", "api");
+  console.log(url);
+  console.log(options);
+
   return fetch(url, options)
     .then((response) => {
-      // console.log(response);
-
       return response.json();
     })
     .catch((err) => console.log(err));

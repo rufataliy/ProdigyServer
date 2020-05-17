@@ -15,25 +15,25 @@ const User = require("./models/User");
 //there then get session id from socket and
 //get session from and se user.
 mongoose
-    .connect(process.env.CONNECTION_STRING, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        autoIndex: false,
-        useFindAndModify: false,
-    })
-    .then(() => console.log("DB CONNECTED"))
-    .catch((err) => console.log("DB COULDN'T CONNECT"));
+  .connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    autoIndex: false,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("DB CONNECTED"))
+  .catch((err) => console.log("DB COULDN'T CONNECT"));
 app.use(fileupload());
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
 
 app.use(
-    session({
-        resave: false,
-        saveUninitialized: true,
-        secret: process.env.SESSION_SECRET,
-    })
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+  })
 );
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,29 +43,29 @@ app.use(flash());
 
 app.use(auth(config));
 app.use(
-    cors({
-        origin: true,
-        credentials: true,
-    })
+  cors({
+    origin: true,
+    credentials: true,
+  })
 );
 
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
-    res.render("index", { baseUrl: req.headers.host });
+  res.render("index", { baseUrl: req.headers.host });
 });
 app.get("/profile", requiresAuth(), (req, res) => {
-    User.findOne({ email: req.openid.user.email })
-        .then((user) => res.send(user))
-        .catch(console.log);
+  User.findOne({ email: req.openid.user.email })
+    .then((user) => res.send(user))
+    .catch(console.log);
 });
 app.get("/logoutCheck", (req, res) => {
-    res.clearCookie("user");
+  res.clearCookie("user");
 
-    res.redirect("/logout");
+  res.redirect("/logout");
 });
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, { root: "/app/dist" });
+  res.sendFile(`index.html`, { root: "/app/dist" });
 });
 
 app.use("/app/Schedule", express.static(`${__dirname}/app/dist`));
@@ -73,17 +73,17 @@ app.use("/app/Vocabulary", express.static(`${__dirname}/app/dist`));
 app.use("/app/test", isAuthenticated, express.static(`${__dirname}/app/dist`));
 
 app.use("/api/*", isAuthenticated);
-app.use("/api/vocabularies", require("./routes/vocabularies"));
-app.use("/api/words", require("./routes/words"));
-app.use("/api/klasses", require("./routes/klasses"));
-app.use("/api/lessons", require("./routes/lessons"));
 app.use("/api/users", require("./routes/users"));
+app.use("/api/klasses", require("./routes/klasses"));
 app.use("/api/chats", require("./routes/chats"));
 app.use("/api/messages", require("./routes/messages"));
-app.use("/api/sections", require("./routes/sections"));
 app.use("/api/programs", require("./routes/programs"));
+app.use("/api/lessons", require("./routes/lessons"));
+app.use("/api/sections", require("./routes/sections"));
+app.use("/api/vocabularies", require("./routes/vocabularies"));
+app.use("/api/words", require("./routes/words"));
 app.use("/api/fileuploads", require("./routes/fileuploads"));
 
 server.listen(process.env.PORT, () => {
-    console.log("server running");
+  console.log("server running");
 });
