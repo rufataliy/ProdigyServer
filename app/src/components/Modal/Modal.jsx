@@ -5,7 +5,7 @@ import { MODAL } from "../../store/useGlobalState";
 import { FormikForm } from "../Form/form.jsx";
 import DeleteConfirm from "./DeleteConfirm.jsx";
 
-export const children = {
+const children = {
   FormikForm: <FormikForm />,
   DeleteConfirm: <DeleteConfirm />,
 };
@@ -32,7 +32,7 @@ const Modal = (props) => {
           {formConfig.title}
         </BoostrapModal.Title>
       </BoostrapModal.Header>
-      <BoostrapModal.Body>{children[formConfig.modalType]}</BoostrapModal.Body>
+      {children[formConfig.modalType]}
     </BoostrapModal>
   );
 };
