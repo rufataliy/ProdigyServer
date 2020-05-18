@@ -7,7 +7,13 @@ import { getKlass } from "../../utils/defaultAPIConfig";
 import { _buildApiOptions } from "../../utils/defaultAPIConfig";
 import capitalize from "../../utils/capitalize";
 
-const AddToList = ({ form, push, remove, initialList, collectionName }) => {
+const AddToList = ({
+  form,
+  push,
+  remove,
+  initialList = [],
+  collectionName,
+}) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState([...initialList]);
   const [fetching, setFetching] = useState(false);

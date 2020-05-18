@@ -1,24 +1,20 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import Lesson from "./Lesson.jsx";
+import { useRouteMatch } from "react-router-dom";
+import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import Context from "../../store/context";
 import api from "../../api/api.js";
 import { LESSON } from "../../store/useGlobalState";
 import { StateHandler } from "../StateHandler.jsx";
-import { newLesson } from "../../utils/defaultInitialValues.js";
-import {
-  getLessonOptions,
-  createLessonOptions,
-  editLessonOptions,
-} from "../../utils/defaultAPIConfig";
+import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
-import { useParams, useRouteMatch } from "react-router-dom";
 
 const LessonList = ({ setAction }) => {
   const { actions, lessonState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(true);
-  const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
-  const { programId } = useParams();
+  const [remove] = useDelete("lessons");
+  const [create] = useCreate("lessons");
+  const [edit] = useEdit("lessons");
   const { url } = useRouteMatch();
 
   useEffect(() => {
@@ -43,49 +39,14 @@ const LessonList = ({ setAction }) => {
     return () => (mounted = false);
   }, [compUpdate]);
 
-  const createLesson = () => {
-    setAction({
-      config: createLessonOptions,
-      payload: newLesson,
-      actionNames,
-    });
-  };
-  const editLesson = useCallback(
-    (lesson) =>
-      setAction({
-        config: {
-          ...editLessonOptions,
-          endpoint: editLessonOptions.endpoint + lesson._id,
-          title: lesson.title,
-          modalType: "FormikForm",
-        },
-        payload: lesson,
-        actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-      }),
-    []
-  );
-  const deleteLesson = useCallback(
-    (lesson) =>
-      setAction({
-        config: {
-          method: "delete",
-          endpoint: "/lessons/delete/" + lesson._id,
-          title: lesson.title,
-          modalType: "DeleteConfirm",
-        },
-        payload: lesson,
-        actionNames: ["setFormConfig", "toggleModal"],
-      }),
-    []
-  );
   return (
     <React.Fragment>
       <List
         Component={ListItem}
         fetching={fetching}
-        createItem={createLesson}
-        editItem={editLesson}
-        deleteItem={deleteLesson}
+        createItem={create}
+        editItem={edit}
+        deleteItem={remove}
         items={lessonState.lessons}
         listName="Lessons"
         childRoute="sections"

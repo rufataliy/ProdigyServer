@@ -10,9 +10,7 @@ export default async (config, submitValues) => {
   //     let url = `${baseUrl}/api/${
   //     config.collectionName + path[config.method] + params
   //   }`;
-  if (config.collectionName === "profile") {
-    url = `${baseUrl}/${config.collectionName}`;
-  }
+
   const options = {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -26,7 +24,6 @@ export default async (config, submitValues) => {
   const { endpoint } = config;
   let url = endpoint.replace("app", "api");
   console.log(url);
-  console.log(options);
 
   return fetch(url, options)
     .then((response) => {

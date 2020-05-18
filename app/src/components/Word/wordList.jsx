@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../../api/api";
-import { useContext, useEffect, useCallback } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
+import { useDelete, useCreate, useEdit } from "../../customHooks/";
+import { useParams, useRouteMatch } from "react-router-dom";
 import Context from "../../store/context";
-import {
-  getWordsOptions,
-  createWordOptions,
-  editWordOptions,
-} from "../../utils/defaultAPIConfig";
-import { newWord } from "../../utils/defaultInitialValues";
-import { StateHandler } from "../StateHandler.jsx";
+import api from "../../api/api";
+import { getWordsOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import Word from "./Word.jsx";
-const Wordlist = ({ setAction }) => {
-  console.log("hit");
 
+const Wordlist = () => {
   const { vocabularyId } = useParams();
+  const [remove] = useDelete("words");
+  const [create] = useCreate("words");
+  const [edit] = useEdit("words");
   const { vocabState, compUpdate, actions } = useContext(Context);
-  const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const [fetching, setFetching] = useState(true);
+  const { url } = useRouteMatch();
+
   useEffect(() => {
     setFetching(true);
-    api({ ...getWordsOptions, params: vocabularyId })
+    api({ ...getWordsOptions, endpoint: url })
       .then((words) => {
-        console.log("words fetched");
         actions({
           type: "setVocabState",
           payload: {
@@ -39,33 +35,16 @@ const Wordlist = ({ setAction }) => {
       });
   }, [compUpdate]);
 
-  const createWord = useCallback(
-    () =>
-      setAction({
-        config: createWordOptions,
-        payload: { ...newWord, vocabularyId: vocabularyId },
-        actionNames,
-      }),
-    []
-  );
-  const editWord = useCallback(
-    (word) =>
-      setAction({
-        config: { ...editWordOptions, params: word._id, title: word.title },
-        payload: word,
-        actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-      }),
-    []
-  );
   return (
     <List
       Component={Word}
-      fetching={fetching}
-      editItem={editWord}
-      items={vocabState.words}
-      createItem={createWord}
       listName="Words"
+      items={vocabState.words}
+      createItem={create}
+      editItem={edit}
+      deleteItem={remove}
+      fetching={fetching}
     />
   );
 };
-export default React.memo(StateHandler(Wordlist));
+export default React.memo(Wordlist);

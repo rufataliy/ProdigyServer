@@ -12,8 +12,13 @@ import {
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 import { useRouteMatch } from "react-router-dom";
+import { useDelete, useCreate, useEdit } from "../../customHooks/";
+
 const ProgramList = ({ setAction }) => {
   const { actions, programState, compUpdate } = useContext(Context);
+  const [remove] = useDelete("programs");
+  const [create] = useCreate("programs");
+  const [edit] = useEdit("programs");
   const [fetching, setFetching] = useState(true);
   const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const { url } = useRouteMatch();
@@ -42,7 +47,7 @@ const ProgramList = ({ setAction }) => {
 
   const createProgram = () => {
     setAction({
-      config: createProgramOptions,
+      config: { ...createProgramOptions, modalType: "FormikForm" },
       payload: newProgram,
       actionNames,
     });
@@ -53,6 +58,7 @@ const ProgramList = ({ setAction }) => {
         config: {
           ...editProgramOptions,
           endpoint: editProgramOptions.endpoint + program._id,
+          modalType: "FormikForm",
           title: program.title,
         },
         payload: program,
@@ -65,9 +71,10 @@ const ProgramList = ({ setAction }) => {
       <List
         Component={ListItem}
         fetching={fetching}
-        editItem={editProgram}
+        editItem={edit}
         items={programState.programs}
-        createItem={createProgram}
+        createItem={create}
+        deleteItem={remove}
         listName="Programs"
         childRoute="lessons"
       />

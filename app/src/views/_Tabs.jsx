@@ -1,20 +1,20 @@
 import React from "react";
 import { Tab, Row, Col, Container, Nav } from "react-bootstrap";
 import Icon from "./_Icon.jsx";
-const _Tabs = (props) => {
+const _Tabs = ({ items, edit, remove }) => {
   // props.items[0]._id return error of cannot read property of undefined
   return (
     <Tab.Container
       unmountOnExit
       id="left-tabs-example"
-      defaultActiveKey={props.items[0] && props.items[0]._id}
+      defaultActiveKey={items[0] && items[0]._id}
     >
       <Container fluid>
         <Row>
           <Col sm={3}>
             <Nav variant="tabs" className="flex-column">
-              {props.items &&
-                props.items.map((item) => {
+              {items &&
+                items.map((item) => {
                   return (
                     <Nav.Item>
                       <Nav.Link eventKey={item._id}>{item.title}</Nav.Link>
@@ -25,8 +25,8 @@ const _Tabs = (props) => {
           </Col>
           <Col className="side-borders p-0" sm={9}>
             <Tab.Content className="position-relative ">
-              {props.items &&
-                props.items.map((item) => {
+              {items &&
+                items.map((item) => {
                   return (
                     <React.Fragment>
                       <Tab.Pane key={item._id} eventKey={item._id}>
@@ -36,11 +36,11 @@ const _Tabs = (props) => {
                         ></div>
                         <div className="section-buttons-box">
                           <Icon
-                            onClick={() => props.editSection(item)}
+                            onClick={() => edit(item)}
                             className="ml-3 fas fa-pen"
                           />
                           <Icon
-                            onClick={() => props.editSection(item)}
+                            onClick={() => remove(item)}
                             className="ml-3 fas fa-trash"
                           />
                         </div>

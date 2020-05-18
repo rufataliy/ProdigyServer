@@ -13,6 +13,15 @@ router.get("/", (req, res) => {
     .catch((err) => res.send(err));
 });
 
+router.post("/", (req, res) => {
+  const newLesson = req.body;
+  newLesson.author = req.user._id;
+
+  Lesson.create(newLesson)
+    .then((items) => res.send(items))
+    .catch((err) => res.send(err));
+});
+
 router.get("/:lessonId/sections", (req, res) => {
   const author = req.user._id;
   const { lessonId } = req.params;
@@ -24,12 +33,6 @@ router.get("/:lessonId/sections", (req, res) => {
     .catch((err) => res.send(err));
 });
 
-router.post("/", (req, res) => {
-  const newLesson = req.body;
-  Lesson.create(newLesson)
-    .then((items) => res.send(items))
-    .catch((err) => res.send(err));
-});
 router.get("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   Lesson.findOne({ _id })
@@ -58,8 +61,9 @@ router.get("/delete/:_id", async (req, res) => {
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
   Lesson.deleteOne({ _id })
-    .then((items) => {
-      res.send(items);
+    .then((response) => {
+      let deleted = response.n > 0 ? true : false;
+      res.send(deleted);
     })
     .catch((err) => res.send(err));
 });

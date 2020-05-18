@@ -299,7 +299,7 @@ export const _formTemplates = (() => {
                   <Field
                     type="text"
                     className="form-control"
-                    name="name"
+                    name="title"
                     placeholder="Name"
                   />
                   <p className="text-danger">

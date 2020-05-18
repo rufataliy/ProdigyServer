@@ -6,6 +6,7 @@ export const createVocabularyOptions = {
 };
 export const getVocabularyOptions = {
   collectionName: "vocabularies",
+  endpoint: "/app/vocabularies/",
   method: "get",
 };
 export const editVocabularyOptions = {

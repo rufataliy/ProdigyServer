@@ -22,7 +22,11 @@ router.get("/:programId/lessons", (req, res) => {
     _id: programId,
     $or: [{ author: userId }, { studentList: userId }],
   })
-    .populate({ path: "lessonList", select: "title" })
+    .populate({
+      path: "lessonList",
+      select: "title",
+      populate: { path: "sectionList", select: "title" },
+    })
     .then((item) => {
       res.status(200).json(item.lessonList);
     })

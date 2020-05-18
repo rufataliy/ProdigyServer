@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Lesson = require("../models/Lesson");
 const Section = require("../models/Section");
+
 router.get("/", (req, res) => {
   const author = req.user._id;
   Section.find({ author })
@@ -14,11 +15,13 @@ router.get("/:lessonId", (req, res) => {
     .then((items) => res.status(200).json(items))
     .catch((err) => res.send(err));
 });
-router.post("/", (req, res) => {
+router.post("/:lessonId", (req, res) => {
   const section = req.body;
-  const lessonId = req.body.lessonIdList[0];
+  const { lessonId } = req.params;
+
   Section.create(section)
     .then((section) => {
+      //add section id to the lesson it belongs
       Lesson.findByIdAndUpdate(
         { _id: lessonId },
         {
@@ -48,7 +51,6 @@ router.get("/edit/:_id", async (req, res) => {
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
-  console.log("edit section");
   Section.updateOne({ _id }, { $set: update })
     .then((items) => {
       res.send(items);

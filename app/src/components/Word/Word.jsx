@@ -1,6 +1,6 @@
 import React from "react";
 import { Accordion, Card } from "react-bootstrap";
-const Word = ({ item, editItem }) => {
+const Word = ({ item, editItem, deleteItem }) => {
   return (
     <Accordion className="m-2">
       <Card style={{ width: "18rem" }}>
@@ -21,7 +21,7 @@ const Word = ({ item, editItem }) => {
             <a onClick={() => editItem(item)} href="#">
               edit
             </a>
-            <a onClick={() => editItem(item)} href="#">
+            <a onClick={() => deleteItem(item)} href="#">
               delete
             </a>
           </Card.Body>

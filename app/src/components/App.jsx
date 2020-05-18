@@ -19,22 +19,15 @@ import Bread from "./Bread.jsx";
 const App = () => {
   const store = useGlobalState();
 
-  const {
-    compUpdate,
-    modalState,
-    vocabState,
-    toggleModal,
-    actions,
-    appState,
-  } = store;
+  const { appState } = store;
   useEffect(() => {
     const config = {
       method: "get",
       collectionName: "profile",
+      endpoint: "/profile/",
     };
     api(config)
       .then((user) => {
-        console.log("api call");
         store.actions({
           type: APP,
           payload: { ...store.appState, author: user },
@@ -67,12 +60,11 @@ const App = () => {
                   <Switch>
                     <Route exact path="/app" component={Home} />
                     <Context.Provider value={store}>
-                      <Route path="/app/Schedule" component={Schedule} />
+                      <Route path="/app/klasses" component={Schedule} />
                       <Route
-                        path="/app/Vocabulary"
+                        path="/app/vocabularies"
                         component={VocabularyHome}
                       />
-                      {/* <Route path="/app/Program" component={ProgramHome} /> */}
                       <Route path="/app/programs" component={ProgramHome} />
                       <Route path="/app/lessons" component={LessonHome} />
                     </Context.Provider>
