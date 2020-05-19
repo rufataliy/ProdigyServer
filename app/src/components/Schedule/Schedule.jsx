@@ -14,14 +14,21 @@ import { createKlass, editKlass, getKlass } from "../../utils/defaultAPIConfig";
 import api from "../../api/api.js";
 import Loading from "../../views/_Loading.jsx";
 import _ from "lodash";
-const Schedule = ({ setAction }) => {
-  const [fetching, setFetching] = useState(false);
+import { useDelete, useCreate, useEdit } from "../../customHooks/";
+import { useRouteMatch } from "react-router-dom";
+
+const Schedule = () => {
   console.log("schedule rendered");
+  const [remove] = useDelete("klasses");
+  const [create] = useCreate("klasses");
+  const [edit] = useEdit("klasses");
+  const [fetching, setFetching] = useState(false);
   const { scheduleState, compUpdate } = useContext(Context);
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     setFetching(true);
-    api(getKlass)
+    api({ ...getKlass, endpoint: url })
       .then((events) => {
         events.map((event) => {
           if (event.daysOfWeek && event.daysOfWeek.length == 0) {
@@ -30,7 +37,7 @@ const Schedule = ({ setAction }) => {
             delete event.endTime;
           }
         });
-        setAction({ payload: events, actionNames: [SCHEDULE] });
+        // setAction({ payload: events, actionNames: [SCHEDULE] });
         setFetching(false);
       })
       .catch((err) => {
@@ -46,23 +53,26 @@ const Schedule = ({ setAction }) => {
       (event) => event._id === _id
     );
     const event = _.cloneDeep(selectedEvent);
-    console.log(event === selectedEvent);
-
-    setAction({
-      config: { ...editKlass, params: _id, title: event.title },
-      payload: {
-        ...event,
-        daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
-      },
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+    edit({
+      ...event,
+      daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
     });
+    //   setAction({
+    //     config: { ...editKlass, params: _id, title: event.title },
+    //     payload: {
+    //       ...event,
+    //       daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
+    //     },
+    //     actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+    //   });
   };
   const handleDateClick = (arg) => {
-    setAction({
-      config: createKlass,
-      payload: { ...newClass, start: arg.date, end: arg.date },
-      actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-    });
+    create({ date: { start: arg.date, end: arg.date } });
+    // setAction({
+    //   config: createKlass,
+    //   payload: { ...newClass, start: arg.date, end: arg.date },
+    //   actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
+    // });
   };
 
   return (
@@ -99,4 +109,4 @@ const Schedule = ({ setAction }) => {
   );
 };
 
-export default StateHandler(Schedule);
+export default Schedule;

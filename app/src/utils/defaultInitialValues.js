@@ -20,7 +20,6 @@ export const newWord = {
   definition: "",
   topic: "",
   author: "",
-  vocabularyId: "",
 };
 export const newVocabulary = {
   name: "",

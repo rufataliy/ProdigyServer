@@ -14,13 +14,12 @@ import ListItem from "../../views/_ListItem.jsx";
 import { useRouteMatch } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 
-const ProgramList = ({ setAction }) => {
+const ProgramList = () => {
   const { actions, programState, compUpdate } = useContext(Context);
   const [remove] = useDelete("programs");
   const [create] = useCreate("programs");
   const [edit] = useEdit("programs");
   const [fetching, setFetching] = useState(true);
-  const actionNames = ["setFormConfig", "setInitialState", "toggleModal"];
   const { url } = useRouteMatch();
 
   useEffect(() => {
@@ -45,27 +44,6 @@ const ProgramList = ({ setAction }) => {
     return () => (mounted = false);
   }, [compUpdate]);
 
-  const createProgram = () => {
-    setAction({
-      config: { ...createProgramOptions, modalType: "FormikForm" },
-      payload: newProgram,
-      actionNames,
-    });
-  };
-  const editProgram = useCallback(
-    (program) =>
-      setAction({
-        config: {
-          ...editProgramOptions,
-          endpoint: editProgramOptions.endpoint + program._id,
-          modalType: "FormikForm",
-          title: program.title,
-        },
-        payload: program,
-        actionNames,
-      }),
-    []
-  );
   return (
     <React.Fragment>
       <List

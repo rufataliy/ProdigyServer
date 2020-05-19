@@ -6,8 +6,6 @@ import { initialValues } from "../utils/defaultInitialValues";
 export const useCreate = (collectionName) => {
   const { actions, toggleModal } = useContext(Context);
   const create = (parentId = "") => {
-    console.log(parentId);
-
     const config = {
       method: "post",
       endpoint: `/app/${collectionName}/${parentId}`,

@@ -8,13 +8,13 @@ import List from "../../views/_List.jsx";
 import Word from "./Word.jsx";
 
 const Wordlist = () => {
-  const { vocabularyId } = useParams();
   const [remove] = useDelete("words");
   const [create] = useCreate("words");
   const [edit] = useEdit("words");
   const { vocabState, compUpdate, actions } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
+  const { vocabularyId } = useParams();
 
   useEffect(() => {
     setFetching(true);
@@ -40,7 +40,7 @@ const Wordlist = () => {
       Component={Word}
       listName="Words"
       items={vocabState.words}
-      createItem={create}
+      createItem={() => create(vocabularyId)}
       editItem={edit}
       deleteItem={remove}
       fetching={fetching}

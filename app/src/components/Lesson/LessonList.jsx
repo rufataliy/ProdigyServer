@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useParams } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import Context from "../../store/context";
 import api from "../../api/api.js";
@@ -16,6 +16,7 @@ const LessonList = ({ setAction }) => {
   const [create] = useCreate("lessons");
   const [edit] = useEdit("lessons");
   const { url } = useRouteMatch();
+  const { programId = "" } = useParams();
 
   useEffect(() => {
     let mounted = true;
@@ -44,7 +45,7 @@ const LessonList = ({ setAction }) => {
       <List
         Component={ListItem}
         fetching={fetching}
-        createItem={create}
+        createItem={() => create(programId)}
         editItem={edit}
         deleteItem={remove}
         items={lessonState.lessons}

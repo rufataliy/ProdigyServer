@@ -47,29 +47,6 @@ const Sectionlist = ({ setAction }) => {
     return () => (mounted = false);
   }, [compUpdate]);
 
-  const createSection = useCallback(
-    () =>
-      setAction({
-        config: { ...createSectionOptions, modalType: "FormikForm" },
-        payload: { ...newSection, lessonIdList: [lessonId] },
-        actionNames,
-      }),
-    []
-  );
-  const editSection = useCallback(
-    (section) =>
-      setAction({
-        config: {
-          ...editSectionOptions,
-          endpoint: editSectionOptions.endpoint + section._id,
-          modalType: "FormikForm",
-          title: section.title,
-        },
-        payload: section,
-        actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-      }),
-    []
-  );
   return (
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
