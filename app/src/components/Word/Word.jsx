@@ -1,5 +1,7 @@
 import React from "react";
 import { Accordion, Card } from "react-bootstrap";
+import Icon from "../../views/_Icon.jsx";
+
 const Word = ({ item, editItem, deleteItem }) => {
   return (
     <Accordion className="m-2">
@@ -10,7 +12,25 @@ const Word = ({ item, editItem, deleteItem }) => {
           variant="link"
           eventKey={item._id}
         >
-          <Card.Header>{`${item.phrase}`}</Card.Header>
+          <Card.Header className="d-flex align-items-center justify-content-between">
+            {`${item.phrase}`}{" "}
+            <div>
+              <Icon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  editItem(item);
+                }}
+                className="ml-3 btn-crud fas fa-pen"
+              />
+              <Icon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteItem(item);
+                }}
+                className="ml-3 btn-crud fas fa-trash"
+              />
+            </div>
+          </Card.Header>
         </Accordion.Toggle>
         <Accordion.Collapse eventKey={item._id}>
           <Card.Body>
@@ -18,12 +38,6 @@ const Word = ({ item, editItem, deleteItem }) => {
             <p>{item.definition}</p>
             <p className="text-secondary">Example</p>
             <p>{item.example}</p>
-            <a onClick={() => editItem(item)} href="#">
-              edit
-            </a>
-            <a onClick={() => deleteItem(item)} href="#">
-              delete
-            </a>
           </Card.Body>
         </Accordion.Collapse>
       </Card>

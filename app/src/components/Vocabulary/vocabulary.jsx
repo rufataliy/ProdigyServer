@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { useParams, useRouteMatch, Link } from "react-router-dom";
-import Context from "../../store/context";
 import Icon from "../../views/_Icon.jsx";
-import { editVocabulary } from "../../utils/defaultAPIConfig";
-import { StateHandler } from "../StateHandler.jsx";
+
 const Vocab = ({ editVocab, vocab }) => {
   const { vocabId } = useParams();
-  const { url } = useRouteMatch();
 
   return (
     <span className="m-2 quick-access-btn">
