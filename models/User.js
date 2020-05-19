@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true
-    },
-    name: String
+    nickname: String,
+    name: String,
+    picture: String,
+    email: String,
+    email_verified: mongoose.SchemaTypes.Boolean,
 });
 
 const User = mongoose.model("User", userSchema);

@@ -1,29 +1,28 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { newVocabulary } from "../utils/defaultInitialValues";
-import { vocabularySchema } from "../utils/validationSchemas";
+import io from "socket.io-client";
+import { useEffect } from "react";
+import { useState } from "react";
+const handleSubmit = (values) => console.log(values);
 
-const handleSubmit = values => console.log(values);
+export const ValidationSchemaExample = () => {
+  const [state, setState] = useState();
+  const [inputValue, setInputValue] = useState("");
+  const socket = io("https://localhost:3000");
 
-export const ValidationSchemaExample = () => (
-  <div>
-    <h1>Signup</h1>
-    <Formik
-      initialValues={newVocabulary}
-      validationSchema={vocabularySchema}
-      onSubmit={handleSubmit}
-    >
-      {({ errors, touched }) => (
-        <Form>
-          <Field name="name" />
-          {errors.name && touched.name ? <div>{errors.name}</div> : null}
-          <Field name="topic" />
-          {errors.topic && touched.topic ? <div>{errors.topic}</div> : null}
-          <button type="submit">Submit</button>
-          <pre>{JSON.stringify(errors)}</pre>
-        </Form>
-      )}
-    </Formik>
-  </div>
-);
+  socket.on("chat", (a) => setState(a.msg));
+  useEffect(() => {
+    socket.on("connected", (a) => setState(a));
+  }, []);
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setInputValue(value);
+    socket.emit("chat", { msg: inputValue });
+  };
+  return (
+    <div>
+      <h1>Playground component</h1>
+      <input type="text" onChange={handleChange} />
+      <pre>{JSON.stringify(state)}</pre>
+    </div>
+  );
+};

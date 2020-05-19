@@ -1,6 +1,6 @@
 import React from "react";
 
-const _Icon = props => {
+const _Icon = (props) => {
   return <i {...props}></i>;
 };
 

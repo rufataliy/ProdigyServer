@@ -1,60 +1,62 @@
 const express = require("express");
 const router = new express.Router();
 const Word = require("../models/Word");
-router.get("/:docId", (req, res) => {
-    console.log("words");
+const Vocabulary = require("../models/Vocabulary");
 
+router.get("/:docId", (req, res) => {
     const { docId } = req.params;
     Word.find({ vocabularyId: docId })
-        .then(items => res.send(items))
-        .catch(err => res.send(err));
+        .then((items) => res.send(items))
+        .catch((err) => res.send(err));
 });
 router.post("/", (req, res) => {
     const word = req.body;
-    console.log(req.body);
-
+    const { vocabularyId: _id } = req.body;
     Word.create(word)
-        .then(items => res.send(items))
-        .catch(err => res.send(err));
+        .then((word) => {
+
+            Vocabulary.findByIdAndUpdate({ _id }, {
+                $push: {
+                    wordList: word._id,
+                },
+            }).then((vocabulary) => {});
+            res.send(item);
+        })
+        .catch((err) => res.send(err));
 });
 router.get("/edit/:_id", async(req, res) => {
     const { _id } = req.params;
     Word.findOne({ _id })
-        .then(items => {
-            console.log(items);
+        .then((items) => {
             res.send(items);
         })
-        .catch(err => res.send(err));
+        .catch((err) => res.send(err));
 });
 router.put("/edit/:_id", async(req, res) => {
     const { _id } = req.params;
     const update = req.body;
-    console.log(_id, update);
 
     Word.updateOne({ _id }, { $set: update })
-        .then(items => {
+        .then((items) => {
             res.send(items);
         })
-        .catch(err => res.send(err));
+        .catch((err) => res.send(err));
 });
 router.get("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
     Word.findOne({ _id })
-        .then(items => {
-            console.log(items);
+        .then((items) => {
             res.send(items);
         })
-        .catch(err => res.send(err));
+        .catch((err) => res.send(err));
 });
 router.delete("/delete/:_id", async(req, res) => {
     const { _id } = req.params;
-    console.log(_id);
 
     Word.deleteOne({ _id })
-        .then(items => {
-            console.log(items);
+        .then((items) => {
             res.send(items);
         })
-        .catch(err => res.send(err));
+        .catch((err) => res.send(err));
 });
 module.exports = router;

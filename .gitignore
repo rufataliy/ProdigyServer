@@ -106,5 +106,12 @@ dist
 localhost-key.pem
 localhost.pem
 prodigy-gate.pem
-auth_config.js
 playground/test.js
+app\dist\main.js.map
+app\dist\main.js
+cert.pem
+key.pem
+app/dist/
+app/dist/main.js
+app/dist/main.js.map
+

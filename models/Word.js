@@ -4,11 +4,10 @@ const wordSchema = new mongoose.Schema({
     author: String,
     level: String,
     phrase: String,
-    vocabularyId: String,
-    studentList: [String],
     definition: String,
     topic: String,
-    example: String
+    example: String,
+    vocabularyId: mongoose.SchemaTypes.ObjectId
 });
 
 const Word = mongoose.model("Word", wordSchema);

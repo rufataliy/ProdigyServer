@@ -1,74 +1,89 @@
 const express = require("express");
-const https = require("https");
 const cors = require("cors");
 const flash = require("express-flash");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-const app = express();
-const fs = require("fs");
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { auth, requiresAuth } = require("express-openid-connect");
-const auth_config = require("./auth_config");
+const { config } = require("./auth_config");
+const { server, app } = require("./server");
+const fileupload = require("express-fileupload");
+const jwt = require("jsonwebtoken");
+const User = require("./models/User");
+// configure store for session and store sessions
+//there then get session id from socket and
+//get session from and se user.
 mongoose
-    .connect(process.env.CONNECTION_STRING, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        autoIndex: false
-    })
-    .then(() => success("DB CONNECTED"))
-    .catch(err => error("DB COULDN'T CONNECT"));
-
-const key = fs.readFileSync("./localhost-key.pem");
-const cert = fs.readFileSync("./localhost.pem");
+  .connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    autoIndex: false,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("DB CONNECTED"))
+  .catch((err) => console.log("DB COULDN'T CONNECT"));
+app.use(fileupload());
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + "/public"));
+
 app.use(
-    session({
-        secret: process.env.SESSION_SECRET
-    })
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+  })
 );
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(auth_config));
+
+app.use(auth(config));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 //req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
-    res.render("index");
+  res.render("index", { baseUrl: req.headers.host });
 });
 app.get("/profile", requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.openid.user));
+  User.findOne({ email: req.openid.user.email })
+    .then((user) => res.send(user))
+    .catch(console.log);
 });
-app.use(
-    cors({
-        origin: true,
-        credentials: true
-    })
-);
+app.get("/logoutCheck", (req, res) => {
+  res.clearCookie("user");
+
+  res.redirect("/logout");
+});
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.use(
-    "/app/Schedule",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
-app.use(
-    "/app/Vocabulary",
-    isAuthenticated,
-    express.static(`${__dirname}/app/dist`)
-);
 app.get("/app", (req, res) => {
-    res.sendFile(`index.html`, {
-        root: "./app/dist"
-    });
+  res.sendFile(`index.html`, { root: "/app/dist" });
 });
+
+app.use("/app/Schedule", express.static(`${__dirname}/app/dist`));
+app.use("/app/Vocabulary", express.static(`${__dirname}/app/dist`));
+app.use("/app/test", isAuthenticated, express.static(`${__dirname}/app/dist`));
+
 app.use("/api/*", isAuthenticated);
+app.use("/api/users", require("./routes/users"));
+app.use("/api/klasses", require("./routes/klasses"));
+app.use("/api/chats", require("./routes/chats"));
+app.use("/api/messages", require("./routes/messages"));
+app.use("/api/programs", require("./routes/programs"));
+app.use("/api/lessons", require("./routes/lessons"));
+app.use("/api/sections", require("./routes/sections"));
 app.use("/api/vocabularies", require("./routes/vocabularies"));
 app.use("/api/words", require("./routes/words"));
-app.use("/api/klasses", require("./routes/klasses"));
-app.use("/api/users", require("./routes/users"));
-https.createServer({ key, cert }, app).listen("3000", () => {
-    console.log("Listening on https://localhost:3000");
+app.use("/api/fileuploads", require("./routes/fileuploads"));
+
+server.listen(process.env.PORT, () => {
+  console.log("server running");
 });
