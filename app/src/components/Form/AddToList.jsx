@@ -8,11 +8,13 @@ import { _buildApiOptions } from "../../utils/defaultAPIConfig";
 import capitalize from "../../utils/capitalize";
 
 const AddToList = ({
-  form,
+  values,
+  setFieldValue,
   push,
   remove,
   initialList = [],
   collectionName,
+  removedListField,
 }) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState([...initialList]);
@@ -20,23 +22,22 @@ const AddToList = ({
   const [index, setIndex] = useState("");
   const [error, setError] = useState("");
   const { compUpdate } = useContext(Context);
-  console.log(initialList);
 
   useEffect(() => {
     // fetching list of the author
     setFetching(true);
-    api(_buildApiOptions({ collectionName, method: "get" })).then((items) => {
-      console.log(items);
-      items && setList(items);
-      setFetching(false);
-    });
+    api({ collectionName, method: "get", endpoint: "/app/lessons" }).then(
+      (items) => {
+        items && setList(items);
+        setFetching(false);
+      }
+    );
   }, [compUpdate]);
 
   const handleChange = (event) => {
     setError("");
     const { value: i } = event.target;
     setIndex(i);
-    console.log(alreadyAssigned(i));
     if (alreadyAssigned(i) && i !== "") setError("Already assigned");
   };
 
@@ -50,10 +51,12 @@ const AddToList = ({
       push(_id);
       setAddedItems((prevState) => [...prevState, { title, _id }]);
       setIndex("");
+      console.log(initialList);
+
       if (initialList.length > 0) {
-        delete form.values.removedProgramsList[_id];
-        form.setFieldValue("removedProgramsList", {
-          ...form.values.removedProgramsList,
+        delete values[removedListField][_id];
+        setFieldValue(removedListField, {
+          ...values[removedListField],
         });
       }
     } else if (error === "") {
@@ -61,14 +64,15 @@ const AddToList = ({
     }
   };
 
-  const handleUnshift = (event) => {
+  const handleUnshift = (index) => {
     // If event.target is passed to splice function it becomes null ????
-    const { id: index } = event.target;
+    // const { id: index } = event.target;
     setAddedItems((prevState) => {
+      console.log(prevState[index]);
       if (initialList.length > 0) {
-        form.setFieldValue("removedProgramsList", {
-          ...form.values.removedProgramsList,
-          [prevState[index]]: prevState[index],
+        setFieldValue(removedListField, {
+          ...values[removedListField],
+          [prevState[index]._id]: prevState[index],
         });
       }
       prevState.splice(index, 1);
@@ -102,10 +106,14 @@ const AddToList = ({
       <div style={{ height: "200px" }} className="pt-2 pb-2">
         {addedItems &&
           addedItems.map((item, index) => (
-            <Badge pill onClick={handleUnshift} variant="primary m-1">
+            <Badge
+              pill
+              onClick={() => handleUnshift(index)}
+              variant="primary m-1"
+            >
               <h6 style={{ color: "white" }} className="m-0 p-1">
                 {item.title}
-                <Icon id={index} className="fas fa-trash ml-2" />
+                <Icon className="fas fa-trash ml-2" />
               </h6>
             </Badge>
           ))}

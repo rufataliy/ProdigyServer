@@ -60,6 +60,7 @@ export const newProgram = {
   klassList: [],
   studentList: [],
   lessonList: [],
+  removedLessonsList: [],
 };
 export const initialValues = {
   lessons: newLesson,

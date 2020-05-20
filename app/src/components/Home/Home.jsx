@@ -10,7 +10,7 @@ const Home = () => {
           page.title !== "Home" && (
             <Link
               type="button"
-              to={`/app${page.path}`}
+              to={`/app${page.path}/`}
               class="btn quick-access-btn mr-3 btn-outline-primary"
             >
               <Icon

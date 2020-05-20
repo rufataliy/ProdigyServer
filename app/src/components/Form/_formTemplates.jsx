@@ -223,6 +223,7 @@ export const _formTemplates = (() => {
                           remove={remove}
                           collectionName="programs"
                           form={form}
+                          removedListField="removedProgramsList"
                           initialList={form.initialValues.programList}
                         />
                       );
@@ -276,18 +277,9 @@ export const _formTemplates = (() => {
               placeholder="Source"
             />
           </Form.Group>
-          <Button type="submit" className="btn-sm" type="primary">
+          <Button type="submit" className="btn-sm btn-block" type="primary">
             {formConfig.method != "put" ? "Save" : "Update"}
           </Button>
-          {formConfig.method == "put" && (
-            <Button
-              onClick={handleDelete}
-              className="btn-danger btn-sm"
-              type="danger"
-            >
-              Delete
-            </Button>
-          )}
         </React.Fragment>
       ),
       vocabularies: (
@@ -325,50 +317,11 @@ export const _formTemplates = (() => {
                   <p className="text-danger">{touched.level && errors.level}</p>
                 </Form.Group>
               </Col>
-              <Col bsPrefix={"col-12 col-md-6"}>
-                <Col xs={12} bsPrefix={"p-0"}>
-                  <FieldArray name="klassList">
-                    {({ push, remove }) => {
-                      return (
-                        <Field>
-                          {({ field }) => (
-                            <AddToList
-                              push={push}
-                              remove={remove}
-                              collectionName="klasses"
-                              initialList={field.value.klassList}
-                            />
-                          )}
-                        </Field>
-                      );
-                    }}
-                  </FieldArray>
-                </Col>
-              </Col>
               <Button type="submit" className="btn-sm btn-block" type="primary">
                 {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
-              {formConfig.method == "put" && (
-                <Button
-                  onClick={handleDelete}
-                  className="btn-danger btn-sm"
-                  type="danger"
-                >
-                  Delete
-                </Button>
-              )}
             </Row>
           </Container>
-        </React.Fragment>
-      ),
-      "vocabularies/assignTo": (
-        <React.Fragment>
-          <Field>
-            {({ field, form, meta }) => {
-              return <AssignTo initialKlassList={field.value.klassList} />;
-            }}
-          </Field>
-          )}
         </React.Fragment>
       ),
       programs: (
@@ -402,35 +355,22 @@ export const _formTemplates = (() => {
               <Col bsPrefix={"col-12 col-md-6"}>
                 <Col xs={12} bsPrefix={"p-0"}>
                   <FieldArray name="lessonList">
-                    {({ push, remove }) => {
+                    {({
+                      push,
+                      remove,
+                      form: { values, initialValues, setFieldValue },
+                    }) => {
                       return (
                         <Field>
-                          {({ field }) => (
+                          {() => (
                             <AddToList
                               push={push}
                               remove={remove}
                               collectionName="lessons"
-                              initialList={field.value.lessonList}
-                            />
-                          )}
-                        </Field>
-                      );
-                    }}
-                  </FieldArray>
-                </Col>
-              </Col>
-              <Col bsPrefix={"col-12 col-md-6"}>
-                <Col xs={12} bsPrefix={"p-0"}>
-                  <FieldArray name="klassList">
-                    {({ push, remove }) => {
-                      return (
-                        <Field>
-                          {({ field }) => (
-                            <AddToList
-                              push={push}
-                              remove={remove}
-                              collectionName="klasses"
-                              initialList={field.value.klassList}
+                              removedListField="removedLessonsList"
+                              values={values}
+                              setFieldValue={setFieldValue}
+                              initialList={initialValues.lessonList}
                             />
                           )}
                         </Field>
@@ -442,15 +382,6 @@ export const _formTemplates = (() => {
               <Button type="submit" className="btn-sm btn-block" type="primary">
                 {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
-              {formConfig.method == "put" && (
-                <Button
-                  onClick={handleDelete}
-                  className="btn-danger btn-sm"
-                  type="danger"
-                >
-                  Delete
-                </Button>
-              )}
             </Row>
           </Container>
         </React.Fragment>
@@ -504,15 +435,6 @@ export const _formTemplates = (() => {
               <Button type="submit" className="btn-sm btn-block" type="primary">
                 {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
-              {formConfig.method == "put" && (
-                <Button
-                  onClick={handleDelete}
-                  className="btn-danger btn-sm btn-block"
-                  type="danger"
-                >
-                  Delete
-                </Button>
-              )}
             </Row>
           </Container>
         </React.Fragment>
@@ -633,15 +555,6 @@ export const _formTemplates = (() => {
               <Button type="submit" className="btn-sm btn-block" type="primary">
                 {formConfig.method != "put" ? "Save" : "Update"}
               </Button>
-              {formConfig.method == "put" && (
-                <Button
-                  onClick={handleDelete}
-                  className="btn-danger btn-sm"
-                  type="danger"
-                >
-                  Delete
-                </Button>
-              )}
             </Row>
           </Container>
         </React.Fragment>
@@ -669,23 +582,7 @@ export const _formTemplates = (() => {
     };
     return field[formConfig.collectionName];
   };
-  //
-  const dbPath = {
-    post: (props, submitValues) => {
-      return api(props, submitValues);
-    },
-    put: (props, submitValues) => {
-      return api(props, submitValues);
-    },
-    delete: (props) => {
-      return api(props);
-    },
-    get: (props) => {
-      return api(props);
-    },
-  };
   return {
     fields: fields,
-    dbPath: dbPath,
   };
 })();

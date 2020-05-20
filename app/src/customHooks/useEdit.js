@@ -20,7 +20,7 @@ export const useEdit = (collectionName) => {
     });
     actions({
       type: INITIAL_VALUES,
-      payload: item,
+      payload: { ...initialValues[collectionName], ...item },
     });
     toggleModal();
   };
