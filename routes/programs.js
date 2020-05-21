@@ -5,8 +5,6 @@ const Section = require("../models/Section");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
-  console.log(userId);
-
   Program.find({ $or: [{ author: userId }, { studentList: userId }] })
     .populate({ path: "lessonList", select: "title" })
     .then((items) => {
@@ -55,8 +53,6 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
 router.get("/:_id", (req, res) => {
   const userId = req.user._id;
   const { _id } = req.params;
-  console.log("new api", _id);
-
   Program.find({ _id, studentList: userId });
   populate({ path: "lessonList", select: "title" })
     .then((items) => {

@@ -26,12 +26,14 @@ const AddToList = ({
   useEffect(() => {
     // fetching list of the author
     setFetching(true);
-    api({ collectionName, method: "get", endpoint: "/app/lessons" }).then(
-      (items) => {
-        items && setList(items);
-        setFetching(false);
-      }
-    );
+    api({
+      collectionName,
+      method: "get",
+      endpoint: `/app/${collectionName}`,
+    }).then((items) => {
+      items && setList(items);
+      setFetching(false);
+    });
   }, [compUpdate]);
 
   const handleChange = (event) => {
