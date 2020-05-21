@@ -11,6 +11,7 @@ import {
 import { vocabularySchema } from "../../utils/validationSchemas.js";
 import { useEffect } from "react";
 import api from "../../api/api";
+import { Modal, Button, Form as FormBootstrap } from "react-bootstrap";
 
 export const FormikForm = () => {
   const {
@@ -52,25 +53,31 @@ export const FormikForm = () => {
       })
       .catch((err) => console.log(err));
   };
-  const handleDelete = () => {
-    const config = {
-      ...formConfig,
-      method: "delete",
-    };
-    _formTemplates.dbPath[config.method](config)
-      .then(() => reset())
-      .catch((err) => console.log(err));
-  };
+
   return (
     <Formik
       // validationSchema={vocabularySchema}
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      // onSubmit={handleSubmit}
     >
       {(props) => (
-        <Form>
-          {_formTemplates.fields({ ...props, formConfig }, handleDelete)}
-        </Form>
+        <>
+          <Modal.Body>
+            <Form>{_formTemplates.fields({ ...props, formConfig })}</Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <FormBootstrap.Group>
+              <Button
+                type="submit"
+                onClick={() => handleSubmit(props.values)}
+                className="btn-sm"
+                type="primary"
+              >
+                {formConfig.method != "put" ? "Save" : "Update"}
+              </Button>
+            </FormBootstrap.Group>
+          </Modal.Footer>
+        </>
       )}
     </Formik>
   );
