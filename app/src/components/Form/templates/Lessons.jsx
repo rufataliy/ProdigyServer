@@ -3,7 +3,7 @@ import { Field, FieldArray } from "formik";
 import { Container, Form, Button, Row, Col, Modal } from "react-bootstrap";
 import AddToList from "../AddToList.jsx";
 
-const Lessons = ({ formConfig: { method }, touched }) => {
+const Lessons = ({ errors, touched }) => {
   return (
     <Container>
       <Row>
@@ -32,15 +32,21 @@ const Lessons = ({ formConfig: { method }, touched }) => {
         <Col bsPrefix={"col-12 col-md-6"}>
           <Col xs={12} bsPrefix={"p-0"}>
             <FieldArray name="sectionList">
-              {({ push, remove }) => {
+              {({
+                push,
+                remove,
+                form: { values, initialValues, setFieldValue },
+              }) => {
                 return (
                   <Field>
                     {({ field }) => (
                       <AddToList
+                        values={values}
+                        setFieldValue={setFieldValue}
                         push={push}
                         remove={remove}
                         collectionName="sections"
-                        initialList={field.value.sectionList}
+                        initialList={initialValues.sectionList}
                       />
                     )}
                   </Field>
