@@ -16,7 +16,7 @@ const daysOptions = [
   { label: "Saturday", value: "6" },
 ];
 
-const Klasses = ({ formConfig: { method } }) => {
+const Klasses = (props) => {
   return (
     <Container>
       <Row>

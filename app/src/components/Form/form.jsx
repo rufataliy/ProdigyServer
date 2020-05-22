@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { _formTemplates } from "./_formTemplates.jsx";
 import Context from "../../store/context";
 import {
   MODAL,
@@ -12,6 +11,7 @@ import { vocabularySchema } from "../../utils/validationSchemas.js";
 import { useEffect } from "react";
 import api from "../../api/api";
 import { Modal, Button, Form as FormBootstrap } from "react-bootstrap";
+import { getTemplate } from "./templates/getTemplate.js";
 
 export const FormikForm = () => {
   const {
@@ -45,7 +45,6 @@ export const FormikForm = () => {
     });
   };
   const handleSubmit = (values) => {
-    console.log("handleSubmit");
     values.author = appState.author._id;
     api(formConfig, values)
       .then(() => {
@@ -63,7 +62,7 @@ export const FormikForm = () => {
       {(props) => (
         <>
           <Modal.Body>
-            <Form>{_formTemplates.fields({ ...props, formConfig })}</Form>
+            <Form>{getTemplate(props, formConfig)}</Form>
           </Modal.Body>
           <Modal.Footer>
             <FormBootstrap.Group>
