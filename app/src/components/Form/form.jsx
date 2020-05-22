@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Formik, Form } from "formik";
-import { _formTemplates } from "./_formTemplates.jsx";
 import Context from "../../store/context";
 import {
   MODAL,
@@ -11,6 +10,8 @@ import {
 import { vocabularySchema } from "../../utils/validationSchemas.js";
 import { useEffect } from "react";
 import api from "../../api/api";
+import { Modal, Button, Form as FormBootstrap } from "react-bootstrap";
+import { getTemplate } from "./templates/getTemplate.js";
 
 export const FormikForm = () => {
   const {
@@ -44,7 +45,6 @@ export const FormikForm = () => {
     });
   };
   const handleSubmit = (values) => {
-    console.log("handleSubmit");
     values.author = appState.author._id;
     api(formConfig, values)
       .then(() => {
@@ -52,25 +52,31 @@ export const FormikForm = () => {
       })
       .catch((err) => console.log(err));
   };
-  const handleDelete = () => {
-    const config = {
-      ...formConfig,
-      method: "delete",
-    };
-    _formTemplates.dbPath[config.method](config)
-      .then(() => reset())
-      .catch((err) => console.log(err));
-  };
+
   return (
     <Formik
       // validationSchema={vocabularySchema}
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      // onSubmit={handleSubmit}
     >
       {(props) => (
-        <Form>
-          {_formTemplates.fields({ ...props, formConfig }, handleDelete)}
-        </Form>
+        <>
+          <Modal.Body>
+            <Form>{getTemplate(props, formConfig)}</Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <FormBootstrap.Group>
+              <Button
+                type="submit"
+                onClick={() => handleSubmit(props.values)}
+                className="btn-sm"
+                type="primary"
+              >
+                {formConfig.method != "put" ? "Save" : "Update"}
+              </Button>
+            </FormBootstrap.Group>
+          </Modal.Footer>
+        </>
       )}
     </Formik>
   );

@@ -65,14 +65,17 @@ export const editWordOptions = {
 };
 export const getChats = {
   collectionName: "chats",
+  endpoint: "/app/chats",
   method: "get",
 };
 export const getContacts = {
   collectionName: "users",
+  endpoint: "/app/users",
   method: "get",
 };
 export const removeChatOptions = {
   collectionName: "chats",
+  endpoint: "/app/chats/delete/",
   method: "delete",
 };
 export const getLessonOptions = {

@@ -15,7 +15,7 @@ const ChatList = ({
   const removeChat = (chatId) => {
     api({
       ...removeChatOptions,
-      params: chatId,
+      endpoint: removeChatOptions.endpoint + chatId,
     })
       .then(() => {
         api(getChats)

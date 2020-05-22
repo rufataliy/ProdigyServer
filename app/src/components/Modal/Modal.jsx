@@ -24,6 +24,7 @@ const Modal = (props) => {
       onHide={onHide}
       show={modalState.modalVisibility}
       size="lg"
+      scrollable
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
