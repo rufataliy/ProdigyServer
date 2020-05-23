@@ -18,7 +18,6 @@ import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import { useRouteMatch } from "react-router-dom";
 
 const Schedule = () => {
-  console.log("schedule rendered");
   const [remove] = useDelete("klasses");
   const [create] = useCreate("klasses");
   const [edit] = useEdit("klasses");
@@ -44,7 +43,6 @@ const Schedule = () => {
         setFetching(false);
       })
       .catch((err) => {
-        console.log(err);
         setFetching(false);
       });
   }, [compUpdate]);

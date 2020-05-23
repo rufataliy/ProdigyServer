@@ -10,7 +10,7 @@
     "start": "nodemon ./dist/server.js",
     "build": "webpack --mode development --watch",
     "prod": "NODE_ENV=production nodemon server.js",
-    "build-pro": "webpack --mode production --config webpack.server.config.js && webpack --mode production",
+    "build-pro": "webpack --mode production",
     "dbServer": "json-server --watch api/db.json --port 3001"
   },
   "engines": {

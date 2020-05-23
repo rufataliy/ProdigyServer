@@ -38,7 +38,6 @@ const App = () => {
   const renderChat = () => <Chat />;
   return (
     <React.Fragment>
-      {console.log("rendered app")}
       <Context.Provider value={store}>
         <Modal />
       </Context.Provider>

@@ -6,8 +6,6 @@ import { useMemo } from "react";
 export const StateHandler = (Component) => {
   return (props) => {
     const { actions, toggleModal, scheduleState } = useContext(Context);
-    console.log("statehandler");
-
     const setAction = useMemo(
       () => ({ config, payload, actionNames }) => {
         const ops = {

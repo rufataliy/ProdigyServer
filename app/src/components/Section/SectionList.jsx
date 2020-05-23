@@ -1,21 +1,16 @@
 import React, { useState } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import api from "../../api/api";
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect } from "react";
 import Context from "../../store/context";
 import { LESSON } from "../../store/useGlobalState";
-import {
-  getSectionsOptions,
-  createSectionOptions,
-  editSectionOptions,
-} from "../../utils/defaultAPIConfig";
-import { newSection } from "../../utils/defaultInitialValues";
-import { StateHandler } from "../StateHandler.jsx";
+import { getSectionsOptions } from "../../utils/defaultAPIConfig";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 import Loading from "../../views/_Loading.jsx";
 import Tabs from "../../views/_Tabs.jsx";
 import { useCreate, useEdit, useDelete } from "../../customHooks";
-const Sectionlist = ({ setAction }) => {
+
+const Sectionlist = () => {
   const [create] = useCreate("sections");
   const [edit] = useEdit("sections");
   const [remove] = useDelete("sections");

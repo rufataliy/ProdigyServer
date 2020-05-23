@@ -53,8 +53,6 @@ const AddToList = ({
       push(_id);
       setAddedItems((prevState) => [...prevState, { title, _id }]);
       setIndex("");
-      console.log(initialList);
-
       if (initialList.length > 0) {
         delete values[removedListField][_id];
         setFieldValue(removedListField, {
@@ -68,9 +66,7 @@ const AddToList = ({
 
   const handleUnshift = (index) => {
     // If event.target is passed to splice function it becomes null ????
-    // const { id: index } = event.target;
     setAddedItems((prevState) => {
-      console.log(prevState[index]);
       if (initialList.length > 0) {
         setFieldValue(removedListField, {
           ...values[removedListField],

@@ -28,7 +28,7 @@ export const FormikForm = () => {
       actions({ type: FORM_CONFIG, payload: {} });
     };
   }, []);
-  console.log("formikForm rendered");
+
   const reset = () => {
     actions({
       type: MODAL,

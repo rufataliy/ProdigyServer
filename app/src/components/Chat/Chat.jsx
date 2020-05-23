@@ -5,12 +5,11 @@ import { useEffect } from "react";
 import io from "socket.io-client";
 import { Badge, Button } from "react-bootstrap";
 const Chat = () => {
-  const [socket, setSocket] = useState(io("https://localhost:3000/"));
+  const [socket, setSocket] = useState(io("https://prodigy.rufataliyev.com"));
   const [online, setOnline] = useState(false);
   const [closed, setClosed] = useState(true);
   useEffect(() => {
     socket.on("disconnect", (a) => {
-      console.log(a);
       setOnline(false);
     });
     socket.on("reconnecting", (number) => {
@@ -20,7 +19,6 @@ const Chat = () => {
       setOnline(true);
     });
     socket.on("connected", (response) => {
-      console.log(response);
       setOnline(response.connected);
     });
     socket.on("connect", (response) => {
@@ -29,7 +27,6 @@ const Chat = () => {
     window.addEventListener("offline", () => setOnline(false));
     return window.removeEventListener("offline", () => () => setOnline(false));
   }, [online]);
-  console.log("CHAT");
   return (
     <div className={`${closed ? "chat-close chat-wrapper" : "chat-wrapper"}`}>
       <div className="chat d-flex flex-column flex-justify-between">
