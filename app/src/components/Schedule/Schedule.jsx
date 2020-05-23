@@ -23,7 +23,7 @@ const Schedule = () => {
   const [create] = useCreate("klasses");
   const [edit] = useEdit("klasses");
   const [fetching, setFetching] = useState(false);
-  const { scheduleState, compUpdate } = useContext(Context);
+  const { scheduleState, actions, compUpdate } = useContext(Context);
   const { url } = useRouteMatch();
 
   useEffect(() => {
@@ -37,7 +37,10 @@ const Schedule = () => {
             delete event.endTime;
           }
         });
-        // setAction({ payload: events, actionNames: [SCHEDULE] });
+        actions({
+          type: SCHEDULE,
+          payload: { ...scheduleState, events },
+        });
         setFetching(false);
       })
       .catch((err) => {
@@ -45,6 +48,7 @@ const Schedule = () => {
         setFetching(false);
       });
   }, [compUpdate]);
+
   const calendarComponentRef = React.createRef();
 
   const handleEventClick = (info) => {
@@ -57,22 +61,9 @@ const Schedule = () => {
       ...event,
       daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
     });
-    //   setAction({
-    //     config: { ...editKlass, params: _id, title: event.title },
-    //     payload: {
-    //       ...event,
-    //       daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
-    //     },
-    //     actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-    //   });
   };
   const handleDateClick = (arg) => {
     create({ date: { start: arg.date, end: arg.date } });
-    // setAction({
-    //   config: createKlass,
-    //   payload: { ...newClass, start: arg.date, end: arg.date },
-    //   actionNames: ["setFormConfig", "setInitialState", "toggleModal"],
-    // });
   };
 
   return (

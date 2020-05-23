@@ -41,9 +41,9 @@ export const createKlass = {
 };
 
 export const getStudentOptions = {
-  collectionName: "klasses/addStudent",
+  collectionName: "users",
+  endpoint: "/app/users/",
   method: "get",
-  params: "",
 };
 export const getWordsOptions = {
   collectionName: "words",

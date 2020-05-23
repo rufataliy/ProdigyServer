@@ -22,8 +22,8 @@ export default async (config, submitValues) => {
     options.body = JSON.stringify(submitValues);
   }
   const { endpoint } = config;
+  console.log(config);
   let url = endpoint.replace("app", "api");
-  console.log(url);
 
   return fetch(url, options)
     .then((response) => {

@@ -1,39 +1,39 @@
 {
-    "name": "prodigyserver",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "engines": {
-        "node": "10.16.3",
-        "npm": "6.9.0"
-    },
-    "scripts": {
-        "start": "node index.js",
-        "server": "env-cmd -f ./.env nodemon ./index.js --inspect",
-        "play": "nodemon ./playground//test.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "dependencies": {
-        "body-parser": "^1.19.0",
-        "ckeditor5-build-classic-plus": "^13.0.0",
-        "cookie": "^0.4.0",
-        "cors": "^2.8.5",
-        "ejs": "^3.0.1",
-        "express": "^4.17.1",
-        "express-fileupload": "^1.1.7-alpha.3",
-        "express-flash": "0.0.2",
-        "express-openid-connect": "^0.6.0",
-        "express-session": "^1.17.0",
-        "jsonwebtoken": "^8.5.1",
-        "mkcert": "^1.2.0",
-        "mongoose": "^5.9.4",
-        "request": "^2.88.2",
-        "socket.io": "^2.3.0",
-        "socketio-jwt": "^4.5.0"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "chalk": "^3.0.0"
-    }
+  "name": "prodigyserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "server": "env-cmd -f ./.env nodemon ./index.js",
+    "play": "nodemon ./playground//test.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ckeditor5-build-classic-plus": "^13.0.0",
+    "cookie": "^0.4.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "express-flash": "0.0.2",
+    "express-openid-connect": "^0.6.0",
+    "express-session": "^1.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "mkcert": "^1.2.0",
+    "mongoose": "^5.9.4",
+    "request": "^2.88.2",
+    "socket.io": "^2.3.0",
+    "socketio-jwt": "^4.5.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chalk": "^3.0.0"
+  }
 }

@@ -14,7 +14,9 @@ router.get("/", (req, res) => {
   Klass.find({ $or: [{ author }, { studentList: author }] })
     .populate({ path: "studentList", select: "name" })
     .populate({ path: "programList", select: "title" })
-    .then((items) => res.send(items))
+    .then((items) => {
+      res.send(items);
+    })
     .catch((err) => res.send(err));
 });
 

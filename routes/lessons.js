@@ -1,7 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const Lesson = require("../models/Lesson");
-const Section = require("../models/Section");
+const Program = require("../models/Program");
 
 router.get("/", (req, res) => {
   const author = req.user._id;
@@ -12,13 +12,30 @@ router.get("/", (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-
 router.post("/", (req, res) => {
   const newLesson = req.body;
   newLesson.author = req.user._id;
 
   Lesson.create(newLesson)
     .then((items) => res.send(items))
+    .catch((err) => res.send(err));
+});
+router.post("/:programId", (req, res) => {
+  const newLesson = req.body;
+  newLesson.author = req.user._id;
+  const { programId } = req.params;
+
+  Lesson.create(newLesson)
+    .then((item) => {
+      Program.findByIdAndUpdate(
+        { _id: programId },
+        {
+          $push: {
+            lessonList: item._id,
+          },
+        }
+      ).then((response) => send(response));
+    })
     .catch((err) => res.send(err));
 });
 

@@ -171,12 +171,12 @@ const Klasses = (props) => {
           <Col xs={12}>
             <Form.Group>
               <FieldArray name="studentList">
-                {({ push, remove }) => {
+                {({ push, remove, form }) => {
                   return (
                     <Field>
                       {({ field }) => (
                         <AddStudent
-                          initialStudentList={field.value.studentList}
+                          initialStudentList={form.initialValues.studentList}
                           remove={remove}
                           push={push}
                         />
