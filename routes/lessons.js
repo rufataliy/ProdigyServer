@@ -34,7 +34,7 @@ router.post("/:programId", (req, res) => {
             lessonList: item._id,
           },
         }
-      ).then((response) => send(response));
+      ).then((response) => res.send(response));
     })
     .catch((err) => res.send(err));
 });

@@ -45,7 +45,7 @@ const LessonList = ({ setAction }) => {
       <List
         Component={ListItem}
         fetching={fetching}
-        createItem={() => create(programId)}
+        createItem={() => create({ parentId: programId })}
         editItem={edit}
         deleteItem={remove}
         items={lessonState.lessons}

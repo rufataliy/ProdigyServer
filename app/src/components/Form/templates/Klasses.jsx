@@ -86,17 +86,34 @@ const Klasses = (props) => {
           </Row>
           <Row>
             <Col md={4} xs={6}>
-              <Field>
-                {({ field, form }) => {
-                  return (
-                    <DatePicker
-                      start={field.value.start}
-                      end={field.value.end}
-                      pathValueToFormik={form.setFieldValue}
-                    />
-                  );
-                }}
-              </Field>
+              <Form.Group className="flex-grow-1">
+                <Form.Label>Start date</Form.Label>
+                <Field name="start">
+                  {({ form }) => {
+                    return (
+                      <DatePicker
+                        fieldName="start"
+                        initialDate={form.initialValues.start}
+                        setFieldValue={form.setFieldValue}
+                      />
+                    );
+                  }}
+                </Field>
+              </Form.Group>
+              <Form.Group className="flex-grow-1">
+                <Form.Label>End date</Form.Label>
+                <Field name="end">
+                  {({ form }) => {
+                    return (
+                      <DatePicker
+                        fieldName="end"
+                        initialDate={form.initialValues.end}
+                        setFieldValue={form.setFieldValue}
+                      />
+                    );
+                  }}
+                </Field>
+              </Form.Group>
             </Col>
             <Col md={3} xs={6}>
               <Form.Group className="flex-grow-1">
@@ -131,9 +148,9 @@ const Klasses = (props) => {
               </Form.Group>
             </Col>
             <Col md={4} xs={12}>
-              <Form.Group>
-                <Form.Label>Group Type</Form.Label>
-                <Col>
+              <div className="d-flex h-100 flex-column justify-content-between">
+                <Form.Group className="flex-grow-1">
+                  <Form.Label>Group Type</Form.Label>
                   <Field name="classType">
                     {({ field, form }) => (
                       <Form.Check
@@ -148,6 +165,9 @@ const Klasses = (props) => {
                       />
                     )}
                   </Field>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label> </Form.Label>
                   <Field name="classType">
                     {({ field, form }) => (
                       <Form.Check
@@ -162,47 +182,45 @@ const Klasses = (props) => {
                       />
                     )}
                   </Field>
-                </Col>
-              </Form.Group>
+                </Form.Group>
+              </div>
             </Col>
           </Row>
         </Col>
-        <Col bsPrefix={"p-0 col-12 col-lg-5"}>
-          <Col xs={12}>
-            <Form.Group>
-              <FieldArray name="studentList">
-                {({ push, remove, form }) => {
-                  return (
-                    <Field>
-                      {({ field }) => (
-                        <AddStudent
-                          initialStudentList={form.initialValues.studentList}
-                          remove={remove}
-                          push={push}
-                        />
-                      )}
-                    </Field>
-                  );
-                }}
-              </FieldArray>
-            </Form.Group>
-          </Col>
-          <Col xs={12}>
-            <FieldArray name="programList">
-              {({ push, remove, form }) => {
-                return (
-                  <AddToList
-                    push={push}
-                    remove={remove}
-                    collectionName="programs"
-                    form={form}
-                    removedListField="removedProgramsList"
-                    initialList={form.initialValues.programList}
-                  />
-                );
-              }}
-            </FieldArray>
-          </Col>
+        <Col
+          bsPrefix={
+            "p-0 col-12 col-lg-5 d-flex flex-column justify-content-between"
+          }
+        >
+          <FieldArray name="studentList">
+            {({ push, remove, form }) => {
+              return (
+                <Field className="flex-grow-1">
+                  {({ field }) => (
+                    <AddStudent
+                      initialStudentList={form.initialValues.studentList}
+                      remove={remove}
+                      push={push}
+                    />
+                  )}
+                </Field>
+              );
+            }}
+          </FieldArray>
+          <FieldArray className="flex-grow-1" name="programList">
+            {({ push, remove, form }) => {
+              return (
+                <AddToList
+                  push={push}
+                  remove={remove}
+                  collectionName="programs"
+                  form={form}
+                  removedListField="removedProgramsList"
+                  initialList={form.initialValues.programList}
+                />
+              );
+            }}
+          </FieldArray>
         </Col>
       </Row>
     </Container>

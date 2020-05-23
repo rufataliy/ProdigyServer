@@ -40,7 +40,7 @@ const Wordlist = () => {
       Component={Word}
       listName="Words"
       items={vocabState.words}
-      createItem={() => create(vocabularyId)}
+      createItem={() => create({ parentId: vocabularyId })}
       editItem={edit}
       deleteItem={remove}
       fetching={fetching}

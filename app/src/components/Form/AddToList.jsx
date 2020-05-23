@@ -105,7 +105,10 @@ const AddToList = ({
       </div>
       <p className="text-danger">{error}</p>
       {capitalize(collectionName)}
-      <div style={{ height: "200px" }} className="pt-2 pb-2">
+      <div
+        style={{ maxHeight: "200px", overflow: "auto" }}
+        className="pt-2 pb-2"
+      >
         {addedItems &&
           addedItems.map((item, index) => (
             <Badge
