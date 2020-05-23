@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
-import { StateHandler } from "../StateHandler.jsx";
 import LessonList from "./LessonList.jsx";
 import SectionList from "../Section/SectionList.jsx";
 const LessonHome = (props) => {
@@ -15,4 +14,4 @@ const LessonHome = (props) => {
     </React.Fragment>
   );
 };
-export default React.memo(StateHandler(LessonHome));
+export default React.memo(LessonHome);

@@ -58,4 +58,4 @@ const Sectionlist = () => {
     </React.Fragment>
   );
 };
-export default React.memo(StateHandler(Sectionlist));
+export default React.memo(Sectionlist);

@@ -4,7 +4,6 @@ import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import Context from "../../store/context";
 import api from "../../api/api.js";
 import { LESSON } from "../../store/useGlobalState";
-import { StateHandler } from "../StateHandler.jsx";
 import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
@@ -55,4 +54,4 @@ const LessonList = ({ setAction }) => {
     </React.Fragment>
   );
 };
-export default React.memo(StateHandler(LessonList));
+export default React.memo(LessonList);

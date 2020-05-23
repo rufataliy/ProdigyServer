@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StateHandler } from "../StateHandler.jsx";
 import Context from "../../store/context";
 import api from "../../api/api.js";
 import { Spinner } from "react-bootstrap";
@@ -99,4 +98,4 @@ const AssignTo = ({ push, remove, initialKlassList }) => {
   );
 };
 
-export default StateHandler(AssignTo);
+export default AssignTo;

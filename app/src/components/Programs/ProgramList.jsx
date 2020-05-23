@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Context from "../../store/context";
 import api from "../../api/api.js";
 import { PROGRAM } from "../../store/useGlobalState";
-import { StateHandler } from "../StateHandler.jsx";
-import { newProgram } from "../../utils/defaultInitialValues.js";
-import {
-  getProgramsOptions,
-  createProgramOptions,
-  editProgramOptions,
-} from "../../utils/defaultAPIConfig";
+import { getProgramsOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 import { useRouteMatch } from "react-router-dom";
@@ -59,4 +53,4 @@ const ProgramList = () => {
     </React.Fragment>
   );
 };
-export default React.memo(StateHandler(ProgramList));
+export default React.memo(ProgramList);

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StateHandler } from "../StateHandler.jsx";
 import Context from "../../store/context";
 import api from "../../api/api.js";
 import { Spinner } from "react-bootstrap";
@@ -9,7 +8,7 @@ import {
 } from "../../utils/defaultAPIConfig";
 import Icon from "../../views/_Icon.jsx";
 
-const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
+const AddStudent = ({ push, remove, initialStudentList }) => {
   const [students, setStudents] = useState(initialStudentList);
   const [inputValue, setInputValue] = useState("");
   const [fetching, setFetching] = useState(false);
@@ -99,4 +98,4 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
   );
 };
 
-export default StateHandler(AddStudent);
+export default AddStudent;
