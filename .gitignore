@@ -112,6 +112,5 @@ app\dist\main.js
 cert.pem
 key.pem
 app/dist/
-app/dist/main.js
-app/dist/main.js.map
+
 
