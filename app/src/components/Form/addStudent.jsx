@@ -76,6 +76,7 @@ const AddStudent = ({ setAction, push, remove, initialStudentList }) => {
       </div>
       <p className="text-danger">{error}</p>
       <ul className="list-group">
+        Students
         {studentListLoading ? (
           <Spinner animation="border" variant="secondary" />
         ) : (

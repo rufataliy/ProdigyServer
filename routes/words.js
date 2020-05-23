@@ -13,8 +13,6 @@ router.post("/:vocabularyId", (req, res) => {
   const word = req.body;
   const { vocabularyId: _id } = req.params;
   word.vocabularyId = _id;
-  console.log(word, _id);
-
   Word.create(word)
     .then((word) => {
       Vocabulary.findByIdAndUpdate(

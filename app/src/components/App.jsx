@@ -56,20 +56,19 @@ const App = () => {
               <Col
                 bsPrefix={"col-auto min-vh-100 col-12 col-md-9 mx-auto pt-4 "}
               >
-                <Bread>
-                  <Switch>
-                    <Route exact path="/app" component={Home} />
-                    <Context.Provider value={store}>
-                      <Route path="/app/klasses" component={Schedule} />
-                      <Route
-                        path="/app/vocabularies"
-                        component={VocabularyHome}
-                      />
-                      <Route path="/app/programs" component={ProgramHome} />
-                      <Route path="/app/lessons" component={LessonHome} />
-                    </Context.Provider>
-                  </Switch>
-                </Bread>
+                {/* <Bread/> */}
+                <Switch>
+                  <Route exact path="/app" component={Home} />
+                  <Context.Provider value={store}>
+                    <Route path="/app/klasses" component={Schedule} />
+                    <Route
+                      path="/app/vocabularies"
+                      component={VocabularyHome}
+                    />
+                    <Route path="/app/programs" component={ProgramHome} />
+                    <Route path="/app/lessons" component={LessonHome} />
+                  </Context.Provider>
+                </Switch>
               </Col>
             </Row>
           </Container>
