@@ -1,16 +1,4 @@
 export default async (config, submitValues) => {
-  const path = {
-    post: "",
-    get: "",
-    put: "/edit",
-    delete: "/delete",
-  };
-  // const baseUrl = window.location.origin;
-  // const params = config.params ? `/${config.params}` : "";
-  //     let url = `${baseUrl}/api/${
-  //     config.collectionName + path[config.method] + params
-  //   }`;
-
   const options = {
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -22,7 +10,7 @@ export default async (config, submitValues) => {
     options.body = JSON.stringify(submitValues);
   }
   const { endpoint } = config;
-  console.log(config);
+
   let url = endpoint.replace("app", "api");
 
   return fetch(url, options)
