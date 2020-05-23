@@ -63,7 +63,7 @@ const Schedule = () => {
     });
   };
   const handleDateClick = (arg) => {
-    create({ date: { start: arg.date, end: arg.date } });
+    create({ extraValues: { start: arg.date, end: arg.date } });
   };
 
   return (

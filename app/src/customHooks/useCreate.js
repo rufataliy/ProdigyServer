@@ -5,7 +5,8 @@ import { initialValues } from "../utils/defaultInitialValues";
 
 export const useCreate = (collectionName) => {
   const { actions, toggleModal } = useContext(Context);
-  const create = (parentId = "") => {
+  const create = (options = {}) => {
+    const { parentId = "", extraValues = {} } = options;
     const config = {
       method: "post",
       endpoint: `/app/${collectionName}/${parentId}`,
@@ -19,7 +20,7 @@ export const useCreate = (collectionName) => {
     });
     actions({
       type: INITIAL_VALUES,
-      payload: initialValues[collectionName],
+      payload: { ...initialValues[collectionName], ...extraValues },
     });
     toggleModal();
   };

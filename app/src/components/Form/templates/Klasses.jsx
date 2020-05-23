@@ -86,17 +86,20 @@ const Klasses = (props) => {
           </Row>
           <Row>
             <Col md={4} xs={6}>
-              <Field>
-                {({ field, form }) => {
-                  return (
-                    <DatePicker
-                      start={field.value.start}
-                      end={field.value.end}
-                      pathValueToFormik={form.setFieldValue}
-                    />
-                  );
-                }}
-              </Field>
+              <Form.Group className="flex-grow-1">
+                <Form.Label>End time</Form.Label>
+                <Field>
+                  {({ field, form }) => {
+                    return (
+                      <DatePicker
+                        start={field.value.start}
+                        end={field.value.end}
+                        pathValueToFormik={form.setFieldValue}
+                      />
+                    );
+                  }}
+                </Field>
+              </Form.Group>
             </Col>
             <Col md={3} xs={6}>
               <Form.Group className="flex-grow-1">
