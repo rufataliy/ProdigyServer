@@ -109,6 +109,6 @@ prodigy-gate.pem
 playground/test.js
 cert.pem
 key.pem
-
+app/dist
 
 
