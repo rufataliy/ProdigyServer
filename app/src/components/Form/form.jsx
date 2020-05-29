@@ -66,6 +66,8 @@ export const FormikForm = () => {
           <Modal.Footer>
             <FormBootstrap.Group>
               <Button
+                disabled={!formConfig.isAuthor}
+                hidden={!formConfig.isAuthor}
                 type="submit"
                 onClick={() => handleSubmit(props.values)}
                 className="btn-sm"
