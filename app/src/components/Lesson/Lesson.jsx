@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Icon from "../../views/_Icon.jsx";
+
 const Lesson = ({ lesson, editLesson }) => {
   return (
     <span className="m-2 quick-access-btn">

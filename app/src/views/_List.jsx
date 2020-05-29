@@ -1,9 +1,9 @@
 import React from "react";
 import Loading from "./_Loading.jsx";
 import RoundedBtn from "./_RoundedBtn.jsx";
-import { useRouteMatch } from "react-router-dom";
 
 const _List = ({
+  userId,
   items,
   createItem,
   editItem,
@@ -23,6 +23,7 @@ const _List = ({
         {!fetching && items
           ? items.map((item) => (
               <Component
+                readOnly={item.author !== userId}
                 path={listName}
                 editItem={editItem}
                 deleteItem={deleteItem}

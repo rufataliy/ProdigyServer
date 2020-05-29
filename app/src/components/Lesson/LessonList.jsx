@@ -8,8 +8,15 @@ import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 
-const LessonList = ({ setAction }) => {
-  const { actions, lessonState, compUpdate } = useContext(Context);
+const LessonList = () => {
+  const {
+    actions,
+    lessonState,
+    appState: {
+      author: { _id: userId },
+    },
+    compUpdate,
+  } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const [remove] = useDelete("lessons");
   const [create] = useCreate("lessons");
@@ -38,13 +45,14 @@ const LessonList = ({ setAction }) => {
         });
     return () => (mounted = false);
   }, [compUpdate]);
-
+  const parentId = programId;
   return (
     <React.Fragment>
       <List
+        userId={userId}
         Component={ListItem}
         fetching={fetching}
-        createItem={() => create({ parentId: programId })}
+        createItem={() => create({ parentId })}
         editItem={edit}
         deleteItem={remove}
         items={lessonState.lessons}

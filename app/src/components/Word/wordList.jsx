@@ -34,13 +34,13 @@ const Wordlist = () => {
         console.log(err);
       });
   }, [compUpdate]);
-
+  const parentId = vocabularyId;
   return (
     <List
       Component={Word}
       listName="Words"
       items={vocabState.words}
-      createItem={() => create({ parentId: vocabularyId })}
+      createItem={() => create({ parentId })}
       editItem={edit}
       deleteItem={remove}
       fetching={fetching}

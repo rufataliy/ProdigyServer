@@ -9,7 +9,14 @@ import { useRouteMatch } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 
 const ProgramList = () => {
-  const { actions, programState, compUpdate } = useContext(Context);
+  const {
+    actions,
+    programState,
+    appState: {
+      author: { _id: userId },
+    },
+    compUpdate,
+  } = useContext(Context);
   const [remove] = useDelete("programs");
   const [create] = useCreate("programs");
   const [edit] = useEdit("programs");
@@ -41,6 +48,7 @@ const ProgramList = () => {
   return (
     <React.Fragment>
       <List
+        userId={userId}
         Component={ListItem}
         fetching={fetching}
         editItem={edit}

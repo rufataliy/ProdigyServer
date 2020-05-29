@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Icon from "./_Icon.jsx";
 
-const _Item = ({ item, editItem, deleteItem, childRoute }) => {
+const _Item = ({ item, editItem, deleteItem, readOnly, childRoute }) => {
   return (
     <span className="m-2 quick-access-btn">
       <Card style={{ width: "100%" }}>
@@ -13,11 +13,18 @@ const _Item = ({ item, editItem, deleteItem, childRoute }) => {
             {item.level}
           </Card.Subtitle>
           <Link to={`${item._id}/${childRoute}/`}>See </Link>
-          <Icon onClick={() => editItem(item)} className="ml-3 fas fa-pen" />
-          <Icon
-            onClick={() => deleteItem(item)}
-            className="ml-3 fas fa-trash"
-          />
+          {!readOnly && (
+            <>
+              <Icon
+                onClick={() => editItem(item)}
+                className="ml-3 fas fa-pen"
+              />
+              <Icon
+                onClick={() => deleteItem(item)}
+                className="ml-3 fas fa-trash"
+              />
+            </>
+          )}
         </Card.Body>
       </Card>
     </span>
