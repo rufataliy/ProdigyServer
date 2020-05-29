@@ -7,12 +7,13 @@ const Home = () => {
   return (
     <div>
       {links.map(
-        (page) =>
+        (page, index) =>
           page.title !== "Home" && (
             <Link
+              key={index}
               type="button"
               to={`/app${page.path}/`}
-              class="btn quick-access-btn mr-3 btn-outline-primary"
+              className="btn quick-access-btn mr-3 btn-outline-primary"
             >
               <Icon
                 className={`quick-access-icon mb-3 mt-3 ${page.iconName}`}

@@ -213,8 +213,9 @@ const Klasses = (props) => {
                 <AddToList
                   push={push}
                   remove={remove}
+                  setFieldValue={form.setFieldValue}
                   collectionName="programs"
-                  form={form}
+                  values={form.values}
                   removedListField="removedProgramsList"
                   initialList={form.initialValues.programList}
                 />

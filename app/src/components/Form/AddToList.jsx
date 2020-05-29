@@ -111,6 +111,7 @@ const AddToList = ({
               pill
               onClick={() => handleUnshift(index)}
               variant="primary m-1"
+              key={index}
             >
               <h6 style={{ color: "white" }} className="m-0 p-1">
                 {item.title}
