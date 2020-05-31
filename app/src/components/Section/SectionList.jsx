@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useRouteMatch, useLocation, Link } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import api from "../../api/api";
 import { useContext, useEffect } from "react";
 import Context from "../../store/context";
@@ -10,19 +10,11 @@ import Loading from "../../views/_Loading.jsx";
 import Tabs from "../../views/_Tabs.jsx";
 import { useCreate, useEdit, useDelete } from "../../customHooks";
 
-const Sectionlist = ({ location }) => {
-  const { state } = location;
+const Sectionlist = () => {
   const [create] = useCreate("sections");
   const [edit] = useEdit("sections");
   const [remove] = useDelete("sections");
-  const {
-    lessonState,
-    compUpdate,
-    appState: {
-      author: { _id: userId },
-    },
-    actions,
-  } = useContext(Context);
+  const { lessonState, compUpdate, actions } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const { lessonId } = useParams();
   const { url } = useRouteMatch();
@@ -54,18 +46,11 @@ const Sectionlist = ({ location }) => {
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
         <h3 className="text-primary mb-0 mr-3">Sections </h3>
-        {state.extendable && (
-          <RoundedBtn onClick={() => create(lessonId)} iconName="fas fa-plus" />
-        )}
+        <RoundedBtn onClick={() => create(lessonId)} iconName="fas fa-plus" />
       </div>
       <div className="d-flex flex-wrap">
         {!fetching && lessonState.sections ? (
-          <Tabs
-            userId={userId}
-            remove={remove}
-            edit={edit}
-            items={lessonState.sections}
-          />
+          <Tabs remove={remove} edit={edit} items={lessonState.sections} />
         ) : (
           <Loading />
         )}

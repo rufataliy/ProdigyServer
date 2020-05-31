@@ -1,10 +1,9 @@
 import React from "react";
 import LoadingImg from "../public/img/loading.gif";
-
-const _Loading = () => {
+const _Loading = (props) => {
   return (
-    <div className="w-100 d-flex justify-content-center align-items-baseline h-100">
-      <img src={LoadingImg} alt="loader" />
+    <div className="w-100 h-100">
+      <img src={`../${LoadingImg}`} alt="" />
     </div>
   );
 };

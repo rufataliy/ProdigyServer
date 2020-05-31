@@ -12,7 +12,6 @@ export const useCreate = (collectionName) => {
       endpoint: `/app/${collectionName}/${parentId}`,
       title: "Create",
       modalType: "FormikForm",
-      isAuthor: true,
       collectionName,
     };
     actions({

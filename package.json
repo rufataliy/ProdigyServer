@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "env-cmd -f ./.env nodemon ./index.js",
-    "play": "nodemon ./playground//test.js"
+    "play": "nodemon ./playground//test.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

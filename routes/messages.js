@@ -28,7 +28,7 @@ io.on("connection", (socket) => {
             new: true,
             populate: {
               path: "author",
-              select: ["name", "_id"],
+              select: "name",
             },
           }
         )

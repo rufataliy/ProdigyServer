@@ -311,6 +311,14 @@ i:hover {
   right: 0;
 }
 
+.loader-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
 .ck {
   overflow: hidden;
 }
@@ -318,38 +326,4 @@ i:hover {
 .fc-content {
   color: white;
   font-weight: bold;
-}
-
-.DayPickerInput input {
-  border: none;
-  width: 100%;
-  background: transparent;
-}
-
-.DayPickerInput {
-  border: 2px solid lightgrey;
-  padding: 4px 6px;
-  border-radius: 0.25rem;
-  height: 31px;
-  position: relative;
-}
-
-.DayPickerInput-OverlayWrapper {
-  height: 300px;
-  width: 100%;
-
-  background-color: red;
-  position: foxed;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  z-index: 10000;
-}
-
-.readonly-wrapper {
-  z-index: 1000;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background: #3ea4f429;
 }

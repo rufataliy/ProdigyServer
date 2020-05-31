@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import api from "../../api/api";
 import { useEffect } from "react";
 import { getContacts } from "../../utils/defaultAPIConfig.js";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Button, Badge } from "react-bootstrap";
 import ChatMain from "../../views/_ChatMain.jsx";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
-
 const People = ({ newChat, resetChatState, setKey }) => {
   const [people, setPeople] = useState();
   useEffect(() => {

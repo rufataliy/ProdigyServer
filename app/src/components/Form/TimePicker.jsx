@@ -3,14 +3,7 @@ import TimeKeeper from "react-timekeeper";
 import Icon from "../../views/_Icon.jsx";
 
 export const TimePicker = (props) => {
-  const {
-    setFieldValue,
-    fieldName,
-    initialValue,
-    readOnly,
-    recurrField,
-  } = props;
-  const initialTime = new Date(initialValue);
+  const initialTime = new Date(props.initialTime);
 
   const defaultTime = {
     hour: initialTime.getHours(),
@@ -26,13 +19,12 @@ export const TimePicker = (props) => {
   const handleDoneClick = ({ hour, minute, formatted24 }) => {
     setTime({ ...time, hour, minute });
     initialTime.setHours(hour, minute);
-    setFieldValue(fieldName, new Date(initialTime));
-    setFieldValue(recurrField, formatted24);
+    props.pathValueToFormik(props.fieldName, new Date(initialTime));
+    props.pathValueToFormik(props.recurrField, formatted24);
     setVisible(!visible);
   };
   return (
     <div className="timePickerWrapper">
-      {readOnly && <div className="readonly-wrapper"></div>}
       {visible && (
         <TimeKeeper
           hour24Mode

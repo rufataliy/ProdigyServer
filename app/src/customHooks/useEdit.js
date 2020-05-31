@@ -4,13 +4,7 @@ import { FORM_CONFIG, INITIAL_VALUES } from "../store/useGlobalState";
 import { initialValues } from "../utils/defaultInitialValues";
 
 export const useEdit = (collectionName) => {
-  const {
-    actions,
-    toggleModal,
-    appState: {
-      author: { _id: userId },
-    },
-  } = useContext(Context);
+  const { actions, toggleModal } = useContext(Context);
 
   const edit = (item) => {
     const config = {
@@ -18,7 +12,6 @@ export const useEdit = (collectionName) => {
       endpoint: `/app/${collectionName}/edit/${item._id}`,
       title: item.title,
       modalType: "FormikForm",
-      isAuthor: item.author === userId,
       collectionName,
     };
     actions({

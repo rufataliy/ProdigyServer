@@ -22,7 +22,6 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const klass = req.body;
-  klass.author = req.user._id;
   Klass.create(klass)
     .then((item) => {
       Program.updateMany(
@@ -37,12 +36,79 @@ router.post("/", (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-
 router.get("/addStudent/:email", (req, res) => {
   const { email } = req.params;
 
   User.findOne({ email })
     .then((user) => res.send(user))
+    .catch((err) => console.log(err));
+});
+router.get("/addStudent/byid/:idList", (req, res) => {
+  const idList = req.params.idList.replace(/,/g, '" OR "');
+  const query = 'user_id:("'.concat(idList, '")');
+  Token.findOne()
+    .then((token) => {
+      const options = {
+        method: "GET",
+        url: "https://prodigy-gate.auth0.com/api/v2/users",
+        qs: {
+          q: query,
+          search_engine: "v3",
+        },
+        headers: {
+          authorization: `Bearer ${token.access_token}`,
+        },
+      };
+      request(options, function (error, response, users) {
+        if (error) {
+          console.log("error", error);
+        }
+        if (JSON.parse(users).error === "Unauthorized") {
+          refreshToken();
+          request(options, (error, response, users) => {
+            if (error) {
+              console.log("after refresh", users);
+            }
+            res.send(users);
+            return;
+          });
+        } else {
+          res.send(users);
+        }
+      });
+    })
+    .catch((err) => console.log(err));
+});
+router.get("/addStudent/byemail/:email", (req, res) => {
+  const email = req.params;
+  Token.findOne()
+    .then((token) => {
+      const options = {
+        method: "GET",
+        url: "https://prodigy-gate.auth0.com/api/v2/users-by-email",
+        qs: email,
+        headers: {
+          authorization: `Bearer ${token.access_token}`,
+        },
+      };
+      request(options, function (error, response, users) {
+        if (error) {
+          console.log(error);
+        }
+        if (JSON.parse(users).error === "Unauthorized") {
+          refreshToken();
+          request(options, (error, response, users) => {
+            if (error) {
+              console.log("after refresh", users);
+            }
+            res.send(users);
+            return;
+          });
+        } else {
+          res.send(users);
+        }
+      });
+    })
     .catch((err) => console.log(err));
 });
 
@@ -55,18 +121,10 @@ router.get("/edit/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-
-// if a student is removed it needs to be removed from program two
 router.put("/edit/:_id", async (req, res) => {
   //if authorId is athor of the doc
   const { _id } = req.params;
   const update = req.body;
-  console.log(req.user._id !== update.author);
-
-  if (req.user._id !== update.author) {
-    return res.status(403).send();
-  }
-
   const removedProgramsList = req.body.removedProgramsList
     ? Object.keys(req.body.removedProgramsList)
     : [];

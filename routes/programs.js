@@ -6,18 +6,7 @@ const Section = require("../models/Section");
 router.get("/", (req, res) => {
   const userId = req.user._id;
   Program.find({ $or: [{ author: userId }, { studentList: userId }] })
-    .populate({ path: "lessonList", select: ["title", "author"] })
-    .then((items) => {
-      res.status(200).json(items);
-    })
-    .catch((err) => res.send(err));
-});
-
-router.get("/:_id", (req, res) => {
-  const userId = req.user._id;
-  const { _id } = req.params;
-  Program.find({ _id, studentList: userId });
-  populate({ path: "lessonList", select: "title" })
+    .populate({ path: "lessonList", select: "title" })
     .then((items) => {
       res.status(200).json(items);
     })
@@ -33,7 +22,7 @@ router.get("/:programId/lessons", (req, res) => {
   })
     .populate({
       path: "lessonList",
-      select: ["title", "author"],
+      select: "title",
       populate: { path: "sectionList", select: "title" },
     })
     .then((item) => {
@@ -61,14 +50,31 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
     .catch((err) => res.send(err));
 });
 
+router.get("/:_id", (req, res) => {
+  const userId = req.user._id;
+  const { _id } = req.params;
+  Program.find({ _id, studentList: userId });
+  populate({ path: "lessonList", select: "title" })
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch((err) => res.send(err));
+});
+
 router.post("/", (req, res) => {
   const newProgram = req.body;
-  newProgram.author = req.user._id;
   Program.create(newProgram)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));
 });
-
+router.get("/edit/:_id", async (req, res) => {
+  const { _id } = req.params;
+  Program.findOne({ _id })
+    .then((items) => {
+      res.send(items);
+    })
+    .catch((err) => res.send(err));
+});
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
@@ -78,7 +84,14 @@ router.put("/edit/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-
+router.get("/delete/:_id", async (req, res) => {
+  const { _id } = req.params;
+  Program.findOne({ _id })
+    .then((items) => {
+      res.send(items);
+    })
+    .catch((err) => res.send(err));
+});
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
   Program.deleteOne({ _id })

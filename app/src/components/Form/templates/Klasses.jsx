@@ -16,7 +16,7 @@ const daysOptions = [
   { label: "Saturday", value: "6" },
 ];
 
-const Klasses = ({ isAuthor }) => {
+const Klasses = (props) => {
   return (
     <Container>
       <Row>
@@ -25,7 +25,6 @@ const Klasses = ({ isAuthor }) => {
             <Col xs={7}>
               <Form.Group>
                 <Field
-                  readOnly={!isAuthor}
                   className="form-control"
                   name="title"
                   placeholder="Title"
@@ -33,7 +32,6 @@ const Klasses = ({ isAuthor }) => {
               </Form.Group>
               <Form.Group>
                 <Field
-                  readOnly={!isAuthor}
                   className="form-control"
                   placeholder="level"
                   name="level"
@@ -41,7 +39,6 @@ const Klasses = ({ isAuthor }) => {
               </Form.Group>
               <Form.Group>
                 <Field
-                  readOnly={!isAuthor}
                   className="form-control"
                   name="origin"
                   placeholder="Origin"
@@ -65,7 +62,6 @@ const Klasses = ({ isAuthor }) => {
                       return (
                         <Form.Check
                           hidden
-                          disabled={!isAuthor}
                           {...field}
                           checked={
                             field.value.daysOfWeek &&
@@ -92,12 +88,11 @@ const Klasses = ({ isAuthor }) => {
             <Col md={4} xs={6}>
               <Form.Group className="flex-grow-1">
                 <Form.Label>Start date</Form.Label>
-                <Field disabled={true} name="start">
+                <Field name="start">
                   {({ form }) => {
                     return (
                       <DatePicker
                         fieldName="start"
-                        readOnly={!isAuthor}
                         initialDate={form.initialValues.start}
                         setFieldValue={form.setFieldValue}
                       />
@@ -112,7 +107,6 @@ const Klasses = ({ isAuthor }) => {
                     return (
                       <DatePicker
                         fieldName="end"
-                        readOnly={!isAuthor}
                         initialDate={form.initialValues.end}
                         setFieldValue={form.setFieldValue}
                       />
@@ -130,9 +124,8 @@ const Klasses = ({ isAuthor }) => {
                       <TimePicker
                         fieldName="start"
                         recurrField="startTime"
-                        readOnly={!isAuthor}
-                        setFieldValue={form.setFieldValue}
-                        initialValue={form.initialValues.start}
+                        pathValueToFormik={form.setFieldValue}
+                        initialTime={field.value.start}
                       />
                     );
                   }}
@@ -144,11 +137,10 @@ const Klasses = ({ isAuthor }) => {
                   {({ field, form, meta }) => {
                     return (
                       <TimePicker
-                        readOnly={!isAuthor}
                         fieldName="end"
                         recurrField="endTime"
-                        setFieldValue={form.setFieldValue}
-                        initialValue={form.initialValues.end}
+                        pathValueToFormik={form.setFieldValue}
+                        initialTime={field.value.end}
                       />
                     );
                   }}
@@ -163,7 +155,6 @@ const Klasses = ({ isAuthor }) => {
                     {({ field, form }) => (
                       <Form.Check
                         hidden
-                        disabled={!isAuthor}
                         {...field}
                         checked={field.value === "individual"}
                         className="radio w-100 flex-grow-1"
@@ -181,7 +172,7 @@ const Klasses = ({ isAuthor }) => {
                     {({ field, form }) => (
                       <Form.Check
                         {...field}
-                        disabled={!isAuthor}
+                        checked={field.value === "group"}
                         hidden
                         className="radio w-100 flex-grow-1"
                         type="radio"
@@ -207,7 +198,6 @@ const Klasses = ({ isAuthor }) => {
                 <Field className="flex-grow-1">
                   {({ field }) => (
                     <AddStudent
-                      readOnly={!isAuthor}
                       initialStudentList={form.initialValues.studentList}
                       remove={remove}
                       push={push}
@@ -221,12 +211,10 @@ const Klasses = ({ isAuthor }) => {
             {({ push, remove, form }) => {
               return (
                 <AddToList
-                  readOnly={!isAuthor}
                   push={push}
                   remove={remove}
-                  setFieldValue={form.setFieldValue}
                   collectionName="programs"
-                  values={form.values}
+                  form={form}
                   removedListField="removedProgramsList"
                   initialList={form.initialValues.programList}
                 />

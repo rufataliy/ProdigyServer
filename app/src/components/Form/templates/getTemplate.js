@@ -7,15 +7,15 @@ import Vocabularies from "./Vocabularies.jsx";
 import Words from "./Words.jsx";
 import Chats from "./Chats.jsx";
 
-export const getTemplate = (props, { collectionName, isAuthor }) => {
+export const getTemplate = (props, { collectionName }) => {
   const templates = {
-    klasses: <Klasses {...props} isAuthor={isAuthor} />,
-    words: <Words {...props} isAuthor={isAuthor} />,
-    vocabularies: <Vocabularies {...props} isAuthor={isAuthor} />,
-    programs: <Programs {...props} isAuthor={isAuthor} />,
-    lessons: <Lessons {...props} isAuthor={isAuthor} />,
-    sections: <Sections {...props} isAuthor={isAuthor} />,
-    newChat: <Chats {...props} isAuthor={isAuthor} />,
+    klasses: <Klasses {...props} />,
+    words: <Words {...props} />,
+    vocabularies: <Vocabularies {...props} />,
+    programs: <Programs {...props} />,
+    lessons: <Lessons {...props} />,
+    sections: <Sections {...props} />,
+    newChat: <Chats {...props} />,
   };
   return templates[collectionName];
 };
