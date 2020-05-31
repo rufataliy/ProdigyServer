@@ -12,7 +12,16 @@ const _Item = ({ item, editItem, deleteItem, readOnly, childRoute }) => {
           <Card.Subtitle className="mb-2 text-muted">
             {item.level}
           </Card.Subtitle>
-          <Link to={`${item._id}/${childRoute}/`}>See </Link>
+          <Link
+            to={{
+              pathname: `${item._id}/${childRoute}/`,
+              state: {
+                extendable: !readOnly,
+              },
+            }}
+          >
+            See
+          </Link>
           {!readOnly && (
             <>
               <Icon

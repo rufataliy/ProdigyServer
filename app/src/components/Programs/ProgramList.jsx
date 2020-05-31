@@ -5,7 +5,7 @@ import { PROGRAM } from "../../store/useGlobalState";
 import { getProgramsOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useLocation } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 
 const ProgramList = () => {
@@ -22,6 +22,7 @@ const ProgramList = () => {
   const [edit] = useEdit("programs");
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
+  const { state } = useLocation();
 
   useEffect(() => {
     let mounted = true;
@@ -49,6 +50,7 @@ const ProgramList = () => {
     <React.Fragment>
       <List
         userId={userId}
+        state={state}
         Component={ListItem}
         fetching={fetching}
         editItem={edit}
