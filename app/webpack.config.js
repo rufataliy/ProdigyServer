@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: "./",
+    publicPath: "https://localhost:3000/app/",
     filename: "[name].js",
   },
   target: "web",
