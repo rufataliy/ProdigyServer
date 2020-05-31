@@ -34,6 +34,7 @@ const _SideBar = ({ links }) => {
                 to={(location) => ({
                   ...location,
                   pathname: `/app${path}/`,
+                  state: { extendable: true },
                 })}
               >
                 {title}

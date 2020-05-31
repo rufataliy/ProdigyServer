@@ -8,7 +8,7 @@ import {
 } from "../../utils/defaultAPIConfig";
 import Icon from "../../views/_Icon.jsx";
 
-const AddStudent = ({ push, remove, initialStudentList }) => {
+const AddStudent = ({ push, remove, initialStudentList, readOnly }) => {
   const [students, setStudents] = useState(initialStudentList);
   const [inputValue, setInputValue] = useState("");
   const [fetching, setFetching] = useState(false);
@@ -53,27 +53,31 @@ const AddStudent = ({ push, remove, initialStudentList }) => {
   };
   return (
     <div>
-      <div className="d-flex">
-        <input
-          value={inputValue}
-          className="form-control"
-          onChange={handleChange}
-          placeholder="Email"
-          type="email"
-        />
-        <button
-          className="btn-primary btn-sm"
-          type="button"
-          onClick={getStudent}
-        >
-          {fetching ? (
-            <Spinner animation="border" variant="secondary" />
-          ) : (
-            "add"
-          )}
-        </button>
-      </div>
-      <p className="text-danger">{error}</p>
+      {!readOnly && (
+        <>
+          <div className="d-flex">
+            <input
+              value={inputValue}
+              className="form-control"
+              onChange={handleChange}
+              placeholder="Email"
+              type="email"
+            />
+            <button
+              className="btn-primary btn-sm"
+              type="button"
+              onClick={getStudent}
+            >
+              {fetching ? (
+                <Spinner animation="border" variant="secondary" />
+              ) : (
+                "add"
+              )}
+            </button>
+          </div>
+          <p className="text-danger">{error}</p>
+        </>
+      )}
       <ul className="list-group">
         Students
         {studentListLoading ? (
@@ -85,11 +89,13 @@ const AddStudent = ({ push, remove, initialStudentList }) => {
               className="list-group-item d-flex justify-content-between align-items-center"
             >
               {student.name}
-              <Icon
-                id={index}
-                onClick={handleUnshift}
-                className="fas fa-trash"
-              ></Icon>
+              {!readOnly && (
+                <Icon
+                  id={index}
+                  onClick={handleUnshift}
+                  className="fas fa-trash"
+                />
+              )}
             </li>
           ))
         )}

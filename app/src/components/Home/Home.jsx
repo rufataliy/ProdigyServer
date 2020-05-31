@@ -12,7 +12,12 @@ const Home = () => {
             <Link
               key={index}
               type="button"
-              to={`/app${page.path}/`}
+              // to={`/app${page.path}/`}
+              to={(location) => ({
+                ...location,
+                pathname: `/app${page.path}/`,
+                state: { extendable: true, parentTitle: "" },
+              })}
               className="btn quick-access-btn mr-3 btn-outline-primary"
             >
               <Icon

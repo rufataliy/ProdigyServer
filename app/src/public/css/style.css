@@ -345,3 +345,11 @@ i:hover {
   transform: translateY(-50%) translateX(-50%);
   z-index: 10000;
 }
+
+.readonly-wrapper {
+  z-index: 1000;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #3ea4f429;
+}
