@@ -8,9 +8,7 @@ const LessonHome = (props) => {
   return (
     <React.Fragment>
       <Route exact path={path} component={LessonList} />
-      <Route path={`${path}/:lessonId/sections`}>
-        <SectionList />
-      </Route>
+      <Route path={`${path}/:lessonId/sections`} component={SectionList} />
     </React.Fragment>
   );
 };

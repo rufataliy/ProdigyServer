@@ -15,6 +15,7 @@ const AddToList = ({
   initialList = [],
   collectionName,
   removedListField,
+  readOnly,
 }) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState([...initialList]);
@@ -81,25 +82,37 @@ const AddToList = ({
 
   return (
     <div>
-      <div className="d-flex">
-        <select className="w-100 select" onChange={handleChange} value={index}>
-          <option value="">Choose {collectionName}</option>
-          {list &&
-            list.map((item, index) => (
-              <option key={index} value={index}>
-                {item.title}
-              </option>
-            ))}
-        </select>
-        <button className="btn-primary btn-sm" type="button" onClick={assign}>
-          {fetching ? (
-            <Spinner animation="border" variant="secondary" />
-          ) : (
-            "assign"
-          )}
-        </button>
-      </div>
-      <p className="text-danger">{error}</p>
+      {!readOnly && (
+        <>
+          <div className="d-flex">
+            <select
+              className="w-100 select"
+              onChange={handleChange}
+              value={index}
+            >
+              <option value="">Choose {collectionName}</option>
+              {list &&
+                list.map((item, index) => (
+                  <option key={index} value={index}>
+                    {item.title}
+                  </option>
+                ))}
+            </select>
+            <button
+              className="btn-primary btn-sm"
+              type="button"
+              onClick={assign}
+            >
+              {fetching ? (
+                <Spinner animation="border" variant="secondary" />
+              ) : (
+                "assign"
+              )}
+            </button>
+          </div>
+          <p className="text-danger">{error}</p>
+        </>
+      )}
       {capitalize(collectionName)}
       <div
         style={{ maxHeight: "200px", overflow: "auto" }}
@@ -109,12 +122,13 @@ const AddToList = ({
           addedItems.map((item, index) => (
             <Badge
               pill
-              onClick={() => handleUnshift(index)}
+              onClick={() => !readOnly && handleUnshift(index)}
               variant="primary m-1"
+              key={index}
             >
               <h6 style={{ color: "white" }} className="m-0 p-1">
                 {item.title}
-                <Icon className="fas fa-trash ml-2" />
+                {!readOnly && <Icon className="fas fa-trash ml-2" />}
               </h6>
             </Badge>
           ))}

@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "ckeditor5-build-classic-plus";
+import("https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js");
+
 const TextEditor = ({ initialText, form }) => {
   return (
     <div className="App">

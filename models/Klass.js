@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const klassSchema = new mongoose.Schema({
-    author: String,
+const klassSchema = new mongoose.Schema(
+  {
+    author: mongoose.SchemaTypes.ObjectId,
     title: String,
     level: String,
     classType: String,
@@ -14,7 +15,9 @@ const klassSchema = new mongoose.Schema({
     vocabularyList: [String],
     studentList: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }],
     programList: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Program" }],
-}, { selectPopulatedPaths: true });
+  },
+  { selectPopulatedPaths: true }
+);
 
 const Klass = mongoose.model("Klass", klassSchema);
 

@@ -1,7 +1,8 @@
 import React from "react";
 import { Tab, Row, Col, Container, Nav } from "react-bootstrap";
 import Icon from "./_Icon.jsx";
-const _Tabs = ({ items, edit, remove }) => {
+
+const _Tabs = ({ items, edit, remove, userId }) => {
   // props.items[0]._id return error of cannot read property of undefined
   return (
     <Tab.Container
@@ -27,6 +28,7 @@ const _Tabs = ({ items, edit, remove }) => {
             <Tab.Content className="position-relative ">
               {items &&
                 items.map((item) => {
+                  const readOnly = item.author !== userId;
                   return (
                     <React.Fragment>
                       <Tab.Pane key={item._id} eventKey={item._id}>
@@ -34,16 +36,18 @@ const _Tabs = ({ items, edit, remove }) => {
                           className="section-content p-3"
                           dangerouslySetInnerHTML={{ __html: item.text }}
                         ></div>
-                        <div className="section-buttons-box">
-                          <Icon
-                            onClick={() => edit(item)}
-                            className="ml-3 fas fa-pen"
-                          />
-                          <Icon
-                            onClick={() => remove(item)}
-                            className="ml-3 fas fa-trash"
-                          />
-                        </div>
+                        {!readOnly && (
+                          <div className="section-buttons-box">
+                            <Icon
+                              onClick={() => edit(item)}
+                              className="ml-3 fas fa-pen"
+                            />
+                            <Icon
+                              onClick={() => remove(item)}
+                              className="ml-3 fas fa-trash"
+                            />
+                          </div>
+                        )}
                       </Tab.Pane>
                     </React.Fragment>
                   );

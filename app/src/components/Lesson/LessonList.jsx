@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
-import { useRouteMatch, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useRouteMatch, useParams, useLocation } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import Context from "../../store/context";
 import api from "../../api/api.js";
@@ -8,14 +8,22 @@ import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 
-const LessonList = ({ setAction }) => {
-  const { actions, lessonState, compUpdate } = useContext(Context);
+const LessonList = () => {
+  const {
+    actions,
+    lessonState,
+    appState: {
+      author: { _id: userId },
+    },
+    compUpdate,
+  } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const [remove] = useDelete("lessons");
   const [create] = useCreate("lessons");
   const [edit] = useEdit("lessons");
   const { url } = useRouteMatch();
   const { programId = "" } = useParams();
+  const { state } = useLocation();
 
   useEffect(() => {
     let mounted = true;
@@ -39,12 +47,16 @@ const LessonList = ({ setAction }) => {
     return () => (mounted = false);
   }, [compUpdate]);
 
+  const parentId = programId;
+
   return (
     <React.Fragment>
       <List
+        userId={userId}
+        state={state}
         Component={ListItem}
         fetching={fetching}
-        createItem={() => create({ parentId: programId })}
+        createItem={() => create({ parentId })}
         editItem={edit}
         deleteItem={remove}
         items={lessonState.lessons}
