@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "ckeditor5-build-classic-plus";
-import("https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js");
 
 const TextEditor = ({ initialText, form }) => {
   return (
@@ -14,7 +13,7 @@ const TextEditor = ({ initialText, form }) => {
           simpleUpload: {
             // The URL that the images are uploaded to.
             uploadUrl:
-              "https://localhost:3000/api/fileuploads/textEditorImageUpload",
+              process.env.BASE_URL + "/api/fileuploads/textEditorImageUpload",
 
             // Headers sent along with the XMLHttpRequest to the upload server.
             headers: {
