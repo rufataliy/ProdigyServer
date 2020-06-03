@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/public/img/loading.gif"],"names":[],"mappings":";;;;;;;;;AAAA,iBAAiB,qBAAuB,0C","file":"0.js","sourcesContent":["module.exports = __webpack_public_path__ + \"1b0e3a2f4c3e8131ca07ecb7d615ab3d.gif\";"],"sourceRoot":""}
