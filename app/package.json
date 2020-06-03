@@ -8,9 +8,9 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon ./dist/server.js",
-    "build": "webpack --mode development --watch",
+    "build": "webpack --env.BASE_URL=https://localhost:3000 --mode development --watch",
     "prod": "NODE_ENV=production nodemon server.js",
-    "build-pro": "webpack --mode production",
+    "build-pro": "webpack --env.BASE_URL=https://prodigy.rufataliyev.com --mode production",
     "dbServer": "json-server --watch api/db.json --port 3001"
   },
   "engines": {

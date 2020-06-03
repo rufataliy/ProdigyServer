@@ -7,14 +7,14 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
   excludeChunks: ["server", "./src/build"],
 });
 
-module.exports = {
+module.exports = (env) => ({
   watch: false,
   entry: {
     main: "./src/index.js",
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: "https://localhost:3000/app/",
+    publicPath: env.BASE_URL + "/app/",
     filename: "[name].js",
   },
   target: "web",
@@ -77,4 +77,4 @@ module.exports = {
       },
     ],
   },
-};
+});
