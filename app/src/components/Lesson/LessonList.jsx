@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useRouteMatch, useParams, useLocation } from "react-router-dom";
+import { useRouteMatch, useParams } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import Context from "../../store/context";
 import api from "../../api/api.js";
@@ -23,14 +23,16 @@ const LessonList = () => {
   const [edit] = useEdit("lessons");
   const { url } = useRouteMatch();
   const { programId = "" } = useParams();
-  const { state } = useLocation();
+  const [extendable, setExtendable] = useState();
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
       api({ ...getLessonOptions, endpoint: url })
-        .then((lessons) => {
+        .then(({ extendable, items: lessons }) => {
+          setExtendable(extendable);
+
           actions({
             type: LESSON,
             payload: {
@@ -53,7 +55,7 @@ const LessonList = () => {
     <React.Fragment>
       <List
         userId={userId}
-        state={state}
+        extendable={extendable}
         Component={ListItem}
         fetching={fetching}
         createItem={() => create({ parentId })}

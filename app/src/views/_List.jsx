@@ -4,7 +4,7 @@ import RoundedBtn from "./_RoundedBtn.jsx";
 
 const _List = ({
   userId,
-  state,
+  extendable,
   items,
   createItem,
   editItem,
@@ -18,7 +18,7 @@ const _List = ({
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
         <h3 className="text-primary mb-0 mr-3">{listName}</h3>
-        {state && state.extendable && (
+        {extendable && (
           <RoundedBtn onClick={() => createItem()} iconName="fas fa-plus" />
         )}
       </div>

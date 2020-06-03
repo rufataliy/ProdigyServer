@@ -1,15 +1,13 @@
 const express = require("express");
 const router = new express.Router();
 const Program = require("../models/Program");
-const Section = require("../models/Section");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
   Program.find({ $or: [{ author: userId }, { studentList: userId }] })
     .populate({ path: "lessonList", select: ["title", "author"] })
-    .then((items) => {
-      res.status(200).json(items);
-    })
+    .lean()
+    .then((items) => res.status(200).json(items))
     .catch((err) => res.send(err));
 });
 
@@ -37,7 +35,10 @@ router.get("/:programId/lessons", (req, res) => {
       populate: { path: "sectionList", select: "title" },
     })
     .then((item) => {
-      res.status(200).json(item.lessonList);
+      res.status(200).json({
+        extendable: userId === item.author.toString(),
+        items: item.lessonList,
+      });
     })
     .catch((err) => res.send(err));
 });
@@ -56,7 +57,10 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
       populate: { path: "sectionList" },
     })
     .then((item) => {
-      res.status(200).json(item.lessonList[0].sectionList);
+      res.status(200).json({
+        extendable: userId === item.author.toString(),
+        sections: item.lessonList[0].sectionList,
+      });
     })
     .catch((err) => res.send(err));
 });
@@ -87,25 +91,5 @@ router.delete("/delete/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-router.post("/assignTo/:_id", async (req, res) => {
-  const { _id } = req.params;
-  const { klassId } = req.body;
-  Klass.findById(klassId)
-    .then((klass) => {
-      Program.findByIdAndUpdate(
-        { _id },
-        {
-          $push: {
-            klassList: { title: klass.title, klassId: klass._id },
-            studentList: { $each: klass.studentList },
-          },
-        }
-      )
-        .then((vocabulary) => {
-          res.send({ vocabulary, klass });
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
-});
+
 module.exports = router;

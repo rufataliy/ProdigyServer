@@ -1,25 +1,34 @@
 const mongoose = require("mongoose");
 
-const programSchema = new mongoose.Schema({
+const programSchema = new mongoose.Schema(
+  {
     title: String,
     description: String,
     author: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "User",
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
     },
-    klassList: [{
+    klassList: [
+      {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Klass",
-    }],
-    lessonList: [{
+      },
+    ],
+    lessonList: [
+      {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Lesson",
-    }],
-    studentList: [{
+      },
+    ],
+    studentList: [
+      {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "User",
-    }],
-}, { selectPopulatedPaths: true, strict: false });
+      },
+    ],
+  },
+  { selectPopulatedPaths: true, strict: false }
+);
 
 const Program = mongoose.model("Program", programSchema);
 

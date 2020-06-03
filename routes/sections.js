@@ -18,6 +18,7 @@ router.get("/:lessonId", (req, res) => {
 router.post("/:lessonId", (req, res) => {
   const section = req.body;
   const { lessonId } = req.params;
+  section.author = req.user._id;
 
   Section.create(section)
     .then((section) => {
@@ -40,14 +41,7 @@ router.post("/:lessonId", (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-router.get("/edit/:_id", async (req, res) => {
-  const { _id } = req.params;
-  Section.findOne({ _id })
-    .then((items) => {
-      res.send(items);
-    })
-    .catch((err) => res.send(err));
-});
+
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
@@ -57,14 +51,7 @@ router.put("/edit/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-router.get("/delete/:_id", async (req, res) => {
-  const { _id } = req.params;
-  Section.findOne({ _id })
-    .then((items) => {
-      res.send(items);
-    })
-    .catch((err) => res.send(err));
-});
+
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
   Section.deleteOne({ _id })
@@ -73,26 +60,5 @@ router.delete("/delete/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
-router.post("/assignTo/:_id", async (req, res) => {
-  const { _id } = req.params;
-  const { klassId } = req.body;
 
-  Klass.findById(klassId)
-    .then((klass) => {
-      Section.findByIdAndUpdate(
-        { _id },
-        {
-          $push: {
-            klassList: { title: klass.title, klassId: klass._id },
-            studentList: { $each: klass.studentList },
-          },
-        }
-      )
-        .then((vocabulary) => {
-          res.send({ vocabulary, klass });
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
-});
 module.exports = router;

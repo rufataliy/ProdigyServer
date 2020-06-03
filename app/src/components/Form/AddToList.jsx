@@ -31,7 +31,7 @@ const AddToList = ({
       collectionName,
       method: "get",
       endpoint: `/app/${collectionName}`,
-    }).then((items) => {
+    }).then(({ items }) => {
       items && setList(items);
       setFetching(false);
     });
