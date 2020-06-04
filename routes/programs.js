@@ -4,17 +4,19 @@ const Program = require("../models/Program");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
-  Program.find({ $or: [{ author: userId }, { studentList: userId }] })
+  Program.find({
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
+  })
     .populate({ path: "lessonList", select: ["title", "author"] })
     .lean()
-    .then((items) => res.status(200).json(items))
+    .then((items) => res.status(200).json({ extendable: true, items: items }))
     .catch((err) => res.send(err));
 });
 
 router.get("/:_id", (req, res) => {
   const userId = req.user._id;
   const { _id } = req.params;
-  Program.find({ _id, studentList: userId });
+  Program.find({ _id, $or: [{ sample: true }, { studentList: userId }] });
   populate({ path: "lessonList", select: "title" })
     .then((items) => {
       res.status(200).json(items);
@@ -27,7 +29,7 @@ router.get("/:programId/lessons", (req, res) => {
   const { programId } = req.params;
   Program.findOne({
     _id: programId,
-    $or: [{ author: userId }, { studentList: userId }],
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
     .populate({
       path: "lessonList",
@@ -48,7 +50,7 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
   const { programId, lessonId } = req.params;
   Program.findOne({
     _id: programId,
-    $or: [{ author: userId }, { studentList: userId }],
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
     .populate({
       path: "lessonList",
@@ -68,6 +70,7 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
 router.post("/", (req, res) => {
   const newProgram = req.body;
   newProgram.author = req.user._id;
+  newProgram.sample = true;
   Program.create(newProgram)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));

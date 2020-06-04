@@ -4,12 +4,12 @@ import Icon from "../../views/_Icon.jsx";
 import { useEffect } from "react";
 import io from "socket.io-client";
 import { Badge, Button } from "react-bootstrap";
-import { env } from "process";
 
 const Chat = () => {
-  const [socket, setSocket] = useState(io(env.PRODIGY_BASE_URL));
+  const [socket, setSocket] = useState(io());
   const [online, setOnline] = useState(false);
   const [closed, setClosed] = useState(true);
+
   useEffect(() => {
     socket.on("disconnect", (a) => {
       setOnline(false);

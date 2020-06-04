@@ -23,18 +23,20 @@ const ProgramList = () => {
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
   const { state } = useLocation();
+  const [extendable, setExtendable] = useState();
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
       api({ ...getProgramsOptions, endpoint: url })
-        .then((programs) => {
+        .then(({ extendable, items }) => {
+          setExtendable(extendable);
           actions({
             type: PROGRAM,
             payload: {
               ...programState,
-              programs,
+              programs: items,
             },
           });
           setFetching(false);
@@ -50,7 +52,7 @@ const ProgramList = () => {
     <React.Fragment>
       <List
         userId={userId}
-        state={state}
+        extendable={extendable}
         Component={ListItem}
         fetching={fetching}
         editItem={edit}

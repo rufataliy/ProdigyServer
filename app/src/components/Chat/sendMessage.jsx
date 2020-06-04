@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import Context from "../../store/context";
 import Icon from "../../views/_Icon.jsx";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
+
 const sendMessage = ({ socket, chatState, authorid }) => {
   const [value, setValue] = useState("");
   const onChange = (event) => {
@@ -15,7 +15,6 @@ const sendMessage = ({ socket, chatState, authorid }) => {
       title: chatState.title,
       content: value,
     };
-    console.log(msg);
     socket.emit(`message${authorid}`, msg);
     setValue("");
   };

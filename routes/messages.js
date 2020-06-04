@@ -9,6 +9,8 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const { JWT_SECRET } = process.env;
 
 io.on("connection", (socket) => {
+  console.log("connected");
+
   jwt.verify(
     cookieParser.parse(socket.request.headers.cookie).user,
     JWT_SECRET,

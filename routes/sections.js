@@ -5,8 +5,10 @@ const Section = require("../models/Section");
 
 router.get("/", (req, res) => {
   const author = req.user._id;
+  console.log(author);
+
   Section.find({ author })
-    .then((items) => res.status(200).json(items))
+    .then((items) => res.status(200).send({ items }))
     .catch((err) => res.send(err));
 });
 router.get("/:lessonId", (req, res) => {

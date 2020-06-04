@@ -1,19 +1,23 @@
 const mongoose = require("mongoose");
 
-const sectionSchema = new mongoose.Schema({
+const sectionSchema = new mongoose.Schema(
+  {
     title: String,
     level: String,
     sectionType: String,
     text: String,
     author: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "User",
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
     },
     lessonIdList: {
-        type: [mongoose.SchemaTypes.ObjectId],
-        ref: "Lesson"
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Lesson",
     },
-}, { selectPopulatedPaths: true, strict: false });
+    sample: Boolean,
+  },
+  { selectPopulatedPaths: true, strict: false }
+);
 
 // sectionSchema.post("remove", section => {
 //     const { _id } = section

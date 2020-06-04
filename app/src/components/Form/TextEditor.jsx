@@ -13,7 +13,7 @@ const TextEditor = ({ initialText, form }) => {
           simpleUpload: {
             // The URL that the images are uploaded to.
             uploadUrl:
-              process.env.BASE_URL + "/api/fileuploads/textEditorImageUpload",
+              "https://prodigy.rufataliyev.com/api/fileuploads/textEditorImageUpload",
 
             // Headers sent along with the XMLHttpRequest to the upload server.
             headers: {

@@ -61,7 +61,6 @@ router.put("/edit/:_id", async (req, res) => {
   //if authorId is athor of the doc
   const { _id } = req.params;
   const update = req.body;
-  console.log(req.user._id !== update.author);
 
   if (req.user._id !== update.author) {
     return res.status(403).send();
