@@ -15,16 +15,18 @@ const Wordlist = () => {
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
   const { vocabularyId } = useParams();
+  const [extendable, setExtendable] = useState();
 
   useEffect(() => {
     setFetching(true);
     api({ ...getWordsOptions, endpoint: url })
-      .then((words) => {
+      .then(({ extendable, items }) => {
+        setExtendable(extendable);
         actions({
           type: "setVocabState",
           payload: {
             ...vocabState,
-            words,
+            words: items,
           },
         });
         setFetching(false);
@@ -38,6 +40,7 @@ const Wordlist = () => {
   return (
     <List
       Component={Word}
+      extendable={extendable}
       listName="Words"
       items={vocabState.words}
       createItem={() => create({ parentId })}
