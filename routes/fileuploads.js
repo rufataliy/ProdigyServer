@@ -7,6 +7,6 @@ router.post("/textEditorImageUpload", fileUpload, (req, res) => {
 
   res
     .status(200)
-    .send({ url: process.env.BASE_URL + "/css/img/" + req.files.upload.name });
+    .send({ url: process.env.BASE_URL + "img/" + req.files.upload.name });
 });
 module.exports = router;
