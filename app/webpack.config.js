@@ -14,7 +14,7 @@ module.exports = (env) => ({
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: process.env.BASE_URL + "/app/",
+    publicPath: env.BASE_URL + "/app/",
     filename: "[name].js",
   },
   target: "web",
