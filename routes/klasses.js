@@ -1,20 +1,21 @@
 const express = require("express");
 const router = new express.Router();
 const Klass = require("../models/Klass");
-const request = require("request");
-const refreshToken = require("../tools/getNewAuth0Token");
-const Token = require("../models/Token");
 const Program = require("../models/Program");
 const User = require("../models/User");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 router.get("/", (req, res) => {
   const author = req.user._id;
+  console.log(author);
+
   // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
   Klass.find({ $or: [{ author }, { studentList: author }, { sample: true }] })
     .populate({ path: "studentList", select: "name" })
     .populate({ path: "programList", select: "title" })
     .then((items) => {
+      console.log(items);
+
       res.send(items);
     })
     .catch((err) => res.send(err));
