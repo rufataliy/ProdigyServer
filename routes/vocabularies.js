@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     $or: [{ author: usedId }, { studentList: usedId }, { sample: true }],
   })
     .populate({ path: "klassList", select: ["title", "studentList"] })
-    .then((items) => res.status(200).json(items))
+    .then((items) => res.status(200).json({ extendable: true, items }))
     .catch((err) => res.send(err));
 });
 router.get("/:vocabularyId/words", (req, res) => {
@@ -20,7 +20,11 @@ router.get("/:vocabularyId/words", (req, res) => {
     $or: [{ author: usedId }, { studentList: usedId }],
   })
     .populate({ path: "wordList" })
-    .then(({ wordList }) => res.status(200).json(wordList))
+    .then((item) =>
+      res
+        .status(200)
+        .json({ extendable: userId === item.author, items: item.wordList })
+    )
     .catch((err) => res.send(err));
 });
 router.post("/", (req, res) => {
