@@ -5,7 +5,9 @@ const Klass = require("../models/Klass");
 
 router.get("/", (req, res) => {
   const usedId = req.user._id;
-  Vocabulary.find({ $or: [{ author: usedId }, { studentList: usedId }] })
+  Vocabulary.find({
+    $or: [{ author: usedId }, { studentList: usedId }, { sample: true }],
+  })
     .populate({ path: "klassList", select: ["title", "studentList"] })
     .then((items) => res.status(200).json(items))
     .catch((err) => res.send(err));

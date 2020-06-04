@@ -11,7 +11,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 router.get("/", (req, res) => {
   const author = req.user._id;
   // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
-  Klass.find({ $or: [{ author }, { studentList: author }] })
+  Klass.find({ $or: [{ author }, { studentList: author }, { sample: true }] })
     .populate({ path: "studentList", select: "name" })
     .populate({ path: "programList", select: "title" })
     .then((items) => {
