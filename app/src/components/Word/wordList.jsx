@@ -11,7 +11,14 @@ const Wordlist = () => {
   const [remove] = useDelete("words");
   const [create] = useCreate("words");
   const [edit] = useEdit("words");
-  const { vocabState, compUpdate, actions } = useContext(Context);
+  const {
+    vocabState,
+    compUpdate,
+    actions,
+    appState: {
+      author: { _id: userId },
+    },
+  } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
   const { vocabularyId } = useParams();
@@ -39,6 +46,7 @@ const Wordlist = () => {
   const parentId = vocabularyId;
   return (
     <List
+      userId={userId}
       Component={Word}
       extendable={extendable}
       listName="Words"

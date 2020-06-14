@@ -11,6 +11,7 @@ const { server, app } = require("./server");
 const fileupload = require("express-fileupload");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
+const Word = require("./models/Word");
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -63,7 +64,6 @@ app.get("/profile", requiresAuth(), (req, res) => {
 app.get("/logoutCheck", (req, res) => {
   res.clearCookie("user").redirect("/logout");
 });
-
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
 app.get("/app/*", (req, res) => {
   res.sendFile(`index.html`, { root: __dirname + "/app/dist" });

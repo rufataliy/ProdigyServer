@@ -3,14 +3,15 @@ const router = new express.Router();
 const Word = require("../models/Word");
 const Vocabulary = require("../models/Vocabulary");
 
-router.get("/:docId", (req, res) => {
-  const { docId } = req.params;
-  Word.find({ vocabularyId: docId })
-    .then((items) => res.send(items))
+router.get("/:vocabularyId", (req, res) => {
+  const { vocabularyId } = req.params;
+  Word.find({ vocabularyId })
+    .then((items) => res.send({ items }))
     .catch((err) => res.send(err));
 });
 router.post("/:vocabularyId", (req, res) => {
   const word = req.body;
+  word.author = req.user._id;
   const { vocabularyId: _id } = req.params;
   word.vocabularyId = _id;
   Word.create(word)

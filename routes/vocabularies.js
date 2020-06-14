@@ -13,11 +13,12 @@ router.get("/", (req, res) => {
     .catch((err) => res.send(err));
 });
 router.get("/:vocabularyId/words", (req, res) => {
-  const usedId = req.user._id;
+  const userId = req.user._id;
   const { vocabularyId } = req.params;
+
   Vocabulary.findOne({
     _id: vocabularyId,
-    $or: [{ author: usedId }, { studentList: usedId }],
+    $or: [{ author: userId }, { studentList: userId }],
   })
     .populate({ path: "wordList" })
     .then((item) =>
@@ -27,11 +28,11 @@ router.get("/:vocabularyId/words", (req, res) => {
     )
     .catch((err) => res.send(err));
 });
+
 router.post("/", (req, res) => {
   const newVocabulary = req.body;
 
   newVocabulary.author = req.user._id;
-  console.log(newVocabulary);
   Vocabulary.create(newVocabulary)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));
