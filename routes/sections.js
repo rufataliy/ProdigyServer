@@ -5,18 +5,20 @@ const Section = require("../models/Section");
 
 router.get("/", (req, res) => {
   const author = req.user._id;
-  console.log(author);
 
   Section.find({ author })
     .then((items) => res.status(200).send({ items }))
     .catch((err) => res.send(err));
 });
+
 router.get("/:lessonId", (req, res) => {
   const author = req.user._id;
+
   Section.find({ lessonIdList: req.params.lessonId })
     .then((items) => res.status(200).json(items))
     .catch((err) => res.send(err));
 });
+
 router.post("/:lessonId", (req, res) => {
   const section = req.body;
   const { lessonId } = req.params;
@@ -47,6 +49,7 @@ router.post("/:lessonId", (req, res) => {
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
+
   Section.updateOne({ _id }, { $set: update })
     .then((items) => {
       res.send(items);
@@ -56,6 +59,7 @@ router.put("/edit/:_id", async (req, res) => {
 
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
+
   Section.deleteOne({ _id })
     .then((items) => {
       res.send(items);

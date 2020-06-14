@@ -5,6 +5,7 @@ const Klass = require("../models/Klass");
 
 router.get("/", (req, res) => {
   const usedId = req.user._id;
+
   Vocabulary.find({
     $or: [{ author: usedId }, { studentList: usedId }, { sample: true }],
   })
@@ -12,13 +13,14 @@ router.get("/", (req, res) => {
     .then((items) => res.status(200).json({ extendable: true, items }))
     .catch((err) => res.send(err));
 });
+
 router.get("/:vocabularyId/words", (req, res) => {
   const userId = req.user._id;
   const { vocabularyId } = req.params;
 
   Vocabulary.findOne({
     _id: vocabularyId,
-    $or: [{ author: userId }, { studentList: userId }],
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
     .populate({ path: "wordList" })
     .then((item) =>
@@ -31,8 +33,8 @@ router.get("/:vocabularyId/words", (req, res) => {
 
 router.post("/", (req, res) => {
   const newVocabulary = req.body;
-
   newVocabulary.author = req.user._id;
+
   Vocabulary.create(newVocabulary)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));
@@ -45,23 +47,28 @@ router.get("/edit/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
+
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
+
   Vocabulary.updateOne({ _id }, { $set: update })
     .then((items) => {
       res.send(items);
     })
     .catch((err) => res.send(err));
 });
+
 router.get("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
+
   Vocabulary.findOne({ _id })
     .then((items) => {
       res.send(items);
     })
     .catch((err) => res.send(err));
 });
+
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
 

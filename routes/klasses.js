@@ -3,19 +3,14 @@ const router = new express.Router();
 const Klass = require("../models/Klass");
 const Program = require("../models/Program");
 const User = require("../models/User");
-const ObjectId = require("mongoose").Types.ObjectId;
 
 router.get("/", (req, res) => {
   const author = req.user._id;
-  console.log(author);
 
-  // get all klasses for author or student : { $or: [{ author: authorId }, { studentList: studentId }] }
   Klass.find({ $or: [{ author }, { studentList: author }, { sample: true }] })
     .populate({ path: "studentList", select: "name" })
     .populate({ path: "programList", select: "title" })
     .then((items) => {
-      console.log(items);
-
       res.send(items);
     })
     .catch((err) => res.send(err));
@@ -24,6 +19,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const klass = req.body;
   klass.author = req.user._id;
+
   Klass.create(klass)
     .then((item) => {
       Program.updateMany(
@@ -48,7 +44,7 @@ router.get("/addStudent/:email", (req, res) => {
 });
 
 router.get("/edit/:_id", async (req, res) => {
-  //if authorId is author of the doc
+  //TODO: if authorId is author of the doc
   const { _id } = req.params;
   Klass.findOne({ _id })
     .then((items) => {
@@ -57,9 +53,9 @@ router.get("/edit/:_id", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
-// if a student is removed it needs to be removed from program two
+//TODO: if a student is removed it needs to be removed from program two
 router.put("/edit/:_id", async (req, res) => {
-  //if authorId is athor of the doc
+  //TOOO: if authorId is author of the doc
   const { _id } = req.params;
   const update = req.body;
 
@@ -73,8 +69,8 @@ router.put("/edit/:_id", async (req, res) => {
 
   Klass.findByIdAndUpdate({ _id }, { $set: update })
     .then((item) => {
-      //_id fields return from query are objects . Running new query with them as an array
-      // of araays won't work.
+      //_id fields returned from query are objects . Running new query with them as an array
+      // of arrays won't work.
       const klassId = item._id.toString();
       const studentList = item.studentList.map((id) => id.toString());
 
@@ -104,6 +100,7 @@ router.put("/edit/:_id", async (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
 router.get("/delete/:_id", async (req, res) => {
   //if authorId is athor of the doc
   const { _id } = req.params;
@@ -113,6 +110,7 @@ router.get("/delete/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
+
 router.delete("/delete/:_id", async (req, res) => {
   //if authorId is athor of the doc
   const { _id } = req.params;

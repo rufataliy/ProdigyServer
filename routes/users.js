@@ -14,6 +14,7 @@ router.get("/", (req, res) => {
 
 router.get("/:email", (req, res) => {
   const { email } = req.params;
+
   User.findOne({ email }, ["_id", "name"])
     .then((items) => {
       res.send(items);
@@ -30,6 +31,7 @@ router.post("/", (req, res) => {
 
 router.get("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
+
   User.findOne({ _id })
     .then((items) => {
       res.send(items);
@@ -48,12 +50,14 @@ router.post("/edit/:_id", async (req, res) => {
 });
 router.get("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
+
   User.findOne({ _id })
     .then((items) => {
       res.send(items);
     })
     .catch((err) => res.send(err));
 });
+
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
 
@@ -63,4 +67,5 @@ router.delete("/delete/:_id", async (req, res) => {
     })
     .catch((err) => res.send(err));
 });
+
 module.exports = router;

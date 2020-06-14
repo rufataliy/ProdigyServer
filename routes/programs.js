@@ -4,6 +4,7 @@ const Program = require("../models/Program");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
+
   Program.find({
     $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
@@ -16,6 +17,7 @@ router.get("/", (req, res) => {
 router.get("/:_id", (req, res) => {
   const userId = req.user._id;
   const { _id } = req.params;
+
   Program.find({ _id, $or: [{ sample: true }, { studentList: userId }] });
   populate({ path: "lessonList", select: "title" })
     .then((items) => {
@@ -27,6 +29,7 @@ router.get("/:_id", (req, res) => {
 router.get("/:programId/lessons", (req, res) => {
   const userId = req.user._id;
   const { programId } = req.params;
+
   Program.findOne({
     _id: programId,
     $or: [{ author: userId }, { studentList: userId }, { sample: true }],
@@ -48,6 +51,7 @@ router.get("/:programId/lessons", (req, res) => {
 router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
   const userId = req.user._id;
   const { programId, lessonId } = req.params;
+
   Program.findOne({
     _id: programId,
     $or: [{ author: userId }, { studentList: userId }, { sample: true }],
@@ -71,6 +75,7 @@ router.post("/", (req, res) => {
   const newProgram = req.body;
   newProgram.author = req.user._id;
   newProgram.sample = true;
+
   Program.create(newProgram)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));
@@ -79,6 +84,7 @@ router.post("/", (req, res) => {
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
+
   Program.updateOne({ _id }, { $set: update })
     .then((items) => {
       res.send(items);
@@ -88,6 +94,7 @@ router.put("/edit/:_id", async (req, res) => {
 
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
+
   Program.deleteOne({ _id })
     .then((items) => {
       res.send(items);
