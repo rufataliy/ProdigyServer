@@ -45,7 +45,6 @@ export const FormikForm = () => {
     });
   };
   const handleSubmit = (values) => {
-    values.author = appState.author._id;
     api(formConfig, values)
       .then(() => {
         reset();
@@ -67,6 +66,8 @@ export const FormikForm = () => {
           <Modal.Footer>
             <FormBootstrap.Group>
               <Button
+                disabled={!formConfig.isAuthor}
+                hidden={!formConfig.isAuthor}
                 type="submit"
                 onClick={() => handleSubmit(props.values)}
                 className="btn-sm"

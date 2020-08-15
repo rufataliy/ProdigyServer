@@ -11,6 +11,7 @@ const { server, app } = require("./server");
 const fileupload = require("express-fileupload");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
+const Word = require("./models/Word");
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -53,24 +54,20 @@ app.use(
 app.get("/", (req, res) => {
   res.render("index", { baseUrl: req.headers.host });
 });
+
 app.get("/profile", requiresAuth(), (req, res) => {
   User.findOne({ email: req.openid.user.email })
     .then((user) => res.send(user))
     .catch(console.log);
 });
-app.get("/logoutCheck", (req, res) => {
-  res.clearCookie("user");
 
-  res.redirect("/logout");
+app.get("/logoutCheck", (req, res) => {
+  res.clearCookie("user").redirect("/logout");
 });
 app.use("/app", isAuthenticated, express.static(`${__dirname}/app/dist`));
-app.get("/app", (req, res) => {
-  res.sendFile(`index.html`, { root: "/app/dist" });
+app.get("/app/*", (req, res) => {
+  res.sendFile(`index.html`, { root: __dirname + "/app/dist" });
 });
-
-app.use("/app/Schedule", express.static(`${__dirname}/app/dist`));
-app.use("/app/Vocabulary", express.static(`${__dirname}/app/dist`));
-app.use("/app/test", isAuthenticated, express.static(`${__dirname}/app/dist`));
 
 app.use("/api/*", isAuthenticated);
 app.use("/api/users", require("./routes/users"));

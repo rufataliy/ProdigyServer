@@ -4,10 +4,13 @@ import Icon from "../../views/_Icon.jsx";
 import { useEffect } from "react";
 import io from "socket.io-client";
 import { Badge, Button } from "react-bootstrap";
+import { env } from "process";
+
 const Chat = () => {
-  const [socket, setSocket] = useState(io("https://prodigy.rufataliyev.com"));
+  const [socket, setSocket] = useState(io(env.BASE_URL));
   const [online, setOnline] = useState(false);
   const [closed, setClosed] = useState(true);
+
   useEffect(() => {
     socket.on("disconnect", (a) => {
       setOnline(false);

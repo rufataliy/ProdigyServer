@@ -1,12 +1,25 @@
 const express = require("express");
 const router = new express.Router();
 const Program = require("../models/Program");
-const Section = require("../models/Section");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
-  Program.find({ $or: [{ author: userId }, { studentList: userId }] })
-    .populate({ path: "lessonList", select: "title" })
+
+  Program.find({
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
+  })
+    .populate({ path: "lessonList", select: ["title", "author"] })
+    .lean()
+    .then((items) => res.status(200).json({ extendable: true, items: items }))
+    .catch((err) => res.send(err));
+});
+
+router.get("/:_id", (req, res) => {
+  const userId = req.user._id;
+  const { _id } = req.params;
+
+  Program.find({ _id, $or: [{ sample: true }, { studentList: userId }] });
+  populate({ path: "lessonList", select: "title" })
     .then((items) => {
       res.status(200).json(items);
     })
@@ -16,17 +29,21 @@ router.get("/", (req, res) => {
 router.get("/:programId/lessons", (req, res) => {
   const userId = req.user._id;
   const { programId } = req.params;
+
   Program.findOne({
     _id: programId,
-    $or: [{ author: userId }, { studentList: userId }],
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
     .populate({
       path: "lessonList",
-      select: "title",
+      select: ["title", "author"],
       populate: { path: "sectionList", select: "title" },
     })
     .then((item) => {
-      res.status(200).json(item.lessonList);
+      res.status(200).json({
+        extendable: userId === item.author.toString(),
+        items: item.lessonList,
+      });
     })
     .catch((err) => res.send(err));
 });
@@ -34,9 +51,10 @@ router.get("/:programId/lessons", (req, res) => {
 router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
   const userId = req.user._id;
   const { programId, lessonId } = req.params;
+
   Program.findOne({
     _id: programId,
-    $or: [{ author: userId }, { studentList: userId }],
+    $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
     .populate({
       path: "lessonList",
@@ -45,80 +63,43 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
       populate: { path: "sectionList" },
     })
     .then((item) => {
-      res.status(200).json(item.lessonList[0].sectionList);
-    })
-    .catch((err) => res.send(err));
-});
-
-router.get("/:_id", (req, res) => {
-  const userId = req.user._id;
-  const { _id } = req.params;
-  Program.find({ _id, studentList: userId });
-  populate({ path: "lessonList", select: "title" })
-    .then((items) => {
-      res.status(200).json(items);
+      res.status(200).json({
+        extendable: userId === item.author.toString(),
+        sections: item.lessonList[0].sectionList,
+      });
     })
     .catch((err) => res.send(err));
 });
 
 router.post("/", (req, res) => {
   const newProgram = req.body;
+  newProgram.author = req.user._id;
+  newProgram.sample = true;
+
   Program.create(newProgram)
     .then((items) => res.send(items))
     .catch((err) => res.send(err));
 });
-router.get("/edit/:_id", async (req, res) => {
-  const { _id } = req.params;
-  Program.findOne({ _id })
-    .then((items) => {
-      res.send(items);
-    })
-    .catch((err) => res.send(err));
-});
+
 router.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   const update = req.body;
+
   Program.updateOne({ _id }, { $set: update })
     .then((items) => {
       res.send(items);
     })
     .catch((err) => res.send(err));
 });
-router.get("/delete/:_id", async (req, res) => {
-  const { _id } = req.params;
-  Program.findOne({ _id })
-    .then((items) => {
-      res.send(items);
-    })
-    .catch((err) => res.send(err));
-});
+
 router.delete("/delete/:_id", async (req, res) => {
   const { _id } = req.params;
+
   Program.deleteOne({ _id })
     .then((items) => {
       res.send(items);
     })
     .catch((err) => res.send(err));
 });
-router.post("/assignTo/:_id", async (req, res) => {
-  const { _id } = req.params;
-  const { klassId } = req.body;
-  Klass.findById(klassId)
-    .then((klass) => {
-      Program.findByIdAndUpdate(
-        { _id },
-        {
-          $push: {
-            klassList: { title: klass.title, klassId: klass._id },
-            studentList: { $each: klass.studentList },
-          },
-        }
-      )
-        .then((vocabulary) => {
-          res.send({ vocabulary, klass });
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
-});
+
 module.exports = router;

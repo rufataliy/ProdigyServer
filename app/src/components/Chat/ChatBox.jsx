@@ -6,9 +6,9 @@ import Context from "../../store/context";
 import People from "./People.jsx";
 import ChatList from "./ChatList.jsx";
 import ChatTitle from "./ChatTitle.jsx";
-
 import { getChats } from "../../utils/defaultAPIConfig.js";
 import api from "../../api/api";
+
 const ChatBox = ({ socket, closed }) => {
   const defaultChatState = { state: "intital" };
   const { author } = useContext(Context);

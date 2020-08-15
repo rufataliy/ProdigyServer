@@ -13,16 +13,18 @@ const VocabularyList = () => {
   const [edit] = useEdit("vocabularies");
   const { actions, vocabState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(true);
+  const [extendable, setExtendable] = useState();
 
   useEffect(() => {
     setFetching(true);
     api(getVocabularyOptions)
-      .then((vocabs) => {
+      .then(({ extendable, items }) => {
+        setExtendable(extendable);
         actions({
           type: VOCAB,
           payload: {
             ...vocabState,
-            vocabs,
+            vocabs: items,
           },
         });
         setFetching(false);
@@ -36,6 +38,7 @@ const VocabularyList = () => {
   return (
     <List
       Component={ListItem}
+      extendable={extendable}
       listName="Vocabularies"
       childRoute="words"
       items={vocabState.vocabs}

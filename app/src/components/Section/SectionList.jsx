@@ -14,17 +14,26 @@ const Sectionlist = () => {
   const [create] = useCreate("sections");
   const [edit] = useEdit("sections");
   const [remove] = useDelete("sections");
-  const { lessonState, compUpdate, actions } = useContext(Context);
+  const {
+    lessonState,
+    compUpdate,
+    appState: {
+      author: { _id: userId },
+    },
+    actions,
+  } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const { lessonId } = useParams();
   const { url } = useRouteMatch();
+  const [extendable, setExtendable] = useState();
 
   useEffect(() => {
     let mounted = true;
     setFetching(true);
     mounted &&
       api({ ...getSectionsOptions, endpoint: url })
-        .then((sections) => {
+        .then(({ extendable, sections }) => {
+          setExtendable(extendable);
           mounted &&
             actions({
               type: LESSON,
@@ -46,11 +55,21 @@ const Sectionlist = () => {
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
         <h3 className="text-primary mb-0 mr-3">Sections </h3>
-        <RoundedBtn onClick={() => create(lessonId)} iconName="fas fa-plus" />
+        {extendable && (
+          <RoundedBtn
+            onClick={() => create({ parentId: lessonId })}
+            iconName="fas fa-plus"
+          />
+        )}
       </div>
       <div className="d-flex flex-wrap">
         {!fetching && lessonState.sections ? (
-          <Tabs remove={remove} edit={edit} items={lessonState.sections} />
+          <Tabs
+            userId={userId}
+            remove={remove}
+            edit={edit}
+            items={lessonState.sections}
+          />
         ) : (
           <Loading />
         )}

@@ -3,13 +3,20 @@ import { useContext } from "react";
 import { FORM_CONFIG } from "../store/useGlobalState";
 
 export const useDelete = (collectioName) => {
-  const { actions, toggleModal } = useContext(Context);
+  const {
+    actions,
+    toggleModal,
+    appState: {
+      author: { _id },
+    },
+  } = useContext(Context);
   const remove = (item) => {
     const config = {
       method: "delete",
       endpoint: `/app/${collectioName}/delete/${item._id}`,
       title: item.title,
       modalType: "DeleteConfirm",
+      isAuthor: item._id === _id,
     };
     actions({
       type: FORM_CONFIG,

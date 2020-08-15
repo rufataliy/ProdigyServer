@@ -1,6 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "ckeditor5-build-classic-plus";
+import { env } from "process";
+
 const TextEditor = ({ initialText, form }) => {
   return (
     <div className="App">
@@ -11,8 +13,7 @@ const TextEditor = ({ initialText, form }) => {
           extraAllowedContent: "iframe",
           simpleUpload: {
             // The URL that the images are uploaded to.
-            uploadUrl:
-              "https://localhost:3000/api/fileuploads/textEditorImageUpload",
+            uploadUrl: env.BASE_URL + "/api/fileuploads/textEditorImageUpload",
 
             // Headers sent along with the XMLHttpRequest to the upload server.
             headers: {
