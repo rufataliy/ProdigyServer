@@ -41,14 +41,14 @@ const App = () => {
 			<Context.Provider value={appState}>
 				<TopNav />
 			</Context.Provider>
-			<div className="main">
-				<Router>
-					<Container fluid>
-						<Row bsPrefix={"row flex-nowrap overflow-hidden"}>
-							<Col bsPrefix={"col-auto p-0"}>
-								<_SideBar links={links} />
-							</Col>
-							<Col bsPrefix={"col-auto col-12 col-md-9 mx-auto pt-4 "}>
+			<Router>
+				<Container bsPrefix={"fluid"}>
+					<Row bsPrefix={"row"}>
+						<Col bsPrefix={"col-auto p-0"}>
+							<_SideBar links={links} />
+						</Col>
+						<Col bsPrefix={"col-auto col-11 col-md-9 mx-auto pt-4 "}>
+							<div className="main">
 								<Switch>
 									<Route exact path="/app" component={Home} />
 									<Context.Provider value={store}>
@@ -61,11 +61,11 @@ const App = () => {
 										<Route path="/app/lessons" component={LessonHome} />
 									</Context.Provider>
 								</Switch>
-							</Col>
-						</Row>
-					</Container>
-				</Router>
-			</div>
+							</div>
+						</Col>
+					</Row>
+				</Container>
+			</Router>
 		</React.Fragment>
 	);
 };

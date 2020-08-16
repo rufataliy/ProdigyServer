@@ -16,84 +16,85 @@ import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import { useRouteMatch } from "react-router-dom";
 
 const Schedule = () => {
-  const [remove] = useDelete("klasses");
-  const [create] = useCreate("klasses");
-  const [edit] = useEdit("klasses");
-  const [fetching, setFetching] = useState(false);
-  const { scheduleState, actions, compUpdate } = useContext(Context);
-  const { url } = useRouteMatch();
+	const [remove] = useDelete("klasses");
+	const [create] = useCreate("klasses");
+	const [edit] = useEdit("klasses");
+	const [fetching, setFetching] = useState(false);
+	const { scheduleState, actions, compUpdate } = useContext(Context);
+	const { url } = useRouteMatch();
 
-  useEffect(() => {
-    setFetching(true);
-    api({ ...getKlass, endpoint: url })
-      .then((events) => {
-        events.map((event) => {
-          if (event.daysOfWeek && event.daysOfWeek.length == 0) {
-            delete event.daysOfWeek;
-            delete event.startTime;
-            delete event.endTime;
-          }
-        });
-        actions({
-          type: SCHEDULE,
-          payload: { ...scheduleState, events },
-        });
-        setFetching(false);
-      })
-      .catch((err) => {
-        setFetching(false);
-      });
-  }, [compUpdate]);
+	useEffect(() => {
+		setFetching(true);
+		api({ ...getKlass, endpoint: url })
+			.then((events) => {
+				events.map((event) => {
+					if (event.daysOfWeek && event.daysOfWeek.length == 0) {
+						delete event.daysOfWeek;
+						delete event.startTime;
+						delete event.endTime;
+					}
+				});
+				actions({
+					type: SCHEDULE,
+					payload: { ...scheduleState, events },
+				});
+				setFetching(false);
+			})
+			.catch((err) => {
+				setFetching(false);
+			});
+	}, [compUpdate]);
 
-  const calendarComponentRef = React.createRef();
+	const calendarComponentRef = React.createRef();
 
-  const handleEventClick = (info) => {
-    const { _id } = info.event.extendedProps;
-    const selectedEvent = scheduleState.events.find(
-      (event) => event._id === _id
-    );
-    const event = _.cloneDeep(selectedEvent);
-    edit({
-      ...event,
-      daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
-    });
-  };
-  const handleDateClick = (arg) => {
-    create({ extraValues: { start: arg.date, end: arg.date } });
-  };
+	const handleEventClick = (info) => {
+		const { _id } = info.event.extendedProps;
+		const selectedEvent = scheduleState.events.find(
+			(event) => event._id === _id
+		);
+		const event = _.cloneDeep(selectedEvent);
+		edit({
+			...event,
+			daysOfWeek: event.daysOfWeek ? event.daysOfWeek : [],
+		});
+	};
+	const handleDateClick = (arg) => {
+		create({ extraValues: { start: arg.date, end: arg.date } });
+	};
 
-  return (
-    <div className="calendarParent">
-      <h3 className="text-primary">Schedule</h3>
-      {!fetching ? (
-        <FullCalendar
-          aspectRatio={2.5}
-          // eventMouseEnter={showTooltip}
-          // eventMouseLeave={hideTooltip}
-          eventClick={handleEventClick}
-          dateClick={handleDateClick}
-          defaultView="dayGridMonth"
-          fixedWeekCount={false}
-          plugins={[
-            dayGridPlugin,
-            listPlugin,
-            interactionPlugin,
-            timeGridPlugin,
-          ]}
-          header={{
-            left: "prev,next today",
-            center: "Schedulee",
-            right: "dayGridMonth,listWeek,timeGridWeek",
-          }}
-          events={scheduleState.events}
-          // eventRender={showTooltip}
-          ref={calendarComponentRef}
-        />
-      ) : (
-        <Loading />
-      )}
-    </div>
-  );
+	return (
+		<>
+			<h3 className="text-primary">Schedule</h3>
+			<div className="calendarParent">
+				{!fetching ? (
+					<FullCalendar
+						height={600}
+						contentHeight={"auto"}
+						eventClick={handleEventClick}
+						dateClick={handleDateClick}
+						defaultView="dayGridMonth"
+						fixedWeekCount={false}
+						plugins={[
+							dayGridPlugin,
+							listPlugin,
+							interactionPlugin,
+							timeGridPlugin,
+						]}
+						header={{
+							left: "prev,next today",
+							center: "Schedulee",
+							right: "dayGridMonth,listWeek,timeGridWeek",
+						}}
+						events={scheduleState.events}
+						// eventRender={showTooltip}
+						ref={calendarComponentRef}
+					/>
+				) : (
+					<Loading />
+				)}
+			</div>
+		</>
+	);
 };
 
 export default Schedule;
