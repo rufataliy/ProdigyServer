@@ -23,3 +23,11 @@
 	left: 40%;
 	top: 45%;
 }
+
+.fc-row.fc-week.fc-widget-content[style] {
+	height: 100% !important;
+}
+.fc-scroller.fc-day-grid-container {
+	height: 100% !important;
+	overflow: auto !important;
+}
