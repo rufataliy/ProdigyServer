@@ -1,12 +1,25 @@
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/daygrid/main.css';
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
 @import "~@fullcalendar/timegrid/main.css";
-.calendarParent {
-    height: 100vh;
-}
 
+#root {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.calendarParent {
+	height: 100%;
+	overflow: auto;
+}
+.main {
+	padding: 10px 0;
+	height: 100%;
+	width: 100%;
+}
 .loading {
-    position: absolute;
-    left: 40%;
-    top: 45%;
+	position: absolute;
+	left: 40%;
+	top: 45%;
 }
