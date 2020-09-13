@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import { ListGroup, Badge, Button } from "react-bootstrap";
+import React from "react";
+import { ListGroup, Badge } from "react-bootstrap";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
+import Icon from "../../views/_Icon.jsx";
 import ChatMain from "../../views/_ChatMain.jsx";
 import api from "../../api/api.js";
 import { removeChatOptions, getChats } from "../../utils/defaultAPIConfig";
-const ChatList = ({
-  chats,
-  openChat,
-  fetching,
-  setChats,
-  setKey,
-  addParticipant,
-}) => {
+import { useChats } from "../../store/ChatProvider.js";
+
+const ChatList = ({ setKey }) => {
+  const { chats, setSelectedChatId } = useChats();
   const removeChat = (chatId) => {
     api({
       ...removeChatOptions,
@@ -26,11 +23,15 @@ const ChatList = ({
       })
       .catch(console.log);
   };
+  const openChat = (chatid) => {
+    setSelectedChatId(chatid);
+    setKey("messages");
+  };
   return (
     <React.Fragment>
       <RoundedBtn
         onClick={() => setKey("people")}
-        position="top"
+        position="top-left"
         iconName="fas fa-plus"
       />
       <ChatMain>
@@ -38,39 +39,18 @@ const ChatList = ({
         <ListGroup className="chat-content flex-grow-1" as="ul">
           {chats != undefined
             ? chats.map((chat, index) => (
-                <React.Fragment>
-                  <ListGroup.Item
-                    as="li"
-                    key={index}
-                    id={chat._id}
-                    className="d-flex justify-content-between"
-                    // onClick={() => {
-                    //   chat.new = false;
-                    //   chat.newCount = undefined;
-                    //   return openChat(chat._id);
-                    // }}
-                    variant={chat.new ? "success" : ""}
-                  >
-                    <p
-                      onClick={() => {
-                        chat.new = false;
-                        chat.newCount = undefined;
-                        return openChat(chat._id);
-                      }}
-                    >
-                      {chat.title}
-                    </p>
-                    <Badge variant="info">
-                      {chat.newCount && chat.newCount}
-                    </Badge>
-                    <Badge
-                      variant="primary"
-                      onClick={() => removeChat(chat._id)}
-                    >
-                      delete
-                    </Badge>
-                  </ListGroup.Item>
-                </React.Fragment>
+                <ListGroup.Item
+                  as="li"
+                  key={index}
+                  id={chat?._id}
+                  className="d-flex justify-content-between cursor-pointer chat-list-item"
+                  onClick={() => {
+                    return openChat(chat._id);
+                  }}
+                  variant={chat.new ? "success" : ""}
+                >
+                  <p>{chat.title}</p>
+                </ListGroup.Item>
               ))
             : "loading"}
         </ListGroup>

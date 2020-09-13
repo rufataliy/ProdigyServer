@@ -13,61 +13,70 @@ import api from "../api/api";
 import Modal from "./Modal/Modal.jsx";
 import ProgramHome from "./Programs/ProgramHome.jsx";
 import { links } from "../utils/links.js";
+import Chat from "./Chat/Chat.jsx";
+import SocketProvider from "../store/SocketProvider";
+
+const renderChat = () => (
+  <SocketProvider>
+    <Chat />
+  </SocketProvider>
+);
 
 const App = () => {
-	const store = useGlobalState();
+  const store = useGlobalState();
 
-	const { appState } = store;
-	useEffect(() => {
-		const config = {
-			method: "get",
-			collectionName: "profile",
-			endpoint: "/profile/",
-		};
-		api(config)
-			.then((user) => {
-				store.actions({
-					type: APP,
-					payload: { ...store.appState, author: user },
-				});
-			})
-			.catch((err) => console.log(err));
-	}, []);
-	return (
-		<React.Fragment>
-			<Context.Provider value={store}>
-				<Modal />
-			</Context.Provider>
-			<Context.Provider value={appState}>
-				<TopNav />
-			</Context.Provider>
-			<Router>
-				<Container bsPrefix={"fluid"}>
-					<Row bsPrefix={"row"}>
-						<Col bsPrefix={"col-auto p-0"}>
-							<_SideBar links={links} />
-						</Col>
-						<Col bsPrefix={"col-auto col-11 col-md-9 mx-auto pt-4 "}>
-							<div className="main">
-								<Switch>
-									<Route exact path="/app" component={Home} />
-									<Context.Provider value={store}>
-										<Route path="/app/klasses" component={Schedule} />
-										<Route
-											path="/app/vocabularies"
-											component={VocabularyHome}
-										/>
-										<Route path="/app/programs" component={ProgramHome} />
-										<Route path="/app/lessons" component={LessonHome} />
-									</Context.Provider>
-								</Switch>
-							</div>
-						</Col>
-					</Row>
-				</Container>
-			</Router>
-		</React.Fragment>
-	);
+  const { appState } = store;
+  useEffect(() => {
+    const config = {
+      method: "get",
+      collectionName: "profile",
+      endpoint: "/profile/",
+    };
+    api(config)
+      .then((user) => {
+        store.actions({
+          type: APP,
+          payload: { ...store.appState, author: user },
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  return (
+    <React.Fragment>
+      <Context.Provider value={store}>
+        <Modal />
+      </Context.Provider>
+      <Context.Provider value={appState}>
+        <TopNav />
+        {appState.author && renderChat()}
+      </Context.Provider>
+      <Router>
+        <Container bsPrefix={"fluid"}>
+          <Row bsPrefix={"row"}>
+            <Col bsPrefix={"col-auto p-0"}>
+              <_SideBar links={links} />
+            </Col>
+            <Col bsPrefix={"col-auto col-11 col-md-9 mx-auto pt-4 "}>
+              <div className="main">
+                <Switch>
+                  <Route exact path="/app" component={Home} />
+                  <Context.Provider value={store}>
+                    <Route path="/app/klasses" component={Schedule} />
+                    <Route
+                      path="/app/vocabularies"
+                      component={VocabularyHome}
+                    />
+                    <Route path="/app/programs" component={ProgramHome} />
+                    <Route path="/app/lessons" component={LessonHome} />
+                  </Context.Provider>
+                </Switch>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </Router>
+    </React.Fragment>
+  );
 };
 
 export default React.memo(App);
