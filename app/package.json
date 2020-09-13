@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon ./dist/server.js",
-    "build": "env-cmd -f .env webpack --mode development --watch",
+    "build": "webpack --env.BASE_URL=https://localhost:3000 --mode development --watch",
     "prod": "NODE_ENV=production nodemon server.js",
     "build-pro": "webpack --env.BASE_URL=https://prodigy.rufataliyev.com --mode production",
     "dbServer": "json-server --watch api/db.json --port 3001"
@@ -38,7 +38,7 @@
     "raw-loader": "^4.0.1",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.2.1",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
   },
@@ -57,7 +57,7 @@
     "formik": "^1.5.8",
     "jquery": "^3.5.1",
     "jwks-rsa": "^1.8.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
