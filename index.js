@@ -11,7 +11,7 @@ const { server, app } = require("./server");
 const fileupload = require("express-fileupload");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
-const Word = require("./models/Word");
+const { initChat } = require("./routes/chat");
 // configure store for session and store sessions
 //there then get session id from socket and
 //get session from and se user.
@@ -70,10 +70,9 @@ app.get("/app/*", (req, res) => {
 });
 
 app.use("/api/*", isAuthenticated);
+initChat();
 app.use("/api/users", require("./routes/users"));
 app.use("/api/klasses", require("./routes/klasses"));
-app.use("/api/chats", require("./routes/chats"));
-app.use("/api/messages", require("./routes/messages"));
 app.use("/api/programs", require("./routes/programs"));
 app.use("/api/lessons", require("./routes/lessons"));
 app.use("/api/sections", require("./routes/sections"));
