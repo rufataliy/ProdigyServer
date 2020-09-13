@@ -6,7 +6,7 @@ import { ListGroup } from "react-bootstrap";
 import ChatMain from "../../views/_ChatMain.jsx";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 
-const People = ({ newChat, resetChatState, setKey }) => {
+const People = ({ setSelectedContact, setKey }) => {
   const [people, setPeople] = useState();
   useEffect(() => {
     api(getContacts)
@@ -19,10 +19,9 @@ const People = ({ newChat, resetChatState, setKey }) => {
     <React.Fragment>
       <RoundedBtn
         onClick={() => {
-          resetChatState();
           setKey("chats");
         }}
-        position="top"
+        position="top-left"
         iconName="fas fa-chevron-left"
       />
       <ChatMain>
@@ -31,9 +30,13 @@ const People = ({ newChat, resetChatState, setKey }) => {
           {Array.isArray(people)
             ? people.map((person, index) => (
                 <ListGroup.Item
+                  className="cursor-pointer"
                   as="li"
                   key={index}
-                  onClick={() => newChat(person._id, person.name)}
+                  onClick={() => {
+                    setSelectedContact(person._id);
+                    setKey("newChat");
+                  }}
                   id={person._id}
                 >
                   {person.name}

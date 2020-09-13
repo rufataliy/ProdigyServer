@@ -1,40 +1,49 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Icon from "../../views/_Icon.jsx";
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import { Button, FormControl, InputGroup, Form } from "react-bootstrap";
+import { useMessages } from "../../store/MessageProvider.js";
+import { useFocus } from "../../customHooks";
 
-const sendMessage = ({ socket, chatState, authorid }) => {
+const sendMessage = () => {
   const [value, setValue] = useState("");
+  const { sendMessage } = useMessages();
+  const inputRef = useRef(null);
+
+  useFocus(inputRef);
+
   const onChange = (event) => {
     const { value } = event.target;
     setValue(value);
   };
-  const send = () => {
-    const msg = {
-      participants: chatState.participants,
-      chatId: chatState.chatId,
-      title: chatState.title,
-      content: value,
-    };
-    socket.emit(`message${authorid}`, msg);
-    setValue("");
-  };
 
   return (
     <div>
-      <InputGroup>
-        <FormControl onChange={onChange} type="text" value={value} />
-        <InputGroup.Append>
-          <Button
-            className="rounded-btn"
-            variant="outline-primary"
-            disabled={chatState.state === "initial" ? true : false}
-            type="button"
-            onClick={send}
-          >
-            <Icon className="fas fa-paper-plane" />
-          </Button>
-        </InputGroup.Append>
-      </InputGroup>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage(value, () => setValue(""));
+        }}
+      >
+        <InputGroup>
+          <FormControl
+            ref={inputRef}
+            placeholder="Enter your message . . "
+            onChange={onChange}
+            type="text"
+            value={value}
+          />
+          <InputGroup.Append>
+            <Button
+              className="rounded-btn"
+              variant="outline-primary"
+              disabled={value.trim() === ""}
+              type="submit"
+            >
+              <Icon className="fas fa-paper-plane" />
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form>
     </div>
   );
 };
