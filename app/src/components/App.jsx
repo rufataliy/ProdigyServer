@@ -15,6 +15,7 @@ import ProgramHome from "./Programs/ProgramHome.jsx";
 import { links } from "../utils/links.js";
 import Chat from "./Chat/Chat.jsx";
 import SocketProvider from "../store/SocketProvider";
+import "./style/main.scss";
 
 const renderChat = () => (
   <SocketProvider>
