@@ -1,27 +1,25 @@
-import Context from "../store/context";
-import { useContext } from "react";
-import { FORM_CONFIG } from "../store/useGlobalState";
+import {
+  useAppState,
+  useFormConfig,
+  useModalState,
+} from "../store/useGlobalState";
 
 export const useDelete = (collectioName) => {
-  const {
-    actions,
-    toggleModal,
-    appState: {
-      author: { _id },
-    },
-  } = useContext(Context);
+  const [appState, setAppState] = useAppState();
+  const [modalState, toggleModal] = useModalState();
+  const [formState, setFormState] = useFormConfig();
+  const userid = appState?.author?._id;
+
   const remove = (item) => {
     const config = {
       method: "delete",
       endpoint: `/app/${collectioName}/delete/${item._id}`,
       title: item.title,
       modalType: "DeleteConfirm",
-      isAuthor: item._id === _id,
+      isAuthor: item._id === userid,
     };
-    actions({
-      type: FORM_CONFIG,
-      payload: config,
-    });
+
+    setFormState({ ...formState, ...config });
     toggleModal();
   };
   return [remove];

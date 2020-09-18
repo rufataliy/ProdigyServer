@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useParams, useRouteMatch } from "react-router-dom";
 import api from "../../api/api";
-import { useContext, useEffect } from "react";
-import Context from "../../store/context";
-import { LESSON } from "../../store/useGlobalState";
+import { useEffect } from "react";
+import {
+  useAppState,
+  uselessonState,
+  useUpdateComponent,
+} from "../../store/useGlobalState";
 import { getSectionsOptions } from "../../utils/defaultAPIConfig";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 import Loading from "../../views/_Loading.jsx";
@@ -14,14 +17,9 @@ const Sectionlist = () => {
   const [create] = useCreate("sections");
   const [edit] = useEdit("sections");
   const [remove] = useDelete("sections");
-  const {
-    lessonState,
-    compUpdate,
-    appState: {
-      author: { _id: userId },
-    },
-    actions,
-  } = useContext(Context);
+  const [lessonState, setLessonState] = uselessonState();
+  const [appState] = useAppState();
+  const [compUpdate] = useUpdateComponent();
   const [fetching, setFetching] = useState(true);
   const { lessonId } = useParams();
   const { url } = useRouteMatch();
@@ -35,13 +33,11 @@ const Sectionlist = () => {
         .then(({ extendable, sections }) => {
           setExtendable(extendable);
           mounted &&
-            actions({
-              type: LESSON,
-              payload: {
-                ...lessonState,
-                sections,
-              },
+            setLessonState({
+              ...lessonState,
+              sections,
             });
+
           setFetching(false);
         })
         .catch((err) => {
@@ -54,7 +50,6 @@ const Sectionlist = () => {
   return (
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
-        <h3 className="text-primary mb-0 mr-3">Sections </h3>
         {extendable && (
           <RoundedBtn
             onClick={() => create({ parentId: lessonId })}
@@ -65,7 +60,7 @@ const Sectionlist = () => {
       <div className="d-flex flex-wrap">
         {!fetching && lessonState.sections ? (
           <Tabs
-            userId={userId}
+            userId={appState.author._id}
             remove={remove}
             edit={edit}
             items={lessonState.sections}

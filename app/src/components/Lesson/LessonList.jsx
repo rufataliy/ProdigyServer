@@ -1,22 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouteMatch, useParams } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
-import Context from "../../store/context";
 import api from "../../api/api.js";
-import { LESSON } from "../../store/useGlobalState";
+import { uselessonState, useUpdateComponent } from "../../store/useGlobalState";
 import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 
 const LessonList = () => {
-  const {
-    actions,
-    lessonState,
-    appState: {
-      author: { _id: userId },
-    },
-    compUpdate,
-  } = useContext(Context);
+  const [lessonState, setLessonState] = uselessonState();
+  const [compUpdate] = useUpdateComponent();
   const [fetching, setFetching] = useState(true);
   const [remove] = useDelete("lessons");
   const [create] = useCreate("lessons");
@@ -32,14 +25,11 @@ const LessonList = () => {
       api({ ...getLessonOptions, endpoint: url })
         .then(({ extendable, items: lessons }) => {
           setExtendable(extendable);
-
-          actions({
-            type: LESSON,
-            payload: {
-              ...lessonState,
-              lessons,
-            },
+          setLessonState({
+            ...lessonState,
+            lessons,
           });
+
           setFetching(false);
         })
         .catch((err) => {
@@ -54,7 +44,6 @@ const LessonList = () => {
   return (
     <React.Fragment>
       <List
-        userId={userId}
         extendable={extendable}
         Component={ListItem}
         fetching={fetching}

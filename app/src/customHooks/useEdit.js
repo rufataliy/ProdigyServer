@@ -1,16 +1,18 @@
 import Context from "../store/context";
 import { useContext } from "react";
-import { FORM_CONFIG, INITIAL_VALUES } from "../store/useGlobalState";
-import { initialValues } from "../utils/defaultInitialValues";
+import {
+  useAppState,
+  useFormConfig,
+  useModalState,
+  useInitialValues,
+} from "../store/useGlobalState";
 
 export const useEdit = (collectionName) => {
-  const {
-    actions,
-    toggleModal,
-    appState: {
-      author: { _id: userId },
-    },
-  } = useContext(Context);
+  const [appState, setAppState] = useAppState();
+  const [modalState, toggleModal] = useModalState();
+  const [formState, setFormState] = useFormConfig();
+  const [initialValues, setInitialValues] = useInitialValues();
+  const userid = appState.author._id;
 
   const edit = (item) => {
     const config = {
@@ -18,17 +20,12 @@ export const useEdit = (collectionName) => {
       endpoint: `/app/${collectionName}/edit/${item._id}`,
       title: item.title,
       modalType: "FormikForm",
-      isAuthor: item.author === userId,
+      isAuthor: item.author === userid,
       collectionName,
     };
-    actions({
-      type: FORM_CONFIG,
-      payload: config,
-    });
-    actions({
-      type: INITIAL_VALUES,
-      payload: { ...initialValues[collectionName], ...item },
-    });
+
+    setFormState({ ...formState, ...config });
+    setInitialValues({ ...initialValues, ...item });
     toggleModal();
   };
   return [edit];
