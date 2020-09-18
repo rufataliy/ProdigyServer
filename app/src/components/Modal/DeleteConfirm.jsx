@@ -1,5 +1,4 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
 import api from "../../api/api";
 import {
   useModalState,
@@ -7,6 +6,7 @@ import {
   useFormConfig,
 } from "../../store/useGlobalState";
 import { formConfig } from "../../utils/defaultInitialValues";
+import { CModalBody, CModalFooter, CButton } from "@coreui/react";
 
 const DeleteConfirm = () => {
   const [modalState, toggleModal] = useModalState();
@@ -26,11 +26,11 @@ const DeleteConfirm = () => {
   };
   return (
     <div>
-      <Modal.Body>
+      <CModalBody>
         <h4>Are you sure?</h4>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
+      </CModalBody>
+      <CModalFooter>
+        <CButton
           onClick={() => {
             setFormState(formConfig);
             toggleModal();
@@ -38,11 +38,11 @@ const DeleteConfirm = () => {
           variant="secondary"
         >
           Close
-        </Button>
-        <Button onClick={handleDelete} variant="danger">
+        </CButton>
+        <CButton onClick={handleDelete} variant="danger">
           Delete
-        </Button>
-      </Modal.Footer>
+        </CButton>
+      </CModalFooter>
     </div>
   );
 };

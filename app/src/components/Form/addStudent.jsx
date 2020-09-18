@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import api from "../../api/api.js";
-import { Spinner } from "react-bootstrap";
 import { CSpinner } from "@coreui/react";
 import { getStudentOptions } from "../../utils/defaultAPIConfig";
 import Icon from "../../views/_Icon.jsx";
@@ -69,7 +68,7 @@ const AddStudent = ({ push, remove, initialStudentList, readOnly }) => {
                 onClick={getStudent}
               >
                 {fetching ? (
-                  <Spinner animation="border" variant="secondary" />
+                  <CSpinner animation="border" size="sm" variant="secondary" />
                 ) : (
                   "add"
                 )}

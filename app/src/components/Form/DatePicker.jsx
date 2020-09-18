@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Form } from "react-bootstrap";
+import { CFormGroup } from "@coreui/react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { parseDate } from "react-day-picker/moment";
 import "react-day-picker/lib/style.css";
@@ -16,7 +16,7 @@ export const DatePicker = (props) => {
   };
 
   return (
-    <Form.Group className="position-relative date-picker-wrapper">
+    <CFormGroup className="position-relative date-picker-wrapper">
       {readOnly && <div className="readonly-wrapper"></div>}
       <DayPickerInput
         inputProps={{ readOnly: readOnly, tabIndex: readOnly ? -1 : 0 }}
@@ -28,6 +28,6 @@ export const DatePicker = (props) => {
         onDayChange={handleChange}
       />
       <Icon className="far fa-calendar-alt position-absolute" />
-    </Form.Group>
+    </CFormGroup>
   );
 };

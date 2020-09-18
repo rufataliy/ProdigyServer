@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Form } from "formik";
 import { useEffect } from "react";
 import api from "../../api/api";
-import { Button, Form as FormBootstrap } from "react-bootstrap";
 import { getTemplate } from "./templates/getTemplate.js";
 import {
   useInitialValues,
@@ -10,7 +9,7 @@ import {
   useModalState,
   useUpdateComponent,
 } from "../../store/useGlobalState";
-import { CModalBody, CModalFooter } from "@coreui/react";
+import { CModalBody, CModalFooter, CButton, CFormGroup } from "@coreui/react";
 import { formConfig } from "../../utils/defaultInitialValues";
 
 export const FormikForm = () => {
@@ -48,18 +47,18 @@ export const FormikForm = () => {
             <Form>{getTemplate(props, formState)}</Form>
           </CModalBody>
           <CModalFooter>
-            <FormBootstrap.Group>
-              <Button
+            <CFormGroup>
+              <CButton
                 disabled={!formState.isAuthor}
                 hidden={!formState.isAuthor}
                 type="submit"
                 onClick={() => handleSubmit(props.values)}
-                className="btn-sm"
+                className="btn-sm btn-primary"
                 type="primary"
               >
                 {formState.method != "put" ? "Save" : "Update"}
-              </Button>
-            </FormBootstrap.Group>
+              </CButton>
+            </CFormGroup>
           </CModalFooter>
         </>
       )}
