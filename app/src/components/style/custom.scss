@@ -519,6 +519,19 @@ i:hover {
 .fc-content {
   color: white;
   font-weight: bold;
+  background-color: var(--dark);
+  text-align: center;
+}
+.fc-content:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+}
+.fc-event {
+  border: none;
+}
+.fc-day:hover {
+  background-color: var(--hoverbg);
+  cursor: pointer;
 }
 .date-picker-wrapper {
   border: 1px solid var(--dark);
