@@ -630,3 +630,19 @@ i:hover {
   height: 155px;
   overflow: auto;
 }
+.nav-tabs .nav-link {
+  border: none;
+  border-bottom: 1px solid #abbdcc;
+  color: var(--dark);
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs .nav-item {
+  margin: 0;
+}
+.nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 1px solid var(--dark);
+  color: var(--dark);
+}
