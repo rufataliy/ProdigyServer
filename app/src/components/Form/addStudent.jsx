@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import Context from "../../store/context";
+import React, { useState } from "react";
 import api from "../../api/api.js";
-import { Spinner } from "react-bootstrap";
-import {
-  getStudentListOptions,
-  getStudentOptions,
-} from "../../utils/defaultAPIConfig";
+import { CSpinner } from "@coreui/react";
+import { getStudentOptions } from "../../utils/defaultAPIConfig";
 import Icon from "../../views/_Icon.jsx";
 
 const AddStudent = ({ push, remove, initialStudentList, readOnly }) => {
@@ -15,7 +11,7 @@ const AddStudent = ({ push, remove, initialStudentList, readOnly }) => {
   const [error, setError] = useState("");
 
   const studentListLoading =
-    initialStudentList.length > 0 && students.length < 1;
+    initialStudentList?.length > 0 && students.length < 1;
   const handleChange = (event) => {
     setError("");
     setInputValue(event.target.value);
@@ -52,54 +48,60 @@ const AddStudent = ({ push, remove, initialStudentList, readOnly }) => {
     remove(id);
   };
   return (
-    <div>
+    <div className="add-students">
       {!readOnly && (
         <>
-          <div className="d-flex">
-            <input
-              value={inputValue}
-              className="form-control"
-              onChange={handleChange}
-              placeholder="Email"
-              type="email"
-            />
-            <button
-              className="btn-primary btn-sm"
-              type="button"
-              onClick={getStudent}
-            >
-              {fetching ? (
-                <Spinner animation="border" variant="secondary" />
-              ) : (
-                "add"
-              )}
-            </button>
+          Add students
+          <div>
+            <div className="d-flex">
+              <input
+                id="addStudents"
+                value={inputValue}
+                className="form-control"
+                onChange={handleChange}
+                placeholder="Email"
+                type="email"
+              />
+              <button
+                className="btn-primary btn-sm"
+                type="button"
+                onClick={getStudent}
+              >
+                {fetching ? (
+                  <CSpinner animation="border" size="sm" variant="secondary" />
+                ) : (
+                  "add"
+                )}
+              </button>
+            </div>
           </div>
           <p className="text-danger">{error}</p>
         </>
       )}
-      <ul className="list-group">
+      <div>
         Students
-        {studentListLoading ? (
-          <Spinner animation="border" variant="secondary" />
-        ) : (
-          students.map((student, index) => (
-            <li
-              key={index}
-              className="list-group-item d-flex justify-content-between align-items-center"
-            >
-              {student.name}
-              {!readOnly && (
-                <Icon
-                  id={index}
-                  onClick={handleUnshift}
-                  className="fas fa-trash"
-                />
-              )}
-            </li>
-          ))
-        )}
-      </ul>
+        <ul className="list-group">
+          {studentListLoading ? (
+            <CSpinner animation="border" variant="secondary" />
+          ) : (
+            students.map((student, index) => (
+              <li
+                key={index}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                {student.name}
+                {!readOnly && (
+                  <Icon
+                    id={index}
+                    onClick={handleUnshift}
+                    className="fas fa-trash"
+                  />
+                )}
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
     </div>
   );
 };

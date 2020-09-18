@@ -1,29 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import Context from "../../store/context";
+import React, { useEffect, useState } from "react";
 import api from "../../api/api.js";
-import { PROGRAM } from "../../store/useGlobalState";
+import {
+  useProgramState,
+  useUpdateComponent,
+} from "../../store/useGlobalState";
 import { getProgramsOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
-import { useRouteMatch, useLocation } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 
 const ProgramList = () => {
-  const {
-    actions,
-    programState,
-    appState: {
-      author: { _id: userId },
-    },
-    compUpdate,
-  } = useContext(Context);
   const [remove] = useDelete("programs");
   const [create] = useCreate("programs");
   const [edit] = useEdit("programs");
   const [fetching, setFetching] = useState(true);
   const { url } = useRouteMatch();
-  const { state } = useLocation();
   const [extendable, setExtendable] = useState();
+  const [programState, setProgramState] = useProgramState();
+  const [compUpdate] = useUpdateComponent();
 
   useEffect(() => {
     let mounted = true;
@@ -32,12 +27,9 @@ const ProgramList = () => {
       api({ ...getProgramsOptions, endpoint: url })
         .then(({ extendable, items }) => {
           setExtendable(extendable);
-          actions({
-            type: PROGRAM,
-            payload: {
-              ...programState,
-              programs: items,
-            },
+          setProgramState({
+            ...programState,
+            programs: items,
           });
           setFetching(false);
         })
@@ -51,7 +43,7 @@ const ProgramList = () => {
   return (
     <React.Fragment>
       <List
-        userId={userId}
+        userId={""}
         extendable={extendable}
         Component={ListItem}
         fetching={fetching}

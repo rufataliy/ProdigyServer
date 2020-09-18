@@ -8,6 +8,7 @@ const { getUserIdFromCookie } = require("../utils");
 const initSocket = () => {
   const chat = io.of("/chat");
   chat.on("connection", async (socket) => {
+    console.log("chat connected");
     const userid = await getUserIdFromCookie(socket.request.headers.cookie);
     redis.set(userid, socket.id, (err, ok) => {
       if (err) console.log(err);

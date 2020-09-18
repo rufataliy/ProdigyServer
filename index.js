@@ -23,7 +23,8 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log("DB CONNECTED"))
-  .catch((err) => console.log("DB COULDN'T CONNECT"));
+  .catch((err) => console.log("DB COULDN'T CONNECT: " + err));
+
 app.use(fileupload());
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");

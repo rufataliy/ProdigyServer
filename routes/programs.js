@@ -36,16 +36,16 @@ router.get("/:programId/lessons", (req, res) => {
   })
     .populate({
       path: "lessonList",
-      select: ["title", "author"],
+      select: ["title", "author", "level"],
       populate: { path: "sectionList", select: "title" },
     })
     .then((item) => {
       res.status(200).json({
-        extendable: userId === item.author.toString(),
+        extendable: userId.toString() === item.author.toString(),
         items: item.lessonList,
       });
     })
-    .catch((err) => res.send(err));
+    .catch((err) => console.log(err));
 });
 
 router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
@@ -64,7 +64,7 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
     })
     .then((item) => {
       res.status(200).json({
-        extendable: userId === item.author.toString(),
+        extendable: userId.toString() === item.author.toString(),
         sections: item.lessonList[0].sectionList,
       });
     })
@@ -74,7 +74,6 @@ router.get("/:programId/lessons/:lessonId/sections", (req, res) => {
 router.post("/", (req, res) => {
   const newProgram = req.body;
   newProgram.author = req.user._id;
-  newProgram.sample = true;
 
   Program.create(newProgram)
     .then((items) => res.send(items))

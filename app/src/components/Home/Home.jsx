@@ -14,10 +14,10 @@ const Home = () => {
               type="button"
               to={(location) => ({
                 ...location,
-                pathname: `/app${page.path}/`,
-                state: { extendable: true, parentTitle: "" },
+                pathname: `/app${page.path}`,
+                state: { parentTitle: "" },
               })}
-              className="btn quick-access-btn mr-3 btn-outline-primary"
+              className="btn quick-access-btn mb-3 mr-3 btn-outline-primary"
             >
               <Icon
                 className={`quick-access-icon mb-3 mt-3 ${page.iconName}`}

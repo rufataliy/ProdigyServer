@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import Context from "../../store/context";
+import React, { useEffect, useState } from "react";
 import api from "../../api/api.js";
-import { VOCAB } from "../../store/useGlobalState";
+import { useUpdateComponent, useVocabState } from "../../store/useGlobalState";
 import { getVocabularyOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
@@ -11,22 +10,21 @@ const VocabularyList = () => {
   const [remove] = useDelete("vocabularies");
   const [create] = useCreate("vocabularies");
   const [edit] = useEdit("vocabularies");
-  const { actions, vocabState, compUpdate } = useContext(Context);
   const [fetching, setFetching] = useState(true);
   const [extendable, setExtendable] = useState();
+  const [vocabState, setVocabState] = useVocabState();
+  const [compUpdate] = useUpdateComponent();
 
   useEffect(() => {
     setFetching(true);
     api(getVocabularyOptions)
       .then(({ extendable, items }) => {
         setExtendable(extendable);
-        actions({
-          type: VOCAB,
-          payload: {
-            ...vocabState,
-            vocabs: items,
-          },
+        setVocabState({
+          ...vocabState,
+          vocabs: items,
         });
+
         setFetching(false);
       })
       .catch((err) => {

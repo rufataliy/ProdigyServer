@@ -1,51 +1,38 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
-import Context from "../../store/context";
-import {
-  MODAL,
-  COMP_UPDATE,
-  INITIAL_VALUES,
-  FORM_CONFIG,
-} from "../../store/useGlobalState";
-import { vocabularySchema } from "../../utils/validationSchemas.js";
 import { useEffect } from "react";
 import api from "../../api/api";
-import { Modal, Button, Form as FormBootstrap } from "react-bootstrap";
 import { getTemplate } from "./templates/getTemplate.js";
+import {
+  useInitialValues,
+  useFormConfig,
+  useModalState,
+  useUpdateComponent,
+} from "../../store/useGlobalState";
+import { CModalBody, CModalFooter, CButton, CFormGroup } from "@coreui/react";
+import { formConfig } from "../../utils/defaultInitialValues";
 
 export const FormikForm = () => {
-  const {
-    initialValues,
-    compUpdate,
-    modalState,
-    appState,
-    formConfig,
-    actions,
-  } = useContext(Context);
+  const [compUpdate, updateComponent] = useUpdateComponent();
+  const [modalState, toggleModal] = useModalState();
+  const [formState, setFormState] = useFormConfig();
+  const [initialValues, setInitialValues] = useInitialValues();
+
   useEffect(() => {
     return () => {
-      actions({ type: INITIAL_VALUES, payload: {} });
-      actions({ type: FORM_CONFIG, payload: {} });
+      setInitialValues({});
+      setFormState({});
     };
   }, []);
 
   const reset = () => {
-    actions({
-      type: MODAL,
-      payload: {
-        ...modalState,
-        modalVisibility: !modalState.modalVisibility,
-      },
-    });
-    actions({
-      type: COMP_UPDATE,
-      payload: {
-        compUpdate: !compUpdate,
-      },
-    });
+    setFormState(formConfig);
+    toggleModal();
+    updateComponent();
   };
+
   const handleSubmit = (values) => {
-    api(formConfig, values)
+    api(formState, values)
       .then(() => {
         reset();
       })
@@ -53,30 +40,26 @@ export const FormikForm = () => {
   };
 
   return (
-    <Formik
-      // validationSchema={vocabularySchema}
-      initialValues={initialValues}
-      // onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues}>
       {(props) => (
         <>
-          <Modal.Body>
-            <Form>{getTemplate(props, formConfig)}</Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <FormBootstrap.Group>
-              <Button
-                disabled={!formConfig.isAuthor}
-                hidden={!formConfig.isAuthor}
+          <CModalBody>
+            <Form>{getTemplate(props, formState)}</Form>
+          </CModalBody>
+          <CModalFooter>
+            <CFormGroup>
+              <CButton
+                disabled={!formState.isAuthor}
+                hidden={!formState.isAuthor}
                 type="submit"
                 onClick={() => handleSubmit(props.values)}
-                className="btn-sm"
+                className="btn-sm btn-primary"
                 type="primary"
               >
-                {formConfig.method != "put" ? "Save" : "Update"}
-              </Button>
-            </FormBootstrap.Group>
-          </Modal.Footer>
+                {formState.method != "put" ? "Save" : "Update"}
+              </CButton>
+            </CFormGroup>
+          </CModalFooter>
         </>
       )}
     </Formik>

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
-const userId = require("mongoose");
+
 const saveUser = async function (req, res, next) {
   // This will store the user identity claims in the session.
   const user = req.openidTokens.claims();

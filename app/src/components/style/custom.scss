@@ -1,7 +1,49 @@
+
+:root {
+  --hoverbg: rgba(33, 150, 243, 0.3);
+  --word-secondary: #6880a5;
+}
+
+.form-group .form-control:focus,
+#addStudents.form-control:focus,
+.schedule-form-third select.select {
+  box-shadow: none;
+  border: none;
+  border-bottom: 1px solid var(--primary);
+  color: var(--primary);
+}
+.form-group .form-control,
+#addStudents.form-control,
+.schedule-form-third select.select {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--dark);
+  color: var(--dark);
+}
+
+.calendarParent {
+  height: 100%;
+  overflow: auto;
+}
+.main {
+  padding: 10px 0;
+  height: 100%;
+  width: 100%;
+}
+.loading {
+  position: absolute;
+  left: 40%;
+  top: 45%;
+}
+
 .sticky {
   position: sticky;
   top: 0px;
   z-index: 1000;
+}
+
+.c-sidebar {
+  background-color: var(--dark) !important;
 }
 
 .sidebarWrapper {
@@ -64,29 +106,38 @@
   text-align: center;
   padding: 5px 10px;
   width: 100%;
-  border: 1px solid #505253;
+  border: 1px solid var(--dark);
   border-radius: 5px;
 }
 
-#groupType-1:checked + label {
+input[id^="groupType"]:checked + label {
   border: 1px solid #2196f3;
   box-shadow: 0px 0px 5px -1px #2196f3;
   color: #2196f3;
 }
 
-#groupType-2:checked + label {
+input[id^="groupType"]:checked + label {
   border: 1px solid #2196f3;
   color: #2196f3;
   box-shadow: 0px 0px 5px -1px #2196f3;
 }
 
-#groupType-1 + label:hover,
-#groupType-2 + label:hover,
+input[id^="groupType"] + label:hover,
+input[id^="groupType"] + label:hover,
 .form-check-input + label:hover {
-  cursor: pointer;
   border: 1px solid #2196f3;
   box-shadow: 0px 0px 5px -1px #2196f3;
   color: #2196f3;
+  cursor: pointer;
+}
+
+input[id^="groupType"]:disabled:not(:checked) + label:hover,
+input[id^="groupType"]:disabled:not(:checked) + label:hover,
+input[id^="daysOfWeek"]:disabled:not(:checked) + label:hover {
+  cursor: default;
+  border: 1px solid var(--dark);
+  box-shadow: none;
+  color: inherit;
 }
 
 .form-check-input:checked + label {
@@ -96,7 +147,7 @@
 }
 
 .form-check {
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 .timePickerWrapper {
@@ -116,12 +167,12 @@
   border-radius: 0.25rem;
   cursor: pointer;
   padding: 4px 8px;
-  border: 2px solid lightgrey;
+  border: 1px solid var(--dark);
+  text-align: center;
 }
 
 .timeDisplay:hover {
   background: #9bd3ff;
-  border-bottom: 2px solid #2196f3;
 }
 
 select.select {
@@ -152,10 +203,21 @@ i:hover {
   height: 200px;
   width: 200px;
   max-width: 100%;
+  display: inline-flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--dark);
+  color: var(--dark);
+}
+
+.quick-access-btn:hover {
+  background-color: var(--dark);
+  color: white;
 }
 
 .quick-access-icon {
   font-size: 5rem;
+  width: auto !important;
 }
 
 .quick-access-name {
@@ -174,18 +236,11 @@ i:hover {
   max-width: 100%;
   max-height: 100%;
   position: fixed;
-  bottom: 1.3em;
+  bottom: 4.3em;
   right: 1.3em;
   z-index: 10000;
   box-shadow: 0px -1px 6px 0px rgba(0, 0, 0, 0.3);
   transition: 0.4s ease-out;
-}
-
-@media only screen and (max-width: 550px) {
-  .chat-wrapper {
-    bottom: 0;
-    right: 0;
-  }
 }
 
 .chat {
@@ -195,39 +250,59 @@ i:hover {
   max-width: 100%;
   z-index: 1000000;
   border-radius: 5px;
-  background: white;
 }
 
 .chat .tab-content {
   display: flex;
   flex-grow: 1;
   min-height: 0;
+  background: white;
 }
 
 .chat .tab-content > * {
   flex-grow: 1;
 }
 
-.rounded-btn {
+.outline-primary {
+  border: 1px solid var(--dark);
+  color: var(--dark);
+  background-color: white;
+  transition: 0.2s;
+}
+
+.outline-primary:hover {
+  background-color: var(--dark);
+  color: white;
+}
+
+.btn.rounded-btn {
   height: 40px;
   width: 40px;
   padding: 5px;
   border-radius: 50%;
-  z-index: 10;
+  color: var(--dark);
   background: white;
+  border-color: var(--dark);
+  z-index: 10;
 }
 
-.badge.status.online {
+.btn.rounded-btn:hover {
+  border-color: white;
+  color: white;
+  background: var(--dark);
+}
+
+.status.online {
   box-shadow: #000000 0px 0px 3px 0.1px, #000000 0px 0px 2px -0.4px,
     #00f4ff 0px 0px 3px 3px inset, #0b0000 0px 0px 0px 4px inset;
 }
-.badge.status.offline {
+.status.offline {
   box-shadow: #000000 0px 0px 3px 0.1px, #000000 0px 0px 2px -0.4px,
     darkgray 0px 0px 3px 3px inset, #0b0000 0px 0px 0px 4px inset;
 }
 
-.badge.status {
-  background: #2196f3;
+.status {
+  background: var(--dark);
   border-radius: 50%;
   height: 15px;
   width: 15px;
@@ -253,13 +328,15 @@ i:hover {
 .chat-header {
   color: white;
   padding: 10px;
-  background: #2196f3;
+  background: var(--dark);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
+#Cdropdown-options-chat:after {
+  display: none;
+}
 .chat-close {
   overflow: hidden;
   padding: 5px;
@@ -279,17 +356,64 @@ i:hover {
 .chat-main .chat-content {
   flex-grow: 1;
   overflow: auto;
-  padding-right: 4px;
   padding-bottom: 50px;
 }
+
+.input-group-append {
+  position: relative;
+}
+
+.input-group > .form-control {
+  border: none;
+  border-bottom: 2px solid var(--dark);
+}
+
+.input-group > .form-control:focus {
+  border-bottom: 2px solid var(--primary);
+  box-shadow: none;
+  outline: none;
+}
+
+.input-group > .form-control:focus + .input-group-append .btn.rounded-btn {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.input-group
+  > .form-control:focus
+  + .input-group-append
+  .btn.rounded-btn:not(:disabled):hover {
+  background: var(--primary);
+  color: white;
+}
+
+.input-group-append .btn.rounded-btn:not(:disabled):hover {
+  color: white;
+  background: var(--dark);
+}
+
+.input-group-append {
+  margin-left: 0 !important;
+}
+
+.input-group-append .btn.rounded-btn {
+  border: 2px solid var(--dark);
+}
+
+.input-group-append .btn.rounded-btn:disabled {
+  border: 2px solid var(--dark);
+  color: var(--dark);
+}
+
 .message-text {
   margin: 0;
   margin-bottom: 3px;
   padding: 5px 8px;
 }
-
+.message-content {
+  max-width: 70%;
+}
 .message-row .message-text {
-  background: #2196f3;
+  background: var(--dark);
   border-radius: 0;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
@@ -373,8 +497,8 @@ i:hover {
 }
 
 .side-borders {
-  border-left: 2px solid #2196f3;
-  border-right: 2px solid #2196f3;
+  border-left: 2px solid var(--dark);
+  border-right: 2px solid var(--dark);
 }
 
 .section-buttons-box {
@@ -390,31 +514,55 @@ i:hover {
 .fc-content {
   color: white;
   font-weight: bold;
+  background-color: var(--dark);
+  text-align: center;
+}
+.fc-content:hover {
+  cursor: pointer;
+  background-color: var(--primary);
+}
+.fc-event {
+  border: none;
+}
+.fc-day:hover {
+  cursor: pointer;
+}
+.date-picker-wrapper {
+  border: 1px solid var(--dark);
+  border-radius: 0.25rem;
+  height: 31px;
+}
+
+.date-picker-wrapper i {
+  position: absolute;
+  right: 9px;
+  top: 21%;
 }
 
 .DayPickerInput input {
+  height: 100%;
+  cursor: pointer;
   border: none;
   width: 100%;
   background: transparent;
-}
-
-.DayPickerInput {
-  border: 2px solid lightgrey;
+  color: inherit;
   padding: 4px 6px;
-  border-radius: 0.25rem;
-  height: 31px;
+}
+.DayPickerInput input:hover {
+  background: #9bd3ff;
+}
+.DayPickerInput {
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
 .DayPickerInput-OverlayWrapper {
   height: 300px;
   width: 100%;
-
-  background-color: red;
-  position: foxed;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
+  position: fixed;
+  top: 40%;
+  left: 30%;
   z-index: 10000;
 }
 
@@ -431,12 +579,64 @@ i:hover {
 }
 
 .list-group-item.chat-list-item {
-  margin-right: -4px;
-  border-radius: 0;
+  border-radius: 0 !important;
   transition: 0.2s linear;
 }
 
 .list-group-item:hover {
   cursor: pointer;
-  background: rgba(33, 150, 243, 0.3);
+  background: var(--hoverbg);
+}
+
+.c-sidebar-backdrop .c-show {
+  display: none;
+}
+.schedule-form-third {
+  min-height: 400px;
+}
+.schedule-form-third > * {
+  height: 230px;
+}
+.schedule-form-third > div:not(:last-child) {
+  margin-bottom: 3rem;
+}
+
+.word.card {
+  width: 20rem !important;
+  max-width: 100%;
+}
+
+.word.card header {
+  transition: 0.2s;
+}
+
+.word.card header:hover {
+  cursor: pointer;
+  background: var(--hoverbg) !important;
+}
+
+.word .word-text-secondary {
+  color: var(--word-secondary);
+}
+
+.add-students ul {
+  border-bottom: 1px solid var(--dark);
+  height: 155px;
+  overflow: auto;
+}
+.nav-tabs .nav-link {
+  border: none;
+  border-bottom: 1px solid #abbdcc;
+  color: var(--dark);
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs .nav-item {
+  margin: 0;
+}
+.nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 1px solid var(--dark);
+  color: var(--dark);
 }

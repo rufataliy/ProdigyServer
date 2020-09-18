@@ -4,32 +4,29 @@ import ChatMain from "../../views/_ChatMain.jsx";
 import SendMessages from "./sendMessage.jsx";
 import { useMessages } from "../../store/MessageProvider.js";
 import { useChats } from "../../store/ChatProvider.js";
-import Dropdown from "react-bootstrap/Dropdown";
+import { useAppState } from "../../store/useGlobalState.js";
+import {
+  CDropdown,
+  CDropdownToggle,
+  CDropdownItem,
+  CDropdownMenu,
+} from "@coreui/react";
+import _Icon from "../../views/_Icon.jsx";
 
 let prevIsAuthor = false;
 let nextIsAuthor = false;
 
-const RoundedBtnToggle = React.forwardRef(
-  ({ position, onClick, iconName }, ref) => {
-    return (
-      <RoundedBtn
-        onClick={(e) => onClick(e)}
-        ref={ref}
-        position={position}
-        iconName={iconName}
-      />
-    );
-  }
-);
-
-const Messages = ({ setKey, authorid }) => {
+const Messages = ({ setKey }) => {
   const ref = useRef();
   const { messages } = useMessages();
+  const [appState] = useAppState();
+  const authorid = appState.author._id;
   const { setSelectedChatId, removeChat, selectedChatId } = useChats();
 
   useEffect(() => {
     ref.current.scrollTop = ref.current.scrollHeight;
   });
+
   return (
     <React.Fragment>
       <RoundedBtn
@@ -41,31 +38,28 @@ const Messages = ({ setKey, authorid }) => {
         iconName="fas fa-chevron-left"
       />
       <div className="floating-top-right">
-        <Dropdown>
-          <Dropdown.Toggle
-            as={RoundedBtnToggle}
-            iconName="fas fa-ellipsis-h"
-            id="dropdown-basic"
-          />
+        <CDropdown>
+          <CDropdownToggle className="rounded-btn" id="Cdropdown-options-chat">
+            <_Icon className="fas fa-ellipsis-h" />
+          </CDropdownToggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item
-              href="#/action-1"
+          <CDropdownMenu>
+            <CDropdownItem
               onClick={() => removeChat(selectedChatId, () => setKey("chats"))}
             >
               Remove
-            </Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Add participant</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Details</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            </CDropdownItem>
+            <CDropdownItem>Add participant</CDropdownItem>
+            <CDropdownItem>Details</CDropdownItem>
+          </CDropdownMenu>
+        </CDropdown>
       </div>
 
       <ChatMain>
         <h6 className="text-primary mb-1 mt-1 text-center">
           {false && chatState.title}
         </h6>
-        <div ref={ref} className="chat-content pt-3">
+        <div ref={ref} className="chat-content p-3">
           {messages &&
             messages.map((message, index) => (
               <React.Fragment key={index}>
@@ -87,7 +81,9 @@ const Messages = ({ setKey, authorid }) => {
                 >
                   <div className="message-content">
                     {!prevIsAuthor && (
-                      <p className="author-name">{message.author?.name}</p>
+                      <p className="author-name mb-1">
+                        {message.author?.nickname}
+                      </p>
                     )}
                     <p
                       className={`message-text ${
@@ -101,7 +97,7 @@ const Messages = ({ setKey, authorid }) => {
               </React.Fragment>
             ))}
         </div>
-        <SendMessages authorid={authorid} />
+        <SendMessages />
       </ChatMain>
     </React.Fragment>
   );

@@ -1,36 +1,39 @@
 import React from "react";
 import { Field, FieldArray } from "formik";
-import { Container, Form, Button, Row, Col, Modal } from "react-bootstrap";
 import AddToList from "../AddToList.jsx";
+import { CFormGroup, CContainer, CRow, CCol, CLabel } from "@coreui/react";
 
 const Lessons = ({ errors, touched }) => {
   return (
-    <Container>
-      <Row>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Form.Group>
+    <CContainer>
+      <CRow>
+        <CCol className={"col-12 col-md-6"}>
+          <CFormGroup>
+            <CLabel>Title</CLabel>
             <Field
               type="text"
               className="form-control"
               name="title"
-              placeholder="Title"
+              placeholder="Enter a title"
             />
             <p className="text-danger">
               {touched.title && errors.title ? errors.title : null}
             </p>
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Level</CLabel>
             <Field
               type="text"
               className="form-control"
               name="level"
-              placeholder="Level"
+              placeholder="Enter level"
             />
             <p className="text-danger">{touched.level && errors.level}</p>
-          </Form.Group>
-        </Col>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Col xs={12} bsPrefix={"p-0"}>
+          </CFormGroup>
+        </CCol>
+        <CCol className={"col-12 col-md-6"}>
+          <CCol xs={12} className={"p-0"}>
+            <CLabel>Add sections</CLabel>
             <FieldArray name="sectionList">
               {({
                 push,
@@ -53,10 +56,10 @@ const Lessons = ({ errors, touched }) => {
                 );
               }}
             </FieldArray>
-          </Col>
-        </Col>
-      </Row>
-    </Container>
+          </CCol>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 

@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
-import { Form } from "react-bootstrap";
+import { CFormGroup } from "@coreui/react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { formatDate, parseDate } from "react-day-picker/moment";
+import { parseDate } from "react-day-picker/moment";
 import "react-day-picker/lib/style.css";
+import Icon from "../../views/_Icon.jsx";
 
 export const DatePicker = (props) => {
   const { setFieldValue, fieldName, initialDate, readOnly } = props;
@@ -15,18 +16,18 @@ export const DatePicker = (props) => {
   };
 
   return (
-    <Form.Group className="position-relative">
+    <CFormGroup className="position-relative date-picker-wrapper">
       {readOnly && <div className="readonly-wrapper"></div>}
       <DayPickerInput
-        inputProps={{ readOnly: readOnly, tabIndex: readOnly && -1 }}
+        inputProps={{ readOnly: readOnly, tabIndex: readOnly ? -1 : 0 }}
         readOnly={true}
         format="LL"
         ref={datePickerRef}
         value={selectedDate}
-        formatDate={formatDate}
         parseDate={parseDate}
         onDayChange={handleChange}
       />
-    </Form.Group>
+      <Icon className="far fa-calendar-alt position-absolute" />
+    </CFormGroup>
   );
 };

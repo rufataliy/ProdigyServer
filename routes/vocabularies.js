@@ -26,7 +26,10 @@ router.get("/:vocabularyId/words", (req, res) => {
     .then((item) =>
       res
         .status(200)
-        .json({ extendable: userId === item.author, items: item.wordList })
+        .json({
+          extendable: userId.toString() === item.author,
+          items: item.wordList,
+        })
     )
     .catch((err) => res.send(err));
 });

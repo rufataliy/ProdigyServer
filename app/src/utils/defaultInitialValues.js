@@ -34,6 +34,7 @@ export const formConfig = {
   docId: "",
   collectionName: "",
   method: "",
+  isAuthor: undefined,
 };
 export const newChat = {
   title: "",

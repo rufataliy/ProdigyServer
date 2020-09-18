@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { Modal as BoostrapModal } from "react-bootstrap";
-import Context from "../../store/context";
-import { MODAL } from "../../store/useGlobalState";
-import { FormikForm } from "../Form/form.jsx";
+import React from "react";
+import { useFormConfig, useModalState } from "../../store/useGlobalState";
+import { FormikForm } from "../Form/Form.jsx";
 import DeleteConfirm from "./DeleteConfirm.jsx";
+import { CModal, CModalHeader, CModalTitle } from "@coreui/react";
+import { formConfig as defaultValues } from "../../utils/defaultInitialValues";
 
 const children = {
   FormikForm: <FormikForm />,
@@ -11,30 +11,31 @@ const children = {
 };
 
 const Modal = (props) => {
-  const { modalState, actions, formConfig } = useContext(Context);
+  const [modalState, toggleModal] = useModalState();
+  const [formConfig, setFormConfig] = useFormConfig();
+
   const onHide = () => {
-    actions({
-      type: MODAL,
-      payload: { ...modalState, modalVisibility: false },
-    });
+    setFormConfig(defaultValues);
+    toggleModal();
   };
 
   return (
-    <BoostrapModal
-      onHide={onHide}
-      show={modalState.modalVisibility}
-      size="lg"
-      scrollable
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <BoostrapModal.Header closeButton>
-        <BoostrapModal.Title id="contained-modal-title-vcenter">
-          {formConfig.title}
-        </BoostrapModal.Title>
-      </BoostrapModal.Header>
-      {children[formConfig.modalType]}
-    </BoostrapModal>
+    <div className="modal-dialog-scrollable">
+      <CModal
+        onClose={onHide}
+        show={modalState.show}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <CModalHeader closeButton>
+          <CModalTitle id="contained-modal-title-vcenter">
+            {formConfig.title}
+          </CModalTitle>
+        </CModalHeader>
+        {modalState.show ? children[formConfig.modalType] : null}
+      </CModal>
+    </div>
   );
 };
 

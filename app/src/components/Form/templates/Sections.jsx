@@ -1,122 +1,93 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Field } from "formik";
-import { Container, Form, Row, Col } from "react-bootstrap";
-import TextEditor from "../TextEditor.jsx";
+import {
+  CFormGroup,
+  CContainer,
+  CInput,
+  CRow,
+  CCol,
+  CLabel,
+} from "@coreui/react";
+import capitalize from "../../../utils/capitalize";
+import Loading from "../../../views/_Loading.jsx";
+
+const sectionTypes = ["grammar", "reading", "writing", "speaking", "listening"];
+
+const TextEditor = React.lazy(() => import("../TextEditor.jsx"));
 
 const Sections = ({ touched, errors }) => {
   return (
-    <Container>
-      <Row>
-        <Col bsPrefix={"p-0 col-12"}>
-          <Form.Group>
+    <CContainer>
+      <CRow>
+        <CCol className={"p-0 col-12"}>
+          <CLabel>Title</CLabel>
+          <CFormGroup>
             <Field
               type="text"
               className="form-control"
               name="title"
-              placeholder="Title"
+              placeholder="Enter title"
             />
             <p className="text-danger">
               {touched.title && errors.title ? errors.title : null}
             </p>
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Level</CLabel>
             <Field
               type="text"
               className="form-control"
               name="level"
-              placeholder="Level"
+              placeholder="Enter level"
             />
             <p className="text-danger">{touched.level && errors.level}</p>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Group Type</Form.Label>
-            <Col>
-              <Field name="sectionType">
-                {({ field, form }) => (
-                  <Form.Check
-                    {...field}
-                    checked={field.value === "grammar"}
-                    hidden
-                    className="radio w-100 flex-grow-1"
-                    type="radio"
-                    label="Grammer"
-                    value="grammar"
-                    id="groupType-4"
-                  />
-                )}
-              </Field>
-              <Field name="sectionType">
-                {({ field, form }) => (
-                  <Form.Check
-                    hidden
-                    {...field}
-                    checked={field.value === "reading"}
-                    className="radio w-100 flex-grow-1"
-                    type="radio"
-                    label="Reading"
-                    value="reading"
-                    id="groupType-1"
-                  />
-                )}
-              </Field>
-              <Field name="sectionType">
-                {({ field, form }) => (
-                  <Form.Check
-                    {...field}
-                    checked={field.value === "writing"}
-                    hidden
-                    className="radio w-100 flex-grow-1"
-                    type="radio"
-                    label="Writing"
-                    value="writing"
-                    id="groupType-2"
-                  />
-                )}
-              </Field>
-              <Field name="sectionType">
-                {({ field, form }) => (
-                  <Form.Check
-                    {...field}
-                    checked={field.value === "speaking"}
-                    hidden
-                    className="radio w-100 flex-grow-1"
-                    type="radio"
-                    label="Speaking"
-                    value="speaking"
-                    id="groupType-3"
-                  />
-                )}
-              </Field>
-              <Field name="sectionType">
-                {({ field, form }) => (
-                  <Form.Check
-                    {...field}
-                    checked={field.value === "listening"}
-                    hidden
-                    className="radio w-100 flex-grow-1"
-                    type="radio"
-                    label="Listening"
-                    value="listening"
-                    id="groupType-4"
-                  />
-                )}
-              </Field>
-            </Col>
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Group Type</CLabel>
+            <CCol>
+              {sectionTypes.map((type, index) => (
+                <Field name="sectionType">
+                  {({ field, form }) => (
+                    <div
+                      key={field.value + index}
+                      className="radio w-100 flex-grow-1 form-check"
+                    >
+                      <CInput
+                        {...field}
+                        checked={field.value === type}
+                        hidden
+                        className="radio w-100 flex-grow-1"
+                        type="radio"
+                        label={capitalize(type)}
+                        value={type}
+                        id={`groupType-${index + 1}`}
+                      />
+                      <CLabel htmlFor={`groupType-${index + 1}`}>
+                        {capitalize(type)}
+                      </CLabel>
+                    </div>
+                  )}
+                </Field>
+              ))}
+            </CCol>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Content</CLabel>
             <Field name="text">
               {({ field, form }) => (
-                <TextEditor
-                  form={form}
-                  onChange={field.onChange}
-                  initialText={form.initialValues.text}
-                />
+                <Suspense fallback={<Loading />}>
+                  <TextEditor
+                    form={form}
+                    onChange={field.onChange}
+                    initialText={form.initialValues.text}
+                  />
+                </Suspense>
               )}
             </Field>
-          </Form.Group>
-        </Col>
-      </Row>
-    </Container>
+          </CFormGroup>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 

@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import context from "./context";
 export const MODAL = "setModalState";
 export const SCHEDULE = "setScheduleState";
 export const INITIAL_VALUES = "setInitialValues";
@@ -16,14 +16,15 @@ const useGlobalState = () => {
   const compUpdateGlobal = false;
   const appStateGlobal = {
     loggedIn: false,
-    author: "",
+    author: { _id: "", name: "unknown" },
+    sidebarOpen: "responsive",
   };
   const scheduleStateGlobal = {
     calendarWeekends: true,
     events: [],
   };
   const modalStateGlobal = {
-    modalVisibility: false,
+    show: false,
   };
   const vocabStateGlobal = {
     vocabs: [],
@@ -44,7 +45,7 @@ const useGlobalState = () => {
     collectionName: "",
     method: "",
     modalSize: "",
-    isAuthor: true,
+    isAuthor: undefined,
   };
   const [scheduleState, setScheduleState] = useState(scheduleStateGlobal);
   const [initialValues, setValues] = useState(initialValuesGlobal);
@@ -92,15 +93,6 @@ const useGlobalState = () => {
     }
   };
 
-  const toggleModal = () => {
-    actions({
-      type: MODAL,
-      payload: {
-        ...modalState,
-        modalVisibility: !modalState.modalVisibility,
-      },
-    });
-  };
   return {
     scheduleState,
     initialValues,
@@ -110,10 +102,127 @@ const useGlobalState = () => {
     vocabState,
     compUpdate,
     lessonState,
-    toggleModal,
     programState,
     actions,
   };
 };
 
 export default useGlobalState;
+
+export const useUpdateComponent = () => {
+  const { compUpdate, actions } = useContext(context);
+
+  return [
+    compUpdate,
+    () => actions({ type: COMP_UPDATE, payload: { compUpdate: !compUpdate } }),
+  ];
+};
+
+export const useAppState = () => {
+  const { appState, actions } = useContext(context);
+
+  const setAppState = (payload) => {
+    actions({
+      type: APP,
+      payload,
+    });
+  };
+
+  return [appState, setAppState];
+};
+
+export const useScheduleState = () => {
+  const { scheduleState, actions } = useContext(context);
+  const setScheduleState = (payload) => {
+    actions({
+      type: SCHEDULE,
+      payload,
+    });
+  };
+
+  return [scheduleState, setScheduleState];
+};
+
+export const useModalState = () => {
+  const { modalState, actions } = useContext(context);
+
+  const toggleModal = () => {
+    actions({
+      type: MODAL,
+      payload: { ...modalState, show: !modalState.show },
+    });
+  };
+
+  return [modalState, toggleModal];
+};
+
+export const useInitialValues = () => {
+  const { initialValues, actions } = useContext(context);
+
+  const setInitialValues = (payload) => {
+    actions({
+      type: INITIAL_VALUES,
+      payload,
+    });
+  };
+
+  return [initialValues, setInitialValues];
+};
+
+export const useFormConfig = () => {
+  const { formConfig, actions } = useContext(context);
+  const setFormConfig = (payload) => {
+    actions({
+      type: FORM_CONFIG,
+      payload,
+    });
+  };
+
+  return [formConfig, setFormConfig];
+};
+
+export const useProgramState = () => {
+  const { programState, actions } = useContext(context);
+  const setProgramState = (payload) => {
+    actions({
+      type: PROGRAM,
+      payload,
+    });
+  };
+
+  return [programState, setProgramState];
+};
+
+export const uselessonState = () => {
+  const { lessonState, actions } = useContext(context);
+  const setlessonState = (payload) => {
+    actions({
+      type: LESSON,
+      payload,
+    });
+  };
+
+  return [lessonState, setlessonState];
+};
+
+export const useVocabState = () => {
+  const { vocabState, actions } = useContext(context);
+
+  const setVocabState = (payload) => {
+    actions({
+      type: VOCAB,
+      payload,
+    });
+  };
+
+  return [vocabState, setVocabState];
+};
+
+export const getProgramNameById = (id) => {
+  const {
+    programState: { programs },
+  } = useContext(context);
+  console.log(programs);
+  const program = programs.find((program) => program._id === id);
+  return program && program.title;
+};

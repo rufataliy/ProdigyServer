@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import Context from "../../store/context";
 import api from "../../api/api.js";
-import { Spinner, Badge } from "react-bootstrap";
+import { CBadge, CSpinner } from "@coreui/react";
 import Icon from "../../views/_Icon.jsx";
-import { getKlass } from "../../utils/defaultAPIConfig";
 import { _buildApiOptions } from "../../utils/defaultAPIConfig";
 import capitalize from "../../utils/capitalize";
 
@@ -16,6 +15,7 @@ const AddToList = ({
   collectionName,
   removedListField,
   readOnly,
+  label,
 }) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState([...initialList]);
@@ -84,6 +84,7 @@ const AddToList = ({
     <div>
       {!readOnly && (
         <>
+          {label}
           <div className="d-flex">
             <select
               className="w-100 select"
@@ -104,7 +105,7 @@ const AddToList = ({
               onClick={assign}
             >
               {fetching ? (
-                <Spinner animation="border" variant="secondary" />
+                <CSpinner animation="border" variant="secondary" />
               ) : (
                 "assign"
               )}
@@ -120,17 +121,18 @@ const AddToList = ({
       >
         {addedItems &&
           addedItems.map((item, index) => (
-            <Badge
-              pill
+            <CBadge
+              shape="pill"
               onClick={() => !readOnly && handleUnshift(index)}
-              variant="primary m-1"
+              color="primary"
+              className="m-1"
               key={index}
             >
               <h6 style={{ color: "white" }} className="m-0 p-1">
                 {item.title}
                 {!readOnly && <Icon className="fas fa-trash ml-2" />}
               </h6>
-            </Badge>
+            </CBadge>
           ))}
       </div>
     </div>
