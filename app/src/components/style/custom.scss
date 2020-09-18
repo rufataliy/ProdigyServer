@@ -1,10 +1,4 @@
-/* #root {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-} */
+
 :root {
   --hoverbg: rgba(33, 150, 243, 0.3);
   --word-secondary: #6880a5;
@@ -340,7 +334,9 @@ i:hover {
   align-items: center;
   justify-content: center;
 }
-
+#Cdropdown-options-chat:after {
+  display: none;
+}
 .chat-close {
   overflow: hidden;
   padding: 5px;
@@ -365,7 +361,6 @@ i:hover {
 
 .input-group-append {
   position: relative;
-  top: -5px;
 }
 
 .input-group > .form-control {
@@ -530,7 +525,6 @@ i:hover {
   border: none;
 }
 .fc-day:hover {
-  background-color: var(--hoverbg);
   cursor: pointer;
 }
 .date-picker-wrapper {
@@ -539,7 +533,7 @@ i:hover {
   height: 31px;
 }
 
-.date-picker-wrapper svg {
+.date-picker-wrapper i {
   position: absolute;
   right: 9px;
   top: 21%;
