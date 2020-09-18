@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import api from "../../api/api";
 import { useEffect } from "react";
 import { getContacts } from "../../utils/defaultAPIConfig.js";
-import { ListGroup } from "react-bootstrap";
+import { CListGroup, CListGroupItem } from "@coreui/react";
 import ChatMain from "../../views/_ChatMain.jsx";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 
@@ -26,10 +26,10 @@ const People = ({ setSelectedContact, setKey }) => {
       />
       <ChatMain>
         <h6 className="text-primary mb-1 mt-1 text-center">People</h6>
-        <ListGroup className="chat-content" as="ul">
+        <CListGroup className="chat-content" as="ul">
           {Array.isArray(people)
             ? people.map((person, index) => (
-                <ListGroup.Item
+                <CListGroupItem
                   className="cursor-pointer"
                   as="li"
                   key={index}
@@ -40,10 +40,10 @@ const People = ({ setSelectedContact, setKey }) => {
                   id={person._id}
                 >
                   {person.name}
-                </ListGroup.Item>
+                </CListGroupItem>
               ))
             : "loading"}
-        </ListGroup>
+        </CListGroup>
       </ChatMain>
     </React.Fragment>
   );

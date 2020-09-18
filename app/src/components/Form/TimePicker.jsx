@@ -50,7 +50,7 @@ export const TimePicker = (props) => {
         <span>{`${time.hour > 0 ? time.hour : "00"}:${
           time.minute > 0 ? time.minute : "00"
         }`}</span>{" "}
-        <Icon name="far ml-2 fa-clock" />
+        <Icon className="far ml-2 fa-clock" />
       </span>
     </div>
   );
