@@ -55,11 +55,10 @@ router.get("/edit/:_id", async (req, res) => {
 
 //TODO: if a student is removed it needs to be removed from program two
 router.put("/edit/:_id", async (req, res) => {
-  //TOOO: if authorId is author of the doc
   const { _id } = req.params;
   const update = req.body;
 
-  if (req.user._id !== update.author) {
+  if (req.user._id.toString() !== update.author) {
     return res.status(403).send();
   }
 
