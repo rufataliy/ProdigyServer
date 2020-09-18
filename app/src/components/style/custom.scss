@@ -269,15 +269,33 @@ i:hover {
   flex-grow: 1;
 }
 
+.outline-primary {
+  border: 1px solid var(--dark);
+  color: var(--dark);
+  background-color: white;
+  transition: 0.2s;
+}
+
+.outline-primary:hover {
+  background-color: var(--dark);
+  color: white;
+}
+
 .btn.rounded-btn {
   height: 40px;
   width: 40px;
   padding: 5px;
   border-radius: 50%;
   color: var(--dark);
+  background: white;
   border-color: var(--dark);
   z-index: 10;
-  background: white;
+}
+
+.btn.rounded-btn:hover {
+  border-color: white;
+  color: white;
+  background: var(--dark);
 }
 
 .status.online {
