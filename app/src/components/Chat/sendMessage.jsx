@@ -37,7 +37,6 @@ const sendMessage = () => {
             <RoundedBtn
               className="rounded-btn"
               iconName="fas fa-paper-plane"
-              variant="outline-primary"
               disabled={value.trim() === ""}
               type="submit"
             />
