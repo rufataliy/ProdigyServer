@@ -16,6 +16,7 @@ const AddToList = ({
   collectionName,
   removedListField,
   readOnly,
+  label,
 }) => {
   const [list, setList] = useState([]);
   const [addedItems, setAddedItems] = useState([...initialList]);
@@ -84,6 +85,7 @@ const AddToList = ({
     <div>
       {!readOnly && (
         <>
+          {label}
           <div className="d-flex">
             <select
               className="w-100 select"

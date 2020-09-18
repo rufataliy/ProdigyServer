@@ -1,45 +1,47 @@
 import React from "react";
-import { Field, FieldArray } from "formik";
-import { Container, Form, Row, Col } from "react-bootstrap";
-import AddToList from "../AddToList.jsx";
+import { Field } from "formik";
+import { CContainer, CFormGroup, CRow, CCol, CLabel } from "@coreui/react";
 
 const Vocabularies = ({ errors, touched }) => {
   return (
-    <Container>
-      <Row>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Form.Group>
+    <CContainer>
+      <CRow>
+        <CCol className={"col-12"}>
+          <CFormGroup>
+            <CLabel>Title</CLabel>
             <Field
               type="text"
               className="form-control"
               name="title"
-              placeholder="Name"
+              placeholder="Enter a title"
             />
             <p className="text-danger">
               {touched.name && errors.name ? errors.name : null}
             </p>
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Topic</CLabel>
             <Field
               type="text"
               className="form-control"
               name="topic"
-              placeholder="Topic"
+              placeholder="Enter a topic"
             />
             <p className="text-danger">{touched.topic && errors.topic}</p>
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Level</CLabel>
             <Field
               type="text"
               className="form-control"
               name="level"
-              placeholder="Level"
+              placeholder="Specify level"
             />
             <p className="text-danger">{touched.level && errors.level}</p>
-          </Form.Group>
-        </Col>
-      </Row>
-    </Container>
+          </CFormGroup>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 

@@ -1,38 +1,41 @@
 import React from "react";
 import { Field, FieldArray } from "formik";
-import { Container, Form, Row, Col } from "react-bootstrap";
 import AddToList from "../AddToList.jsx";
+import { CFormGroup, CContainer, CCol, CRow, CLabel } from "@coreui/react";
 
 const Programs = ({ errors, touched }) => {
   return (
-    <Container>
-      <Row>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Form.Group>
+    <CContainer>
+      <CRow>
+        <CCol className={"col-12 col-md-6"}>
+          <CFormGroup>
+            <CLabel>Title</CLabel>
             <Field
               type="text"
               className="form-control"
               name="title"
-              placeholder="Title"
+              placeholder="Enter title"
             />
             <p className="text-danger">
               {touched.title && errors.title ? errors.title : null}
             </p>
-          </Form.Group>
-        </Col>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Form.Group>
+          </CFormGroup>
+        </CCol>
+        <CCol className={"col-12 col-md-6"}>
+          <CFormGroup>
+            <CLabel>Description</CLabel>
             <Field
               type="text"
               className="form-control"
               name="description"
-              placeholder="Description"
+              placeholder="Enter description"
             />
             <p className="text-danger">{touched.level && errors.level}</p>
-          </Form.Group>
-        </Col>
-        <Col bsPrefix={"col-12 col-md-6"}>
-          <Col xs={12} bsPrefix={"p-0"}>
+          </CFormGroup>
+        </CCol>
+        <CCol className={"col-12 col-md-6"}>
+          <CCol xs={12} className={"p-0"}>
+            Add lessons
             <FieldArray name="lessonList">
               {({
                 push,
@@ -56,10 +59,10 @@ const Programs = ({ errors, touched }) => {
                 );
               }}
             </FieldArray>
-          </Col>
-        </Col>
-      </Row>
-    </Container>
+          </CCol>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 

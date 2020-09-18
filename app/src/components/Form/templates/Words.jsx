@@ -1,55 +1,60 @@
 import React from "react";
 import { Field } from "formik";
-import { Container, Form, Row, Col } from "react-bootstrap";
+import { CFormGroup, CContainer, CRow, CCol, CLabel } from "@coreui/react";
 
 const Words = ({ errors, touched }) => {
   return (
-    <Container>
-      <Row>
-        <Col bsPrefix={"col-12"}>
-          <Form.Group>
+    <CContainer>
+      <CRow>
+        <CCol bsPrefix={"col-12"}>
+          <CFormGroup>
+            <CLabel>Phrase</CLabel>
             <Field
               type="text"
               className="form-control"
               name="phrase"
-              placeholder="Phrase"
+              placeholder="Enter the phrase"
             />
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Definition</CLabel>
             <Field
               type="text"
               className="form-control"
               name="definition"
-              placeholder="Definition"
+              placeholder="Enter the definition"
             />
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Example</CLabel>
             <Field
               type="text"
               className="form-control"
               name="example"
-              placeholder="Example"
+              placeholder="Enter an example"
             />
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Topic</CLabel>
             <Field
               type="text"
               className="form-control"
               name="topic"
-              placeholder="Topic"
+              placeholder="Enter a topic"
             />
-          </Form.Group>
-          <Form.Group>
+          </CFormGroup>
+          <CFormGroup>
+            <CLabel>Source</CLabel>
             <Field
               type="text"
               className="form-control"
               name="source"
-              placeholder="Source"
+              placeholder="Enter a source"
             />
-          </Form.Group>
-        </Col>
-      </Row>
-    </Container>
+          </CFormGroup>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 

@@ -6,7 +6,6 @@ import { env } from "process";
 const TextEditor = ({ initialText, form }) => {
   return (
     <div className="App">
-      <label className="form-label">Content</label>
       <CKEditor
         editor={ClassicEditor}
         config={{
