@@ -1,28 +1,25 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import api from "../../api/api";
-import Context from "../../store/context";
-import { MODAL, COMP_UPDATE } from "../../store/useGlobalState";
+import {
+  useModalState,
+  useUpdateComponent,
+  useFormConfig,
+} from "../../store/useGlobalState";
+import { formConfig } from "../../utils/defaultInitialValues";
 
 const DeleteConfirm = () => {
-  const { modalState, actions, compUpdate, formConfig } = useContext(Context);
-  const close = () => {
-    actions({
-      type: MODAL,
-      payload: { ...modalState, modalVisibility: false },
-    });
-    actions({
-      type: COMP_UPDATE,
-      payload: {
-        compUpdate: !compUpdate,
-      },
-    });
-  };
+  const [modalState, toggleModal] = useModalState();
+  const [compUpdate, updateComponent] = useUpdateComponent();
+  const [formState, setFormState] = useFormConfig();
+
   const handleDelete = () => {
-    api(formConfig)
+    api(formState)
       .then((deleted) => {
         if (deleted) {
-          close();
+          setFormState(formConfig);
+          toggleModal();
+          updateComponent();
         }
       })
       .catch(console.log);
@@ -33,7 +30,13 @@ const DeleteConfirm = () => {
         <h4>Are you sure?</h4>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={close} variant="secondary">
+        <Button
+          onClick={() => {
+            setFormState(formConfig);
+            toggleModal();
+          }}
+          variant="secondary"
+        >
           Close
         </Button>
         <Button onClick={handleDelete} variant="danger">
