@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import ChatBox from "./ChatBox.jsx";
-import Icon from "../../views/_Icon.jsx";
-import { Badge, Button } from "react-bootstrap";
 import { useSocket } from "../../store/SocketProvider.js";
+import _RoundedBtn from "../../views/_RoundedBtn.jsx";
+
 const Chat = () => {
   const [closed, setClosed] = useState(true);
   const { online } = useSocket();
@@ -15,18 +15,13 @@ const Chat = () => {
             className="chat-header text-center"
           >
             Chat
-            <Badge
-              className={`ml-1 status ${online ? "online" : "offline"}`}
-            ></Badge>
+            <span className={`ml-1 status ${online ? "online" : "offline"}`} />
           </div>
         ) : (
-          <Button
+          <_RoundedBtn
+            iconName="fas fa-comment-alt"
             onClick={() => setClosed(!closed)}
-            className="btn-primary rounded-btn"
-            variant="outline-primary"
-          >
-            <Icon className="fas fa-comment-alt" />
-          </Button>
+          />
         )}
         <ChatBox closed={closed} />
       </div>

@@ -1,13 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useChats } from "../../store/ChatProvider.js";
-import { useFocus } from "../../customHooks";
+import { useAppState } from "../../store/useGlobalState.js";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
-import { Button, InputGroup, Form } from "react-bootstrap";
+import {
+  CButton,
+  CForm,
+  CFormGroup,
+  CLabel,
+  CTextarea,
+  CInput,
+} from "@coreui/react";
 
-const NewChat = ({ authorid, selectedContact, setKey }) => {
+const NewChat = ({ selectedContact, setKey }) => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const { createNewChat } = useChats();
+  const [appState] = useAppState();
 
   const onTitleChange = (event) => {
     const { value } = event.target;
@@ -20,13 +28,13 @@ const NewChat = ({ authorid, selectedContact, setKey }) => {
 
   const createChat = (e) => {
     e.preventDefault();
-    const chat = { title, participants: [authorid, selectedContact] };
+    const chat = {
+      title,
+      participants: [appState.author._id, selectedContact],
+    };
     const newMessage = { content: message, chatId: undefined };
     createNewChat({ chat, message: newMessage }, () => setKey("messages"));
   };
-
-  const inputRef = useRef(null);
-  useFocus(inputRef);
 
   return (
     <div>
@@ -36,34 +44,34 @@ const NewChat = ({ authorid, selectedContact, setKey }) => {
         iconName="fas fa-chevron-left"
       />
       <h6 className="text-primary mb-1 mt-1 text-center">Chat title</h6>
-      <div className="pt-5">
-        <Form onSubmit={createChat}>
-          <Form.Group controlId="title">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              ref={inputRef}
+      <div className="p-3">
+        <CForm onSubmit={createChat}>
+          <CFormGroup>
+            <CLabel>Title</CLabel>
+            <CInput
+              required
               onChange={onTitleChange}
               type="text"
               value={title}
               autoComplete="true"
               placeholder="Enter title"
             />
-          </Form.Group>
+          </CFormGroup>
 
-          <Form.Group controlId="message">
-            <Form.Label>Message</Form.Label>
-            <Form.Control
+          <CFormGroup>
+            <CLabel>Message</CLabel>
+            <CTextarea
               required
               onChange={onMessageChange}
-              as="textarea"
+              value={message}
               rows="4"
               placeholder="Enter your message"
             />
-          </Form.Group>
-          <Button variant="outline-primary" block type="submit">
+          </CFormGroup>
+          <CButton className="outline-primary" block type="submit">
             Chat
-          </Button>
-        </Form>
+          </CButton>
+        </CForm>
       </div>
     </div>
   );

@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import Icon from "../../views/_Icon.jsx";
-import { Button, FormControl, InputGroup, Form } from "react-bootstrap";
+import RoundedBtn from "../../views/_RoundedBtn.jsx";
+import { CForm, CInput, CInputGroup, CInputGroupAppend } from "@coreui/react";
 import { useMessages } from "../../store/MessageProvider.js";
-import { useFocus } from "../../customHooks";
 
 const sendMessage = () => {
   const [value, setValue] = useState("");
   const { sendMessage } = useMessages();
   const inputRef = useRef(null);
 
-  useFocus(inputRef);
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  });
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -17,33 +18,32 @@ const sendMessage = () => {
   };
 
   return (
-    <div>
-      <Form
+    <div className="p-3 pb-3">
+      <CForm
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage(value, () => setValue(""));
         }}
       >
-        <InputGroup>
-          <FormControl
+        <CInputGroup>
+          <CInput
             ref={inputRef}
-            placeholder="Enter your message . . "
+            placeholder="Enter your message . . ."
             onChange={onChange}
             type="text"
             value={value}
           />
-          <InputGroup.Append>
-            <Button
+          <CInputGroupAppend>
+            <RoundedBtn
               className="rounded-btn"
+              iconName="fas fa-paper-plane"
               variant="outline-primary"
               disabled={value.trim() === ""}
               type="submit"
-            >
-              <Icon className="fas fa-paper-plane" />
-            </Button>
-          </InputGroup.Append>
-        </InputGroup>
-      </Form>
+            />
+          </CInputGroupAppend>
+        </CInputGroup>
+      </CForm>
     </div>
   );
 };
