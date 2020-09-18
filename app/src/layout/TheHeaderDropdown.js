@@ -6,9 +6,8 @@ import {
   CDropdownToggle,
   CImg,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { logout } from "../icons";
 import { useAppState } from "../store/useGlobalState";
+import Icon from "../views/_Icon.jsx";
 
 const TheHeaderDropdown = () => {
   const [appState] = useAppState();
@@ -29,8 +28,8 @@ const TheHeaderDropdown = () => {
           <strong>{appState.author.email}</strong>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem to="/logout">
-          <CIcon content={logout} className="mfe-2" />
+        <CDropdownItem className="d-flex justify-content-center" to="/logout">
+          <Icon className="fas fa-sign-out-alt mr-2" />
           Log out
         </CDropdownItem>
       </CDropdownMenu>
