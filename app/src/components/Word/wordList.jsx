@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
-import { useDelete, useCreate, useEdit } from "../../customHooks/";
+import { useDelete, useCreate, useEdit } from "../../customHooks";
 import { useParams, useRouteMatch } from "react-router-dom";
 import Context from "../../store/context";
 import api from "../../api/api";
