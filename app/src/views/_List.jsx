@@ -1,9 +1,9 @@
 import React from "react";
 import Loading from "./_Loading.jsx";
 import RoundedBtn from "./_RoundedBtn.jsx";
+import { useAppState } from "../store/useGlobalState";
 
 const _List = ({
-  userId,
   extendable,
   items,
   createItem,
@@ -14,19 +14,20 @@ const _List = ({
   listName,
   childRoute,
 }) => {
+  const [appState] = useAppState();
+
   return (
     <React.Fragment>
       <div className="d-flex p-3 align-items-center">
-        <h3 className="text-primary mb-0 mr-3">{listName}</h3>
         {extendable && (
           <RoundedBtn onClick={() => createItem()} iconName="fas fa-plus" />
         )}
       </div>
-      <div className="d-flex flex-wrap">
+      <div className="d-flex flex-wrap align-items-start justify-content-md-start justify-content-center">
         {!fetching && items
           ? items.map((item) => (
               <Component
-                readOnly={item.author !== userId}
+                readOnly={item.author !== appState.author._id}
                 path={listName}
                 editItem={editItem}
                 deleteItem={deleteItem}

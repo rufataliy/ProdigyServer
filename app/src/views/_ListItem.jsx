@@ -1,26 +1,42 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import {
+  CCard,
+  CCardTitle,
+  CCardHeader,
+  CCardBody,
+  CCardSubtitle,
+  CCardText,
+  CCardFooter,
+} from "@coreui/react";
 import { Link } from "react-router-dom";
 import Icon from "./_Icon.jsx";
+import { useRouteMatch } from "react-router-dom";
 
 const _Item = ({ item, editItem, deleteItem, readOnly, childRoute }) => {
+  const { url } = useRouteMatch();
+
   return (
-    <Card className="mr-3 mt-3" style={{ width: "200px", height: "100px" }}>
-      <Card.Body className="d-flex justify-content-between flex-column">
+    <CCard className="mr-3 mb-3" style={{ width: "200px", height: "200px" }}>
+      <CCardHeader>
+        <CCardTitle tag="h5">{item.title}</CCardTitle>
+      </CCardHeader>
+      <CCardBody className="d-flex justify-content-between flex-column">
         <div>
-          <Card.Title>{item.title}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
+          <CCardSubtitle className="mb-2 text-muted">
             {item.level}
-          </Card.Subtitle>
+          </CCardSubtitle>
+          <CCardText>{item.description}</CCardText>
         </div>
+      </CCardBody>
+      <CCardFooter>
         <div>
           <Link
-            to={{
-              pathname: `${item._id}/${childRoute}/`,
+            to={(location) => ({
+              pathname: `${url}/${item._id}/${childRoute}`,
               state: {
                 extendable: !readOnly,
               },
-            }}
+            })}
           >
             {childRoute}
           </Link>
@@ -37,8 +53,8 @@ const _Item = ({ item, editItem, deleteItem, readOnly, childRoute }) => {
             </>
           )}
         </div>
-      </Card.Body>
-    </Card>
+      </CCardFooter>
+    </CCard>
   );
 };
 
