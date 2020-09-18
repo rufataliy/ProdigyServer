@@ -35,11 +35,11 @@ const DeleteConfirm = () => {
             setFormState(formConfig);
             toggleModal();
           }}
-          variant="secondary"
+          className="btn-secondary"
         >
           Close
         </CButton>
-        <CButton onClick={handleDelete} variant="danger">
+        <CButton onClick={handleDelete} className="btn-danger">
           Delete
         </CButton>
       </CModalFooter>
