@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
-import TopNav from "./TopNav.jsx";
-import useGlobalState, { APP } from "../store/useGlobalState";
-import Context from "../store/context";
-import _SideBar from "../views/_SideBar.jsx";
-import Schedule from "./Schedule/Schedule.jsx";
-import LessonHome from "./Lesson/LessonHome.jsx";
-import Home from "./Home/Home.jsx";
+import React, { useEffect, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Row, Col, Container } from "react-bootstrap";
+import LessonHome from "./Lesson/LessonHome.jsx";
+import ProgramHome from "./Programs/ProgramHome.jsx";
 import VocabularyHome from "./Vocabulary/VocabularyHome.jsx";
+import Home from "./Home/Home.jsx";
+import Chat from "./Chat/Chat.jsx";
 import api from "../api/api";
 import Modal from "./Modal/Modal.jsx";
-import ProgramHome from "./Programs/ProgramHome.jsx";
-import { links } from "../utils/links.js";
-import Chat from "./Chat/Chat.jsx";
 import SocketProvider from "../store/SocketProvider";
+import { Layout } from "../layout";
+import Loading from "../views/_Loading.jsx";
+import useGlobalState, { APP } from "../store/useGlobalState";
+import Context from "../store/context";
 import "./style/main.scss";
+
+const Schedule = React.lazy(() => import("./Schedule/Schedule.jsx"));
 
 const renderChat = () => (
   <SocketProvider>
@@ -42,41 +41,34 @@ const App = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
-    <React.Fragment>
+    <Router>
       <Context.Provider value={store}>
-        <Modal />
-      </Context.Provider>
-      <Context.Provider value={appState}>
-        <TopNav />
         {appState.author && renderChat()}
+        <Modal />
+        <Layout>
+          <Switch>
+            <Route exact path="/app" component={Home} />
+            <Route
+              path="/logout"
+              component={() => {
+                window.location.href = "/logout";
+                return null;
+              }}
+            />
+            <Route path="/app/klasses">
+              <Suspense fallback={<Loading />}>
+                <Schedule />
+              </Suspense>
+            </Route>
+            <Route path="/app/vocabularies" component={VocabularyHome} />
+            <Route path="/app/programs" component={ProgramHome} />
+            <Route path="/app/lessons" component={LessonHome} />
+          </Switch>
+        </Layout>
       </Context.Provider>
-      <Router>
-        <Container bsPrefix={"fluid"}>
-          <Row bsPrefix={"row"}>
-            <Col bsPrefix={"col-auto p-0"}>
-              <_SideBar links={links} />
-            </Col>
-            <Col bsPrefix={"col-auto col-11 col-md-9 mx-auto pt-4 "}>
-              <div className="main">
-                <Switch>
-                  <Route exact path="/app" component={Home} />
-                  <Context.Provider value={store}>
-                    <Route path="/app/klasses" component={Schedule} />
-                    <Route
-                      path="/app/vocabularies"
-                      component={VocabularyHome}
-                    />
-                    <Route path="/app/programs" component={ProgramHome} />
-                    <Route path="/app/lessons" component={LessonHome} />
-                  </Context.Provider>
-                </Switch>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </Router>
-    </React.Fragment>
+    </Router>
   );
 };
 

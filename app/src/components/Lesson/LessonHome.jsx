@@ -2,6 +2,7 @@ import React from "react";
 import { Route, useRouteMatch } from "react-router-dom";
 import LessonList from "./LessonList.jsx";
 import SectionList from "../Section/SectionList.jsx";
+
 const LessonHome = (props) => {
   const { path } = useRouteMatch();
 
