@@ -21,8 +21,10 @@ const sendMessage = () => {
     <div className="p-3 pb-3">
       <CForm
         onSubmit={(e) => {
-          e.preventDefault();
-          sendMessage(value, () => setValue(""));
+          if (value.trim() !== "") {           
+            e.preventDefault();
+            sendMessage(value, () => setValue(""));
+          } 
         }}
       >
         <CInputGroup>
