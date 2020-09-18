@@ -386,8 +386,14 @@ i:hover {
 .input-group
   > .form-control:focus
   + .input-group-append
-  .btn.rounded-btn:hover {
+  .btn.rounded-btn:not(:disabled):hover {
+  background: var(--primary);
   color: white;
+}
+
+.input-group-append .btn.rounded-btn:not(:disabled):hover {
+  color: white;
+  background: var(--dark);
 }
 
 .input-group-append {
@@ -401,9 +407,6 @@ i:hover {
 .input-group-append .btn.rounded-btn:disabled {
   border: 2px solid var(--dark);
   color: var(--dark);
-}
-.input-group-append .btn.rounded-btn:not(:disabled):hover {
-  color: white;
 }
 
 .message-text {
