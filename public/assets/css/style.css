@@ -1534,8 +1534,7 @@ hr {
   z-index: 999999;
   -webkit-transition: .6s;
   -o-transition: .6s;
-  transition: .6s;
-  margin: 0 auto; }
+  transition: .6s; }
 
 .preloader .preloader-circle {
   width: 100px;
