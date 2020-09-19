@@ -6,7 +6,7 @@ import { CListGroup, CListGroupItem } from "@coreui/react";
 import ChatMain from "../../views/_ChatMain.jsx";
 import RoundedBtn from "../../views/_RoundedBtn.jsx";
 
-const People = ({ setSelectedContact, setKey }) => {
+const People = ({ setSelectedContact, setClosed, setKey }) => {
   const [people, setPeople] = useState();
   useEffect(() => {
     api(getContacts)
@@ -23,6 +23,13 @@ const People = ({ setSelectedContact, setKey }) => {
         }}
         position="top-left"
         iconName="fas fa-chevron-left"
+      />
+      <RoundedBtn
+        onClick={() => {
+          setClosed(true);
+        }}
+        position="top-right"
+        iconName="fas fa-times"
       />
       <ChatMain>
         <h6 className="text-primary mb-1 mt-1 text-center">People</h6>

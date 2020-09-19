@@ -4,7 +4,7 @@ import ChatMain from "../../views/_ChatMain.jsx";
 import { useChats } from "../../store/ChatProvider.js";
 import { CListGroup, CListGroupItem } from "@coreui/react";
 
-const ChatList = ({ setKey }) => {
+const ChatList = ({ setKey, setClosed }) => {
   const { chats, setSelectedChatId } = useChats();
 
   const openChat = (chatid) => {
@@ -18,6 +18,11 @@ const ChatList = ({ setKey }) => {
         onClick={() => setKey("people")}
         position="top-left"
         iconName="fas fa-plus"
+      />
+      <RoundedBtn
+        onClick={() => setClosed(true)}
+        position="top-right"
+        iconName="fas fa-times"
       />
       <ChatMain>
         <h6 className="text-primary mb-1 mt-1 text-center">Chat list</h6>

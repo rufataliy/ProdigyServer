@@ -8,7 +8,7 @@ import NewChat from "./NewChat.jsx";
 import { useChats } from "../../store/ChatProvider.js";
 import { useMessages } from "../../store/MessageProvider.js";
 
-const ChatBox = ({ closed }) => {
+const ChatBox = ({ closed, setClosed }) => {
   const [key, setKey] = useState("chats");
   const { chats } = useChats();
   const { messages } = useMessages();
@@ -23,12 +23,15 @@ const ChatBox = ({ closed }) => {
               {key === "people" && (
                 <People
                   setSelectedContact={setSelectedContact}
+                  setClosed={setClosed}
                   setKey={setKey}
                 />
               )}
             </CTabPane>
             <CTabPane data-tab="chats">
-              {key === "chats" && <ChatList setKey={setKey} chats={chats} />}
+              {key === "chats" && (
+                <ChatList setClosed={setClosed} setKey={setKey} chats={chats} />
+              )}
             </CTabPane>
             <CTabPane data-tab="messages">
               {key === "messages" && (
@@ -37,7 +40,11 @@ const ChatBox = ({ closed }) => {
             </CTabPane>
             <CTabPane data-tab="newChat">
               {key === "newChat" && (
-                <NewChat selectedContact={selectedContact} setKey={setKey} />
+                <NewChat
+                  setClosed={setClosed}
+                  selectedContact={selectedContact}
+                  setKey={setKey}
+                />
               )}
             </CTabPane>
           </CTabContent>

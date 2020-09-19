@@ -23,7 +23,7 @@ const Chat = () => {
             onClick={() => setClosed(!closed)}
           />
         )}
-        <ChatBox closed={closed} />
+        <ChatBox setClosed={setClosed} closed={closed} />
       </div>
     </div>
   );

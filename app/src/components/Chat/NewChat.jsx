@@ -11,7 +11,7 @@ import {
   CInput,
 } from "@coreui/react";
 
-const NewChat = ({ selectedContact, setKey }) => {
+const NewChat = ({ selectedContact, setKey, setClosed }) => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const { createNewChat } = useChats();
@@ -42,6 +42,11 @@ const NewChat = ({ selectedContact, setKey }) => {
         onClick={() => setKey("people")}
         position="top-left"
         iconName="fas fa-chevron-left"
+      />
+      <RoundedBtn
+        onClick={() => setClosed(true)}
+        position="top-right"
+        iconName="fas fa-times"
       />
       <h6 className="text-primary mb-1 mt-1 text-center">Chat title</h6>
       <div className="p-3">
