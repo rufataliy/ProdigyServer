@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node index.js",
     "server": "env-cmd -f ./.env nodemon ./index.js",
-    "play": "nodemon ./playground//test.js"
+    "play": "nodemon ./playground//test.js",
+    "parse-css": "rimraf ./public/assets/css/style.css && node-sass ./public/assets/scss/style.scss -o ./public/assets/css/ "
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -34,6 +35,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chalk": "^3.0.0"
+    "chalk": "^3.0.0",
+    "node-sass": "^4.14.1",
+    "rimraf": "^3.0.2"
   }
 }
