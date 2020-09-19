@@ -28,14 +28,17 @@ const TheSidebar = () => {
       show={appState.sidebarOpen}
       onShowChange={(val) => setAppState({ ...appState, sidebarOpen: val })}
     >
-      <CSidebarBrand className="d-md-down-none" to="/">
+      <a
+        className="c-sidebar-brand d-md-down-none"
+        href="https://prodigy.rufataliyev.com"
+      >
         <CIcon className="c-sidebar-brand-full" src={logo} height={35} />
         <CIcon
           className="c-sidebar-brand-minimized"
           src={logoMobile}
           height={25}
         />
-      </CSidebarBrand>
+      </a>
       <CSidebarNav>
         <CCreateElement
           items={navigation}
