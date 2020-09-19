@@ -61,7 +61,10 @@ app.get("/profile", requiresAuth(), (req, res) => {
     .then((user) => res.send(user))
     .catch(console.log);
 });
-
+app.get("/loggedin", (req, res) => {
+  console.log(req.isAuthenticated());
+  res.status(200).send({ loggedin: req.isAuthenticated() });
+});
 app.get("/logoutCheck", (req, res) => {
   res.clearCookie("user").redirect("/logout");
 });
