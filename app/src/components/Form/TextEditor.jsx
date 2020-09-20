@@ -5,7 +5,16 @@ import { env } from "process";
 
 const TextEditor = ({ initialText, form }) => {
   return (
-    <div className="App">
+    <div className="editor">
+      <style>
+        {`.ck-editor__main{
+            height:350px;
+          }
+
+          .ck-content{
+            height:100%;
+          }`}
+      </style>
       <CKEditor
         editor={ClassicEditor}
         config={{
