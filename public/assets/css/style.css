@@ -2182,7 +2182,7 @@ hr {
       min-height: 308px; } }
 
 .slider-area, .slider-area2 {
-  background: linear-gradient(90deg, #06406f 0%, #2196f3 100%);
+  background: linear-gradient(180deg, #06406f 0%, #2196f3 100%);
   background-size: cover;
   background-repeat: no-repeat; }
   .slider-area.slider-area2, .slider-area2.slider-area2 {
@@ -2527,7 +2527,7 @@ hr {
   .wantToWork-area .wants-wrapper {
     border-radius: 22px;
     background: #2196f3;
-    background: linear-gradient(90deg, #2196f3 0%, #06406f 100%); }
+    background: linear-gradient(360deg, #2196f3 0%, #06406f 100%); }
   .wantToWork-area .wantToWork-caption h2 {
     font-size: 42px;
     line-height: 1.5;
