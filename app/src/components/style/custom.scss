@@ -642,7 +642,10 @@ i:hover {
   color: var(--dark);
 }
 
-
+.modal-dialog-scrollable{
+  position: relative;
+  z-index: 10000;
+}
 
 @media screen and (max-width: 510px) {
  .chat-wrapper{
@@ -653,4 +656,7 @@ i:hover {
    max-height: 100vh;
    height: 100vh;
  } 
+ .btn-form-block{
+   width:100%;
+ }
 }

@@ -47,18 +47,16 @@ export const FormikForm = () => {
             <Form>{getTemplate(props, formState)}</Form>
           </CModalBody>
           <CModalFooter>
-            <CFormGroup>
-              <CButton
-                disabled={!formState.isAuthor}
-                hidden={!formState.isAuthor}
-                type="submit"
-                onClick={() => handleSubmit(props.values)}
-                className="btn-sm btn-primary"
-                type="primary"
-              >
-                {formState.method != "put" ? "Save" : "Update"}
-              </CButton>
-            </CFormGroup>
+            <CButton
+              disabled={!formState.isAuthor}
+              hidden={!formState.isAuthor}
+              type="submit"
+              onClick={() => handleSubmit(props.values)}
+              className="btn btn-primary btn-form-block"
+              type="primary"
+            >
+              {formState.method != "put" ? "Save" : "Update"}
+            </CButton>
           </CModalFooter>
         </>
       )}
