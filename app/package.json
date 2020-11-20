@@ -11,7 +11,7 @@
     "start": "nodemon ./dist/server.js",
     "build": "webpack --env.BASE_URL=https://localhost:3000 --mode development --watch",
     "prod": "NODE_ENV=production nodemon server.js",
-    "build-pro": "webpack --env.BASE_URL=https://prodigy.rufataliyev.com --mode production",
+    "build-pro": "webpack --env.BASE_URL=https://prodigy.rufat.tech --mode production",
     "build-pro-local": "webpack --env.BASE_URL=https://localhost:3000 --mode production",
     "dbServer": "json-server --watch api/db.json --port 3001"
   },
