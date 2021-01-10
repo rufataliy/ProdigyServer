@@ -113,3 +113,6 @@ app/dist
 
 
 nodemon.json
+
+# pm2
+ecosystem.config.js
