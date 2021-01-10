@@ -1,11 +1,16 @@
 const app = require("express")();
-const https = require("https");
-const fs = require("fs");
-const key = fs.readFileSync("./localhost-key.pem");
-const cert = fs.readFileSync("./localhost.pem");
-const server = https.createServer({ key, cert }, app);
-// const http = require("http");
-// const server = http.createServer(app);
+
+if ((process.env.NODE_ENV = "prod")) {
+  var https = require("https");
+  var fs = require("fs");
+  var key = fs.readFileSync("./localhost-key.pem");
+  var cert = fs.readFileSync("./localhost.pem");
+  var server = https.createServer({ key, cert }, app);
+} else {
+  var http = require("http");
+  var server = http.createServer(app);
+}
+
 const redis = require("redis").createClient();
 const io = require("socket.io")(server);
 module.exports.app = app;
