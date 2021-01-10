@@ -81,9 +81,7 @@ const Messages = ({ setKey }) => {
                 >
                   <div className="message-content">
                     {!prevIsAuthor && (
-                      <p className="author-name mb-1">
-                        {message.author?.nickname}
-                      </p>
+                      <p className="author-name mb-1">{message.author?.name}</p>
                     )}
                     <p
                       className={`message-text ${

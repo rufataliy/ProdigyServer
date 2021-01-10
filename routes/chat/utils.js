@@ -3,14 +3,14 @@ const { JWT_SECRET } = process.env;
 const cookieParser = require("cookie");
 
 function getUserId(cookie) {
-  let userid;
-  jwt.verify(cookieParser.parse(cookie).user, JWT_SECRET, (err, user) => {
+  let user;
+  jwt.verify(cookieParser.parse(cookie).user, JWT_SECRET, (err, parsed) => {
     if (err) {
       return;
     }
-    userid = user._id;
+    user = parsed;
   });
-  return userid;
+  return user;
 }
 
 module.exports = {

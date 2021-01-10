@@ -1,6 +1,7 @@
 const { saveMessage } = require("./messageController");
 const { addMessageToChat } = require("./chatController");
 const { io, redis } = require("../../server");
+
 const messageHandler = async (incomingMessage, userid, callback) => {
   const message = await saveMessage(incomingMessage, userid);
   const { chatId, _id: messageId } = message;

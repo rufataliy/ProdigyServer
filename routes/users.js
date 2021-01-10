@@ -3,9 +3,7 @@ const router = new express.Router();
 const User = require("../models/User");
 
 router.get("/", (req, res) => {
-  const userId = req.user._id;
-
-  User.find({}, ["_id", "name"])
+  User.find({ name: "Rufat" }, ["_id", "name"])
     .then((items) => {
       res.send(items);
     })

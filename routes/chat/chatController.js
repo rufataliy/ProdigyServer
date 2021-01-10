@@ -32,7 +32,9 @@ async function addMessageToChat({ chatId, messageId }) {
 }
 
 async function getChats(userid) {
-  const chats = await Chat.find({ participants: userid })
+  const chats = await Chat.find({
+    $or: [{ participants: userid }, { sample: true }],
+  })
     .then((chats) => chats)
     .catch((err) => console.log(err));
   return chats;
