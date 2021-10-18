@@ -5,12 +5,12 @@ import {
   CHeaderBrand,
   CHeaderNav,
   CSubheader,
-  CBreadcrumbRouter,
 } from "@coreui/react";
-import breadcrumbRoutes from "./breadcrumbsRoutes";
+
 
 import { TheHeaderDropdown } from "./index";
 import { useAppState } from "../store/useGlobalState";
+import Breadcrumb from './BreadCrumbs';
 
 const TheHeader = () => {
   const [appState, setAppState] = useAppState();
@@ -47,11 +47,8 @@ const TheHeader = () => {
         <TheHeaderDropdown />
       </CHeaderNav>
 
-      <CSubheader className="px-3 justify-content-between">
-        <CBreadcrumbRouter
-          className="border-0 c-subheader-nav m-0 px-0 px-md-3"
-          routes={breadcrumbRoutes}
-        />
+      <CSubheader className="px-3">
+        <Breadcrumb/>
         <div className="d-md-down-none mfe-2 c-subheader-nav"></div>
       </CSubheader>
     </CHeader>
