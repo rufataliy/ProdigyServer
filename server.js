@@ -1,6 +1,6 @@
 const app = require("express")();
 
-if ((process.env.NODE_ENV = "prod")) {
+if (process.env.NODE_ENV !== "prod") {
   var https = require("https");
   var fs = require("fs");
   var key = fs.readFileSync("./localhost-key.pem");
