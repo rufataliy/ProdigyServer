@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouteMatch, useParams } from "react-router-dom";
 import { useDelete, useCreate, useEdit } from "../../customHooks/";
 import api from "../../api/api.js";
-import { uselessonState, useUpdateComponent } from "../../store/useGlobalState";
+import { useLessonState, useUpdateComponent } from "../../store/useGlobalState";
 import { getLessonOptions } from "../../utils/defaultAPIConfig";
 import List from "../../views/_List.jsx";
 import ListItem from "../../views/_ListItem.jsx";
 
 const LessonList = () => {
-  const [lessonState, setLessonState] = uselessonState();
+  const [lessonState, setLessonState] = useLessonState();
   const [compUpdate] = useUpdateComponent();
   const [fetching, setFetching] = useState(true);
   const [remove] = useDelete("lessons");

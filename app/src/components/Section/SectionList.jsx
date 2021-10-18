@@ -4,7 +4,7 @@ import api from "../../api/api";
 import { useEffect } from "react";
 import {
   useAppState,
-  uselessonState,
+  useLessonState,
   useUpdateComponent,
 } from "../../store/useGlobalState";
 import { getSectionsOptions } from "../../utils/defaultAPIConfig";
@@ -17,7 +17,7 @@ const Sectionlist = () => {
   const [create] = useCreate("sections");
   const [edit] = useEdit("sections");
   const [remove] = useDelete("sections");
-  const [lessonState, setLessonState] = uselessonState();
+  const [lessonState, setLessonState] = useLessonState();
   const [appState] = useAppState();
   const [compUpdate] = useUpdateComponent();
   const [fetching, setFetching] = useState(true);
