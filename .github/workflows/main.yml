@@ -30,4 +30,4 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
-          script: cd ~ && cd ${{secrets.PROJECT_PATH}} && git checkout master && git branch --set-upstream-to=origin/master master && git pull && cd app && npm run build-pro && cd .. && pm2 start ecosystem.config.js
+          script: cd ~ && cd ${{secrets.PROJECT_PATH}} && git checkout master && git branch --set-upstream-to=origin/master master && git pull && cd app && pm2 stop all && npm run build-pro && cd .. && pm2 start all
