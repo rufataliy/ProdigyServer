@@ -1,24 +1,39 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { getProgramNameById } from "../store/useGlobalState";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useProgramState, useLessonState, useVocabState } from '../store/useGlobalState';
+import { buildRoutes } from './breadcrumbsRoutes';
+import { Link } from 'react-router-dom';
 
 const Breadcrumb = () => {
-  const { pathname } = useLocation();
-  const idToNames = {
-    programs: getProgramNameById,
+  const [routes, setRoutes] = useState([]);
+  const [{ programs }, setProgramState] = useProgramState();
+  const [{ lessons }, setLessonsState] = useLessonState();
+  const [{ vocabs }, setVocabState] = useVocabState();
+
+  const getDynamicEntityNameById = (entityName, id) => {
+    const entityNameGetters = {
+      programs: (id) => programs.find((program) => program._id === id),
+      lessons: (id) => lessons.find((lesson) => lesson._id === id),
+      vocabs: (id) => vocabs.find((vocab) => vocab._id === id),
+    };
+    return entityNameGetters[entityName](id)?.title;
   };
-  const paths = pathname.split("/");
+  let { pathname } = useLocation();
+  useEffect(() => {
+    setRoutes(buildRoutes(pathname));
+  }, [pathname]);
+
   return (
     <>
-      {paths?.map((path, index) => {
-        let prevPath = paths[index - 1];
-        if (idToNames[prevPath]) {
-          path = idToNames[prevPath](path);
-        }
+      {routes?.map((route) => {
+        const name = route.name
+          ? route.name
+          : getDynamicEntityNameById(route.entityName, route.id);
         return (
-          <p>
-            <a href={pathname}>{path}</a>
-          </p>
+          <span>
+            <Link to={route.path}>{name}</Link>
+            <span className="mr-2 ml-2">&gt;</span>
+          </span>
         );
       })}
     </>
