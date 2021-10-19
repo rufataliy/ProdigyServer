@@ -1,6 +1,6 @@
 module.exports.sampleUser = {
     name: "Sample User",
     email: "sample_user@example.com",
-    avatar:"https://robohash.org/cb50f92085a897a90edf757cad009a7d?set=set4&bgset=&size=200x200",
+    picture:"https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Sunglasses&hairColor=Brown&facialHairType=Blank&clotheType=ShirtScoopNeck&clotheColor=PastelGreen&eyeType=EyeRoll&eyebrowType=SadConcernedNatural&mouthType=Smile&skinColor=DarkBrown",
     sample: true
 }
