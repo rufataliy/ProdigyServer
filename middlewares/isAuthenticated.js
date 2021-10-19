@@ -12,16 +12,18 @@ const persistUserToCookie = (user, res) => {
 
 const isAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    User.findOne({ sample: true }, {}, { lean: true }, (err, user) => {
-      if (!err) {
+    User.findOne({ sample: true }, (err, user) => {
+
+      if (!err || !user) {
+        User.create(sampleUser).then((user) => {
+          req.user = user;
+          persistUserToCookie(req.user, res);
+          next();
+        });
+      } else {
         req.user = user;
         persistUserToCookie(req.user, res);
         next();
-      } else {
-        User.create(sampleUser).then((user) => {
-          req.user = user;
-          next();
-        });
       }
     });
   } else {
