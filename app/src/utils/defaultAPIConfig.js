@@ -130,6 +130,7 @@ export const editProgramOptions = {
   endpoint: "/app/programs/edit/",
   method: "PUT",
 };
+
 export const _buildApiOptions = ({ collectionName, method }) => ({
   collectionName,
   method,

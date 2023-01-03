@@ -9,10 +9,10 @@ const sendEmail = require("../../../tools/sendEmail");
 const initSocket = () => {
   const chat = io.of("/chat");
   chat.on("connection", async (socket) => {
-    console.log("chat connected");
     const user = getUserIdFromCookie(socket.request.headers.cookie);
     redis.set(user._id, socket.id, (err, ok) => {
       if (err) console.log(err);
+      console.log("chat connected");
     });
 
     socket.on("message", (msg, callback) => {

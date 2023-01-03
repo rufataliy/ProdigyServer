@@ -193,7 +193,7 @@ export const useProgramState = () => {
   return [programState, setProgramState];
 };
 
-export const uselessonState = () => {
+export const useLessonState = () => {
   const { lessonState, actions } = useContext(context);
   const setlessonState = (payload) => {
     actions({

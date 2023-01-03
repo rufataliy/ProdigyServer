@@ -4,7 +4,7 @@ const Program = require("../models/Program");
 
 router.get("/", (req, res) => {
   const userId = req.user._id;
-
+  
   Program.find({
     $or: [{ author: userId }, { studentList: userId }, { sample: true }],
   })
